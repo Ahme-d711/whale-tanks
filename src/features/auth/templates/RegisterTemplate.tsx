@@ -5,7 +5,6 @@ import RegisterForm from '../components/RegisterForm'
 import { Card, CardContent } from '@/components/ui/card'
 import { AuthBackground } from '../components/AuthBackground'
 import { AuthHeader } from '../components/AuthHeader'
-import { AnimatedTitle } from '../components/AnimatedTitle'
 import { CoreGlow } from '../components/CoreGlow'
 
 export default function RegisterTemplate() {
@@ -18,8 +17,7 @@ export default function RegisterTemplate() {
         <AuthBackground />
       </div>
 
-      {/* Branded Header */}
-      <AuthHeader />
+
 
       {/* Floating Register Card */}
       <motion.div
@@ -38,22 +36,9 @@ export default function RegisterTemplate() {
       >
         <CoreGlow />
         <Card className="border-none shadow-[0_40px_80px_rgba(34,96,255,0.12)] rounded-[2.5rem] overflow-hidden backdrop-blur-xl">
-          <CardContent className="pt-12 pb-14 px-10">
-            <div className="text-center mb-12">
-              <AnimatedTitle 
-                text="Create Account" 
-                className="text-primary text-4xl font-bold mb-4 tracking-tight"
-                delay={0.6}
-              />
-              <motion.p 
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 }}
-                className="text-secondary-foreground font-medium text-lg"
-              >
-                Join Whale Tanks today
-              </motion.p>
-            </div>
+          <CardContent className="pt-5 pb-8 px-10">
+                  {/* Branded Header */}
+            <AuthHeader cardTitle="Create Account" cardBaio="Use these awesome forms to login or create new account in your project for free."/>
 
             <RegisterForm />
           </CardContent>

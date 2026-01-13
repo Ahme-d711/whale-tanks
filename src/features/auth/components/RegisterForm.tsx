@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/form"
 import Link from 'next/link'
 import { AuthInput } from './AuthInput'
+import { useRegister } from "../hooks/useAuth"
+import ShinyButton from "@/components/shared/ShinyButton"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -24,6 +26,8 @@ const formSchema = z.object({
 })
 
 export default function RegisterForm() {
+  const { mutate: register, isPending } = useRegister()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,37 +38,39 @@ export default function RegisterForm() {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    register(values)
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-4">
-          <AuthInput
-            control={form.control}
-            name="name"
-            label="Name"
-            placeholder="Your full name"
-            delay={0.1}
-          />
+          <fieldset disabled={isPending} className="space-y-4 group-disabled:opacity-50">
+            <AuthInput
+              control={form.control}
+              name="name"
+              label="Name"
+              placeholder="Your full name"
+              delay={0.1}
+            />
 
-          <AuthInput
-            control={form.control}
-            name="email"
-            label="Email"
-            placeholder="Your email address"
-            delay={0.2}
-          />
+            <AuthInput
+              control={form.control}
+              name="email"
+              label="Email"
+              placeholder="Your email address"
+              delay={0.2}
+            />
 
-          <AuthInput
-            control={form.control}
-            name="password"
-            label="Password"
-            placeholder="Your password"
-            type="password"
-            delay={0.3}
-          />
+            <AuthInput
+              control={form.control}
+              name="password"
+              label="Password"
+              placeholder="Your password"
+              type="password"
+              delay={0.3}
+            />
+          </fieldset>
         </div>
 
         <motion.div
@@ -72,18 +78,14 @@ export default function RegisterForm() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5 }}
         >
-          <Button 
+          <ShinyButton 
             type="submit" 
-            className="w-full h-12 text-base font-semibold cursor-pointer bg-primary hover:bg-blue-700 transition-all uppercase tracking-wider rounded-2xl shadow-lg shadow-primary/20 relative overflow-hidden group"
+            isLoading={isPending}
+            loadingText="Creating Account..."
+            className="w-full font-medium!"
           >
-            <span className="relative z-10">Sign Up</span>
-            <motion.div 
-              className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
-              initial={false}
-              animate={{ x: ["-100%", "200%"] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </Button>
+            Sign Up
+          </ShinyButton>
         </motion.div>
 
         <motion.p

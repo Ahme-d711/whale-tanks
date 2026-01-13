@@ -40,7 +40,7 @@ export const AuthInput = ({
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-foreground font-medium">{label}</FormLabel>
+            <FormLabel className="text-foreground font-normal!">{label}</FormLabel>
             <FormControl>
               <Input
                 type={type}

@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
 } from "@/components/ui/form"
+import ShinyButton from "@/components/shared/ShinyButton"
 import Link from 'next/link'
 import { AuthInput } from './AuthInput'
+import { useLogin } from "../hooks/useAuth"
 
 const formSchema = z.object({
   email: z.email({
@@ -21,6 +23,8 @@ const formSchema = z.object({
 })
 
 export default function LoginForm() {
+  const { mutate: login, isPending } = useLogin()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,29 +34,31 @@ export default function LoginForm() {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    login(values)
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-4">
-          <AuthInput
-            control={form.control}
-            name="email"
-            label="Email"
-            placeholder="Your email address"
-            delay={0.1}
-          />
+          <fieldset disabled={isPending} className="space-y-4 group-disabled:opacity-50">
+            <AuthInput
+              control={form.control}
+              name="email"
+              label="Email"
+              placeholder="Your email address"
+              delay={0.1}
+            />
 
-          <AuthInput
-            control={form.control}
-            name="password"
-            label="Password"
-            placeholder="Your password"
-            type="password"
-            delay={0.2}
-          />
+            <AuthInput
+              control={form.control}
+              name="password"
+              label="Password"
+              placeholder="Your password"
+              type="password"
+              delay={0.2}
+            />
+          </fieldset>
         </div>
 
         <motion.div
@@ -60,18 +66,14 @@ export default function LoginForm() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <Button 
+          <ShinyButton 
             type="submit" 
-            className="w-full h-12 text-base font-semibold cursor-pointer bg-primary hover:bg-blue-700 transition-all uppercase tracking-wider rounded-2xl shadow-lg shadow-primary/20 relative overflow-hidden group"
+            isLoading={isPending}
+            loadingText="Authenticating..."
+            className="w-full font-medium!"
           >
-            <span className="relative z-10">Sign In</span>
-            <motion.div 
-              className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
-              initial={false}
-              animate={{ x: ["-100%", "200%"] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </Button>
+            Sign In
+          </ShinyButton>
         </motion.div>
 
         <motion.p
