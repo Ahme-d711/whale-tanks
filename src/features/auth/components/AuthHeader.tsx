@@ -35,7 +35,7 @@ export const AuthHeader = () => {
           initial={{ opacity: 0, scale: 0.8, y: -20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex items-center gap-3 relative z-10"
+          className="flex items-center gap-3 relative z-10 opacity-0"
         >
           <div className="w-12 h-12">
             <motion.div

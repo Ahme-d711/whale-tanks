@@ -1,53 +1,22 @@
 "use client"
 
-import React from 'react'
-import { motion, useMotionValue, useTransform } from "motion/react"
+import { motion } from "motion/react"
 import LoginForm from '../components/LoginForm'
 import { Card, CardContent } from '@/components/ui/card'
 import { AuthBackground } from '../components/AuthBackground'
 import { AuthHeader } from '../components/AuthHeader'
 import { AnimatedTitle } from '../components/AnimatedTitle'
-import { CoreGlow } from '../components/CoreGlow' // Moved CoreGlow to its own component
+import { CoreGlow } from '../components/CoreGlow'
 
 export default function LoginTemplate() {
-  // Use MotionValues for performance (no re-renders)
-  const mouseX = useMotionValue(50) // 0-100%
-  const mouseY = useMotionValue(50) // 0-100%
-
-  // Derived tilt values for the card
-  // Mapping 0-100% to tilt range
-  const rotateX = useTransform(mouseY, [0, 100], [3, -3])
-  const rotateY = useTransform(mouseX, [0, 100], [-3, 3])
-  
-  // Parallax background movement
-  const bgX = useTransform(mouseX, [0, 100], [-20, 20])
-  const bgY = useTransform(mouseY, [0, 100], [-20, 20])
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { clientX, clientY, currentTarget } = e
-    const { width, height } = currentTarget.getBoundingClientRect()
-    
-    // Calculate percentage position (0-100)
-    const xPct = (clientX / width) * 100
-    const yPct = (clientY / height) * 100
-    
-    mouseX.set(xPct)
-    mouseY.set(yPct)
-  }
-
   return (
     <main 
-      onMouseMove={handleMouseMove}
-      className="min-h-screen w-full relative bg-background flex flex-col items-center justify-center select-none overflow-hidden"
+      className="min-h-screen w-full relative bg-blue-50/50 flex flex-col items-center justify-center select-none overflow-hidden"
     >
-      {/* Background decoration with Parallax */}
-      <motion.div 
-        style={{ x: bgX, y: bgY }}
-        transition={{ type: "spring", stiffness: 50, damping: 20 }}
-        className="absolute -inset-10 pointer-events-none"
-      >
-        <AuthBackground mouseX={mouseX} mouseY={mouseY} />
-      </motion.div>
+      {/* Background decoration */}
+      <div className="absolute -inset-10 pointer-events-none">
+        <AuthBackground />
+      </div>
 
       {/* Branded Header */}
       <AuthHeader />
@@ -59,19 +28,13 @@ export default function LoginTemplate() {
           opacity: 1, 
           y: 0,
         }}
-        style={{ 
-          rotateX,
-          rotateY,
-        }}
         transition={{ 
           type: "spring", 
           stiffness: 100, 
           damping: 25, 
           delay: 0.2,
-          rotateX: { type: "spring", stiffness: 50, damping: 15 },
-          rotateY: { type: "spring", stiffness: 50, damping: 15 }
         }}
-        className="w-full max-w-md px-4 z-20 relative perspective-[1000px]"
+        className="w-full max-w-md px-4 z-20 relative perspective-[1000px] opacity-0"
       >
         <CoreGlow />
         <Card className="border-none shadow-[0_40px_80px_rgba(34,96,255,0.12)] rounded-[2.5rem] overflow-hidden backdrop-blur-xl">

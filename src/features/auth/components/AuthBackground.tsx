@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { motion, useTransform, MotionValue } from "motion/react"
+import { motion } from "motion/react"
 
 const BackgroundGradient = () => {
   return (
@@ -31,7 +31,7 @@ const BackgroundGradient = () => {
 }
 
 
-const NeuralGrid = ({ mouseX, mouseY }: { mouseX: MotionValue<number>, mouseY: MotionValue<number> }) => {
+const NeuralGrid = () => {
   return (
     <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none">
       <svg width="100%" height="100%">
@@ -47,55 +47,28 @@ const NeuralGrid = ({ mouseX, mouseY }: { mouseX: MotionValue<number>, mouseY: M
           const dotY = ((i * 223) % 100)
           
           return (
-            <GridDot 
-              key={i} 
-              dotX={dotX} 
-              dotY={dotY} 
-              mouseX={mouseX} 
-              mouseY={mouseY} 
+             <motion.div
+              key={i}
+              className="absolute w-1.5 h-1.5 bg-primary rounded-full blur-[1px]"
+              style={{
+                left: `${dotX}%`,
+                top: `${dotY}%`,
+              }}
+              animate={{
+                scale: [1, 1.2, 1], 
+                opacity: [0.3, 0.6, 0.3]
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+                ease: "easeInOut"
+              }}
             />
           )
         })}
       </div>
     </div>
-  )
-}
-
-const GridDot = ({ dotX, dotY, mouseX, mouseY }: { dotX: number, dotY: number, mouseX: MotionValue<number>, mouseY: MotionValue<number> }) => {
-  // Calculate distance-based scale using Framer Motion transforms
-  // We assume mouseX/Y are in percentage (0-100)
-  
-  const distance = useTransform(() => {
-    const x = mouseX.get()
-    const y = mouseY.get()
-    const dx = x - dotX
-    const dy = y - dotY
-    return Math.sqrt(dx * dx + dy * dy)
-  })
-
-  // Map distance to scale: Closer = larger
-  const scale = useTransform(distance, [0, 15], [3, 1])
-  const opacity = useTransform(distance, [0, 20], [0.8, 0.1])
-  
-  // Subtle pulse animation combined with proximity
-  return (
-    <motion.div
-      className="absolute w-1.5 h-1.5 bg-primary rounded-full blur-[1px]"
-      style={{
-        left: `${dotX}%`,
-        top: `${dotY}%`,
-        scale,
-        opacity,
-      }}
-      animate={{
-        scale: [1, 1.2, 1], // Keep the breathing effect
-      }}
-      transition={{
-        duration: 4,
-        repeat: Infinity,
-        delay: Math.random() * 2,
-      }}
-    />
   )
 }
 
@@ -281,11 +254,11 @@ const RisingTide = () => {
   )
 }
 
-export const AuthBackground = ({ mouseX, mouseY }: { mouseX: MotionValue<number>, mouseY: MotionValue<number> }) => {
+export const AuthBackground = () => {
   return (
     <>
       <BackgroundGradient />
-      <NeuralGrid mouseX={mouseX} mouseY={mouseY} />
+      <NeuralGrid />
       <DataStreams />
       <RisingTide />
       <Sun />
