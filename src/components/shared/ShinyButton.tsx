@@ -5,7 +5,7 @@ import { type VariantProps } from "class-variance-authority"
 import { motion } from "motion/react"
 import { Loader } from "lucide-react"
 import { cn } from "@/lib/utils"
-import Link from "next/link"
+import { Link } from "@/i18n/routing"
 import { buttonVariants } from "@/components/ui/button"
 
 interface ShinyButtonProps

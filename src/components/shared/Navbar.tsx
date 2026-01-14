@@ -1,14 +1,25 @@
 "use client"
 
-import Link from "next/link"
+import { Link, usePathname, useRouter } from "@/i18n/routing"
 import { Globe, Menu } from "lucide-react"
 import LogoComponent from "./LogoComponent"
 import ShinyButton from "./ShinyButton"
+import { useLocale, useTranslations } from "next-intl"
 
 export default function Navbar() {
+  const t = useTranslations('Navigation');
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleLanguageChange = () => {
+    const nextLocale = locale === 'en' ? 'ar' : 'en';
+    router.replace(pathname, { locale: nextLocale });
+  };
+
   const navLinks = [
-    { name: "About Us", href: "/about" },
-    { name: "Packages and prices", href: "/pricing" },
+    { name: t("about"), href: "/about" },
+    { name: t("pricing"), href: "/pricing" },
   ]
 
   return (
@@ -23,7 +34,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link 
-              key={link.name} 
+              key={link.href} 
               href={link.href}
               className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-200"
             >
@@ -38,10 +49,13 @@ export default function Navbar() {
             href="/login"
             className="rounded-full bg-primary hover:bg-blue-700 px-6 h-10 w-auto font-semibold shadow-none"
           >
-            Login
+            {t("login")}
           </ShinyButton>
           
-          <button className="p-2 text-foreground hover:text-primary transition-colors rounded-xl hover:bg-gray-100/50">
+          <button 
+            onClick={handleLanguageChange}
+            className="p-2 text-foreground hover:text-primary transition-colors rounded-xl hover:bg-gray-100/50"
+          >
             <Globe className="w-6 h-6" />
             <span className="sr-only">Switch Language</span>
           </button>
