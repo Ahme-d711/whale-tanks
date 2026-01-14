@@ -6,7 +6,7 @@ import AuthProvider from "@/providers/AuthProvider";
 import { User } from "@/features/auth/types";
 import { Toaster } from "@/components/ui/sonner";
 import { usePathname } from "next/navigation";
-import Navbar from "@/components/shared/Navbar";
+import Navbar from "@/components/Navbar";
 
 const queryClient = getQueryClient();
 
@@ -31,12 +31,13 @@ export function Providers({
   children: React.ReactNode;
   data: { token?: string | null; user: User | null };
 }) {
-    const pathname = usePathname();
-  const loginPaths = ["/login", "/signup"];
-  const isLoginPage = loginPaths.includes(pathname);
+  const pathname = usePathname();
+  // Check if pathname ends with /login or /signup (works with locale prefixes)
+  const isLoginPage = pathname.endsWith("/login") || pathname.endsWith("/signup");
   return (
     <AuthProvider user={data?.user ?? null} token={data?.token ?? null}>
-      {isLoginPage ? children : <Navbar />}
+      {!isLoginPage && <Navbar />}
+      {children}
     </AuthProvider>
   );
 }

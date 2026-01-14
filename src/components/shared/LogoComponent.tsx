@@ -12,7 +12,7 @@ export default function LogoComponent() {
           />
         </div>
 
-        <h1 className="text-foreground text-[32px] font-semibold tracking-tight">
+        <h1 className="text-foreground text-3xl font-bold! tracking-tight">
           Whale Tanks
         </h1>
       </div>

@@ -9,7 +9,7 @@ export const AuthHeader = ({cardTitle, cardBaio}: AuthHeaderProp) => {
     <div className="flex flex-col gap-6 mb-12 z-10">
       <LogoComponent />
       <div>
-        <h1 className="text-primary text-[32px] font-medium tracking-tight">
+        <h1 className="text-primary text-[31px] font-medium tracking-tight">
           {cardTitle}
         </h1>
           <motion.p 
