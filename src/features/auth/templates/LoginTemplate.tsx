@@ -37,7 +37,7 @@ export default function LoginTemplate() {
         <CoreGlow />
         <Card className="border-none shadow-[0_40px_80px_rgba(34,96,255,0.12)] rounded-[2.5rem] overflow-hidden backdrop-blur-xl">
           <CardContent className="pt-5 pb-8 px-10">
-                  {/* Branded Header */}
+            {/* Branded Header */}
             <AuthHeader cardTitle="Welcome Back" cardBaio="Enter your email and password to sign in"/>
             <LoginForm />
           </CardContent>

@@ -13,7 +13,7 @@ export default function Navbar() {
 
   return (
     <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-      <nav className="flex items-center justify-between w-full max-w-5xl border-t border-primary bg-background rounded-full shadow-sm px-6 py-3">
+      <nav className="flex items-center justify-between w-full max-w-5xl border-t border-primary bg-background rounded-2xl shadow-sm p-6">
         {/* Logo Section */}
         <Link href="/">
           <LogoComponent />
