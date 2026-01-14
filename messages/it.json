@@ -1,0 +1,22 @@
+{
+  "HomePage": {
+    "title": "Benvenuto su Whale Tanks",
+    "about": "Chi siamo",
+    "login": "Accedi"
+  },
+  "Auth": {
+    "login": "Accedi",
+    "email": "Email",
+    "password": "Password",
+    "welcome_back": "Bentornato",
+    "sign_in_text": "Inserisci la tua email e password per accedere",
+    "submit": "Accedi"
+  },
+  "Navigation": {
+      "home": "Home",
+      "about": "Chi siamo",
+      "pricing": "Pacchetti e prezzi",
+      "login": "Accedi"
+  }
+}
+

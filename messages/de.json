@@ -1,0 +1,22 @@
+{
+  "HomePage": {
+    "title": "Willkommen bei Whale Tanks",
+    "about": "Über uns",
+    "login": "Anmelden"
+  },
+  "Auth": {
+    "login": "Anmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "welcome_back": "Willkommen zurück",
+    "sign_in_text": "Geben Sie Ihre E-Mail und Ihr Passwort ein, um sich anzumelden",
+    "submit": "Anmelden"
+  },
+  "Navigation": {
+      "home": "Startseite",
+      "about": "Über uns",
+      "pricing": "Pakete und Preise",
+      "login": "Anmelden"
+  }
+}
+
