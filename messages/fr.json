@@ -1,8 +1,53 @@
 {
   "HomePage": {
+    "Hero": {
+      "title": "Le cerveau derrière chaque grande entreprise",
+      "subtitle": "De l'idée à l'exécution"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "Où les idées prennent forme.",
+        "feature1": "Entrez dans une salle de réunion simulée avec des conseillers virtuels propulsés par l'IA et vivez un brainstorming profond, une validation d'idée et une réflexion stratégique.",
+        "feature2": "Vous gagnerez en clarté sur votre vision, votre positionnement sur le marché, votre proposition de valeur et le potentiel réel de votre idée avant de continuer."
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "Où les idées deviennent des produits réels.",
+        "feature1": "Initialiser l'idée",
+        "feature2": "Analyser & Valider",
+        "feature3": "Design UI / UX",
+        "feature4": "Construire avec l'IA + No-Code",
+        "feature5": "Structure pour l'échelle",
+        "feature6": "Déployer le produit"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "Où les idées font face aux investisseurs.",
+        "feature1": "Entrez dans un projet au sein d'un environnement d'investisseur réaliste et découvrez comment pensent les décideurs.",
+        "feature2": "Recevez des commentaires stratégiques, financiers et marketing d'un point de vue intime du conseil d'administration, vous aidant à affiner votre histoire et à vous préparer à de réelles opportunités."
+      }
+    },
+    "Analyzer": {
+      "title": "Analysez votre idée avant de construire quoi que ce soit",
+      "placeholder": "Qu'avez-vous en tête ?",
+      "startup": "Startup",
+      "tech": "Tech",
+      "investor": "Investisseur",
+      "send": "Envoyer"
+    },
     "title": "Bienvenue sur Whale Tanks",
     "about": "À propos de nous",
     "login": "Connexion"
+  },
+  "Sidebar": {
+    "close": "Fermer la barre latérale",
+    "new_chat": "Nouveau chat",
+    "search": "Rechercher des chats",
+    "last_chats": "Derniers chats"
   },
   "Auth": {
     "login": "Connexion",
@@ -13,10 +58,9 @@
     "submit": "Se connecter"
   },
   "Navigation": {
-      "home": "Accueil",
-      "about": "À propos de nous",
-      "pricing": "Forfaits et prix",
-      "login": "Connexion"
+    "home": "Accueil",
+    "about": "À propos de nous",
+    "pricing": "Forfaits et prix",
+    "login": "Connexion"
   }
 }
-

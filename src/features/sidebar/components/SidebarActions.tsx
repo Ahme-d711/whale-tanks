@@ -1,8 +1,11 @@
 "use client"
 
+import { useTranslations } from 'next-intl'
 import { SquarePen, Search } from "lucide-react"
 
 export default function SidebarActions() {
+  const t = useTranslations('Sidebar')
+
   return (
     <div className="space-y-3 overflow-y-auto px-2">
       {/* New Chat */}
@@ -10,7 +13,7 @@ export default function SidebarActions() {
         <div className="transition-colors rounded-lg flex items-center justify-center text-foreground">
           <SquarePen className="w-6 h-6" />
         </div>
-        <span className="text-base text-foreground">New Chat</span>
+        <span className="text-base text-foreground">{t('new_chat')}</span>
       </div>
 
       {/* Search Row */}
@@ -18,7 +21,7 @@ export default function SidebarActions() {
         <div className="flex items-center justify-center text-foreground">
           <Search className="w-6 h-6" />
         </div>
-        <span className="text-base text-foreground">Search about Chats</span>
+        <span className="text-base text-foreground">{t('search')}</span>
       </div>
     </div>
   )

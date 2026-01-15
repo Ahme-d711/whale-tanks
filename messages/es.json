@@ -1,8 +1,53 @@
 {
   "HomePage": {
+    "Hero": {
+      "title": "El cerebro detrás de cada gran negocio",
+      "subtitle": "De la idea a la ejecución"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "Donde las ideas toman forma.",
+        "feature1": "Entra en una sala de juntas simulada con asesores virtuales impulsados por IA y experimenta una lluvia de ideas profunda, validación de ideas y pensamiento estratégico.",
+        "feature2": "Ganarás claridad sobre tu visión, posicionamiento en el mercado, propuesta de valor y el potencial real de tu idea antes de seguir adelante."
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "Donde las ideas se convierten en productos reales.",
+        "feature1": "Inicializar idea",
+        "feature2": "Analizar y validar",
+        "feature3": "Diseño UI / UX",
+        "feature4": "Construir con IA + No-Code",
+        "feature5": "Estructura para escalar",
+        "feature6": "Desplegar producto"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "Donde las ideas se enfrentan a los inversores.",
+        "feature1": "Entra en un proyecto dentro de un entorno de inversores realista y experimenta cómo piensan los que toman las decisiones.",
+        "feature2": "Recibe comentarios estratégicos, financieros y de mercado desde una vista íntima de la junta, ayudándote a refinar tu historia y prepararte para oportunidades reales."
+      }
+    },
+    "Analyzer": {
+      "title": "Analiza tu idea antes de construir nada",
+      "placeholder": "¿Qué tienes en mente?",
+      "startup": "Startup",
+      "tech": "Tech",
+      "investor": "Inversor",
+      "send": "Enviar"
+    },
     "title": "Bienvenido a Whale Tanks",
     "about": "Acerca de nosotros",
     "login": "Iniciar sesión"
+  },
+  "Sidebar": {
+    "close": "Cerrar barra lateral",
+    "new_chat": "Nuevo chat",
+    "search": "Buscar chats",
+    "last_chats": "Últimos chats"
   },
   "Auth": {
     "login": "Iniciar sesión",
@@ -13,10 +58,9 @@
     "submit": "Iniciar sesión"
   },
   "Navigation": {
-      "home": "Inicio",
-      "about": "Acerca de nosotros",
-      "pricing": "Paquetes y precios",
-      "login": "Iniciar sesión"
+    "home": "Inicio",
+    "about": "Acerca de nosotros",
+    "pricing": "Paquetes y precios",
+    "login": "Iniciar sesión"
   }
 }
-

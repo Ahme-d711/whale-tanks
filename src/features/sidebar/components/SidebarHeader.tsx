@@ -14,7 +14,11 @@ interface SidebarHeaderProps {
   onClose: () => void
 }
 
+import { useTranslations } from 'next-intl'
+
 export default function SidebarHeader({ onClose }: SidebarHeaderProps) {
+  const t = useTranslations('Sidebar')
+  
   return (
     <div className="flex p-5 items-center justify-between">
       <LogoComponent 
@@ -37,7 +41,7 @@ export default function SidebarHeader({ onClose }: SidebarHeaderProps) {
             side="bottom" 
             className="bg-secondary text-foreground border-none rounded-lg px-3 py-1.5 font-bold z-110"
           >
-            <p>Close sidebar</p>
+            <p>{t('close')}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

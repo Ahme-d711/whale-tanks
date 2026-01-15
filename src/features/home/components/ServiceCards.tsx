@@ -2,40 +2,44 @@
 
 import { ServiceCard } from '@/components/shared/ServiceCard'
 
+import { useTranslations } from 'next-intl'
+
 export const ServiceCards = () => {
+  const t = useTranslations('HomePage.Services')
+
   const services = [
     {
       icon: '/startup-logo.svg',
-      title: 'Startup Tank',
-      subtitle: 'White Whale',
-      description: 'Where ideas take shape.',
+      title: t('startup.title'),
+      subtitle: t('startup.subtitle'),
+      description: t('startup.description'),
       features: [
-        "Step into a simulated boardroom with AI-powered virtual advisors and experience deep brainstorming, idea validation, and strategic thinking.",
-        "You’ll gain clarity on your vision, market positioning, value proposition, and the real potential of your idea before moving forward."
+        t('startup.feature1'),
+        t('startup.feature2')
       ],
     },
     {
       icon: '/tech-logo.svg',
-      title: 'Tech Tank',
-      subtitle: 'Black Whale',
-      description: 'Where ideas become real products.',
+      title: t('tech.title'),
+      subtitle: t('tech.subtitle'),
+      description: t('tech.description'),
       features: [
-        '> Initialize Idea',
-        '> Analyze & Validate',
-        '> Design UI / UX',
-        '> Build with AI + No-Code',
-        '> Structure for Scale',
-        '> Deploy Product'
+        t('tech.feature1'),
+        t('tech.feature2'),
+        t('tech.feature3'),
+        t('tech.feature4'),
+        t('tech.feature5'),
+        t('tech.feature6')
       ],
     },
     {
       icon: '/logo.svg',
-      title: 'Investor Tank',
-      subtitle: 'Blue Whale',
-      description: 'Where ideas face investors.',
+      title: t('investor.title'),
+      subtitle: t('investor.subtitle'),
+      description: t('investor.description'),
       features: [
-        "Step into a project inside a realistic investor environment and experience how decision-makers think.",
-        "Receive strategic, financial, and market feedback from an intimate board of view, helping you refine your story and prepare for real opportunities."
+        t('investor.feature1'),
+        t('investor.feature2')
       ],
     }
   ]

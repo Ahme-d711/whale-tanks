@@ -2,10 +2,12 @@
 import React from 'react'
 import { motion } from "motion/react"
 import { Button } from '@/components/ui/button'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { Info, Mic, ArrowUpRight, CirclePlus } from 'lucide-react'
 
 export const IdeaAnalyzer = () => {
+  const t = useTranslations('HomePage.Analyzer')
   const [ideaText, setIdeaText] = React.useState('')
   const maxChars = 500
 
@@ -18,26 +20,20 @@ export const IdeaAnalyzer = () => {
         viewport={{ once: true }}
         className="bg-background rounded-3xl p-8 shadow-lg border border-border border-t-4 border-t-primary"
       >
-        {/* Title and Counter */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-normal text-secondary-foreground">
-            Analyze Your Idea Before You Build Anything
-          </h2>
-          <div className="flex items-center gap-2 text-base font-medium text-foreground">
+        <div className="relative mb-6">
+          <div className="absolute top-0 right-0 flex items-center gap-1 text-sm font-medium text-foreground select-none">
             <span>{ideaText.length}/{maxChars}</span>
-            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-muted">
-              <Info className="w-5! h-5! cursor-pointer" />
+            <div className="w-6 h-6 flex items-center justify-center rounded-full text-foreground">
+              <Info className="w-3.5 h-3.5" />
             </div>
           </div>
-        </div>
 
-        {/* Textarea */}
-        <div className="mb-6">
           <textarea
             value={ideaText}
             onChange={(e) => setIdeaText(e.target.value.slice(0, maxChars))}
-            className="w-full h-32 p-0 border-0 focus:outline-none resize-none bg-transparent text-foreground placeholder:text-muted-foreground/50"
+            className="w-full h-40 p-0 border-0 focus:outline-none resize-none bg-transparent text-xl font-normal text-foreground placeholder:text-muted-foreground/30 leading-tight pr-20"
             maxLength={maxChars}
+            placeholder={t('title')}
           />
         </div>
 
@@ -49,21 +45,21 @@ export const IdeaAnalyzer = () => {
             className="h-12 px-4 gap-2 bg-secondary hover:bg-secondary/80 text-foreground rounded-2xl cursor-pointer"
           >
             <Image src="/startup-logo.svg" alt="Startup" width={20} height={20} className="object-contain" />
-            <span className="text-base font-medium">Startup</span>
+            <span className="text-base font-medium">{t('startup')}</span>
           </Button>
           <Button
             variant="ghost"
             className="h-12 px-4 gap-2 bg-border hover:bg-border/80 text-foreground rounded-2xl cursor-pointer"
           >
             <Image src="/tech-logo.svg" alt="Tech" width={20} height={20} className="object-contain" />
-            <span className="text-base font-medium">Tech</span>
+            <span className="text-base font-medium">{t('tech')}</span>
           </Button>
           <Button
             variant="ghost"
             className="h-12 px-4 gap-2 bg-border hover:bg-border/80 text-foreground rounded-2xl cursor-pointer"
           >
             <Image src="/logo.svg" alt="Investor" width={20} height={20} className="object-contain" />
-            <span className="text-base font-medium">Investor</span>
+            <span className="text-base font-medium">{t('investor')}</span>
           </Button>
 
           <div className="flex-1" />
@@ -91,7 +87,7 @@ export const IdeaAnalyzer = () => {
               variant="ghost"
               className="h-10 px-5 rounded-xl text-foreground gap-2 cursor-pointer"
             >
-              <span className="text-base font-medium">Send</span>
+              <span className="text-base font-medium">{t('send')}</span>
               <ArrowUpRight className="w-6! h-6! rounded-md" />
             </Button>
           </div>

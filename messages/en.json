@@ -1,8 +1,50 @@
 {
   "HomePage": {
-    "title": "Welcome to Whale Tanks",
-    "about": "About Us",
-    "login": "Login"
+    "Hero": {
+      "title": "The Brain Behind Every Great Business",
+      "subtitle": "From Idea to Execution"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "Where ideas take shape.",
+        "feature1": "Step into a simulated boardroom with AI-powered virtual advisors and experience deep brainstorming, idea validation, and strategic thinking.",
+        "feature2": "You’ll gain clarity on your vision, market positioning, value proposition, and the real potential of your idea before moving forward."
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "Where ideas become real products.",
+        "feature1": "Initialize Idea",
+        "feature2": "Analyze & Validate",
+        "feature3": "Design UI / UX",
+        "feature4": "Build with AI + No-Code",
+        "feature5": "Structure for Scale",
+        "feature6": "Deploy Product"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "Where ideas face investors.",
+        "feature1": "Step into a project inside a realistic investor environment and experience how decision-makers think.",
+        "feature2": "Receive strategic, financial, and market feedback from an intimate board of view, helping you refine your story and prepare for real opportunities."
+      }
+    },
+    "Analyzer": {
+      "title": "Analyze Your Idea Before You Build Anything",
+      "placeholder": "What's on your mind?",
+      "startup": "Startup",
+      "tech": "Tech",
+      "investor": "Investor",
+      "send": "Send"
+    }
+  },
+  "Sidebar": {
+    "close": "Close sidebar",
+    "new_chat": "New Chat",
+    "search": "Search about Chats",
+    "last_chats": "Last Chats"
   },
   "Auth": {
     "login": "Login",
@@ -13,9 +55,9 @@
     "submit": "Sign In"
   },
   "Navigation": {
-      "home": "Home",
-      "about": "About Us",
-      "pricing": "Packages and prices",
-      "login": "Login"
+    "home": "Home",
+    "about": "About Us",
+    "pricing": "Packages and prices",
+    "login": "Login"
   }
 }

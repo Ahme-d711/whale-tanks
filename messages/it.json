@@ -1,8 +1,53 @@
 {
   "HomePage": {
+    "Hero": {
+      "title": "Il cervello dietro ogni grande business",
+      "subtitle": "Dall'idea all'esecuzione"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "Dove le idee prendono forma.",
+        "feature1": "Entra in una sala riunioni simulata con consulenti virtuali basati sull'IA e sperimenta brainstorming profondo, validazione delle idee e pensiero strategico.",
+        "feature2": "Otterrai chiarezza sulla tua visione, sul posizionamento di mercato, sulla proposta di valore e sul potenziale reale della tua idea prima di procedere."
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "Dove le idee diventano prodotti reali.",
+        "feature1": "Inizializza Idea",
+        "feature2": "Analizza e Valida",
+        "feature3": "Design UI / UX",
+        "feature4": "Costruisci con IA + No-Code",
+        "feature5": "Struttura per Scalare",
+        "feature6": "Distribuisci Prodotto"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "Dove le idee affrontano gli investitori.",
+        "feature1": "Entra in un progetto all'interno di un ambiente realistico per gli investitori e scopri come pensano i decisori.",
+        "feature2": "Ricevi feedback strategici, finanziari e di mercato da una vista intima del consiglio di amministrazione, che ti aiuterà a perfezionare la tua storia e a prepararti per opportunità reali."
+      }
+    },
+    "Analyzer": {
+      "title": "Analizza la tua idea prima di costruire qualsiasi cosa",
+      "placeholder": "Cosa hai in mente?",
+      "startup": "Startup",
+      "tech": "Tech",
+      "investor": "Investitore",
+      "send": "Invia"
+    },
     "title": "Benvenuto su Whale Tanks",
     "about": "Chi siamo",
     "login": "Accedi"
+  },
+  "Sidebar": {
+    "close": "Chiudi barra laterale",
+    "new_chat": "Nuova chat",
+    "search": "Cerca chat",
+    "last_chats": "Ultime chat"
   },
   "Auth": {
     "login": "Accedi",
@@ -13,10 +58,9 @@
     "submit": "Accedi"
   },
   "Navigation": {
-      "home": "Home",
-      "about": "Chi siamo",
-      "pricing": "Pacchetti e prezzi",
-      "login": "Accedi"
+    "home": "Home",
+    "about": "Chi siamo",
+    "pricing": "Pacchetti e prezzi",
+    "login": "Accedi"
   }
 }
-

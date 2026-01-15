@@ -2,7 +2,11 @@
 import React from 'react'
 import { motion } from "motion/react"
 
+import { useTranslations } from 'next-intl'
+
 export const HeroSection = () => {
+    const t = useTranslations('HomePage.Hero')
+    
     return (
         <section className="relative z-10 flex flex-col items-center justify-center text-center pt-32 pb-20 px-4">
             <motion.h1 
@@ -11,7 +15,7 @@ export const HeroSection = () => {
                 transition={{ duration: 0.8 }}
                 className="text-[64px] leading-[127%] tracking-[0.18em] font-bold max-w-4xl text-center text-foreground mx-auto mb-8"
             >
-                The Brain Behind Every Great Business
+                {t('title')}
             </motion.h1>
             
             <motion.p 
@@ -20,7 +24,7 @@ export const HeroSection = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-lg md:text-2xl text-secondary-foreground font-medium tracking-[0.2em] uppercase"
             >
-                From Idea to Execution
+                {t('subtitle')}
             </motion.p>
         </section>
     )

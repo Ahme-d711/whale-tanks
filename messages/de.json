@@ -1,8 +1,53 @@
 {
   "HomePage": {
+    "Hero": {
+      "title": "Das Gehirn hinter jedem großartigen Unternehmen",
+      "subtitle": "Von der Idee bis zur Ausführung"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "Wo Ideen Form annehmen.",
+        "feature1": "Treten Sie in einen simulierten Sitzungssaal mit KI-gestützten virtuellen Beratern ein und erleben Sie tiefgreifendes Brainstorming, Ideenvalidierung und strategisches Denken.",
+        "feature2": "Sie gewinnen Klarheit über Ihre Vision, Marktpositionierung, Ihr Wertversprechen und das reale Potenzial Ihrer Idee, bevor Sie fortfahren."
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "Wo Ideen zu echten Produkten werden.",
+        "feature1": "Idee initialisieren",
+        "feature2": "Analysieren & Validieren",
+        "feature3": "UI / UX Design",
+        "feature4": "Bauen mit KI + No-Code",
+        "feature5": "Struktur für Skalierung",
+        "feature6": "Produkt bereitstellen"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "Wo Ideen auf Investoren treffen.",
+        "feature1": "Treten Sie in ein Projekt in einer realistischen Investorenumgebung ein und erleben Sie, wie Entscheidungsträger denken.",
+        "feature2": "Erhalten Sie strategisches, finanzielles und Feedback zum Markt von einer intimen Vorstandsansicht, das Ihnen hilft, Ihre Geschichte zu verfeinern und sich auf reale Chancen vorzubereiten."
+      }
+    },
+    "Analyzer": {
+      "title": "Analysieren Sie Ihre Idee, bevor Sie etwas bauen",
+      "placeholder": "Was beschäftigt Sie?",
+      "startup": "Startup",
+      "tech": "Tech",
+      "investor": "Investor",
+      "send": "Senden"
+    },
     "title": "Willkommen bei Whale Tanks",
     "about": "Über uns",
     "login": "Anmelden"
+  },
+  "Sidebar": {
+    "close": "Seitenleiste schließen",
+    "new_chat": "Neuer Chat",
+    "search": "Chats durchsuchen",
+    "last_chats": "Letzte Chats"
   },
   "Auth": {
     "login": "Anmelden",
@@ -13,10 +58,9 @@
     "submit": "Anmelden"
   },
   "Navigation": {
-      "home": "Startseite",
-      "about": "Über uns",
-      "pricing": "Pakete und Preise",
-      "login": "Anmelden"
+    "home": "Startseite",
+    "about": "Über uns",
+    "pricing": "Pakete und Preise",
+    "login": "Anmelden"
   }
 }
-
