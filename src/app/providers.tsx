@@ -33,7 +33,7 @@ export function Providers({
 }) {
   const pathname = usePathname();
   // Check if pathname ends with /login or /signup (works with locale prefixes)
-  const isLoginPage = pathname.endsWith("/login") || pathname.endsWith("/signup");
+  const isLoginPage = pathname.endsWith("/login") || pathname.endsWith("/signup") || pathname.endsWith("/dashboard");
   return (
     <AuthProvider user={data?.user ?? null} token={data?.token ?? null}>
       {!isLoginPage && <Navbar />}

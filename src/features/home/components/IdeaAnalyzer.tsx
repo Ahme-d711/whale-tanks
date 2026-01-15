@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { Info, Mic, ArrowUpRight, CirclePlus } from 'lucide-react'
-
 import { Textarea } from '@/components/ui/textarea'
 
 export const IdeaAnalyzer = () => {
