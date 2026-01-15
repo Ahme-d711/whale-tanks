@@ -3,7 +3,7 @@
 import { motion } from "motion/react"
 import LoginForm from '../components/LoginForm'
 import { Card, CardContent } from '@/components/ui/card'
-import { AuthBackground } from '../components/AuthBackground'
+import { AnimatedBackground } from '@/components/shared/AnimatedBackground'
 import { AuthHeader } from '../components/AuthHeader'
 import { CoreGlow } from '../components/CoreGlow'
 
@@ -14,7 +14,7 @@ export default function LoginTemplate() {
     >
       {/* Background decoration */}
       <div className="absolute -inset-10 pointer-events-none">
-        <AuthBackground />
+        <AnimatedBackground />
       </div>
 
 

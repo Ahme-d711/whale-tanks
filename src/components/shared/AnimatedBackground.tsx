@@ -254,7 +254,7 @@ const RisingTide = () => {
   )
 }
 
-export const AuthBackground = () => {
+export const AnimatedBackground = () => {
   return (
     <>
       <BackgroundGradient />

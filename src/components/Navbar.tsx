@@ -5,10 +5,40 @@ import { Menu } from "lucide-react"
 import LogoComponent from "./shared/LogoComponent"
 import ShinyButton from "./shared/ShinyButton"
 import LanguageSelector from "./shared/LanguageSelector"
+import SidebarMenu from "./SidebarMenu"
 import { useTranslations } from "next-intl"
+import { useState, useEffect } from "react"
 
 export default function Navbar() {
   const t = useTranslations('Navigation');
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      
+      if (currentScrollY < 10) {
+        // Always show navbar at the top
+        setIsVisible(true)
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setIsVisible(false)
+      } else {
+        // Scrolling up
+        setIsVisible(true)
+      }
+      
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [lastScrollY])
 
   const navLinks = [
     { name: t("about"), href: "/about" },
@@ -16,7 +46,11 @@ export default function Navbar() {
   ]
 
   return (
-    <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+    <div 
+      className={`fixed left-0 right-0 z-50 flex justify-center px-4 transition-transform duration-300 ${
+        isVisible ? 'top-6 translate-y-0' : 'top-6 -translate-y-32'
+      }`}
+    >
       <nav className="flex items-center justify-between w-full max-w-5xl border-t-2 border-primary bg-background rounded-2xl shadow-sm p-6">
         {/* Logo Section */}
         <Link href="/">
@@ -41,17 +75,23 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <ShinyButton 
             href="/login"
-            className="rounded-full! text-base bg-primary hover:bg-blue-700 px-6 h-12 font-normal! shadow-none"
+            className="rounded-full! text-base capitalize! bg-primary hover:bg-blue-700 px-6 h-12 font-medium! shadow-none"
           >
             {t("login")}
           </ShinyButton>
           
           <LanguageSelector />
           
-          <button className="p-2 text-foreground cursor-pointer hover:text-primary transition-colors rounded-lg bg-secondary-foreground hover:bg-gray-100/50">
-            <Menu className="w-6 h-6" />
-            <span className="sr-only">Open Menu</span>
-          </button>
+          <SidebarMenu 
+            isOpen={isSheetOpen} 
+            onOpenChange={setIsSheetOpen}
+            trigger={
+              <button className="p-2 text-foreground cursor-pointer hover:text-primary transition-colors rounded-lg bg-secondary-foreground hover:bg-gray-100/50">
+                <Menu className="w-6 h-6" />
+                <span className="sr-only">Open Menu</span>
+              </button>
+            }
+          />
         </div>
       </nav>
     </div>
