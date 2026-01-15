@@ -40,6 +40,25 @@ const itemVariants: Variants = {
   open: { opacity: 1, x: 0 }
 }
 
+const persistentVariants: Variants = {
+  closed: { 
+    width: 0,
+    opacity: 0,
+    transition: { 
+      width: { type: "spring", stiffness: 300, damping: 30 },
+      opacity: { duration: 0.2 }
+    }
+  },
+  open: { 
+    width: 267,
+    opacity: 1,
+    transition: { 
+      width: { type: "spring", stiffness: 300, damping: 30 },
+      opacity: { duration: 0.2, delay: 0.1 }
+    }
+  }
+}
+
 export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersistent = false }: SidebarTemplateProps) {
   const [mounted, setMounted] = useState(false)
 
@@ -89,11 +108,21 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
 
   return (
     <>
-      {isPersistent && isOpen && (
-        <aside className="hidden md:flex w-[267px] bg-background border-r-2 border-primary flex-col h-full shrink-0 overflow-hidden">
-          {content}
-        </aside>
-      )}
+      <AnimatePresence mode="wait">
+        {isPersistent && isOpen && (
+          <motion.aside
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={persistentVariants}
+            className="hidden md:flex bg-background border-r-2 border-primary flex-col h-full shrink-0 overflow-hidden"
+          >
+            <div className="min-w-[267px] h-full">
+              {content}
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
       <div 
         onClick={() => onOpenChange(!isOpen)}
         className={isPersistent ? "md:hidden" : ""}

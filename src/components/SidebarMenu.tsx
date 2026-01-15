@@ -6,6 +6,7 @@ interface SidebarMenuProps {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
   trigger: React.ReactNode
+  isPersistent?: boolean
 }
 
 export default function SidebarMenu(props: SidebarMenuProps) {
