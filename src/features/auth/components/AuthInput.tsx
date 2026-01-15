@@ -46,7 +46,7 @@ export const AuthInput = ({
                 type={type}
                 placeholder={placeholder}
                 {...field}
-                className="rounded-2xl h-12 border-border focus:border-primary transition-all shadow-none placeholder:text-secondary-foreground"
+                className="rounded-2xl h-12 border-border hover:border-none focus:border-none transition-all shadow-none placeholder:text-secondary-foreground"
               />
             </FormControl>
             <FormMessage />

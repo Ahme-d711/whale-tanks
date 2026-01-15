@@ -10,7 +10,7 @@ export const IdeaAnalyzer = () => {
   const maxChars = 500
 
   return (
-    <section className="relative z-10 px-4 pb-32 max-w-7xl mx-auto">
+    <section className="relative z-10 px-4 pb-16 max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

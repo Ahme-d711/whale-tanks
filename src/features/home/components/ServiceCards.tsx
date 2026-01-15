@@ -20,12 +20,12 @@ export const ServiceCards = () => {
       subtitle: 'Black Whale',
       description: 'Where ideas become real products.',
       features: [
-        'Initialize Idea',
-        'Analyze & Validate',
-        'Design UI / UX',
-        'Build with AI + No-Code',
-        'Structure for Scale',
-        'Deploy Product'
+        '> Initialize Idea',
+        '> Analyze & Validate',
+        '> Design UI / UX',
+        '> Build with AI + No-Code',
+        '> Structure for Scale',
+        '> Deploy Product'
       ],
     },
     {

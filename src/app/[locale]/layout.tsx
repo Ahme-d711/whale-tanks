@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Roboto, Poppins } from "next/font/google";
 import "../globals.css";
 import { CoreProviders, Providers } from "../providers";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-roboto",
+});
+
+const poppins = Poppins({
+  weight: ["400", "500", "800"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -36,12 +43,17 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body
-        className={`${roboto.variable} font-sans antialiased`}
+        className={`${roboto.variable} ${poppins.variable} font-sans antialiased`}
       >
+        <div className="fixed inset-0 pointer-events-none z-0">
+          <AnimatedBackground />
+        </div>
         <NextIntlClientProvider messages={messages}>
           <CoreProviders>
             <Providers data={{ token: null, user: null }}>
-              {children}
+              <div className="relative z-10 w-full">
+                {children}
+              </div>
             </Providers>
           </CoreProviders>
         </NextIntlClientProvider>

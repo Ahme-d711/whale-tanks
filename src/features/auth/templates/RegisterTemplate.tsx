@@ -3,22 +3,14 @@
 import { motion } from "motion/react"
 import RegisterForm from '../components/RegisterForm'
 import { Card, CardContent } from '@/components/ui/card'
-import { AnimatedBackground } from '@/components/shared/AnimatedBackground'
 import { AuthHeader } from '../components/AuthHeader'
 import { CoreGlow } from '../components/CoreGlow'
 
 export default function RegisterTemplate() {
   return (
     <main 
-      className="min-h-screen w-full relative bg-blue-50/50 flex flex-col items-center justify-center select-none overflow-hidden"
+      className="min-h-screen w-full relative flex flex-col items-center justify-center select-none overflow-hidden"
     >
-      {/* Background decoration */}
-      <div className="absolute -inset-10 pointer-events-none">
-        <AnimatedBackground />
-      </div>
-
-
-
       {/* Floating Register Card */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}

@@ -1,19 +1,23 @@
 "use client"
 
 import { Link } from "@/i18n/routing"
-import { Menu } from "lucide-react"
+import { ChevronDown, Menu, UserRound } from "lucide-react"
 import LogoComponent from "./shared/LogoComponent"
 import ShinyButton from "./shared/ShinyButton"
 import LanguageSelector from "./shared/LanguageSelector"
 import SidebarMenu from "./SidebarMenu"
 import { useTranslations } from "next-intl"
 import { useState, useEffect } from "react"
+import { useAuthStore } from "@/features/auth/stores/authStore"
+import EditProfileDialog from "@/features/auth/components/EditProfileDialog"
 
 export default function Navbar() {
   const t = useTranslations('Navigation');
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false)
+  const { user } = useAuthStore()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,18 +77,30 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
-          <ShinyButton 
-            href="/login"
-            className="rounded-full! text-base capitalize! bg-primary hover:bg-blue-700 px-6 h-12 font-medium! shadow-none"
-          >
-            {t("login")}
-          </ShinyButton>
+          {user ? (
+            <div 
+              onClick={() => setIsEditProfileOpen(true)}
+              className="flex items-center gap-2 bg-secondary px-3 py-2 rounded-2xl cursor-pointer hover:bg-secondary/70 transition-colors group"
+            >
+              <UserRound className="w-6 h-6 text-foreground" />
+              <div className="bg-primary rounded-lg p-1">
+                <ChevronDown className="w-4 h-4 text-white" />
+              </div>
+            </div>
+          ) : (
+            <ShinyButton 
+              href="/login"
+              className="rounded-full! text-base capitalize! bg-primary hover:bg-blue-700 px-6 h-12 font-medium! shadow-none"
+            >
+              {t("login")}
+            </ShinyButton>
+          )}
           
           <LanguageSelector />
           
           <SidebarMenu 
-            isOpen={isSheetOpen} 
-            onOpenChange={setIsSheetOpen}
+            isOpen={isSidebarOpen}
+            onOpenChange={setIsSidebarOpen}
             trigger={
               <button className="p-2 text-foreground cursor-pointer transition-colors rounded-lg bg-secondary-foreground/50 hover:bg-secondary-foreground/70">
                 <Menu className="w-6 h-6" />
@@ -94,6 +110,11 @@ export default function Navbar() {
           />
         </div>
       </nav>
+
+      <EditProfileDialog 
+        open={isEditProfileOpen}
+        onOpenChange={setIsEditProfileOpen}
+      />
     </div>
   )
 }
