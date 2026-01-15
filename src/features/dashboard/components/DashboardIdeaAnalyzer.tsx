@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import { Info, Mic, ArrowUpRight, CirclePlus } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import { useTranslations } from 'next-intl'

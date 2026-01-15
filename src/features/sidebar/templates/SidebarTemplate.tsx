@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, AnimatePresence, Variants } from 'framer-motion'
+import { motion, AnimatePresence, Variants } from 'motion/react'
 import SidebarHeader from "../components/SidebarHeader"
 import SidebarActions from "../components/SidebarActions"
 import LastChatsSection from "../components/LastChatsSection"
@@ -11,6 +11,7 @@ interface SidebarTemplateProps {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
   trigger: React.ReactNode
+  isPersistent?: boolean
 }
 
 const sidebarVariants: Variants = {
@@ -39,14 +40,28 @@ const itemVariants: Variants = {
   open: { opacity: 1, x: 0 }
 }
 
-export default function SidebarTemplate({ isOpen, onOpenChange, trigger }: SidebarTemplateProps) {
+export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersistent = false }: SidebarTemplateProps) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    document.body.style.overflow = 'auto'
-    document.body.style.pointerEvents = 'auto'
   }, [])
+
+  const content = (
+    <div className="flex flex-col h-full">
+      <motion.div variants={itemVariants}>
+        <SidebarHeader onClose={() => onOpenChange(false)} />
+      </motion.div>
+      
+      <motion.div variants={itemVariants}>
+        <SidebarActions />
+      </motion.div>
+      
+      <motion.div variants={itemVariants} className="flex-1 overflow-y-auto">
+        <LastChatsSection />
+      </motion.div>
+    </div>
+  )
 
   if (!mounted) return (
     <div onClick={() => onOpenChange(!isOpen)}>
@@ -57,7 +72,7 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger }: Sideb
   const sidebarContent = (
     <AnimatePresence mode="wait">
       {isOpen && (
-        <div className="fixed inset-0 z-101 pointer-events-none">
+        <div className={`fixed inset-0 z-101 pointer-events-none ${isPersistent ? 'md:hidden' : ''}`}>
           <motion.div
             initial="closed"
             animate="open"
@@ -65,17 +80,7 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger }: Sideb
             variants={sidebarVariants}
             className="absolute inset-y-0 left-0 w-[267px] bg-background border-r-2 border-t-2 border-primary rounded-tr-2xl rounded-br-2xl shadow-2xl flex flex-col pointer-events-auto overflow-hidden"
           >
-            <motion.div variants={itemVariants}>
-              <SidebarHeader onClose={() => onOpenChange(false)} />
-            </motion.div>
-            
-            <motion.div variants={itemVariants}>
-              <SidebarActions />
-            </motion.div>
-            
-            <motion.div variants={itemVariants} className="flex-1 overflow-y-auto">
-              <LastChatsSection />
-            </motion.div>
+            {content}
           </motion.div>
         </div>
       )}
@@ -84,10 +89,21 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger }: Sideb
 
   return (
     <>
-      <div onClick={() => onOpenChange(!isOpen)}>
+      {isPersistent && isOpen && (
+        <aside className="hidden md:flex w-[267px] bg-background border-r-2 border-primary flex-col h-full shrink-0 overflow-hidden">
+          {content}
+        </aside>
+      )}
+      <div 
+        onClick={() => onOpenChange(!isOpen)}
+        className={isPersistent ? "md:hidden" : ""}
+      >
         {trigger}
       </div>
+      {/* Drawer for mobile or non-persistent mode */}
       {createPortal(sidebarContent, document.body)}
     </>
   )
 }
+
+
