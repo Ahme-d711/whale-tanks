@@ -18,7 +18,7 @@ export const ServiceCard = ({ icon, title, subtitle, description, features }: Se
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
-      className="backdrop-blur-xl bg-background rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-border max-w-[390px]!"
+      className="backdrop-blur-xl bg-background rounded-3xl p-8 max-w-[390px] shadow-lg hover:shadow-xl transition-all duration-300 border border-border"
     >
       {/* Icon and Title */}
       <div className="flex items-center gap-4 mb-8">

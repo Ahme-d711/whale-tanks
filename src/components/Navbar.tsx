@@ -86,7 +86,7 @@ export default function Navbar() {
             isOpen={isSheetOpen} 
             onOpenChange={setIsSheetOpen}
             trigger={
-              <button className="p-2 text-foreground cursor-pointer hover:text-primary transition-colors rounded-lg bg-secondary-foreground hover:bg-gray-100/50">
+              <button className="p-2 text-foreground cursor-pointer transition-colors rounded-lg bg-secondary-foreground/50 hover:bg-secondary-foreground/70">
                 <Menu className="w-6 h-6" />
                 <span className="sr-only">Open Menu</span>
               </button>
