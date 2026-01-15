@@ -49,6 +49,14 @@
     "search": "Cerca chat",
     "last_chats": "Ultime chat"
   },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "Saldo insufficiente",
+      "description": "Hai bisogno di più crediti per completare questa azione. Aggiorna il tuo piano per continuare a costruire progetti incredibili.",
+      "warning": "Crediti insufficienti. Aggiorna o acquista di più",
+      "upgrade_button": "Aggiorna ora"
+    }
+  },
   "Auth": {
     "login": "Accedi",
     "email": "Email",

@@ -49,6 +49,14 @@
     "search": "Buscar chats",
     "last_chats": "Últimos chats"
   },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "Saldo insuficiente",
+      "description": "Necesitas más créditos para completar esta acción. Actualiza tu plan para seguir construyendo proyectos increíbles.",
+      "warning": "Créditos insuficientes. Por favor, actualiza o compra más",
+      "upgrade_button": "Actualizar ahora"
+    }
+  },
   "Auth": {
     "login": "Iniciar sesión",
     "email": "Correo electrónico",

@@ -46,6 +46,14 @@
     "search": "Search about Chats",
     "last_chats": "Last Chats"
   },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "Insufficient balance",
+      "description": "You need more credits to complete this action. Upgrade your plan to continue building amazing projects.",
+      "warning": "Not enough credits. Please upgrade or purchase more",
+      "upgrade_button": "Upgrade Now"
+    }
+  },
   "Auth": {
     "login": "Login",
     "email": "Email",

@@ -49,6 +49,14 @@
     "search": "Chats durchsuchen",
     "last_chats": "Letzte Chats"
   },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "Unzureichendes Guthaben",
+      "description": "Sie benötigen mehr Credits, um diese Aktion abzuschließen. Aktualisieren Sie Ihren Plan, um weiterhin großartige Projekte zu erstellen.",
+      "warning": "Nicht genügend Credits. Bitte upgraden oder mehr kaufen",
+      "upgrade_button": "Jetzt upgraden"
+    }
+  },
   "Auth": {
     "login": "Anmelden",
     "email": "E-Mail",

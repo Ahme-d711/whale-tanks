@@ -49,6 +49,14 @@
     "search": "Rechercher des chats",
     "last_chats": "Derniers chats"
   },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "Solde insuffisant",
+      "description": "Vous avez besoin de plus de crédits pour terminer cette action. Améliorez votre forfait pour continuer à créer des projets incroyables.",
+      "warning": "Pas assez de crédits. Veuillez mettre à jour ou acheter plus",
+      "upgrade_button": "Mettre à jour maintenant"
+    }
+  },
   "Auth": {
     "login": "Connexion",
     "email": "Email",

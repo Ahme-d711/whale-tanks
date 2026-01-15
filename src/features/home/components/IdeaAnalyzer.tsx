@@ -6,6 +6,8 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { Info, Mic, ArrowUpRight, CirclePlus } from 'lucide-react'
 
+import { Textarea } from '@/components/ui/textarea'
+
 export const IdeaAnalyzer = () => {
   const t = useTranslations('HomePage.Analyzer')
   const [ideaText, setIdeaText] = React.useState('')
@@ -28,10 +30,10 @@ export const IdeaAnalyzer = () => {
             </div>
           </div>
 
-          <textarea
+          <Textarea
             value={ideaText}
             onChange={(e) => setIdeaText(e.target.value.slice(0, maxChars))}
-            className="w-full h-40 p-0 border-0 focus:outline-none resize-none bg-transparent text-xl font-normal text-foreground placeholder:text-muted-foreground/30 leading-tight pr-20"
+            className="w-full min-h-50 placeholder:text-secondary-foreground p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-2xl! font-normal text-foreground leading-tight pr-20 shadow-none"
             maxLength={maxChars}
             placeholder={t('title')}
           />
