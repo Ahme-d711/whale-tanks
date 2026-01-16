@@ -18,7 +18,7 @@ export default function SidebarToggle({ isOpen, onToggle }: SidebarToggleProps) 
         variant="outline" 
         size="icon" 
         onClick={onToggle}
-        className="bg-white border-primary/20 shadow-lg rounded-2xl hover:bg-white active:scale-95 transition-all group w-10 h-10"
+        className="bg-white border-primary/20 shadow-lg rounded-2xl cursor-pointer hover:bg-white active:scale-95 transition-all group w-10 h-10"
       >
         <PanelLeft className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
       </Button>

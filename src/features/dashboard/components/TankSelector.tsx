@@ -4,21 +4,64 @@ import React from 'react'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 
-export default function TankSelector() {
+interface TankSelectorProps {
+  activeTankId: string
+  onTankChange: (id: string) => void
+}
+
+export default function TankSelector({ activeTankId, onTankChange }: TankSelectorProps) {
+  const tanks = [
+    { 
+      id: 'startup', 
+      name: 'Startup Tank', 
+      subtitle: 'White Whale',
+      icon: '/startup-logo.svg' 
+    },
+    { 
+      id: 'tech', 
+      name: 'Tech Tank', 
+      subtitle: 'Black Whale',
+      icon: '/tech-logo.svg' 
+    },
+    { 
+      id: 'investor', 
+      name: 'Investor Tank', 
+      subtitle: 'Blue Whale',
+      icon: '/logo.svg' 
+    },
+  ]
+
   return (
-    <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm p-1.5 rounded-[24px] border border-[#E2E8F0] shadow-sm">
-      <Button variant="ghost" className="h-10 px-4 gap-2 bg-[#F1F5F9] text-[#1A2B4B] rounded-full font-medium">
-        <Image src="/startup-logo.svg" alt="" width={18} height={18} />
-        Startup Tank
-      </Button>
-      <Button variant="ghost" className="h-10 px-4 gap-2 text-[#64748B] hover:bg-white/50 rounded-full font-medium">
-        <Image src="/tech-logo.svg" alt="" width={18} height={18} />
-        Tech Tank
-      </Button>
-      <Button variant="ghost" className="h-10 px-4 gap-2 text-[#64748B] hover:bg-white/50 rounded-full font-medium">
-        <Image src="/logo.svg" alt="" width={18} height={18} />
-        Investor Tank
-      </Button>
+    <div className="flex items-center gap-1 bg-white backdrop-blur-sm p-1 rounded-[32px] border border-border shadow-sm">
+      {tanks.map((tank) => (
+        <Button
+          key={tank.id}
+          variant="ghost"
+          onClick={() => onTankChange(tank.id)}
+          className={`h-auto px-4 py-1 gap-4 rounded-[24px] cursor-pointer transition-all duration-300 flex items-center hover:bg-transparent ${
+            activeTankId === tank.id
+              ? "bg-secondary shadow-sm"
+              : "hover:bg-border"
+          }`}
+        >
+          <div className="relative w-8 h-8 shrink-0">
+            <Image 
+              src={tank.icon} 
+              alt={tank.name} 
+              fill
+              className="object-contain"
+            />
+          </div>
+          <div className="flex flex-col items-start">
+            <span className="text-base font-bold tracking-tight text-foreground">
+              {tank.name}
+            </span>
+            <span className="text-[10px] text-muted-foreground">
+              {tank.subtitle}
+            </span>
+          </div>
+        </Button>
+      ))}
     </div>
   )
 }

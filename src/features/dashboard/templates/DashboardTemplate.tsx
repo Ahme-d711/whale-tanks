@@ -21,7 +21,7 @@ export default function DashboardTemplate() {
         trigger={
           <div className="fixed top-4 left-4 z-50 md:hidden">
             <Button variant="outline" size="icon" className="bg-white border-primary/20 shadow-lg rounded-2xl hover:bg-white active:scale-95 transition-all">
-              <Menu className="w-6 h-6 text-primary" />
+              <Menu className="w-6 h-6 text-primary cursor-pointer" />
             </Button>
           </div>
         }
@@ -33,15 +33,6 @@ export default function DashboardTemplate() {
         <SidebarToggle 
           isOpen={isSidebarOpen} 
           onToggle={() => setIsSidebarOpen(true)} 
-        />
-
-        {/* Blueprint Grid Background */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.4]" 
-             style={{ 
-               backgroundImage: `linear-gradient(to right, #CBD5E1 1px, transparent 1px), 
-                                 linear-gradient(to bottom, #CBD5E1 1px, transparent 1px)`,
-               backgroundSize: '40px 40px' 
-             }} 
         />
         
         {/* Header Section */}

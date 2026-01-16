@@ -83,15 +83,15 @@ export const IdeaAnalyzer = () => {
             </Button>
           </div>
           
-          <div className=" bg-border hover:bg-border/80 rounded-2xl p-1">
             <Button
               variant="ghost"
-              className="h-10 px-5 rounded-xl text-foreground gap-2 cursor-pointer"
+              className="h-10 px-5 rounded-xl text-foreground gap-2 cursor-pointer py-6 bg-border hover:bg-border/80"
             >
               <span className="text-base font-medium">{t('send')}</span>
-              <ArrowUpRight className="w-6! h-6! rounded-md" />
+              <div className="w-6 h-6 flex items-center justify-center rounded-md text-foreground bg-foreground/30">
+                <ArrowUpRight className="w-5 h-5" />
+              </div>
             </Button>
-          </div>
         </div>
       </motion.div>
     </section>
