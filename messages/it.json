@@ -65,6 +65,37 @@
     "sign_in_text": "Inserisci la tua email e password per accedere",
     "submit": "Accedi"
   },
+  "Landing": {
+    "About": {
+      "title": "Chi siamo",
+      "description": "Costruiamo esperienze digitali che trasformano le idee in prodotti reali e scalabili.<br></br>Il nostro obiettivo è creare soluzioni pulite e d'impatto che combinino strategia, design e tecnologia per aiutare i marchi a crescere e distinguersi.<br></br>Dal concept al lancio, lavoriamo a stretto contatto con i nostri clienti per comprendere la loro visione, progettare esperienze utente significative e fornire prodotti digitali di alta qualità costruiti per prestazioni e scalabilità.<br></br>Utilizzando strumenti moderni, flussi di lavoro guidati dall'IA e pratiche di sviluppo intelligenti, trasformiamo la complessità in semplicità.<br></br>Non costruiamo solo siti web o app: costruiamo prodotti che funzionano, si evolvono e durano.",
+      "examples": "Esempi",
+      "projects": {
+        "restaurant": "Progetto ristorante",
+        "clothes": "Progetto abbigliamento",
+        "restaurant_desc1": "Una moderna piattaforma digitale progettata per i ristoranti per mostrare il loro menu, l'identità del marchio e l'esperienza culinaria attraverso un'interfaccia pulita e intuitiva.",
+        "restaurant_desc2": "Il progetto si concentra su una chiara presentazione del menu, una navigazione fluida e layout visivamente accattivanti che migliorano il percorso del cliente dalla scoperta alla decisione.",
+        "clothes_desc1": "Una moderna piattaforma digitale focalizzata sulla moda progettata per mostrare, gestire e vendere prodotti di abbigliamento con un'esperienza utente senza interruzioni.",
+        "clothes_desc2": "Il progetto si concentra sulla creazione di un'interfaccia pulita e visivamente accattivante che metta in risalto collezioni, dettagli dei prodotti e identità del marchio, garantendo al contempo una navigazione fluida e prestazioni veloci."
+      }
+    },
+    "Pricing": {
+      "title": "Pacchetti e prezzi",
+      "choose_plan": "Scegli un abbonamento",
+      "subtitle": "Loram your prominence on your portal site",
+      "month": "Mese",
+      "select_plan": "Seleziona questo piano",
+      "plans": {
+        "basic": "Base",
+        "standard": "Standard",
+        "premium": "Premium",
+        "save": "RISPARMIA",
+        "months_3": "3 MESI",
+        "months_6": "6 mesi",
+        "year_1": "1 anno"
+      }
+    }
+  },
   "Navigation": {
     "home": "Home",
     "about": "Chi siamo",

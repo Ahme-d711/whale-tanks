@@ -65,6 +65,37 @@
     "sign_in_text": "Geben Sie Ihre E-Mail und Ihr Passwort ein, um sich anzumelden",
     "submit": "Anmelden"
   },
+  "Landing": {
+    "About": {
+      "title": "Über uns",
+      "description": "Wir bauen digitale Erlebnisse, die Ideen in echte, skalierbare Produkte verwandeln.<br></br>Unser Fokus liegt auf der Entwicklung sauberer, wirkungsvoller Lösungen, die Strategie, Design und Technologie kombinieren, um Marken beim Wachsen und Auffallen zu helfen.<br></br>Vom Konzept bis zum Launch arbeiten wir eng mit unseren Kunden zusammen, um ihre Vision zu verstehen, sinnvolle Benutzererlebnisse zu gestalten und hochwertige digitale Produkte zu liefern, die auf Leistung und Skalierung ausgelegt sind.<br></br>Mit modernen Werkzeugen, KI-gesteuerten Workflows und intelligenten Entwicklungspraktiken verwandeln wir Komplexität in Einfachheit.<br></br>Wir bauen nicht nur Websites oder Apps – wir bauen Produkte, die funktionieren, sich weiterentwickeln und Bestand haben.",
+      "examples": "Beispiele",
+      "projects": {
+        "restaurant": "Restaurant-Projekt",
+        "clothes": "Kleidung-Projekt",
+        "restaurant_desc1": "Eine moderne digitale Plattform für Restaurants, um ihr Menü, ihre Markenidentität und ihr Speiseerlebnis durch eine saubere und intuitive Benutzeroberfläche zu präsentieren.",
+        "restaurant_desc2": "Das Projekt konzentriert sich auf eine klare Menüpräsentation, reibungslose Navigation und visuell ansprechende Layouts, die die Reise des Kunden von der Entdeckung bis zur Entscheidung verbessern.",
+        "clothes_desc1": "Eine moderne, modeorientierte digitale Plattform zum Präsentieren, Verwalten und Verkaufen von Bekleidungsprodukten mit einer nahtlosen Benutzererfahrung.",
+        "clothes_desc2": "Das Projekt konzentriert sich darauf, eine saubere, visuell ansprechende Benutzeroberfläche zu schaffen, die Kollektionen, Produktdetails und Markenidentität hervorhebt und gleichzeitig eine reibungslose Navigation und schnelle Leistung gewährleistet."
+      }
+    },
+    "Pricing": {
+      "title": "Pakete und Preise",
+      "choose_plan": "Wählen Sie ein Abonnement",
+      "subtitle": "Loram your prominence on your portal site",
+      "month": "Monat",
+      "select_plan": "Diesen Plan wählen",
+      "plans": {
+        "basic": "Basis",
+        "standard": "Standard",
+        "premium": "Premium",
+        "save": "SPAREN",
+        "months_3": "3 MONATE",
+        "months_6": "6 Monate",
+        "year_1": "1 Jahr"
+      }
+    }
+  },
   "Navigation": {
     "home": "Startseite",
     "about": "Über uns",

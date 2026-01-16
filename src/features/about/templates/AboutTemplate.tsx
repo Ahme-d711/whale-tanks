@@ -1,46 +1,49 @@
 "use client"
 
+import { useTranslations } from 'next-intl'
 import { ServiceCard } from "@/components/shared/ServiceCard"
 import AboutInfo from "../components/AboutInfo"
 
-const examples = [
-  {
-    icon: "/logo.svg",
-    title: "Restaurant Project",
-    subtitle: "Blue Whale",
-    features: [
-      "A modern digital platform designed for restaurants to showcase their menu, brand identity, and dining experience through a clean and intuitive interface.",
-      "The project focuses on clear menu presentation, smooth navigation, and visually engaging layouts that enhance the customer's journey from discovery to decision."
-    ]
-  },
-  {
-    icon: "/logo.svg",
-    title: "Clothes Project",
-    subtitle: "Black Whale",
-    features: [
-      "A modern fashion-focused digital platform designed to showcase, manage, and sell clothing products with a seamless user experience.",
-      "The project focuses on creating a clean, visually appealing interface that highlights collections, product details, and brand identity while ensuring smooth navigation and fast performance."
-    ]
-  },
-  {
-    icon: "/logo.svg",
-    title: "Restaurant Project",
-    subtitle: "Blue Whale",
-    features: [
-      "A modern digital platform designed for restaurants to showcase their menu, brand identity, and dining experience through a clean and intuitive interface.",
-      "The project focuses on clear menu presentation, smooth navigation, and visually engaging layouts that enhance the customer's journey from discovery to decision."
-    ]
-  }
-]
-
 export default function AboutTemplate() {
+  const t = useTranslations('Landing.About')
+
+  const examples = [
+    {
+      icon: "/logo.svg",
+      title: t('projects.restaurant'),
+      subtitle: "Blue Whale",
+      features: [
+        t('projects.restaurant_desc1'),
+        t('projects.restaurant_desc2')
+      ]
+    },
+    {
+      icon: "/logo.svg",
+      title: t('projects.clothes'),
+      subtitle: "Black Whale",
+      features: [
+        t('projects.clothes_desc1'),
+        t('projects.clothes_desc2')
+      ]
+    },
+    {
+      icon: "/logo.svg",
+      title: t('projects.restaurant'),
+      subtitle: "Blue Whale",
+      features: [
+        t('projects.restaurant_desc1'),
+        t('projects.restaurant_desc2')
+      ]
+    }
+  ]
+
   return (
     <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-4 md:px-12 xl:px-29 py-12 pt-40 space-y-6">
       <AboutInfo />
 
       {/* Examples Header */}
       <div>
-        <h2 className="text-[32px] font-semibold text-foreground">Examples</h2>
+        <h2 className="text-[32px] font-semibold text-foreground">{t('examples')}</h2>
       </div>
 
       {/* Examples Grid */}

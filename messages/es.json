@@ -65,6 +65,37 @@
     "sign_in_text": "Ingresa tu correo electrónico y contraseña para iniciar sesión",
     "submit": "Iniciar sesión"
   },
+  "Landing": {
+    "About": {
+      "title": "Acerca de nosotros",
+      "description": "Construimos experiencias digitales que convierten ideas en productos reales y escalables.<br></br>Nuestro enfoque es crear soluciones limpias e impactantes que combinen estrategia, diseño y tecnología para ayudar a las compañías a crecer y destacar.<br></br>Desde el concepto hasta el lanzamiento, trabajamos estrechamente con nuestros clientes para comprender su visión, diseñar experiencias de usuario significativas y entregar productos digitales de alta calidad creados para el rendimiento y la escala.<br></br>Usando herramientas modernas, flujos de trabajo impulsados por IA y prácticas de desarrollo inteligentes, transformamos la complejidad en simplicidad.<br></br>No solo creamos sitios web o aplicaciones: creamos productos que funcionan, evolucionan y perduran.",
+      "examples": "Ejemplos",
+      "projects": {
+        "restaurant": "Proyecto de restaurante",
+        "clothes": "Proyecto de ropa",
+        "restaurant_desc1": "Una plataforma digital moderna diseñada para que los restaurantes muestren su menú, identidad de marca y experiencia gastronómica a través de una interfaz limpia e intuitiva.",
+        "restaurant_desc2": "El proyecto se centra en una presentación clara del menú, una navegación fluida y diseños visualmente atractivos que mejoran el viaje del cliente desde el descubrimiento hasta la decisión.",
+        "clothes_desc1": "Una plataforma digital moderna centrada en la moda diseñada para exhibir, gestionar y vender productos de confección con una experiencia de usuario perfecta.",
+        "clothes_desc2": "El proyecto se centra en crear una interfaz limpia y visualmente atractiva que resalte las colecciones, los detalles del producto y la identidad de la marca, al tiempo que garantiza una navegación fluida y un rendimiento rápido."
+      }
+    },
+    "Pricing": {
+      "title": "Paquetes y precios",
+      "choose_plan": "Elige una suscripción",
+      "subtitle": "Loram your prominence on your portal site",
+      "month": "Mes",
+      "select_plan": "Seleccionar este plan",
+      "plans": {
+        "basic": "Básico",
+        "standard": "Estándar",
+        "premium": "Premium",
+        "save": "AHORRA",
+        "months_3": "3 MESES",
+        "months_6": "6 meses",
+        "year_1": "1 año"
+      }
+    }
+  },
   "Navigation": {
     "home": "Inicio",
     "about": "Acerca de nosotros",

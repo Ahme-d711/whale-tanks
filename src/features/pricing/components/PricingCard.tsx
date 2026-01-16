@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslations } from 'next-intl'
 import { Check, Lock } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -26,6 +27,8 @@ export default function PricingCard({
   monthlyPrice,
   features,
 }: PricingCardProps) {
+  const t = useTranslations('Landing.Pricing')
+
   return (
     <div className="flex flex-col h-full bg-background rounded-2xl overflow-hidden border border-border shadow-xl hover:shadow-2xl transition-all duration-300">
       {/* Top Section */}
@@ -38,14 +41,14 @@ export default function PricingCard({
       <div className="relative -mt-12 flex justify-center mb-6">
         <div className="w-35 h-35 rounded-full bg-primary border-5 border-background shadow-2xl flex flex-col items-center justify-center text-white">
           {saveText && (
-            <span className="text-base font-medium text-white px-2 py-0.5 rounded-full font-poppins">
+            <span className="text-xs font-medium text-white px-2 py-0.5 rounded-full font-poppins">
               {saveText}
             </span>
           )}
           <span className="text-5xl font-bold font-poppins">{price}</span>
           {monthlyPrice && (
-            <span className="text-sm font-medium opacity-80 font-poppins">
-              {monthlyPrice} /Month
+            <span className="text-sm font-medium opacity-80 font-poppins text-center">
+              {monthlyPrice} /{t('month')}
             </span>
           )}
         </div>
@@ -80,7 +83,7 @@ export default function PricingCard({
       {/* Action Button */}
       <div className="p-8">
         <button className="w-full py-3.5 px-6 rounded-2xl border-2 border-primary cursor-pointer text-primary font-bold text-lg hover:bg-primary hover:text-white transition-all duration-300">
-          Select this plan
+          {t('select_plan')}
         </button>
       </div>
     </div>

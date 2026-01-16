@@ -62,6 +62,37 @@
     "sign_in_text": "Enter your email and password to sign in",
     "submit": "Sign In"
   },
+  "Landing": {
+    "About": {
+      "title": "About Us",
+      "description": "We build digital experiences that turn ideas into real, scalable products.<br></br>Our focus is on creating clean, impactful solutions that combine strategy, design, and technology to help brands grow and stand out.<br></br>From concept to launch, we work closely with our clients to understand their vision, design meaningful user experiences, and deliver high-quality digital products built for performance and scale.<br></br>Using modern tools, AI-driven workflows, and smart development practices, we transform complexity into simplicity.<br></br>We don’t just build websites or apps — we build products that work, evolve, and last.",
+      "examples": "Examples",
+      "projects": {
+        "restaurant": "Restaurant Project",
+        "clothes": "Clothes Project",
+        "restaurant_desc1": "A modern digital platform designed for restaurants to showcase their menu, brand identity, and dining experience through a clean and intuitive interface.",
+        "restaurant_desc2": "The project focuses on clear menu presentation, smooth navigation, and visually engaging layouts that enhance the customer's journey from discovery to decision.",
+        "clothes_desc1": "A modern fashion-focused digital platform designed to showcase, manage, and sell clothing products with a seamless user experience.",
+        "clothes_desc2": "The project focuses on creating a clean, visually appealing interface that highlights collections, product details, and brand identity while ensuring smooth navigation and fast performance."
+      }
+    },
+    "Pricing": {
+      "title": "Packages and prices",
+      "choose_plan": "Choose a Subscription",
+      "subtitle": "Loram your prominence on your portal site",
+      "month": "Month",
+      "select_plan": "Select this plan",
+      "plans": {
+        "basic": "Basic",
+        "standard": "Standard",
+        "premium": "Premium",
+        "save": "SAVE",
+        "months_3": "3 MONTHS",
+        "months_6": "6 Months",
+        "year_1": "1 Year"
+      }
+    }
+  },
   "Navigation": {
     "home": "Home",
     "about": "About Us",

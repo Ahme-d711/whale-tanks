@@ -65,6 +65,37 @@
     "sign_in_text": "Entrez votre email et mot de passe pour vous connecter",
     "submit": "Se connecter"
   },
+  "Landing": {
+    "About": {
+      "title": "À propos de nous",
+      "description": "Nous construisons des expériences numériques qui transforment les idées en produits réels et évolutifs.<br></br>Notre objectif est de créer des solutions propres et percutantes qui combinent stratégie, design et technologie pour aider les marques à croître et à se démarquer.<br></br>Du concept au lancement, nous travaillons en étroite collaboration avec nos clients pour comprendre leur vision, concevoir des expériences utilisateur significatives et livrer des produits numériques de haute qualité conçus pour la performance et l'échelle.<br></br>À l'aide d'outils modernes, de flux de travail pilotés par l'IA et de pratiques de développement intelligentes, nous transformons la complexité en simplicité.<br></br>Nous ne construisons pas seulement des sites Web ou des applications : nous construisons des produits qui fonctionnent, évoluent et durent.",
+      "examples": "Exemples",
+      "projects": {
+        "restaurant": "Projet de restaurant",
+        "clothes": "Projet de vêtements",
+        "restaurant_desc1": "Une plateforme numérique moderne conçue pour que les restaurants présentent leur menu, leur identité de marque et leur expérience culinaire via une interface propre et intuitive.",
+        "restaurant_desc2": "Le projet se concentre sur une présentation claire du menu, une navigation fluide et des mises en page visuellement attrayantes qui améliorent le parcours du client, de la découverte à la décision.",
+        "clothes_desc1": "Une plateforme numérique moderne axée sur la mode, conçue pour présenter, gérer et vendre des produits vestimentaires avec une expérience utilisateur transparente.",
+        "clothes_desc2": "Le projet se concentre sur la création d'une interface propre et visuellement attrayante qui met en valeur les collections, les détails des produits et l'identité de la marque tout en garantissant une navigation fluide et des performances rapides."
+      }
+    },
+    "Pricing": {
+      "title": "Forfaits et prix",
+      "choose_plan": "Choisissez un abonnement",
+      "subtitle": "Loram your prominence on your portal site",
+      "month": "Mois",
+      "select_plan": "Sélectionner ce forfait",
+      "plans": {
+        "basic": "Basique",
+        "standard": "Standard",
+        "premium": "Premium",
+        "save": "ÉCONOMISEZ",
+        "months_3": "3 MOIS",
+        "months_6": "6 mois",
+        "year_1": "1 an"
+      }
+    }
+  },
   "Navigation": {
     "home": "Accueil",
     "about": "À propos de nous",
