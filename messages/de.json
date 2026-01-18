@@ -1,4 +1,7 @@
 {
+  "Brand": {
+    "name": "Whale Tanks"
+  },
   "HomePage": {
     "Hero": {
       "title": "Das Gehirn hinter jedem großartigen Unternehmen",
@@ -7,14 +10,14 @@
     "Services": {
       "startup": {
         "title": "Startup Tank",
-        "subtitle": "White Whale",
+        "subtitle": "Weißer Wal",
         "description": "Wo Ideen Form annehmen.",
         "feature1": "Treten Sie in einen simulierten Sitzungssaal mit KI-gestützten virtuellen Beratern ein und erleben Sie tiefgreifendes Brainstorming, Ideenvalidierung und strategisches Denken.",
-        "feature2": "Sie gewinnen Klarheit über Ihre Vision, Marktpositionierung, Ihr Wertversprechen und das reale Potenzial Ihrer Idee, bevor Sie fortfahren."
+        "feature2": "Sie gewinnen Klarheit über Ihre Vision, Marktpositionierung, Ihr Wertversprechen und das reale Potenzial Ihrer Idee bevor Sie fortfahren."
       },
       "tech": {
         "title": "Tech Tank",
-        "subtitle": "Black Whale",
+        "subtitle": "Schwarzer Wal",
         "description": "Wo Ideen zu echten Produkten werden.",
         "feature1": "Idee initialisieren",
         "feature2": "Analysieren & Validieren",
@@ -25,23 +28,21 @@
       },
       "investor": {
         "title": "Investor Tank",
-        "subtitle": "Blue Whale",
+        "subtitle": "Blauer Wal",
         "description": "Wo Ideen auf Investoren treffen.",
-        "feature1": "Treten Sie in ein Projekt in einer realistischen Investorenumgebung ein und erleben Sie, wie Entscheidungsträger denken.",
-        "feature2": "Erhalten Sie strategisches, finanzielles und Feedback zum Markt von einer intimen Vorstandsansicht, das Ihnen hilft, Ihre Geschichte zu verfeinern und sich auf reale Chancen vorzubereiten."
+        "feature1": "Treten Sie in ein Projekt in einer realistischen Investorenumgebung ein und erleben Sie wie Entscheidungsträger denken.",
+        "feature2": "Erhalten Sie strategisches, finanzielles und Feedback zum Markt von einer intimen Vorstandsansicht die Ihnen hilft Ihre Geschichte zu verfeinern und sich auf reale Chancen vorzubereiten."
       }
     },
     "Analyzer": {
-      "title": "Analysieren Sie Ihre Idee, bevor Sie etwas bauen",
+      "title": "Analysieren Sie Ihre Idee bevor Sie etwas bauen",
       "placeholder": "Was beschäftigt Sie?",
       "startup": "Startup",
       "tech": "Tech",
       "investor": "Investor",
-      "send": "Senden"
-    },
-    "title": "Willkommen bei Whale Tanks",
-    "about": "Über uns",
-    "login": "Anmelden"
+      "send": "Senden",
+      "info_tooltip": "Verfügbares Guthaben für die Ideenanalyse"
+    }
   },
   "Sidebar": {
     "close": "Seitenleiste schließen",
@@ -52,36 +53,50 @@
   "Billing": {
     "insufficient_credits": {
       "title": "Unzureichendes Guthaben",
-      "description": "Sie benötigen mehr Credits, um diese Aktion abzuschließen. Aktualisieren Sie Ihren Plan, um weiterhin großartige Projekte zu erstellen.",
+      "description": "Sie benötigen mehr Credits um diese Aktion abzuschließen. Aktualisieren Sie Ihren Plan um weiterhin großartige Projekte zu erstellen.",
       "warning": "Nicht genügend Credits. Bitte upgraden oder mehr kaufen",
       "upgrade_button": "Jetzt upgraden"
     }
   },
   "Auth": {
     "login": "Anmelden",
+    "register": "Registrieren",
     "email": "E-Mail",
+    "name": "Name",
     "password": "Passwort",
     "welcome_back": "Willkommen zurück",
-    "sign_in_text": "Geben Sie Ihre E-Mail und Ihr Passwort ein, um sich anzumelden",
+    "create_account": "Konto erstellen",
+    "sign_in_text": "Geben Sie Ihre E-Mail und Ihr Passwort ein um sich anzumelden",
+    "sign_up_text": "Geben Sie Ihre Daten ein um ein neues Konto zu erstellen",
+    "remember_me": "Angemeldet bleiben",
+    "dont_have_account": "Noch kein Konto?",
+    "already_have_account": "Bereits ein Konto?",
+    "sign_up": "Registrieren",
+    "sign_in": "Anmelden",
+    "name_placeholder": "Ihr vollständiger Name",
+    "email_placeholder": "Ihre E-Mail-Adresse",
+    "password_placeholder": "Ihr Passwort",
+    "authenticating": "Authentifizierung...",
+    "creating_account": "Konto wird erstellt...",
     "submit": "Anmelden"
   },
   "Landing": {
     "About": {
       "title": "Über uns",
-      "description": "Wir bauen digitale Erlebnisse, die Ideen in echte, skalierbare Produkte verwandeln.<br></br>Unser Fokus liegt auf der Entwicklung sauberer, wirkungsvoller Lösungen, die Strategie, Design und Technologie kombinieren, um Marken beim Wachsen und Auffallen zu helfen.<br></br>Vom Konzept bis zum Launch arbeiten wir eng mit unseren Kunden zusammen, um ihre Vision zu verstehen, sinnvolle Benutzererlebnisse zu gestalten und hochwertige digitale Produkte zu liefern, die auf Leistung und Skalierung ausgelegt sind.<br></br>Mit modernen Werkzeugen, KI-gesteuerten Workflows und intelligenten Entwicklungspraktiken verwandeln wir Komplexität in Einfachheit.<br></br>Wir bauen nicht nur Websites oder Apps – wir bauen Produkte, die funktionieren, sich weiterentwickeln und Bestand haben.",
+      "description": "Wir bauen digitale Erlebnisse die Ideen in echte, skalierbare Produkte verwandeln.<br></br>Unser Fokus liegt auf der Entwicklung sauberer, wirkungsvoller Lösungen die Strategie, Design und Technologie kombinieren um Marken beim Wachsen und Auffallen zu helfen.<br></br>Vom Konzept bis zum Launch arbeiten wir eng mit unseren Kunden zusammen um ihre Vision zu verstehen, sinnvolle Benutzererlebnisse zu gestalten und hochwertige digitale Produkte zu liefern die auf Leistung und Skalierung ausgelegt sind.<br></br>Mit modernen Werkzeugen, KI-gesteuerten Workflows und intelligenten Entwicklungspraktiken verwandeln wir Komplexität in Einfachheit.<br></br>Wir bauen nicht nur Websites oder Apps – wir bauen Produkte die funktionieren, sich weiterentwickeln und Bestand haben.",
       "examples": "Beispiele",
       "projects": {
         "restaurant": "Restaurant-Projekt",
-        "clothes": "Kleidung-Projekt",
-        "restaurant_desc1": "Eine moderne digitale Plattform für Restaurants, um ihr Menü, ihre Markenidentität und ihr Speiseerlebnis durch eine saubere und intuitive Benutzeroberfläche zu präsentieren.",
-        "restaurant_desc2": "Das Projekt konzentriert sich auf eine klare Menüpräsentation, reibungslose Navigation und visuell ansprechende Layouts, die die Reise des Kunden von der Entdeckung bis zur Entscheidung verbessern.",
+        "clothes": "Kleidungs-Projekt",
+        "restaurant_desc1": "Eine moderne digitale Plattform für Restaurants um ihr Menü, ihre Markenidentität und ihr Speiseerlebnis durch eine saubere und intuitive Benutzeroberfläche zu präsentieren.",
+        "restaurant_desc2": "Das Projekt konzentriert sich auf eine klare Menüpräsentation, reibungslose Navigation und visuell ansprechende Layouts die die Reise des Kunden von der Entdeckung bis zur Entscheidung verbessern.",
         "clothes_desc1": "Eine moderne, modeorientierte digitale Plattform zum Präsentieren, Verwalten und Verkaufen von Bekleidungsprodukten mit einer nahtlosen Benutzererfahrung.",
-        "clothes_desc2": "Das Projekt konzentriert sich darauf, eine saubere, visuell ansprechende Benutzeroberfläche zu schaffen, die Kollektionen, Produktdetails und Markenidentität hervorhebt und gleichzeitig eine reibungslose Navigation und schnelle Leistung gewährleistet."
+        "clothes_desc2": "Das Projekt konzentriert sich darauf eine saubere, visuell ansprechende Benutzeroberfläche zu schaffen die Kollektionen, Produktdetails und Markenidentität hervorhebt und gleichzeitig eine reibungslose Navigation und schnelle Leistung gewährleistet."
       }
     },
     "Pricing": {
       "title": "Pakete und Preise",
-      "choose_plan": "Wählen Sie ein Abonnement",
+      "choose_plan": "Wähle ein Abonnement",
       "subtitle": "Loram your prominence on your portal site",
       "month": "Monat",
       "select_plan": "Diesen Plan wählen",
@@ -92,7 +107,8 @@
         "save": "SPAREN",
         "months_3": "3 MONATE",
         "months_6": "6 Monate",
-        "year_1": "1 Jahr"
+        "year_1": "1 Jahr",
+        "feature_dummy": "Lorem ipsum dolor sit amet"
       }
     }
   },
@@ -100,6 +116,7 @@
     "home": "Startseite",
     "about": "Über uns",
     "pricing": "Pakete und Preise",
-    "login": "Anmelden"
+    "login": "Anmelden",
+    "open_menu": "Menü öffnen"
   }
 }

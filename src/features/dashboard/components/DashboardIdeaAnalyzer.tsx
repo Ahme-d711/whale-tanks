@@ -2,11 +2,13 @@
 
 import React from 'react'
 import { motion } from "motion/react"
-import { Info, Mic, ArrowUpRight, CirclePlus } from 'lucide-react'
+import { Info, Mic, ArrowUpRight, CirclePlus, ArrowUpLeft } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 
 export default function DashboardIdeaAnalyzer() {
+  const locale = useLocale()
   const t = useTranslations('HomePage.Analyzer')
   const [ideaText, setIdeaText] = React.useState('')
   const maxChars = 500
@@ -30,8 +32,8 @@ export default function DashboardIdeaAnalyzer() {
       <div className="flex items-center justify-end gap-3 mt-4">
         {/* Controls Pill */}
         <div className="flex items-center gap-3 bg-border rounded-full px-5 py-2.5">
-          <span className="text-sm font-medium text-foreground">{ideaText.length}/{maxChars}</span>
-          <div className="w-5 h-5 flex items-center justify-center rounded-full bg-primary/40 text-primary">
+          <span className="text-sm font-medium text-foreground">0/500</span>
+          <div className="w-5 h-5 flex items-center justify-center border-none rounded-full bg-foreground/30 text-foreground">
             <Info className="w-5 h-5" />
           </div>
           <button className="text-foreground hover:opacity-70 transition-opacity">
@@ -46,7 +48,7 @@ export default function DashboardIdeaAnalyzer() {
         <button className="flex items-center gap-2 bg-border hover:bg-border/80 transition-colors rounded-full px-6 py-2.5 text-foreground font-medium">
           <span>{t('send')}</span>
           <div className="w-6 h-6 flex items-center justify-center rounded-md text-foreground bg-foreground/30">
-            <ArrowUpRight className="w-5 h-5" />
+                {locale === 'ar' ? <ArrowUpLeft className="w-5 h-5" /> : <ArrowUpRight className="w-5 h-5" />}
           </div>
         </button>
       </div>

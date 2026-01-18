@@ -11,17 +11,18 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form"
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { AuthInput } from './AuthInput'
 import { useRegister } from "../hooks/useAuth"
 import ShinyButton from "@/components/shared/ShinyButton"
 import { Switch } from "@/components/ui/switch"
+import { useTranslations } from 'next-intl'
 
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
-  email: z.email({
+  email: z.string().email({
     message: "Please enter a valid email address.",
   }),
   password: z.string().min(6, {
@@ -31,6 +32,7 @@ const formSchema = z.object({
 })
 
 export default function RegisterForm() {
+  const t = useTranslations('Auth')
   const { mutate: register, isPending } = useRegister()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,24 +57,24 @@ export default function RegisterForm() {
             <AuthInput
               control={form.control}
               name="name"
-              label="Name"
-              placeholder="Your full name"
+              label={t('name')}
+              placeholder={t('name_placeholder')}
               delay={0.1}
             />
 
             <AuthInput
               control={form.control}
               name="email"
-              label="Email"
-              placeholder="Your email address"
+              label={t('email')}
+              placeholder={t('email_placeholder')}
               delay={0.2}
             />
 
             <AuthInput
               control={form.control}
               name="password"
-              label="Password"
-              placeholder="Your password"
+              label={t('password')}
+              placeholder={t('password_placeholder')}
               type="password"
               delay={0.3}
             />
@@ -96,7 +98,7 @@ export default function RegisterForm() {
                       />
                     </FormControl>
                     <FormLabel className="text-secondary-foreground font-medium cursor-pointer">
-                      Remember me
+                      {t('remember_me')}
                     </FormLabel>
                   </FormItem>
                 )}
@@ -113,10 +115,10 @@ export default function RegisterForm() {
           <ShinyButton 
             type="submit" 
             isLoading={isPending}
-            loadingText="Creating Account..."
+            loadingText={t('creating_account')}
             className="w-full font-medium!"
           >
-            Sign Up
+            {t('register')}
           </ShinyButton>
         </motion.div>
 
@@ -126,9 +128,9 @@ export default function RegisterForm() {
           transition={{ delay: 0.6 }}
           className="text-center text-secondary-foreground"
         >
-          Already have an account?{" "}
+          {t('already_have_account')}{" "}
           <Link href="/login" className="text-primary font-semibold hover:underline">
-            Sign in
+            {t('sign_in')}
           </Link>
         </motion.p>
       </form>

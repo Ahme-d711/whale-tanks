@@ -5,8 +5,11 @@ import LoginForm from '../components/LoginForm'
 import { Card, CardContent } from '@/components/ui/card'
 import { AuthHeader } from '../components/AuthHeader'
 import { CoreGlow } from '../components/CoreGlow'
+import { useTranslations } from 'next-intl'
 
 export default function LoginTemplate() {
+  const t = useTranslations('Auth')
+
   return (
     <main 
       className="min-h-screen w-full relative flex flex-col items-center justify-center select-none overflow-hidden"
@@ -34,11 +37,12 @@ export default function LoginTemplate() {
         <Card className="border-none shadow-[0_40px_80px_rgba(34,96,255,0.12)] rounded-[2.5rem] overflow-hidden backdrop-blur-xl">
           <CardContent className="pt-5 pb-8 px-10">
             {/* Branded Header */}
-            <AuthHeader cardTitle="Welcome Back" cardBaio="Enter your email and password to sign in"/>
+            <AuthHeader cardTitle={t('welcome_back')} cardBaio={t('sign_in_text')}/>
             <LoginForm />
           </CardContent>
         </Card>
       </motion.div>
+
 
       {/* Bottom Copyright */}
       <div className="absolute bottom-8 z-10">

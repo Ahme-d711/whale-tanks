@@ -13,13 +13,14 @@ import {
   FormLabel,
 } from "@/components/ui/form"
 import ShinyButton from "@/components/shared/ShinyButton"
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { AuthInput } from './AuthInput'
 import { useLogin } from "../hooks/useAuth"
 import { Switch } from "@/components/ui/switch"
+import { useTranslations } from 'next-intl'
 
 const formSchema = z.object({
-  email: z.email({
+  email: z.string().email({
     message: "Please enter a valid email address.",
   }),
   password: z.string().min(6, {
@@ -29,6 +30,7 @@ const formSchema = z.object({
 })
 
 export default function LoginForm() {
+  const t = useTranslations('Auth')
   const { mutate: login, isPending } = useLogin()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,16 +54,16 @@ export default function LoginForm() {
             <AuthInput
               control={form.control}
               name="email"
-              label="Email"
-              placeholder="Your email address"
+              label={t('email')}
+              placeholder={t('email_placeholder')}
               delay={0.1}
             />
 
             <AuthInput
               control={form.control}
               name="password"
-              label="Password"
-              placeholder="Your password"
+              label={t('password')}
+              placeholder={t('password_placeholder')}
               type="password"
               delay={0.2}
             />
@@ -85,7 +87,7 @@ export default function LoginForm() {
                       />
                     </FormControl>
                     <FormLabel className="text-secondary-foreground font-medium cursor-pointer">
-                      Remember me
+                      {t('remember_me')}
                     </FormLabel>
                   </FormItem>
                 )}
@@ -102,10 +104,10 @@ export default function LoginForm() {
           <ShinyButton 
             type="submit" 
             isLoading={isPending}
-            loadingText="Authenticating..."
+            loadingText={t('authenticating')}
             className="w-full font-medium!"
           >
-            Sign In
+            {t('submit')}
           </ShinyButton>
         </motion.div>
 
@@ -115,9 +117,9 @@ export default function LoginForm() {
           transition={{ delay: 0.5 }}
           className="text-center text-secondary-foreground"
         >
-          Don't have an account?{" "}
+          {t('dont_have_account')}{" "}
           <Link href="/signup" className="text-primary cursor-pointer font-semibold hover:underline">
-            Sign up
+            {t('sign_up')}
           </Link>
         </motion.p>
       </form>

@@ -1,4 +1,7 @@
 {
+  "Brand": {
+    "name": "Whale Tanks"
+  },
   "HomePage": {
     "Hero": {
       "title": "Il cervello dietro ogni grande business",
@@ -7,14 +10,14 @@
     "Services": {
       "startup": {
         "title": "Startup Tank",
-        "subtitle": "White Whale",
+        "subtitle": "Balena Bianca",
         "description": "Dove le idee prendono forma.",
         "feature1": "Entra in una sala riunioni simulata con consulenti virtuali basati sull'IA e sperimenta brainstorming profondo, validazione delle idee e pensiero strategico.",
         "feature2": "Otterrai chiarezza sulla tua visione, sul posizionamento di mercato, sulla proposta di valore e sul potenziale reale della tua idea prima di procedere."
       },
       "tech": {
         "title": "Tech Tank",
-        "subtitle": "Black Whale",
+        "subtitle": "Balena Nera",
         "description": "Dove le idee diventano prodotti reali.",
         "feature1": "Inizializza Idea",
         "feature2": "Analizza e Valida",
@@ -25,7 +28,7 @@
       },
       "investor": {
         "title": "Investor Tank",
-        "subtitle": "Blue Whale",
+        "subtitle": "Balena Blu",
         "description": "Dove le idee affrontano gli investitori.",
         "feature1": "Entra in un progetto all'interno di un ambiente realistico per gli investitori e scopri come pensano i decisori.",
         "feature2": "Ricevi feedback strategici, finanziari e di mercato da una vista intima del consiglio di amministrazione, che ti aiuterà a perfezionare la tua storia e a prepararti per opportunità reali."
@@ -37,11 +40,9 @@
       "startup": "Startup",
       "tech": "Tech",
       "investor": "Investitore",
-      "send": "Invia"
-    },
-    "title": "Benvenuto su Whale Tanks",
-    "about": "Chi siamo",
-    "login": "Accedi"
+      "send": "Invia",
+      "info_tooltip": "Crediti disponibili per l'analisi delle idee"
+    }
   },
   "Sidebar": {
     "close": "Chiudi barra laterale",
@@ -59,10 +60,24 @@
   },
   "Auth": {
     "login": "Accedi",
+    "register": "Registrati",
     "email": "Email",
+    "name": "Nome",
     "password": "Password",
     "welcome_back": "Bentornato",
+    "create_account": "Crea un account",
     "sign_in_text": "Inserisci la tua email e password per accedere",
+    "sign_up_text": "Inserisci i tuoi dati per creare un nuovo account",
+    "remember_me": "Ricordami",
+    "dont_have_account": "Non hai un account?",
+    "already_have_account": "Hai già un account?",
+    "sign_up": "Iscriviti",
+    "sign_in": "Accedi",
+    "name_placeholder": "Il tuo nome completo",
+    "email_placeholder": "Il tuo indirizzo email",
+    "password_placeholder": "La tua password",
+    "authenticating": "Autenticazione...",
+    "creating_account": "Creazione account...",
     "submit": "Accedi"
   },
   "Landing": {
@@ -92,7 +107,8 @@
         "save": "RISPARMIA",
         "months_3": "3 MESI",
         "months_6": "6 mesi",
-        "year_1": "1 anno"
+        "year_1": "1 anno",
+        "feature_dummy": "Lorem ipsum dolor sit amet"
       }
     }
   },
@@ -100,6 +116,7 @@
     "home": "Home",
     "about": "Chi siamo",
     "pricing": "Pacchetti e prezzi",
-    "login": "Accedi"
+    "login": "Accedi",
+    "open_menu": "Apri menu"
   }
 }

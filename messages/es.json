@@ -1,4 +1,7 @@
 {
+  "Brand": {
+    "name": "Whale Tanks"
+  },
   "HomePage": {
     "Hero": {
       "title": "El cerebro detrás de cada gran negocio",
@@ -7,14 +10,14 @@
     "Services": {
       "startup": {
         "title": "Startup Tank",
-        "subtitle": "White Whale",
+        "subtitle": "Ballena Blanca",
         "description": "Donde las ideas toman forma.",
         "feature1": "Entra en una sala de juntas simulada con asesores virtuales impulsados por IA y experimenta una lluvia de ideas profunda, validación de ideas y pensamiento estratégico.",
         "feature2": "Ganarás claridad sobre tu visión, posicionamiento en el mercado, propuesta de valor y el potencial real de tu idea antes de seguir adelante."
       },
       "tech": {
         "title": "Tech Tank",
-        "subtitle": "Black Whale",
+        "subtitle": "Ballena Negra",
         "description": "Donde las ideas se convierten en productos reales.",
         "feature1": "Inicializar idea",
         "feature2": "Analizar y validar",
@@ -25,7 +28,7 @@
       },
       "investor": {
         "title": "Investor Tank",
-        "subtitle": "Blue Whale",
+        "subtitle": "Ballena Azul",
         "description": "Donde las ideas se enfrentan a los inversores.",
         "feature1": "Entra en un proyecto dentro de un entorno de inversores realista y experimenta cómo piensan los que toman las decisiones.",
         "feature2": "Recibe comentarios estratégicos, financieros y de mercado desde una vista íntima de la junta, ayudándote a refinar tu historia y prepararte para oportunidades reales."
@@ -37,11 +40,9 @@
       "startup": "Startup",
       "tech": "Tech",
       "investor": "Inversor",
-      "send": "Enviar"
-    },
-    "title": "Bienvenido a Whale Tanks",
-    "about": "Acerca de nosotros",
-    "login": "Iniciar sesión"
+      "send": "Enviar",
+      "info_tooltip": "Créditos disponibles para el análisis de ideas"
+    }
   },
   "Sidebar": {
     "close": "Cerrar barra lateral",
@@ -59,16 +60,30 @@
   },
   "Auth": {
     "login": "Iniciar sesión",
+    "register": "Registrarse",
     "email": "Correo electrónico",
+    "name": "Nombre",
     "password": "Contraseña",
     "welcome_back": "Bienvenido de nuevo",
+    "create_account": "Crear cuenta",
     "sign_in_text": "Ingresa tu correo electrónico y contraseña para iniciar sesión",
+    "sign_up_text": "Ingresa tus datos para crear una nueva cuenta",
+    "remember_me": "Recordarme",
+    "dont_have_account": "¿No tienes una cuenta?",
+    "already_have_account": "¿Ya tienes una cuenta?",
+    "sign_up": "Regístrate",
+    "sign_in": "Inicia sesión",
+    "name_placeholder": "Tu nombre completo",
+    "email_placeholder": "Tu correo electrónico",
+    "password_placeholder": "Tu contraseña",
+    "authenticating": "Autenticando...",
+    "creating_account": "Creando cuenta...",
     "submit": "Iniciar sesión"
   },
   "Landing": {
     "About": {
       "title": "Acerca de nosotros",
-      "description": "Construimos experiencias digitales que convierten ideas en productos reales y escalables.<br></br>Nuestro enfoque es crear soluciones limpias e impactantes que combinen estrategia, diseño y tecnología para ayudar a las compañías a crecer y destacar.<br></br>Desde el concepto hasta el lanzamiento, trabajamos estrechamente con nuestros clientes para comprender su visión, diseñar experiencias de usuario significativas y entregar productos digitales de alta calidad creados para el rendimiento y la escala.<br></br>Usando herramientas modernas, flujos de trabajo impulsados por IA y prácticas de desarrollo inteligentes, transformamos la complejidad en simplicidad.<br></br>No solo creamos sitios web o aplicaciones: creamos productos que funcionan, evolucionan y perduran.",
+      "description": "Construimos experiencias digitales que convierten ideas en productos reales y escalables.<br></br>Nuestro enfoque es crear soluciones limpias e impactantes que combinen estrategia, design y tecnología para ayudar a las compañías a crecer y destacar.<br></br>Desde el concepto hasta el lanzamiento, trabajamos estrechamente con nuestros clientes para comprender su visión, diseñar experiencias de usuario significativas y entregar productos digitales de alta calidad creados para el rendimiento y la escala.<br></br>Usando herramientas modernas, flujos de trabajo impulsados por IA y prácticas de desarrollo inteligentes, transformamos la complejidad en simplicidad.<br></br>No solo creamos sitios web o aplicaciones: creamos productos que funcionan, evolucionan y perduran.",
       "examples": "Ejemplos",
       "projects": {
         "restaurant": "Proyecto de restaurante",
@@ -92,7 +107,8 @@
         "save": "AHORRA",
         "months_3": "3 MESES",
         "months_6": "6 meses",
-        "year_1": "1 año"
+        "year_1": "1 año",
+        "feature_dummy": "Lorem ipsum dolor sit amet"
       }
     }
   },
@@ -100,6 +116,7 @@
     "home": "Inicio",
     "about": "Acerca de nosotros",
     "pricing": "Paquetes y precios",
-    "login": "Iniciar sesión"
+    "login": "Iniciar sesión",
+    "open_menu": "Abrir menú"
   }
 }

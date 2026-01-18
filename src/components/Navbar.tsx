@@ -104,7 +104,7 @@ export default function Navbar() {
             trigger={
               <button className="p-2 text-foreground cursor-pointer transition-colors rounded-lg bg-secondary-foreground/50 hover:bg-secondary-foreground/70">
                 <Menu className="w-6 h-6" />
-                <span className="sr-only">Open Menu</span>
+                <span className="sr-only">{t('open_menu')}</span>
               </button>
             }
           />

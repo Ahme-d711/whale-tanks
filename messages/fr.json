@@ -1,4 +1,7 @@
 {
+  "Brand": {
+    "name": "Whale Tanks"
+  },
   "HomePage": {
     "Hero": {
       "title": "Le cerveau derrière chaque grande entreprise",
@@ -7,14 +10,14 @@
     "Services": {
       "startup": {
         "title": "Startup Tank",
-        "subtitle": "White Whale",
+        "subtitle": "Baleine Blanche",
         "description": "Où les idées prennent forme.",
         "feature1": "Entrez dans une salle de réunion simulée avec des conseillers virtuels propulsés par l'IA et vivez un brainstorming profond, une validation d'idée et une réflexion stratégique.",
         "feature2": "Vous gagnerez en clarté sur votre vision, votre positionnement sur le marché, votre proposition de valeur et le potentiel réel de votre idée avant de continuer."
       },
       "tech": {
         "title": "Tech Tank",
-        "subtitle": "Black Whale",
+        "subtitle": "Baleine Noire",
         "description": "Où les idées deviennent des produits réels.",
         "feature1": "Initialiser l'idée",
         "feature2": "Analyser & Valider",
@@ -25,7 +28,7 @@
       },
       "investor": {
         "title": "Investor Tank",
-        "subtitle": "Blue Whale",
+        "subtitle": "Baleine Bleue",
         "description": "Où les idées font face aux investisseurs.",
         "feature1": "Entrez dans un projet au sein d'un environnement d'investisseur réaliste et découvrez comment pensent les décideurs.",
         "feature2": "Recevez des commentaires stratégiques, financiers et marketing d'un point de vue intime du conseil d'administration, vous aidant à affiner votre histoire et à vous préparer à de réelles opportunités."
@@ -37,11 +40,9 @@
       "startup": "Startup",
       "tech": "Tech",
       "investor": "Investisseur",
-      "send": "Envoyer"
-    },
-    "title": "Bienvenue sur Whale Tanks",
-    "about": "À propos de nous",
-    "login": "Connexion"
+      "send": "Envoyer",
+      "info_tooltip": "Crédits disponibles pour l'analyse d'idées"
+    }
   },
   "Sidebar": {
     "close": "Fermer la barre latérale",
@@ -59,10 +60,24 @@
   },
   "Auth": {
     "login": "Connexion",
+    "register": "S'inscrire",
     "email": "Email",
+    "name": "Nom",
     "password": "Mot de passe",
     "welcome_back": "Bon retour",
+    "create_account": "Créer un compte",
     "sign_in_text": "Entrez votre email et mot de passe pour vous connecter",
+    "sign_up_text": "Entrez vos coordonnées pour créer un nouveau compte",
+    "remember_me": "Se souvenir de moi",
+    "dont_have_account": "Vous n'avez pas de compte ?",
+    "already_have_account": "Vous avez déjà un compte ?",
+    "sign_up": "S'inscrire",
+    "sign_in": "Se connecter",
+    "name_placeholder": "Votre nom complet",
+    "email_placeholder": "Votre adresse email",
+    "password_placeholder": "Votre mot de passe",
+    "authenticating": "Authentification...",
+    "creating_account": "Création du compte...",
     "submit": "Se connecter"
   },
   "Landing": {
@@ -92,7 +107,8 @@
         "save": "ÉCONOMISEZ",
         "months_3": "3 MOIS",
         "months_6": "6 mois",
-        "year_1": "1 an"
+        "year_1": "1 an",
+        "feature_dummy": "Lorem ipsum dolor sit amet"
       }
     }
   },
@@ -100,6 +116,7 @@
     "home": "Accueil",
     "about": "À propos de nous",
     "pricing": "Forfaits et prix",
-    "login": "Connexion"
+    "login": "Connexion",
+    "open_menu": "Ouvrir le menu"
   }
 }

@@ -5,8 +5,11 @@ import RegisterForm from '../components/RegisterForm'
 import { Card, CardContent } from '@/components/ui/card'
 import { AuthHeader } from '../components/AuthHeader'
 import { CoreGlow } from '../components/CoreGlow'
+import { useTranslations } from 'next-intl'
 
 export default function RegisterTemplate() {
+  const t = useTranslations('Auth')
+
   return (
     <main 
       className="min-h-screen w-full relative flex flex-col items-center justify-center select-none overflow-hidden"
@@ -30,12 +33,13 @@ export default function RegisterTemplate() {
         <Card className="border-none shadow-[0_40px_80px_rgba(34,96,255,0.12)] rounded-[2.5rem] overflow-hidden backdrop-blur-xl">
           <CardContent className="pt-5 pb-8 px-10">
                   {/* Branded Header */}
-            <AuthHeader cardTitle="Create Account" cardBaio="Use these awesome forms to login or create new account in your project for free."/>
+            <AuthHeader cardTitle={t('create_account')} cardBaio={t('sign_up_text')}/>
 
             <RegisterForm />
           </CardContent>
         </Card>
       </motion.div>
+
 
       {/* Bottom Copyright */}
       <div className="absolute bottom-8 z-10">

@@ -6,12 +6,13 @@ import AboutInfo from "../components/AboutInfo"
 
 export default function AboutTemplate() {
   const t = useTranslations('Landing.About')
+  const tServices = useTranslations('HomePage.Services')
 
   const examples = [
     {
       icon: "/logo.svg",
       title: t('projects.restaurant'),
-      subtitle: "Blue Whale",
+      subtitle: tServices('investor.subtitle'),
       features: [
         t('projects.restaurant_desc1'),
         t('projects.restaurant_desc2')
@@ -20,7 +21,7 @@ export default function AboutTemplate() {
     {
       icon: "/logo.svg",
       title: t('projects.clothes'),
-      subtitle: "Black Whale",
+      subtitle: tServices('tech.subtitle'),
       features: [
         t('projects.clothes_desc1'),
         t('projects.clothes_desc2')
@@ -29,13 +30,15 @@ export default function AboutTemplate() {
     {
       icon: "/logo.svg",
       title: t('projects.restaurant'),
-      subtitle: "Blue Whale",
+      subtitle: tServices('investor.subtitle'),
       features: [
         t('projects.restaurant_desc1'),
         t('projects.restaurant_desc2')
       ]
     }
   ]
+
+
 
   return (
     <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-4 md:px-12 xl:px-29 py-12 pt-40 space-y-6">
