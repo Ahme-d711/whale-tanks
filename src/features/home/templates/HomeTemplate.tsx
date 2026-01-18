@@ -6,7 +6,7 @@ export default function HomeTemplate() {
   return (
     <main className="min-h-screen w-full relative overflow-hidden">
       {/* Content */}
-      <div className="relative z-10 mt-20">
+      <div className="relative z-10 mt-12">
         <HeroSection />
         <ServiceCards />
         <IdeaAnalyzer />
