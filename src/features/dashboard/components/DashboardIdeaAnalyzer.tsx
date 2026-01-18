@@ -6,6 +6,12 @@ import { Info, Mic, ArrowUpRight, CirclePlus, ArrowUpLeft } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import { useTranslations } from 'next-intl'
 import { useLocale } from 'next-intl'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export default function DashboardIdeaAnalyzer() {
   const locale = useLocale()
@@ -33,9 +39,22 @@ export default function DashboardIdeaAnalyzer() {
         {/* Controls Pill */}
         <div className="flex items-center gap-3 bg-border rounded-full px-5 py-2.5">
           <span className="text-sm font-medium text-foreground">0/500</span>
-          <div className="w-5 h-5 flex items-center justify-center border-none rounded-full bg-foreground/30 text-foreground">
-            <Info className="w-5 h-5" />
-          </div>
+
+          <TooltipProvider>
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
+                <div className="w-5 h-5 flex items-center justify-center border-none rounded-full bg-foreground/30 text-foreground cursor-help">
+                  <Info className="w-5 h-5" />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent 
+                side="bottom" 
+                className="bg-secondary text-foreground border-none rounded-lg px-3 py-1.5 font-bold z-110"
+              >
+                <p>{t('info_tooltip')}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <button className="text-foreground hover:opacity-70 transition-opacity">
             <Mic className="w-5 h-5" />
           </button>

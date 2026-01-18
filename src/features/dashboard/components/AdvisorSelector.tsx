@@ -37,7 +37,7 @@ export default function AdvisorSelector({ activeTankId }: AdvisorSelectorProps) 
   }, [activeTankId])
 
   return (
-    <div className="flex items-center gap-1 bg-white/80 backdrop-blur-sm p-1.5 rounded-[24px] border border-border shadow-sm overflow-x-auto no-scrollbar max-w-[70%]">
+    <div className="flex items-center gap-1 bg-white/80 w-fit backdrop-blur-sm p-1.5 rounded-[24px] border border-border shadow-sm overflow-x-auto no-scrollbar max-w-full">
       {filteredAdvisors.map((advisor) => {
         const Icon = advisor.icon
         return (

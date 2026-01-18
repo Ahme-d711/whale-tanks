@@ -32,7 +32,7 @@ export default function TankSelector({ activeTankId, onTankChange }: TankSelecto
   ]
 
   return (
-    <div className="flex items-center gap-1 bg-white backdrop-blur-sm p-1 rounded-[32px] border border-border shadow-sm">
+    <div className="flex items-center gap-1 bg-white backdrop-blur-sm p-1 w-fit rounded-[32px] border border-border shadow-sm">
       {tanks.map((tank) => (
         <Button
           key={tank.id}
