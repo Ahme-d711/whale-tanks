@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
+import { useLocale } from 'next-intl'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence, Variants } from 'motion/react'
 import SidebarHeader from "../components/SidebarHeader"
@@ -14,60 +15,62 @@ interface SidebarTemplateProps {
   isPersistent?: boolean
 }
 
-const sidebarVariants: Variants = {
-  closed: {
-    x: "-100%",
-    transition: {
-      type: "spring",
-      stiffness: 400,
-      damping: 40
-    }
-  },
-  open: {
-    x: 0,
-    transition: {
-      type: "spring",
-      stiffness: 400,
-      damping: 40,
-      staggerChildren: 0.1,
-      delayChildren: 0.1
-    }
-  }
-}
-
-const itemVariants: Variants = {
-  closed: { opacity: 0, x: -20 },
-  open: { opacity: 1, x: 0 }
-}
-
-const persistentVariants: Variants = {
-  closed: { 
-    width: 0,
-    opacity: 0,
-    transition: { 
-      width: { type: "spring", stiffness: 300, damping: 30 },
-      opacity: { duration: 0.2 }
-    }
-  },
-  open: { 
-    width: 267,
-    opacity: 1,
-    transition: { 
-      width: { type: "spring", stiffness: 300, damping: 30 },
-      opacity: { duration: 0.2, delay: 0.1 }
-    }
-  }
-}
-
 export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersistent = false }: SidebarTemplateProps) {
   const [mounted, setMounted] = useState(false)
+  const locale = useLocale()
+  const isRtl = locale === 'ar'
+
+  const sidebarVariants: Variants = {
+    closed: {
+      x: isRtl ? "100%" : "-100%",
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40
+      }
+    },
+    open: {
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40,
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  }
+
+  const itemVariants: Variants = {
+    closed: { opacity: 0, x: isRtl ? 20 : -20 },
+    open: { opacity: 1, x: 0 }
+  }
+
+  const persistentVariants: Variants = {
+    closed: { 
+      width: 0,
+      opacity: 0,
+      transition: { 
+        width: { type: "spring", stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2 }
+      }
+    },
+    open: { 
+      width: 267,
+      opacity: 1,
+      transition: { 
+        width: { type: "spring", stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2, delay: 0.1 }
+      }
+    }
+  }
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
   const content = (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full overflow-hidden">
       <motion.div variants={itemVariants}>
         <SidebarHeader onClose={() => onOpenChange(false)} />
       </motion.div>
@@ -97,7 +100,7 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
             animate="open"
             exit="closed"
             variants={sidebarVariants}
-            className="absolute inset-y-0 left-0 w-[267px] bg-background border-r-2 border-t-2 border-primary rounded-tr-2xl rounded-br-2xl shadow-2xl flex flex-col pointer-events-auto overflow-hidden"
+            className={`absolute inset-y-0 ${isRtl ? 'right-0' : 'left-0'} w-[267px] bg-background ${isRtl ? 'border-l-2' : 'border-r-2'} border-t-2 border-primary ${isRtl ? 'rounded-tl-2xl rounded-bl-2xl' : 'rounded-tr-2xl rounded-br-2xl'} shadow-2xl flex flex-col pointer-events-auto overflow-hidden`}
           >
             {content}
           </motion.div>
@@ -115,7 +118,7 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
             animate="open"
             exit="closed"
             variants={persistentVariants}
-            className="hidden md:flex bg-background border-r-2 border-primary flex-col h-full shrink-0 overflow-hidden"
+            className={`hidden md:flex bg-background ${isRtl ? 'border-l-2' : 'border-r-2'} border-primary flex-col h-full shrink-0 overflow-hidden`}
           >
             <div className="min-w-[267px] h-full">
               {content}
