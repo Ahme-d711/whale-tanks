@@ -1,11 +1,10 @@
 "use client"
 
 import { Link } from "@/i18n/routing"
-import { ChevronDown, Menu, UserRound } from "lucide-react"
+import { ChevronDown, UserRound } from "lucide-react"
 import LogoComponent from "./shared/LogoComponent"
 import ShinyButton from "./shared/ShinyButton"
 import LanguageSelector from "./shared/LanguageSelector"
-import SidebarMenu from "./SidebarMenu"
 import { useTranslations } from "next-intl"
 import { useState, useEffect } from "react"
 import { useAuthStore } from "@/features/auth/stores/authStore"
@@ -15,7 +14,6 @@ export default function Navbar() {
   const t = useTranslations('Navigation');
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false)
   const { user } = useAuthStore()
 
@@ -98,16 +96,6 @@ export default function Navbar() {
           
           <LanguageSelector />
           
-          <SidebarMenu 
-            isOpen={isSidebarOpen}
-            onOpenChange={setIsSidebarOpen}
-            trigger={
-              <button className="p-2 text-foreground cursor-pointer transition-colors rounded-lg bg-secondary-foreground/50 hover:bg-secondary-foreground/70">
-                <Menu className="w-6 h-6" />
-                <span className="sr-only">{t('open_menu')}</span>
-              </button>
-            }
-          />
         </div>
       </nav>
 

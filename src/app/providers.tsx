@@ -7,6 +7,9 @@ import { User } from "@/features/auth/types";
 import { Toaster } from "@/components/ui/sonner";
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import SidebarMenu from "@/components/SidebarMenu";
+import FloatingSidebarTrigger from "@/components/shared/FloatingSidebarTrigger";
+import MobileSidebarTrigger from "@/components/shared/MobileSidebarTrigger";
 
 const queryClient = getQueryClient();
 
@@ -34,9 +37,29 @@ export function Providers({
   const pathname = usePathname();
   // Check if pathname ends with /login or /signup (works with locale prefixes)
   const isLoginPage = pathname.endsWith("/login") || pathname.endsWith("/signup") || pathname.endsWith("/ai");
+  
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [pathname]);
+
   return (
     <AuthProvider user={data?.user ?? null} token={data?.token ?? null}>
-      {!isLoginPage && <Navbar />}
+      {!isLoginPage && (
+        <>
+          <Navbar />
+          <SidebarMenu 
+            isOpen={isSidebarOpen} 
+            onOpenChange={setIsSidebarOpen}
+            trigger={<MobileSidebarTrigger />}
+          />
+          <FloatingSidebarTrigger 
+            isOpen={isSidebarOpen} 
+            onToggle={() => setIsSidebarOpen(true)} 
+          />
+        </>
+      )}
       {children}
     </AuthProvider>
   );
