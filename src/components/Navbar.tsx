@@ -1,7 +1,7 @@
 "use client"
 
 import { Link } from "@/i18n/routing"
-import { ChevronDown, UserRound } from "lucide-react"
+import { ChevronDown, UserRound, PanelLeft, Menu, X } from "lucide-react"
 import LogoComponent from "./shared/LogoComponent"
 import ShinyButton from "./shared/ShinyButton"
 import LanguageSelector from "./shared/LanguageSelector"
@@ -9,12 +9,19 @@ import { useTranslations } from "next-intl"
 import { useState, useEffect } from "react"
 import { useAuthStore } from "@/features/auth/stores/authStore"
 import EditProfileDialog from "@/features/auth/components/EditProfileDialog"
+import { Button } from "./ui/button"
+import { AnimatePresence, motion } from "motion/react"
 
-export default function Navbar() {
+interface NavbarProps {
+  onSidebarToggle?: () => void
+}
+
+export default function Navbar({ onSidebarToggle }: NavbarProps) {
   const t = useTranslations('Navigation');
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { user } = useAuthStore()
 
   useEffect(() => {
@@ -27,6 +34,7 @@ export default function Navbar() {
       } else if (currentScrollY > lastScrollY) {
         // Scrolling down
         setIsVisible(false)
+        setIsMobileMenuOpen(false) // Close mobile menu on scroll down
       } else {
         // Scrolling up
         setIsVisible(true)
@@ -53,50 +61,113 @@ export default function Navbar() {
         isVisible ? 'top-6 translate-y-0' : 'top-6 -translate-y-32'
       }`}
     >
-      <nav className="flex items-center justify-between w-full max-w-5xl border-t-2 border-primary bg-background rounded-2xl shadow-sm px-6 py-4">
-        {/* Logo Section */}
-        <Link href="/">
-          <LogoComponent />
-        </Link>
-        
-        {/* Center Navigation (Desktop) */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.href} 
-              href={link.href}
-              className="relative text-base font-bold! text-foreground hover:text-primary transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 group"
-            >
-              <span className="relative z-10">{link.name}</span>
-              {/* <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span> */}
+      <nav className="flex flex-col bg-background rounded-2xl shadow-sm overflow-hidden w-full max-w-5xl border border-primary/20">
+        <div className="flex items-center justify-between px-6 py-2 min-h-[64px]">
+          {/* Logo Section */}
+          <div className="flex items-center gap-4">
+            {onSidebarToggle && (
+              <Button
+                variant="ghost" 
+                size="icon"
+                onClick={onSidebarToggle}
+                className="hover:bg-accent hover:text-accent-foreground rounded-xl"
+              >
+                <PanelLeft className="w-5 h-5 text-primary" />
+              </Button>
+            )}
+            <Link href="/">
+              <LogoComponent />
             </Link>
-          ))}
+          </div>
+          
+          {/* Center Navigation (Desktop) */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link 
+                key={link.href} 
+                href={link.href}
+                className="relative text-sm font-medium text-foreground hover:text-primary transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 group"
+              >
+                <span className="relative z-10">{link.name}</span>
+              </Link>
+            ))}
+          </div>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            {user ? (
+              <div 
+                onClick={() => setIsEditProfileOpen(true)}
+                className="flex items-center gap-2 bg-secondary px-3 py-2 rounded-2xl cursor-pointer hover:bg-secondary/70 transition-colors group"
+              >
+                <UserRound className="w-6 h-6 text-foreground" />
+                <div className="bg-primary rounded-lg p-1">
+                  <ChevronDown className="w-4 h-4 text-white" />
+                </div>
+              </div>
+            ) : (
+              <ShinyButton 
+                href="/login"
+                className="rounded-full! text-base capitalize! bg-primary hover:bg-blue-700 px-6 h-12 font-medium! shadow-none hidden sm:flex"
+              >
+                {t("login")}
+              </ShinyButton>
+            )}
+            
+            <LanguageSelector />
+
+            {/* Mobile Menu Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden hover:bg-accent rounded-xl ml-1 cursor-pointer"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6 text-foreground" />
+              ) : (
+                <Menu className="w-6! h-6! text-foreground" />
+              )}
+            </Button>
+          </div>
         </div>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-4">
-          {user ? (
-            <div 
-              onClick={() => setIsEditProfileOpen(true)}
-              className="flex items-center gap-2 bg-secondary px-3 py-2 rounded-2xl cursor-pointer hover:bg-secondary/70 transition-colors group"
+        {/* Mobile Menu Content */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="md:hidden flex flex-col px-6 border-t border-border/50 overflow-hidden"
             >
-              <UserRound className="w-6 h-6 text-foreground" />
-              <div className="bg-primary rounded-lg p-1">
-                <ChevronDown className="w-4 h-4 text-white" />
+              <div className="flex flex-col gap-4 py-6">
+                {navLinks.map((link) => (
+                  <Link 
+                    key={link.href} 
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-between text-base font-medium text-foreground hover:text-primary transition-colors p-2 rounded-lg hover:bg-accent/50"
+                  >
+                    {link.name}
+                    <ChevronDown className="w-4 h-4 -rotate-90 text-muted-foreground" />
+                  </Link>
+                ))}
+                {!user && (
+                  <div className="mt-2 text-center sm:hidden">
+                    <ShinyButton 
+                      href="/login"
+                      className="w-full rounded-xl"
+                    >
+                      {t("login")}
+                    </ShinyButton>
+                  </div>
+                )}
               </div>
-            </div>
-          ) : (
-            <ShinyButton 
-              href="/login"
-              className="rounded-full! text-base capitalize! bg-primary hover:bg-blue-700 px-6 h-12 font-medium! shadow-none"
-            >
-              {t("login")}
-            </ShinyButton>
+            </motion.div>
           )}
-          
-          <LanguageSelector />
-          
-        </div>
+        </AnimatePresence>
       </nav>
 
       <EditProfileDialog 

@@ -35,7 +35,7 @@ export default function LanguageSelector() {
           className="p-2 text-foreground hover:text-primary cursor-pointer transition-colors rounded-xl hover:bg-gray-100/50"
           aria-label="Select Language"
         >
-          <Globe className="w-8 h-8" />
+          <Globe className="w-6 h-6 md:w-8 md:h-8 " />
           <span className="sr-only">Select Language</span>
         </button>
       </DropdownMenuTrigger>

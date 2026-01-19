@@ -30,7 +30,7 @@ export default function ShinyButton({
 }: ShinyButtonProps) {
   const compClasses = cn(
     buttonVariants({ variant, size, className }),
-    "relative overflow-hidden group font-semibold uppercase tracking-wider cursor-pointer h-[45px] rounded-2xl shadow-lg shadow-primary/20 transition-all hover:bg-blue-700 disabled:opacity-70 disabled:cursor-not-allowed"
+    "relative overflow-hidden group font-semibold uppercase tracking-wider cursor-pointer h-[40px] rounded-2xl shadow-lg shadow-primary/20 transition-all hover:bg-blue-700 disabled:opacity-70 disabled:cursor-not-allowed"
   )
     
   const content = (

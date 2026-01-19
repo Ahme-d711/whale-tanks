@@ -53,7 +53,7 @@ export const AnalyzerInput = ({ value, onChange, maxLength = 500, attachments = 
         value={value}
         onChange={(e) => onChange(e.target.value.slice(0, maxLength))}
         className={cn(
-          "w-full min-h-38 placeholder:text-secondary-foreground p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-xl! font-normal text-foreground leading-tight shadow-none",
+          "w-full min-h-20 placeholder:text-secondary-foreground p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-xl! font-normal text-foreground leading-tight shadow-none",
           locale === 'ar' ? "pl-20" : "pr-20"
         )}
         maxLength={maxLength}

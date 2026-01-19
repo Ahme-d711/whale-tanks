@@ -8,7 +8,7 @@ export const HeroSection = () => {
     const t = useTranslations('HomePage.Hero')
     
     return (
-        <section className="relative z-10 flex flex-col items-center justify-center text-center pt-30 pb-8 px-4">
+        <section className="relative z-10 flex flex-col items-center justify-center text-center pt-20 pb-8 px-4">
             <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

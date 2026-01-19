@@ -8,8 +8,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import SidebarMenu from "@/components/SidebarMenu";
-import FloatingSidebarTrigger from "@/components/shared/FloatingSidebarTrigger";
-import MobileSidebarTrigger from "@/components/shared/MobileSidebarTrigger";
 
 const queryClient = getQueryClient();
 
@@ -48,15 +46,11 @@ export function Providers({
     <AuthProvider user={data?.user ?? null} token={data?.token ?? null}>
       {!isLoginPage && (
         <>
-          <Navbar />
+          <Navbar onSidebarToggle={() => setIsSidebarOpen((prev) => !prev)} />
           <SidebarMenu 
             isOpen={isSidebarOpen} 
             onOpenChange={setIsSidebarOpen}
-            trigger={<MobileSidebarTrigger />}
-          />
-          <FloatingSidebarTrigger 
-            isOpen={isSidebarOpen} 
-            onToggle={() => setIsSidebarOpen(true)} 
+            trigger={<></>}
           />
         </>
       )}
