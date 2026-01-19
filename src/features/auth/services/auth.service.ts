@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 // Mock user database
 const USERS_DB = new Map();
 

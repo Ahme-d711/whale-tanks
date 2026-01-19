@@ -6,12 +6,51 @@ import { Mic, ArrowUpRight, ArrowUpLeft, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTranslations, useLocale } from 'next-intl'
 
-export const AnalyzerToolbar = () => {
+
+import { toast } from 'sonner'
+import { useRef } from 'react'
+
+interface AnalyzerToolbarProps {
+  isRecording: boolean
+  onToggleRecording: () => void
+  onFilesSelected: (files: File[]) => void
+}
+
+export const AnalyzerToolbar = ({ isRecording, onToggleRecording, onFilesSelected }: AnalyzerToolbarProps) => {
   const t = useTranslations('HomePage.Analyzer')
   const locale = useLocale()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const files = Array.from(e.target.files)
+      onFilesSelected(files)
+      toast.success(t('files_attached', { count: files.length }))
+      // Reset input so same file can be selected again
+      e.target.value = ''
+    }
+  }
+
+  const handleMicClick = () => {
+    onToggleRecording()
+    if (!isRecording) {
+      toast.info(t('recording_started'))
+    } else {
+      toast.success(t('recording_saved'))
+    }
+  }
 
   return (
     <div className="flex items-center gap-3">
+      {/* Hidden File Input */}
+      <input 
+        type="file" 
+        multiple 
+        className="hidden" 
+        ref={fileInputRef}
+        onChange={handleFileChange}
+      />
+
       {/* Tank Selection Buttons */}
       <Button
         variant="ghost"
@@ -42,13 +81,15 @@ export const AnalyzerToolbar = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 rounded-xl hover:bg-background cursor-pointer"
+          onClick={handleMicClick}
+          className={`h-8 w-8 rounded-xl hover:bg-background cursor-pointer transition-colors ${isRecording ? 'bg-red-100 text-red-600 animate-pulse' : ''}`}
         >
-          <Mic className="w-5! h-5!" />
+          <Mic className={`w-5! h-5! ${isRecording ? 'fill-current' : ''}`} />
         </Button>
         <Button
           variant="ghost"
           size="icon"
+          onClick={() => fileInputRef.current?.click()}
           className="h-8 w-8 rounded-xl hover:bg-background cursor-pointer"
         >
           <Plus className="w-5! h-5! text-foreground bg-foreground/30 rounded-sm" />

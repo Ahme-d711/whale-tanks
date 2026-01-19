@@ -5,9 +5,34 @@ import { motion } from "motion/react"
 import { AnalyzerInput } from './analyzer/AnalyzerInput'
 import { AnalyzerToolbar } from './analyzer/AnalyzerToolbar'
 
+
 export const IdeaAnalyzer = () => {
   const [ideaText, setIdeaText] = React.useState('')
+  const [isRecording, setIsRecording] = React.useState(false)
+  const [recordings, setRecordings] = React.useState<Blob[]>([])
+  const [attachments, setAttachments] = React.useState<File[]>([])
   const maxChars = 500
+
+  const handleStartRecording = () => {
+    setIsRecording(true)
+    // Here we would implement MediaRecorder logic to start capturing audio
+    // For UI simulation:
+    console.log("Started recording")
+  }
+
+  const handleStopRecording = () => {
+    setIsRecording(false)
+    // Here we would stop MediaRecorder and get the blob
+    // Simulating a blob:
+    const mockBlob = new Blob(["mock audio"], { type: "audio/webm" })
+    setRecordings(prev => [...prev, mockBlob])
+    console.log("Stopped recording and saved blob")
+  }
+
+  const handleFilesSelected = (files: File[]) => {
+    setAttachments(prev => [...prev, ...files])
+    console.log("Attachments added:", files)
+  }
 
   return (
     <section className="relative z-10 px-4 pb-8 max-w-7xl mx-auto">
@@ -21,9 +46,19 @@ export const IdeaAnalyzer = () => {
         <AnalyzerInput 
           value={ideaText} 
           onChange={setIdeaText} 
-          maxLength={maxChars} 
+          maxLength={maxChars}
+          attachments={attachments}
+          onRemoveAttachment={(index) => {
+            const newAttachments = [...attachments]
+            newAttachments.splice(index, 1)
+            setAttachments(newAttachments)
+          }}
         />
-        <AnalyzerToolbar />
+        <AnalyzerToolbar 
+          isRecording={isRecording}
+          onToggleRecording={() => isRecording ? handleStopRecording() : handleStartRecording()}
+          onFilesSelected={handleFilesSelected}
+        />
       </motion.div>
     </section>
   )

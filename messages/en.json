@@ -35,13 +35,15 @@
       }
     },
     "Analyzer": {
-      "title": "Analyze Your Idea Before You Build Anything",
-      "placeholder": "What's on your mind?",
-      "startup": "Startup",
-      "tech": "Tech",
-      "investor": "Investor",
-      "send": "Send",
-      "info_tooltip": "Available credits for idea analysis"
+      "title": "Start typing your idea...",
+      "startup": "Startup Tank",
+      "tech": "Tech Tank",
+      "investor": "Investor Tank",
+      "send": "Analyze",
+      "info_tooltip": "Enter up to 500 characters to describe your idea, then choose a tank to analyze it.",
+      "recording_started": "Recording started...",
+      "recording_saved": "Recording saved!",
+      "files_attached": "{count} file(s) attached"
     }
   },
   "Sidebar": {
@@ -60,7 +62,7 @@
   },
   "Auth": {
     "login": "Login",
-    "register": "Register",
+    "register": "Sign Up",
     "email": "Email",
     "name": "Name",
     "password": "Password",

@@ -1,7 +1,8 @@
 "use client"
 
 import React from 'react'
-import { Info } from 'lucide-react'
+import { Info, X, FileIcon, ImageIcon } from 'lucide-react'
+import Image from 'next/image'
 import { Textarea } from '@/components/ui/textarea'
 import { useTranslations, useLocale } from 'next-intl'
 import { cn } from '@/lib/utils'
@@ -16,9 +17,11 @@ interface AnalyzerInputProps {
   value: string
   onChange: (value: string) => void
   maxLength?: number
+  attachments?: File[]
+  onRemoveAttachment?: (index: number) => void
 }
 
-export const AnalyzerInput = ({ value, onChange, maxLength = 500 }: AnalyzerInputProps) => {
+export const AnalyzerInput = ({ value, onChange, maxLength = 500, attachments = [], onRemoveAttachment }: AnalyzerInputProps) => {
   const t = useTranslations('HomePage.Analyzer')
   const locale = useLocale()
 
@@ -56,6 +59,38 @@ export const AnalyzerInput = ({ value, onChange, maxLength = 500 }: AnalyzerInpu
         maxLength={maxLength}
         placeholder={t('title')}
       />
+      
+      {attachments.length > 0 && (
+        <div className="flex flex-wrap gap-2 mt-2">
+          {attachments.map((file, index) => (
+            <div key={index} className="relative group bg-border/50 rounded-lg p-1.5 flex items-center gap-2 pr-2">
+              <div className="w-8 h-8 relative rounded overflow-hidden bg-background shrink-0 flex items-center justify-center">
+                {file.type.startsWith('image/') ? (
+                  <Image 
+                    src={URL.createObjectURL(file)} 
+                    alt="preview" 
+                    fill 
+                    className="object-cover"
+                    onLoad={(e) => URL.revokeObjectURL((e.target as HTMLImageElement).src)}
+                  />
+                ) : (
+                  <FileIcon className="w-4 h-4 text-muted-foreground" />
+                )}
+              </div>
+              <span className="text-xs max-w-[100px] truncate text-foreground/80" title={file.name}>
+                {file.name}
+              </span>
+              <button 
+                onClick={() => onRemoveAttachment?.(index)}
+                className="ml-1 p-0.5 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
+                type="button"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
