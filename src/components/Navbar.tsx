@@ -57,7 +57,7 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
 
   return (
     <div 
-      className={`fixed left-0 right-0 z-50 flex justify-center px-4 transition-transform duration-300 ${
+      className={`sticky z-50 flex justify-center px-4 transition-transform duration-300 w-full ${
         isVisible ? 'top-6 translate-y-0' : 'top-6 -translate-y-32'
       }`}
     >

@@ -44,17 +44,22 @@ export function Providers({
 
   return (
     <AuthProvider user={data?.user ?? null} token={data?.token ?? null}>
-      {!isLoginPage && (
-        <>
-          <Navbar onSidebarToggle={() => setIsSidebarOpen((prev) => !prev)} />
+      {!isLoginPage ? (
+        <div className="flex min-h-screen z-101">
           <SidebarMenu 
             isOpen={isSidebarOpen} 
             onOpenChange={setIsSidebarOpen}
             trigger={<></>}
+            isPersistent={true}
           />
-        </>
+          <div className="flex-1 flex flex-col min-w-0 relative">
+            <Navbar onSidebarToggle={() => setIsSidebarOpen((prev) => !prev)} />
+            {children}
+          </div>
+        </div>
+      ) : (
+        children
       )}
-      {children}
     </AuthProvider>
   );
 }
