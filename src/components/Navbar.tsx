@@ -53,7 +53,7 @@ export default function Navbar() {
         isVisible ? 'top-6 translate-y-0' : 'top-6 -translate-y-32'
       }`}
     >
-      <nav className="flex items-center justify-between w-full max-w-5xl border-t-2 border-primary bg-background rounded-2xl shadow-sm p-6">
+      <nav className="flex items-center justify-between w-full max-w-5xl border-t-2 border-primary bg-background rounded-2xl shadow-sm px-6 py-4">
         {/* Logo Section */}
         <Link href="/">
           <LogoComponent />
