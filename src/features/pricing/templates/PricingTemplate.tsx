@@ -60,7 +60,7 @@ export default function PricingTemplate() {
   ]
 
   return (
-    <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-4 py-12 pt-40 space-y-12 md:px-12">
+    <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-4 py-12 pt-20 space-y-12 md:px-12">
       <div className="space-y-8 xl:px-16">
         <h1 className="text-[32px] font-semibold text-foreground">{t('title')}</h1>
         

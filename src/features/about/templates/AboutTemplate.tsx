@@ -41,7 +41,7 @@ export default function AboutTemplate() {
 
 
   return (
-    <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-4 md:px-12 xl:px-29 py-12 pt-40 space-y-6">
+    <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-4 md:px-12 xl:px-29 py-12 pt-20 space-y-6">
       <AboutInfo />
 
       {/* Examples Header */}
