@@ -138,4 +138,22 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .thin-scrollbar::-webkit-scrollbar {
+    height: 3px;
+    width: 3px;
+  }
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 20px;
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+  }
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
 }

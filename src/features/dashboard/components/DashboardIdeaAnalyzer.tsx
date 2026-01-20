@@ -29,7 +29,7 @@ export default function DashboardIdeaAnalyzer() {
         <Textarea
           value={ideaText}
           onChange={(e) => setIdeaText(e.target.value.slice(0, maxChars))}
-          className="w-full h-full min-h-[20px] placeholder:text-secondary-foreground p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-lg font-medium text-foreground leading-snug shadow-none"
+          className="w-full h-full min-h-[114px] placeholder:text-secondary-foreground p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-lg font-medium text-foreground leading-snug shadow-none"
           maxLength={maxChars}
           placeholder={t('title')}
         />

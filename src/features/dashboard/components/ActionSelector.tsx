@@ -30,7 +30,7 @@ export default function ActionSelector() {
   return (
     <div className="flex flex-col gap-4">
       {/* Main Actions */}
-      <div className="flex items-center gap-1 bg-white/80 backdrop-blur-sm p-1 rounded-[32px] border border-border shadow-sm w-fit">
+      <div className="flex items-center gap-1 bg-white/80 backdrop-blur-sm p-1 rounded-[32px] border border-border shadow-sm w-fit overflow-x-auto overflow-y-hidden no-scrollbar">
         {mainActions.map((action) => {
           const Icon = action.icon;
           const isActive = activeAction === action.id;

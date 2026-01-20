@@ -18,7 +18,7 @@ export const ConsultationCards = () => {
 
     return (
         <section className="relative z-10 w-full overflow-hidden py-4">
-            <div className="flex gap-3 px-4 lg:px-0 overflow-x-auto no-scrollbar pb-4 md:justify-center">
+            <div className="flex gap-3 px-4 lg:px-0 overflow-x-auto overflow-y-hidden thin-scrollbar pb-4 md:justify-center">
                 {advisors.map((advisor, index) => (
                     <motion.div
                         key={advisor.key}

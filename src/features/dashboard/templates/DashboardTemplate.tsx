@@ -12,7 +12,7 @@ export default function DashboardTemplate() {
   const [activeTankId, setActiveTankId] = React.useState('startup')
   
   return (
-    <div className="flex h-screen w-full overflow-hidden font-sans">
+    <div className="flex h-screen w-full overflow-hidden gap-6 font-sans">
       {/* Sidebar Component */}
       <SidebarMenu 
         isOpen={isSidebarOpen} 
@@ -28,7 +28,7 @@ export default function DashboardTemplate() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-hidden flex flex-col relative max-w-7xl mr-auto">
+      <main className="flex-1 overflow-hidden flex flex-col relative">
         {/* Floating Toggle for Desktop */}
         <SidebarToggle 
           isOpen={isSidebarOpen} 

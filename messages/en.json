@@ -39,7 +39,7 @@
       "startup": "Startup Tank",
       "tech": "Tech Tank",
       "investor": "Investor Tank",
-      "send": "Analyze",
+      "send": "Send",
       "info_tooltip": "Enter up to 500 characters to describe your idea, then choose a tank to analyze it.",
       "recording_started": "Recording started...",
       "recording_saved": "Recording saved!",
@@ -128,5 +128,22 @@
     "pricing": "Packages and prices",
     "login": "Login",
     "open_menu": "Open Menu"
+  },
+  "Dashboard": {
+    "Advisors": {
+      "title_council": "AI Council",
+      "title_investor": "Investor Board",
+      "description": "Select your virtual advisor"
+    },
+    "Projects": {
+      "title": "Previous Projects",
+      "no_projects": "No projects yet",
+      "view_all": "View All"
+    },
+    "Subscription": {
+      "title": "Unlock Pro Features",
+      "subtitle": "Get unlimited consultations and advanced AI features.",
+      "button": "Upgrade Now"
+    }
   }
 }
