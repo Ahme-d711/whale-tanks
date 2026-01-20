@@ -39,12 +39,6 @@ export default function RegisterTemplate() {
           </CardContent>
         </Card>
       </motion.div>
-
-
-      {/* Bottom Copyright */}
-      <div className="absolute bottom-8 z-10">
-        <p className="text-primary/40 text-sm tracking-widest uppercase font-bold">© 2026 Whale Tanks</p>
-      </div>
     </main>
   )
 }

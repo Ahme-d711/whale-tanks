@@ -36,7 +36,7 @@ export const IdeaAnalyzer = () => {
   }
 
   return (
-    <section className="relative z-10 px-4 max-w-7xl mx-auto w-full">
+    <section className="relative z-10 px-4 lg:px-0 mx-auto w-full">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

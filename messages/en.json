@@ -44,6 +44,14 @@
       "recording_started": "Recording started...",
       "recording_saved": "Recording saved!",
       "files_attached": "{count} file(s) attached"
+    },
+    "Advisors": {
+      "consultation": "{count} consultation",
+      "legal": "Legal Advisor",
+      "psychological": "Psychological Advisor",
+      "financial": "Financial Advisor",
+      "marketing": "Marketing Advisor",
+      "technical": "Technical Advisor"
     }
   },
   "Sidebar": {

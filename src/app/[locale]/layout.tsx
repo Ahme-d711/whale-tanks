@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto, Poppins } from "next/font/google";
+import { Roboto, Poppins, Roboto_Flex } from "next/font/google";
 import "../globals.css";
 import { CoreProviders, Providers } from "../providers";
 import { getMessages } from "next-intl/server";
@@ -12,6 +12,11 @@ const roboto = Roboto({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-roboto",
+});
+
+const robotoFlex = Roboto_Flex({
+  subsets: ["latin"],
+  variable: "--font-roboto-flex",
 });
 
 const poppins = Poppins({
@@ -43,7 +48,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body
-        className={`${roboto.variable} ${poppins.variable} font-sans antialiased`}
+        className={`${roboto.variable} ${robotoFlex.variable} ${poppins.variable} font-sans antialiased`}
       >
         <div className="fixed inset-0 pointer-events-none z-0">
           <AnimatedBackground />

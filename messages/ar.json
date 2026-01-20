@@ -44,6 +44,14 @@
       "recording_started": "جاري التسجيل...",
       "recording_saved": "تم حفظ التسجيل!",
       "files_attached": "تم إرفاق {count} ملفات"
+    },
+    "Advisors": {
+      "consultation": "{count} استشارة",
+      "legal": "مستشار قانوني",
+      "psychological": "مستشار نفسي",
+      "financial": "مستشار مالي",
+      "marketing": "مستشار تسويقي",
+      "technical": "مستشار تقني"
     }
   },
   "Sidebar": {
