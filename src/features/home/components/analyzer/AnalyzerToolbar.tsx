@@ -84,7 +84,7 @@ export const AnalyzerToolbar = ({ isRecording, onToggleRecording, onFilesSelecte
           onClick={handleMicClick}
           className={`h-8 w-8 rounded-xl hover:bg-background cursor-pointer transition-colors ${isRecording ? 'bg-red-100 text-red-600 animate-pulse' : ''}`}
         >
-          <Mic className={`w-5! h-5! ${isRecording ? 'fill-current' : ''}`} />
+          <Mic strokeWidth={3} className={`w-5! h-5! ${isRecording ? 'fill-current' : ''}`} />
         </Button>
         <Button
           variant="ghost"

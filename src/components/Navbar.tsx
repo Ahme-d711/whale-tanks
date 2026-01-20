@@ -61,24 +61,12 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
         isVisible ? 'top-6 translate-y-0' : 'top-6 -translate-y-32'
       }`}
     >
-      <nav className="flex flex-col bg-background rounded-2xl shadow-sm overflow-hidden w-full max-w-5xl border border-primary/20">
+      <nav className="flex flex-col bg-background rounded-2xl shadow-sm overflow-hidden w-full max-w-5xl border-t-2 border-primary">
         <div className="flex items-center justify-between px-6 py-2 min-h-[64px]">
           {/* Logo Section */}
-          <div className="flex items-center gap-4">
-            {onSidebarToggle && (
-              <Button
-                variant="ghost" 
-                size="icon"
-                onClick={onSidebarToggle}
-                className="hover:bg-accent hover:text-accent-foreground rounded-xl"
-              >
-                <PanelLeft className="w-5 h-5 text-primary" />
-              </Button>
-            )}
-            <Link href="/">
-              <LogoComponent />
-            </Link>
-          </div>
+          <Link href="/">
+            <LogoComponent />
+          </Link>
           
           {/* Center Navigation (Desktop) */}
           <div className="hidden md:flex items-center gap-8">
