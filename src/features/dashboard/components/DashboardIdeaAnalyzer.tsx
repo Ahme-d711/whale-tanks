@@ -1,84 +1,32 @@
 "use client"
 
-import React, { useRef, useState } from 'react'
 import { motion } from "motion/react"
-import { Info, Mic, ArrowUpRight, ArrowUpLeft, Plus, FileIcon, X } from 'lucide-react'
+import { Mic, ArrowUpRight, ArrowUpLeft, Plus } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
-import { useTranslations } from 'next-intl'
-import { useLocale } from 'next-intl'
-import Image from 'next/image'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { useTranslations, useLocale } from 'next-intl'
 import { Button } from '@/components/ui/button'
+import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
+import { AttachmentList } from '@/components/shared/analyzer/AttachmentList'
+import { AnalyzerCounter } from '@/components/shared/analyzer/AnalyzerCounter'
 
 export default function DashboardIdeaAnalyzer() {
   const locale = useLocale()
   const t = useTranslations('HomePage.Analyzer')
-  const [ideaText, setIdeaText] = useState('')
-  const [attachments, setAttachments] = useState<File[]>([])
-  const [isRecording, setIsRecording] = useState(false)
   
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
-  const chunksRef = useRef<Blob[]>([])
-
-  const handleToggleRecording = async () => {
-    if (isRecording) {
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-        mediaRecorderRef.current.stop()
-        setIsRecording(false)
-      }
-    } else {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-        const mediaRecorder = new MediaRecorder(stream)
-        mediaRecorderRef.current = mediaRecorder
-        chunksRef.current = []
-
-        mediaRecorder.ondataavailable = (e) => {
-          if (e.data.size > 0) chunksRef.current.push(e.data)
-        }
-
-        mediaRecorder.onstop = () => {
-          const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' })
-          const file = new File([audioBlob], `recording-${Date.now()}.webm`, { type: 'audio/webm' })
-          setAttachments(prev => [...prev, file])
-          stream.getTracks().forEach(track => track.stop())
-        }
-
-        mediaRecorder.start()
-        setIsRecording(true)
-      } catch (err) {
-        console.error("Mic error:", err)
-      }
-    }
-  }
-
-  const handleFilesSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = Array.from(e.target.files)
-      setAttachments(prev => [...prev, ...files])
-      e.target.value = '' // Reset input
-    }
-  }
-
-  const handleRemoveAttachment = (index: number) => {
-    setAttachments(prev => prev.filter((_, i) => i !== index))
-  }
-
-  const handleSend = () => {
-    console.log("Dashboard Sending Idea Data:", {
-      text: ideaText,
-      attachments: attachments.map(f => ({ name: f.name, size: f.size, type: f.type })),
-      timestamp: new Date().toISOString()
-    })
-    setIdeaText('')
-    setAttachments([])
-  }
+  const {
+    ideaText,
+    setIdeaText,
+    attachments,
+    isRecording,
+    fileInputRef,
+    handleToggleRecording,
+    handleFilesSelected,
+    handleRemoveAttachment,
+    handleSend,
+    triggerFileInput
+  } = useIdeaAnalyzer((data) => {
+    console.log("Dashboard Sending Idea Data:", data)
+  })
 
   return (
     <motion.div
@@ -90,44 +38,18 @@ export default function DashboardIdeaAnalyzer() {
         <Textarea
           value={ideaText}
           onChange={(e) => setIdeaText(e.target.value)}
-          className="w-full h-full min-h-[114px] placeholder:text-secondary-foreground p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-lg font-medium text-foreground leading-snug shadow-none"
+          className="w-full h-full min-h-[126px] placeholder:text-secondary-foreground p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-lg font-medium text-foreground leading-snug shadow-none"
           placeholder={t('title')}
         />
       </div>
 
-      {attachments.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-3">
-          {attachments.map((file, index) => (
-            <div key={index} className="relative group bg-border/50 rounded-lg p-1 flex items-center gap-2 pr-1.5">
-              <div className="w-6 h-6 relative rounded overflow-hidden bg-background shrink-0 flex items-center justify-center">
-                {file.type.startsWith('image/') ? (
-                  <Image 
-                    src={URL.createObjectURL(file)} 
-                    alt="preview" 
-                    fill 
-                    className="object-cover"
-                    onLoad={(e) => URL.revokeObjectURL((e.target as HTMLImageElement).src)}
-                  />
-                ) : (
-                  <FileIcon className="w-3 h-3 text-muted-foreground" />
-                )}
-              </div>
-              <span className="text-[10px] max-w-[80px] truncate text-foreground/80 font-medium">
-                {file.name}
-              </span>
-              <button 
-                onClick={() => handleRemoveAttachment(index)}
-                className="p-0.5 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
-                type="button"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+      <AttachmentList 
+        attachments={attachments} 
+        onRemove={handleRemoveAttachment} 
+        size="sm"
+      />
 
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex items-center justify-end gap-2 text-foreground">
         <input 
           type="file" 
           multiple 
@@ -137,34 +59,20 @@ export default function DashboardIdeaAnalyzer() {
         />
         
         {/* Controls Pill */}
-        <div className="flex items-center gap-2.5 bg-border rounded-full px-4 py-1.5">
-          <span className="text-xs font-medium text-foreground">0/500</span>
-
-          <TooltipProvider>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <div className="w-4 h-4 flex items-center justify-center border-none rounded-full bg-foreground/30 text-foreground cursor-help">
-                  <Info className="w-4 h-4" />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent 
-                side="bottom" 
-                className="bg-secondary text-foreground border-none rounded-lg px-2 py-1 font-bold z-110"
-              >
-                <p className="text-xs">{t('info_tooltip')}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+        <div className="flex items-center gap-2.5 bg-border rounded-full px-4 py-1.5 ">
+          <AnalyzerCounter showCounter={true} />
+          
           <button 
             onClick={handleToggleRecording}
-            className={`text-foreground hover:opacity-70 transition-all ${isRecording ? 'text-red-500 animate-pulse' : ''}`}
+            className={`transition-all ${isRecording ? 'text-red-500 animate-pulse' : ''}`}
           >
             <Mic strokeWidth={3} className={`w-4 h-4 ${isRecording ? 'fill-current' : ''}`} />
           </button>
+          
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => fileInputRef.current?.click()}
+            onClick={triggerFileInput}
             className="h-5 w-5 rounded-xl hover:bg-background cursor-pointer"
           >
             <Plus className="w-4! h-4! text-foreground bg-foreground/30 rounded-sm" />
@@ -178,7 +86,7 @@ export default function DashboardIdeaAnalyzer() {
         >
           <span>{t('send')}</span>
           <div className="w-5 h-5 flex items-center justify-center rounded-md text-foreground bg-foreground/30">
-                {locale === 'ar' ? <ArrowUpLeft className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
+            {locale === 'ar' ? <ArrowUpLeft className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
           </div>
         </button>
       </div>

@@ -14,7 +14,7 @@ interface DashboardGridProps {
 
 export default function DashboardGrid({ activeTankId, onTankChange }: DashboardGridProps) {
   return (
-    <section className="relative z-10 flex-1 px-6 pb-4 flex gap-6 overflow-hidden py-4">
+    <section className="relative z-10 flex-1 px-6 pb-4 flex gap-12 overflow-hidden py-4">
       {/* Container for three columns */}
       <div className="flex-1 flex gap-12">
         {/* Left Column - Tall Container */}

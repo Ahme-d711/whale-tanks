@@ -5,29 +5,33 @@ import Image from 'next/image'
 import { Mic, ArrowUpRight, ArrowUpLeft, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTranslations, useLocale } from 'next-intl'
-
-
 import { toast } from 'sonner'
-import { useRef } from 'react'
 
 interface AnalyzerToolbarProps {
   isRecording: boolean
   onToggleRecording: () => void
-  onFilesSelected: (files: File[]) => void
+  onFilesSelectedDirect: (files: File[]) => void
   onSend: () => void
+  triggerFileInput: () => void
+  fileInputRef: React.RefObject<HTMLInputElement | null>
 }
 
-export const AnalyzerToolbar = ({ isRecording, onToggleRecording, onFilesSelected, onSend }: AnalyzerToolbarProps) => {
+export const AnalyzerToolbar = ({ 
+  isRecording, 
+  onToggleRecording, 
+  onFilesSelectedDirect, 
+  onSend,
+  triggerFileInput,
+  fileInputRef
+}: AnalyzerToolbarProps) => {
   const t = useTranslations('HomePage.Analyzer')
   const locale = useLocale()
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const files = Array.from(e.target.files)
-      onFilesSelected(files)
+      onFilesSelectedDirect(files)
       toast.success(t('files_attached', { count: files.length }))
-      // Reset input so same file can be selected again
       e.target.value = ''
     }
   }
@@ -43,7 +47,6 @@ export const AnalyzerToolbar = ({ isRecording, onToggleRecording, onFilesSelecte
 
   return (
     <div className="flex items-center gap-3">
-      {/* Hidden File Input */}
       <input 
         type="file" 
         multiple 
@@ -90,7 +93,7 @@ export const AnalyzerToolbar = ({ isRecording, onToggleRecording, onFilesSelecte
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => fileInputRef.current?.click()}
+          onClick={triggerFileInput}
           className="h-8 w-8 rounded-xl hover:bg-background cursor-pointer"
         >
           <Plus className="w-5! h-5! text-foreground bg-foreground/30 rounded-sm" />

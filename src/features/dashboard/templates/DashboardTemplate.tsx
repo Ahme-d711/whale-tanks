@@ -12,7 +12,7 @@ export default function DashboardTemplate() {
   const [activeTankId, setActiveTankId] = React.useState('startup')
   
   return (
-    <div className="flex h-screen w-full overflow-hidden gap-6 font-sans">
+    <div className="flex h-screen w-full overflow-hidden font-sans">
       {/* Sidebar Component */}
       <SidebarMenu 
         isOpen={isSidebarOpen} 
