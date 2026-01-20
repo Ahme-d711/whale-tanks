@@ -42,17 +42,19 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
   }
 
   const itemVariants: Variants = {
-    closed: { opacity: 0, x: isRtl ? 20 : -20 },
+    closed: { 
+      opacity: isPersistent ? 1 : 0, 
+      x: isPersistent ? 0 : (isRtl ? 20 : -20) 
+    },
     open: { opacity: 1, x: 0 }
   }
 
   const persistentVariants: Variants = {
     closed: { 
-      width: 0,
-      opacity: 0,
+      width: 76,
+      opacity: 1,
       transition: { 
         width: { type: "spring", stiffness: 300, damping: 30 },
-        opacity: { duration: 0.2 }
       }
     },
     open: { 
@@ -60,7 +62,6 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
       opacity: 1,
       transition: { 
         width: { type: "spring", stiffness: 300, damping: 30 },
-        opacity: { duration: 0.2, delay: 0.1 }
       }
     }
   }
@@ -69,18 +70,21 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
     setMounted(true)
   }, [])
 
-  const content = (
+  const content = (isCollapsed: boolean) => (
     <div className="flex flex-col h-full overflow-hidden">
       <motion.div variants={itemVariants}>
-        <SidebarHeader onClose={() => onOpenChange(false)} />
+        <SidebarHeader 
+          isCollapsed={isCollapsed} 
+          onToggle={() => onOpenChange(!isOpen)} 
+        />
       </motion.div>
       
       <motion.div variants={itemVariants}>
-        <SidebarActions />
+        <SidebarActions isCollapsed={isCollapsed} />
       </motion.div>
       
-      <motion.div variants={itemVariants} className="flex-1 overflow-y-auto">
-        <LastChatsSection />
+      <motion.div variants={itemVariants} className="flex-1 overflow-y-auto thin-scrollbar">
+        <LastChatsSection isCollapsed={isCollapsed} />
       </motion.div>
     </div>
   )
@@ -113,7 +117,7 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
               variants={sidebarVariants}
               className={`absolute inset-y-0 ${isRtl ? 'right-0' : 'left-0'} w-[267px] bg-background ${isRtl ? 'border-l-2' : 'border-r-2'} border-t-2 border-primary ${isRtl ? 'rounded-tl-2xl rounded-bl-2xl' : 'rounded-tr-2xl rounded-br-2xl'} shadow-2xl flex flex-col pointer-events-auto overflow-hidden`}
             >
-              {content}
+              {content(false)}
             </motion.div>
           </div>
         </>
@@ -124,16 +128,15 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
   return (
     <>
       <AnimatePresence mode="wait">
-        {isPersistent && isOpen && (
+        {isPersistent && (
           <motion.aside
-            initial="closed"
-            animate="open"
-            exit="closed"
+            initial={isOpen ? "open" : "closed"}
+            animate={isOpen ? "open" : "closed"}
             variants={persistentVariants}
             className={`hidden md:flex bg-background ${isRtl ? 'border-l-2' : 'border-r-2'} border-primary flex-col h-screen sticky top-0 shrink-0 overflow-hidden z-20`}
           >
-            <div className="min-w-[267px] h-full">
-              {content}
+            <div className={`${isOpen ? 'min-w-[267px]' : 'min-w-[76px]'} h-full`}>
+              {content(!isOpen)}
             </div>
           </motion.aside>
         )}

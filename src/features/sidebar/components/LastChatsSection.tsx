@@ -2,8 +2,14 @@
 
 import { useTranslations } from 'next-intl'
 
-export default function LastChatsSection() {
+interface LastChatsSectionProps {
+  isCollapsed?: boolean
+}
+
+export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps) {
   const t = useTranslations('Sidebar')
+
+  if (isCollapsed) return null // Hide for now in rail view as per typical design, or could show icons
 
   return (
     <div className="space-y-6 pt-4 px-5">

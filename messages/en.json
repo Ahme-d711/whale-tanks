@@ -40,7 +40,7 @@
       "tech": "Tech Tank",
       "investor": "Investor Tank",
       "send": "Send",
-      "info_tooltip": "Enter up to 500 characters to describe your idea, then choose a tank to analyze it.",
+      "info_tooltip": "Describe your idea clearly, then choose a tank to analyze it.",
       "recording_started": "Recording started...",
       "recording_saved": "Recording saved!",
       "files_attached": "{count} file(s) attached"
@@ -56,6 +56,7 @@
   },
   "Sidebar": {
     "close": "Close sidebar",
+    "open": "Open sidebar",
     "new_chat": "New Chat",
     "search": "Search about Chats",
     "last_chats": "Last Chats"

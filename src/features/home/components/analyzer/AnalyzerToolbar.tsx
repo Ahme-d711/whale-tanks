@@ -14,9 +14,10 @@ interface AnalyzerToolbarProps {
   isRecording: boolean
   onToggleRecording: () => void
   onFilesSelected: (files: File[]) => void
+  onSend: () => void
 }
 
-export const AnalyzerToolbar = ({ isRecording, onToggleRecording, onFilesSelected }: AnalyzerToolbarProps) => {
+export const AnalyzerToolbar = ({ isRecording, onToggleRecording, onFilesSelected, onSend }: AnalyzerToolbarProps) => {
   const t = useTranslations('HomePage.Analyzer')
   const locale = useLocale()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -98,6 +99,7 @@ export const AnalyzerToolbar = ({ isRecording, onToggleRecording, onFilesSelecte
 
       <Button
         variant="ghost"
+        onClick={onSend}
         className="h-10 px-4 rounded-xl text-foreground gap-2 cursor-pointer bg-border hover:bg-border/80"
       >
         <span className="text-sm font-medium">{t('send')}</span>

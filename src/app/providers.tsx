@@ -33,8 +33,8 @@ export function Providers({
   data: { token?: string | null; user: User | null };
 }) {
   const pathname = usePathname();
-  // Check if pathname ends with /login or /signup (works with locale prefixes)
   const isLoginPage = pathname.endsWith("/login") || pathname.endsWith("/signup") || pathname.endsWith("/ai");
+  const isDashboardPage = pathname.includes("/dashboard");
   
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
@@ -46,12 +46,14 @@ export function Providers({
     <AuthProvider user={data?.user ?? null} token={data?.token ?? null}>
       {!isLoginPage ? (
         <div className="flex min-h-screen z-101">
-          <SidebarMenu 
-            isOpen={isSidebarOpen} 
-            onOpenChange={setIsSidebarOpen}
-            trigger={<></>}
-            isPersistent={true}
-          />
+          {isDashboardPage && (
+            <SidebarMenu 
+              isOpen={isSidebarOpen} 
+              onOpenChange={setIsSidebarOpen}
+              trigger={<></>}
+              isPersistent={true}
+            />
+          )}
           <div className="flex-1 flex flex-col min-w-0 relative">
             <Navbar onSidebarToggle={() => setIsSidebarOpen((prev) => !prev)} />
             {children}

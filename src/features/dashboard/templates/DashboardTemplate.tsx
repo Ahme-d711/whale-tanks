@@ -28,12 +28,7 @@ export default function DashboardTemplate() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-hidden flex flex-col relative">
-        {/* Floating Toggle for Desktop */}
-        <SidebarToggle 
-          isOpen={isSidebarOpen} 
-          onToggle={() => setIsSidebarOpen(true)} 
-        />
+      <main className="flex-1 overflow-hidden flex flex-col relative px-4">
         
         {/* Workspace Grid */}
         <DashboardGrid activeTankId={activeTankId} onTankChange={setActiveTankId} />
