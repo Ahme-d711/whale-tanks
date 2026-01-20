@@ -5,14 +5,14 @@ import { Menu } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import SidebarMenu from '@/components/SidebarMenu'
 import SidebarToggle from '../components/SidebarToggle'
-import DashboardHeader from '../components/DashboardHeader'
 import DashboardGrid from '../components/DashboardGrid'
 
 export default function DashboardTemplate() {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
+  const [activeTankId, setActiveTankId] = React.useState('startup')
   
   return (
-    <div className="flex h-screen w-full bg-[#F0F5FF] overflow-hidden font-sans">
+    <div className="flex h-screen w-full overflow-hidden font-sans">
       {/* Sidebar Component */}
       <SidebarMenu 
         isOpen={isSidebarOpen} 
@@ -28,18 +28,15 @@ export default function DashboardTemplate() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-hidden flex flex-col relative">
+      <main className="flex-1 overflow-hidden flex flex-col relative max-w-7xl mr-auto">
         {/* Floating Toggle for Desktop */}
         <SidebarToggle 
           isOpen={isSidebarOpen} 
           onToggle={() => setIsSidebarOpen(true)} 
         />
         
-        {/* Header Section */}
-        <DashboardHeader />
-
         {/* Workspace Grid */}
-        <DashboardGrid />
+        <DashboardGrid activeTankId={activeTankId} onTankChange={setActiveTankId} />
       </main>
     </div>
   )
