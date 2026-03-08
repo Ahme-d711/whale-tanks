@@ -1,6 +1,6 @@
 "use client";
 import { useAuthStore } from "@/features/auth/stores/authStore";
-import { User } from "@/features/auth/types/";
+import { User } from "@/features/auth/types";
 import { ReactNode, useEffect } from "react";
 
 export default function AuthProvider({

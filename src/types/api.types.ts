@@ -1,3 +1,5 @@
+import type { LucideIcon } from "lucide-react";
+
 export interface Pagination {
   page: number;
   limit: number;
@@ -5,6 +7,7 @@ export interface Pagination {
   pages: number;
 }
 
+export type IconType = LucideIcon;
 export interface OptionType {
   name: string;
   id: string | number;

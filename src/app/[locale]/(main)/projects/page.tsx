@@ -1,4 +1,4 @@
-import ProjectsTemplate from "@/features/projects/templates/ProjectsTemplate";
+import ProjectsTemplate from "@/features/main/projects/templates/ProjectsTemplate";
 
 export default function ProjectsPage() {
   return <ProjectsTemplate />

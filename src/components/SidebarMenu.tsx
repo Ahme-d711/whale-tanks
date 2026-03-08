@@ -1,6 +1,6 @@
 "use client"
 
-import SidebarTemplate from "@/features/sidebar/templates/SidebarTemplate"
+import SidebarTemplate from "@/features/main/sidebar/templates/SidebarTemplate"
 
 interface SidebarMenuProps {
   isOpen: boolean
