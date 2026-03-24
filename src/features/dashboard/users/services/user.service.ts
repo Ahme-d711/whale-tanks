@@ -13,4 +13,8 @@ export const userService = {
     const response = await clientAxios.put<UserDashboard>(`/users/${userId}`, data);
     return response.data;
   },
+
+  deleteUser: async (userId: string): Promise<void> => {
+    await clientAxios.delete(`/users/${userId}`);
+  },
 };

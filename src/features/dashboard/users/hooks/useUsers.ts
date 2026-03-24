@@ -17,13 +17,11 @@ export const useUsers = () => {
     onSuccess: (newUser) => {
       const formattedUser: UserDashboard = {
         ...newUser,
-        // Since register returns a User, we ensure it has dashboard fields
         status: "active",
         role: "user",
         created_at: newUser.created_at || new Date().toISOString(),
       };
       
-      // Update the cache locally to "activate" the UI change
       queryClient.setQueryData(["users"], (oldUsers: UserDashboard[] | undefined) => {
         return oldUsers ? [formattedUser, ...oldUsers] : [formattedUser];
       });
@@ -57,6 +55,23 @@ export const useUsers = () => {
     },
   });
 
+  const deleteUserMutation = useMutation({
+    mutationFn: (userId: string) => userService.deleteUser(userId),
+    onSuccess: (_, userId) => {
+      queryClient.setQueryData(["users"], (oldUsers: UserDashboard[] | undefined) => {
+        return oldUsers?.filter((u) => u.user_id !== userId);
+      });
+      toast.success("User Deleted", {
+        description: "The user has been removed successfully.",
+      });
+    },
+    onError: (error: any) => {
+      toast.error("Error deleting user", {
+        description: error.response?.data?.message || error.message || "Delete failed",
+      });
+    },
+  });
+
   return {
     users,
     isLoading,
@@ -64,5 +79,7 @@ export const useUsers = () => {
     isAdding: addUserMutation.isPending,
     updateUser: updateUserMutation.mutateAsync,
     isUpdating: updateUserMutation.isPending,
+    deleteUser: deleteUserMutation.mutateAsync,
+    isDeleting: deleteUserMutation.isPending,
   };
 };

@@ -32,6 +32,7 @@ import { Button } from "@/components/ui/button";
 import { useUsers } from "../hooks/useUsers";
 import { Spinner } from "@/components/ui/spinner";
 import { UserDashboard } from "../types/user.types";
+import { motion, AnimatePresence } from "motion/react";
 
 const editUserSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -87,111 +88,127 @@ export function EditUserDialog({ user, open, onOpenChange }: EditUserDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] rounded-[24px]">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-primary">
-            {t("users_management")} - {tUsers("edit_user")}
-          </DialogTitle>
-        </DialogHeader>
+      <AnimatePresence>
+        {open && (
+          <DialogContent 
+            forceMount
+            className="sm:max-w-[425px] rounded-[24px] overflow-hidden p-0" 
+            showCloseButton={false}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 10 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="w-full h-full p-6"
+            >
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-primary">
+                  {t("users_management")} - {tUsers("edit_user")}
+                </DialogTitle>
+              </DialogHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{tAuth("name")}</FormLabel>
-                  <FormControl>
-                    <Input className="rounded-xl" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{tAuth("name")}</FormLabel>
+                        <FormControl>
+                          <Input className="rounded-xl" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{tAuth("email")}</FormLabel>
-                  <FormControl>
-                    <Input type="email" className="rounded-xl" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{tAuth("email")}</FormLabel>
+                        <FormControl>
+                          <Input type="email" className="rounded-xl" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{tUsers("role")}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="rounded-xl">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="rounded-xl">
-                        <SelectItem value="admin">{tUsers("roles.admin")}</SelectItem>
-                        <SelectItem value="editor">{tUsers("roles.editor")}</SelectItem>
-                        <SelectItem value="user">{tUsers("roles.user")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="role"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{tUsers("role")}</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="rounded-xl">
+                                <SelectValue />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="rounded-xl">
+                              <SelectItem value="admin">{tUsers("roles.admin")}</SelectItem>
+                              <SelectItem value="editor">{tUsers("roles.editor")}</SelectItem>
+                              <SelectItem value="user">{tUsers("roles.user")}</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{tUsers("status")}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="rounded-xl">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="rounded-xl">
-                        <SelectItem value="active">{tUsers("statuses.active")}</SelectItem>
-                        <SelectItem value="inactive">{tUsers("statuses.inactive")}</SelectItem>
-                        <SelectItem value="suspended">{tUsers("statuses.suspended")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                    <FormField
+                      control={form.control}
+                      name="status"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{tUsers("status")}</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="rounded-xl">
+                                <SelectValue />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="rounded-xl">
+                              <SelectItem value="active">{tUsers("statuses.active")}</SelectItem>
+                              <SelectItem value="inactive">{tUsers("statuses.inactive")}</SelectItem>
+                              <SelectItem value="suspended">{tUsers("statuses.suspended")}</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
-            <DialogFooter className="pt-4">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => onOpenChange(false)}
-                className="rounded-xl"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={isUpdating}
-                className="rounded-xl min-w-[100px]"
-              >
-                {isUpdating ? <Spinner className="w-4 h-4" /> : tUsers("edit_user")}
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
+                  <DialogFooter className="pt-4">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => onOpenChange(false)}
+                      className="rounded-xl"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={isUpdating}
+                      className="rounded-xl min-w-[100px]"
+                    >
+                      {isUpdating ? <Spinner className="w-4 h-4" /> : tUsers("edit_user")}
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </Form>
+            </motion.div>
+          </DialogContent>
+        )}
+      </AnimatePresence>
     </Dialog>
   );
 }

@@ -21,17 +21,35 @@ import { mockUsers } from "../utils/mockUsers";
 import { useUsers } from "../hooks/useUsers";
 import { EditUserDialog } from "./EditUserDialog";
 
+import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
+
 export default function UsersTable() {
   const t = useTranslations("Users");
   const tDashboard = useTranslations("Dashboard");
-  const { users, updateUser } = useUsers();
+  const { users, updateUser, deleteUser, isDeleting } = useUsers();
 
   const [selectedUser, setSelectedUser] = React.useState<UserDashboard | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
 
   const handleEdit = (user: UserDashboard) => {
     setSelectedUser(user);
     setIsEditDialogOpen(true);
+  };
+
+  const handleDeleteClick = (user: UserDashboard) => {
+    setSelectedUser(user);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedUser) return;
+    try {
+      await deleteUser(selectedUser.user_id);
+      setIsConfirmOpen(false);
+    } catch (error) {
+      // Error handled in hook
+    }
   };
 
   const statusColorMap: Record<UserStatus, string> = {
@@ -111,7 +129,7 @@ export default function UsersTable() {
             onClick={() => handleEdit(row)} 
           />
           <DeleteActionButton 
-            onClick={() => console.log("Delete", row.user_id)} 
+            onClick={() => handleDeleteClick(row)} 
           />
         </ActionCell>
       ),
@@ -133,6 +151,17 @@ export default function UsersTable() {
         user={selectedUser}
         open={isEditDialogOpen}
         onOpenChange={setIsEditDialogOpen}
+      />
+
+      <ConfirmDialog
+        open={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
+        title={t("delete_confirm")}
+        description={`${t("delete_confirm")} ${selectedUser?.name}?`}
+        onConfirm={handleConfirmDelete}
+        confirmLabel={tDashboard("delete")}
+        cancelLabel={tDashboard("cancel")}
+        isLoading={isDeleting}
       />
     </div>
   );

@@ -197,7 +197,9 @@
     "month": "هذا الشهر",
     "revenue_overview": "نظرة عامة على الإيرادات",
     "profits": "الأرباح",
-    "orders_label": "الطلبات"
+    "orders_label": "الطلبات",
+    "cancel": "إلغاء",
+    "delete": "حذف"
   },
   "Users": {
     "user": "المستخدم",
@@ -217,7 +219,6 @@
       "inactive": "غير نشط",
       "suspended": "محظور"
     },
-    "delete_confirm": "هل أنت متأكد من حذف هذا المستخدم؟",
-    "edit_user": "تعديل المستخدم"
+    "delete_confirm": "هل أنت متأكد من حذف هذا المستخدم؟"
   }
 }
