@@ -9,6 +9,7 @@ import {
   Tag,
   Award,
   LayoutGrid,
+  Bot,
 } from "lucide-react";
 import type { IconType } from "@/types";
 
@@ -33,6 +34,11 @@ export const navItems: NavItem[] = [
     titleKey: "packages",
     href: "/dashboard/packages",
     icon: Package,
+  },
+  {
+    titleKey: "models",
+    href: "/dashboard/models",
+    icon: Bot,
   },
   {
     titleKey: "settings",
