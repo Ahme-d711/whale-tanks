@@ -1,42 +1,17 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import React from "react";
 import { useTranslations } from "next-intl";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { usePackages } from "../hooks/usePackages";
-import { Spinner } from "@/components/ui/spinner";
 import { Package } from "../types/package.types";
 import { motion, AnimatePresence } from "motion/react";
-
-const packageSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  monthly_token_limit: z.number().min(0),
-  price: z.number().min(0),
-  overage_cost_per_1k_tokens: z.number().min(0),
-  duration_days: z.number().min(1),
-  is_active: z.boolean(),
-});
-
-type PackageFormValues = z.infer<typeof packageSchema>;
+import { PackageForm, PackageFormValues } from "./PackageForm";
 
 interface EditPackageDialogProps {
   packageData: Package | null;
@@ -48,37 +23,21 @@ export function EditPackageDialog({ packageData, open, onOpenChange }: EditPacka
   const t = useTranslations("Packages");
   const { updatePackage, isUpdating } = usePackages();
 
-  const form = useForm<PackageFormValues>({
-    resolver: zodResolver(packageSchema),
-    defaultValues: {
-      name: "",
-      monthly_token_limit: 0,
-      price: 0,
-      overage_cost_per_1k_tokens: 0,
-      duration_days: 30,
-      is_active: true,
-    },
-  });
-
-  useEffect(() => {
-    if (packageData) {
-      form.reset({
-        name: packageData.name,
-        monthly_token_limit: packageData.monthly_token_limit,
-        price: packageData.price,
-        overage_cost_per_1k_tokens: packageData.overage_cost_per_1k_tokens,
-        duration_days: packageData.duration_days,
-        is_active: packageData.is_active,
-      });
-    }
-  }, [packageData, form]);
-
-  const onSubmit = async (data: PackageFormValues) => {
+  const handleUpdatePackage = async (data: PackageFormValues) => {
     if (!packageData) return;
     try {
-      await updatePackage({ packageId: packageData.package_id, data });
+      await updatePackage({ packageId: packageData.package_id, data: data as any });
       onOpenChange(false);
     } catch (error) {}
+  };
+
+  const defaultValues: PackageFormValues = {
+    name: packageData?.name || "",
+    monthly_token_limit: packageData?.monthly_token_limit || 0,
+    price: packageData?.price || 0,
+    overage_cost_per_1k_tokens: packageData?.overage_cost_per_1k_tokens || 0,
+    duration_days: packageData?.duration_days || 30,
+    is_active: packageData?.is_active ?? true,
   };
 
   return (
@@ -103,99 +62,13 @@ export function EditPackageDialog({ packageData, open, onOpenChange }: EditPacka
                 </DialogTitle>
               </DialogHeader>
 
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("package_name")}</FormLabel>
-                        <FormControl>
-                          <Input className="rounded-xl" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="price"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("price")}</FormLabel>
-                          <FormControl>
-                            <Input type="number" className="rounded-xl" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="duration_days"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("duration")} ({t("days")})</FormLabel>
-                          <FormControl>
-                            <Input type="number" className="rounded-xl" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="monthly_token_limit"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("monthly_tokens")}</FormLabel>
-                          <FormControl>
-                            <Input type="number" className="rounded-xl" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="overage_cost_per_1k_tokens"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("overage_cost")}</FormLabel>
-                          <FormControl>
-                            <Input type="number" step="0.0001" className="rounded-xl" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <DialogFooter className="pt-4">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => onOpenChange(false)}
-                      className="rounded-xl"
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      disabled={isUpdating}
-                      className="rounded-xl min-w-[100px]"
-                    >
-                      {isUpdating ? <Spinner className="w-4 h-4" /> : t("edit_package")}
-                    </Button>
-                  </DialogFooter>
-                </form>
-              </Form>
+              <PackageForm
+                defaultValues={defaultValues}
+                onSubmit={handleUpdatePackage}
+                isLoading={isUpdating}
+                submitLabel={t("edit_package")}
+                onCancel={() => onOpenChange(false)}
+              />
             </motion.div>
           </DialogContent>
         )}

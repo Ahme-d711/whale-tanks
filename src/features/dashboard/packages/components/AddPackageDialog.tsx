@@ -1,41 +1,15 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { useTranslations } from "next-intl";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { usePackages } from "../hooks/usePackages";
-import { Spinner } from "@/components/ui/spinner";
 import { motion, AnimatePresence } from "motion/react";
-
-const packageSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  monthly_token_limit: z.number().min(0),
-  price: z.number().min(0),
-  overage_cost_per_1k_tokens: z.number().min(0),
-  duration_days: z.number().min(1),
-  is_active: z.boolean(),
-});
-
-type PackageFormValues = z.infer<typeof packageSchema>;
+import { PackageForm, PackageFormValues } from "./PackageForm";
 
 interface AddPackageDialogProps {
   open: boolean;
@@ -46,24 +20,20 @@ export function AddPackageDialog({ open, onOpenChange }: AddPackageDialogProps) 
   const t = useTranslations("Packages");
   const { createPackage, isCreating } = usePackages();
 
-  const form = useForm<PackageFormValues>({
-    resolver: zodResolver(packageSchema),
-    defaultValues: {
-      name: "",
-      monthly_token_limit: 0,
-      price: 0,
-      overage_cost_per_1k_tokens: 0,
-      duration_days: 30,
-      is_active: true,
-    },
-  });
-
-  const onSubmit = async (data: PackageFormValues) => {
+  const handleAddPackage = async (data: PackageFormValues) => {
     try {
-      await createPackage(data);
-      form.reset();
+      await createPackage(data as any);
       onOpenChange(false);
     } catch (error) {}
+  };
+
+  const defaultValues: PackageFormValues = {
+    name: "",
+    monthly_token_limit: 0,
+    price: 0,
+    overage_cost_per_1k_tokens: 0,
+    duration_days: 30,
+    is_active: true,
   };
 
   return (
@@ -88,99 +58,13 @@ export function AddPackageDialog({ open, onOpenChange }: AddPackageDialogProps) 
                 </DialogTitle>
               </DialogHeader>
 
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("package_name")}</FormLabel>
-                        <FormControl>
-                          <Input className="rounded-xl" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="price"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("price")}</FormLabel>
-                          <FormControl>
-                            <Input type="number" className="rounded-xl" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="duration_days"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("duration")} ({t("days")})</FormLabel>
-                          <FormControl>
-                            <Input type="number" className="rounded-xl" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="monthly_token_limit"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("monthly_tokens")}</FormLabel>
-                          <FormControl>
-                            <Input type="number" className="rounded-xl" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="overage_cost_per_1k_tokens"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t("overage_cost")}</FormLabel>
-                          <FormControl>
-                            <Input type="number" step="0.0001" className="rounded-xl" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <DialogFooter className="pt-4">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => onOpenChange(false)}
-                      className="rounded-xl"
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      disabled={isCreating}
-                      className="rounded-xl min-w-[100px]"
-                    >
-                      {isCreating ? <Spinner className="w-4 h-4" /> : t("add_package")}
-                    </Button>
-                  </DialogFooter>
-                </form>
-              </Form>
+              <PackageForm
+                defaultValues={defaultValues}
+                onSubmit={handleAddPackage}
+                isLoading={isCreating}
+                submitLabel={t("add_package")}
+                onCancel={() => onOpenChange(false)}
+              />
             </motion.div>
           </DialogContent>
         )}
