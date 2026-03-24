@@ -30,6 +30,11 @@ export const navItems: NavItem[] = [
     icon: Users,
   },
   {
+    titleKey: "packages",
+    href: "/dashboard/packages",
+    icon: Package,
+  },
+  {
     titleKey: "settings",
     href: "/dashboard/settings",
     icon: Settings,

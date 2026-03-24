@@ -73,6 +73,7 @@
     "advertisements": "الإعلانات",
     "orders": "الطلبات",
     "users": "المستخدمين",
+    "packages": "الباقات",
     "settings": "الإعدادات"
   },
   "Billing": {
@@ -191,6 +192,8 @@
     "export_report": "تصدير التقرير",
     "users_management": "إدارة المستخدمين",
     "add_user": "إضافة مستخدم جديد",
+    "packages_management": "إدارة الباقات",
+    "add_package": "إضافة باقة جديدة",
     "today": "اليوم",
     "yesterday": "أمس",
     "week": "هذا الأسبوع",
@@ -220,5 +223,21 @@
       "suspended": "محظور"
     },
     "delete_confirm": "هل أنت متأكد من حذف هذا المستخدم؟"
+  },
+  "Packages": {
+    "package": "الباقة",
+    "add_package": "إضافة باقة جديدة",
+    "edit_package": "تعديل الباقة",
+    "delete_package": "حذف الباقة",
+    "package_name": "اسم الباقة",
+    "monthly_tokens": "الرموز الشهرية",
+    "price": "السعر",
+    "overage_cost": "تكلفة التجاوز (لكل 1000)",
+    "duration": "المدة",
+    "status": "الحالة",
+    "is_active": "نشط",
+    "days": "يوم",
+    "actions": "العمليات",
+    "delete_confirm": "هل أنت متأكد من حذف هذه الباقة؟"
   }
 }

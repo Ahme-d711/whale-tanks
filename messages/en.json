@@ -73,6 +73,7 @@
     "advertisements": "Advertisements",
     "orders": "Orders",
     "users": "Users",
+    "packages": "Packages",
     "settings": "Settings"
   },
   "Billing": {
@@ -191,6 +192,8 @@
     "export_report": "Export Report",
     "users_management": "Users Management",
     "add_user": "Add New User",
+    "packages_management": "Packages Management",
+    "add_package": "Add New Package",
     "today": "Today",
     "yesterday": "Yesterday",
     "week": "This Week",
@@ -220,5 +223,21 @@
       "suspended": "Suspended"
     },
     "delete_confirm": "Are you sure you want to delete this user?"
+  },
+  "Packages": {
+    "package": "Package",
+    "add_package": "Add New Package",
+    "edit_package": "Edit Package",
+    "delete_package": "Delete Package",
+    "package_name": "Package Name",
+    "monthly_tokens": "Monthly Tokens",
+    "price": "Price",
+    "overage_cost": "Overage Cost (per 1k)",
+    "duration": "Duration",
+    "status": "Status",
+    "is_active": "Active",
+    "days": "Days",
+    "actions": "Actions",
+    "delete_confirm": "Are you sure you want to delete this package?"
   }
 }
