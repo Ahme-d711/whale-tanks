@@ -46,7 +46,7 @@ export function RevenueOverall({ stats }: { stats: RevenueAnalyticData[] | undef
                 height={50}
                 iconType="circle"
                 iconSize={10}
-                formatter={(value) => <span className="text-sm font-medium text-primary ml-2">{t(value.toLowerCase())}</span>}
+                formatter={(value) => <span className="text-sm font-medium text-primary ml-2">{t(value)}</span>}
               />
               <XAxis
                 dataKey="name"
@@ -64,14 +64,14 @@ export function RevenueOverall({ stats }: { stats: RevenueAnalyticData[] | undef
               />
               
               <Bar
-                name="Orders"
+                name="orders_label"
                 dataKey="orders"
                 fill="#E5E7EB"
                 radius={[50, 50, 50, 50]}
                 barSize={16}
               />
               <Bar
-                name="Profits"
+                name="profits"
                 dataKey="profits"
                 fill="var(--primary)"
                 radius={[50, 50, 50, 50]}

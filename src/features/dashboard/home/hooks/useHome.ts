@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
-import { getDashboardStats } from "../services/dashboard.services"
-import { DashboardStats } from "../types/dashboard.types"
+import { mockHomeData } from "../utils/mockHomeData"
 import { useAuthStore } from "@/features/auth/stores/authStore"
 
 export const useHome = () => {
@@ -8,10 +6,17 @@ export const useHome = () => {
   
   const userName = user?.name?.split(' ')[0] || user?.username || "User"
 
+  // Commented out real API call to make it static as requested
+  /*
   const { data: stats, isLoading, error } = useQuery<DashboardStats>({
     queryKey: ["dashboard-stats"],
     queryFn: getDashboardStats,
   })
+  */
+
+  const stats = mockHomeData
+  const isLoading = false
+  const error = null
 
   return {
     userName,

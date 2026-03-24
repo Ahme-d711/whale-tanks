@@ -173,6 +173,7 @@
     "total_orders": "Total Orders",
     "total_revenue": "Total Revenue",
     "new_users_trend": "New Users (30d): {count}",
+    "new_users_30d": "New Users (Last 30 Days)",
     "available": "Available Products",
     "cumulative": "Cumulative Orders",
     "delivered": "Delivered Orders",
@@ -189,7 +190,14 @@
     "no_data": "No data available yet",
     "export_report": "Export Report",
     "users_management": "Users Management",
-    "add_user": "Add New User"
+    "add_user": "Add New User",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "week": "This Week",
+    "month": "This Month",
+    "revenue_overview": "Revenue Overview",
+    "profits": "Profits",
+    "orders_label": "Orders"
   },
   "Users": {
     "user": "User",

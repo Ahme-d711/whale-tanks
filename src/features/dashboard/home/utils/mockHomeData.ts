@@ -1,0 +1,116 @@
+import { DashboardStats } from "../types/dashboard.types";
+
+export const mockHomeData: DashboardStats = {
+  summary: {
+    totalUsers: 1250,
+    totalProducts: 450,
+    totalOrders: 3200,
+    totalRevenue: 54200.5,
+    newUsersLast30Days: 120,
+  },
+  ordersByStatus: {
+    pending: 45,
+    processing: 30,
+    cancelled: 12,
+    completed: 2500,
+  },
+  charts: {
+    ordersByCategory: [
+      { nameAr: "إلكترونيات", nameEn: "Electronics", value: 400 },
+      { nameAr: "ملابس", nameEn: "Clothing", value: 300 },
+      { nameAr: "أثاث", nameEn: "Furniture", value: 200 },
+      { nameAr: "أخرى", nameEn: "Others", value: 100 },
+    ],
+    monthlyRevenue: [
+      { _id: { year: 2024, month: 1 }, revenue: 4500, orders: 120 },
+      { _id: { year: 2024, month: 2 }, revenue: 5200, orders: 150 },
+      { _id: { year: 2024, month: 3 }, revenue: 4800, orders: 140 },
+      { _id: { year: 2024, month: 4 }, revenue: 6100, orders: 180 },
+      { _id: { year: 2024, month: 5 }, revenue: 5900, orders: 170 },
+      { _id: { year: 2024, month: 6 }, revenue: 7200, orders: 210 },
+    ],
+    ordersByGovernorate: [
+      { name: "Cairo", value: 1200 },
+      { name: "Giza", value: 800 },
+      { name: "Alexandria", value: 600 },
+      { name: "Mansoura", value: 300 },
+      { name: "Other", value: 300 },
+    ],
+  },
+  recentOrders: [
+    {
+      _id: "order_1",
+      orderNumber: "WT-001",
+      customer: { name: "Ahmed Hassan", phone: "01012345678" },
+      recipientName: "Ahmed Hassan",
+      totalAmount: 150.5,
+      status: "completed",
+      createdAt: new Date().toISOString(),
+      paymentMethod: "cash",
+    },
+    {
+      _id: "order_2",
+      orderNumber: "WT-002",
+      customer: { name: "Sara Ali", phone: "01122334455" },
+      recipientName: "Sara Ali",
+      totalAmount: 2400.0,
+      status: "processing",
+      createdAt: new Date().toISOString(),
+      paymentMethod: "card",
+    },
+    {
+      _id: "order_3",
+      orderNumber: "WT-003",
+      customer: { name: "Mohamed Omar", phone: "01234567890" },
+      recipientName: "Mohamed Omar",
+      totalAmount: 890.0,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+      paymentMethod: "cash",
+    },
+    {
+      _id: "order_4",
+      orderNumber: "WT-004",
+      customer: { name: "Laila Ibrahim", phone: "01555667788" },
+      recipientName: "Laila Ibrahim",
+      totalAmount: 430.2,
+      status: "cancelled",
+      createdAt: new Date().toISOString(),
+      paymentMethod: "card",
+    },
+  ],
+};
+
+export const mockRevenueAnalytics = {
+  Today: [
+    { name: "00:00", profits: 120, orders: 5 },
+    { name: "04:00", profits: 80, orders: 3 },
+    { name: "08:00", profits: 300, orders: 12 },
+    { name: "12:00", profits: 450, orders: 18 },
+    { name: "16:00", profits: 600, orders: 25 },
+    { name: "20:00", profits: 350, orders: 15 },
+  ],
+  Yesterday: [
+    { name: "00:00", profits: 100, orders: 4 },
+    { name: "04:00", profits: 60, orders: 2 },
+    { name: "08:00", profits: 250, orders: 10 },
+    { name: "12:00", profits: 400, orders: 16 },
+    { name: "16:00", profits: 550, orders: 22 },
+    { name: "20:00", profits: 300, orders: 13 },
+  ],
+  Week: [
+    { name: "Sat", profits: 1200, orders: 45 },
+    { name: "Sun", profits: 1500, orders: 52 },
+    { name: "Mon", profits: 1100, orders: 38 },
+    { name: "Tue", profits: 1800, orders: 61 },
+    { name: "Wed", profits: 1650, orders: 55 },
+    { name: "Thu", profits: 2100, orders: 72 },
+    { name: "Fri", profits: 1900, orders: 65 },
+  ],
+  Month: [
+    { name: "Week 1", profits: 8500, orders: 280 },
+    { name: "Week 2", profits: 9200, orders: 310 },
+    { name: "Week 3", profits: 7800, orders: 260 },
+    { name: "Week 4", profits: 10500, orders: 340 },
+  ],
+};

@@ -1,19 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { TimePeriodTabs, type TimePeriod } from './TimePeriodTabs';
-import { RevenueOverall } from './RevenueOverall';
-import { getRevenueAnalytics } from "../services/dashboard.services";
+import { mockRevenueAnalytics } from "../utils/mockHomeData";
+import { TimePeriod, TimePeriodTabs } from "./TimePeriodTabs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { RevenueOverall } from "./RevenueOverall";
 
 export function ChartsSection() {
   const [activePeriod, setActivePeriod] = useState<TimePeriod>("Week");
 
+  // Commented out real API call to make it static as requested
+  /*
   const { data: revenueData, isLoading } = useQuery({
     queryKey: ["revenue-analytics", activePeriod],
     queryFn: () => getRevenueAnalytics(activePeriod),
   });
+  */
+
+  const revenueData = mockRevenueAnalytics[activePeriod];
+  const isLoading = false;
 
   return (
     <>

@@ -18,10 +18,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { UserDashboard, UserStatus } from "../types/user.types";
 import { mockUsers } from "../utils/mockUsers";
+import { useUsers } from "../hooks/useUsers";
 
 export default function UsersTable() {
   const t = useTranslations("Users");
   const tDashboard = useTranslations("Dashboard");
+  const { users } = useUsers();
 
   const statusColorMap: Record<UserStatus, string> = {
     active: "bg-emerald-50 text-emerald-700 border-emerald-200",
@@ -109,7 +111,7 @@ export default function UsersTable() {
   return (
     <div className="bg-white rounded-[24px] border border-divider overflow-hidden shadow-sm">
       <UniTable
-        data={mockUsers}
+        data={users}
         columns={columns}
         enablePagination
         pageSize={5}

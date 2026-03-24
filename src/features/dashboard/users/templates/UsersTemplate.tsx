@@ -7,9 +7,10 @@ import { useTranslations } from 'next-intl'
 import { PageHeader } from "@/components/shared/PageHeader"
 import { PageTransition } from "@/components/shared/PageTransition"
 import UsersTable from '../components/UsersTable'
-
+import { AddUserDialog } from '../components/AddUserDialog'
 export default function UsersTemplate() {
   const t = useTranslations("Dashboard")
+  const [isAddDialogOpen, setIsAddDialogOpen] = React.useState(false)
 
   return (
     <PageTransition>
@@ -22,12 +23,17 @@ export default function UsersTemplate() {
               label: t("add_user"),
               icon: Plus,
               variant: "default",
-              onClick: () => console.log("Add User clicked")
+              onClick: () => setIsAddDialogOpen(true)
             }
           ]}
         />
 
         <UsersTable />
+
+        <AddUserDialog 
+          open={isAddDialogOpen}
+          onOpenChange={setIsAddDialogOpen}
+        />
       </div>
     </PageTransition>
   )
