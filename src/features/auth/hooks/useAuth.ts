@@ -1,44 +1,61 @@
-import { useMutation } from "@tanstack/react-query"
-import { authService } from "../services/auth.service"
-import { toast } from "sonner"
-import { useRouter } from "next/navigation"
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { authService } from "../services/auth.service";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "../stores/authStore";
+import { setCookie } from "@/utils/cookies";
+import { TOKEN_KEY } from "@/utils/constants";
 
 export const useLogin = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const { setToken } = useAuthStore();
 
   return useMutation({
     mutationFn: authService.login,
     onSuccess: (data) => {
-      toast.success(`Welcome back, ${data.user.name}!`, {
+      setToken(data.access_token);
+      setCookie(TOKEN_KEY, data.access_token);
+      toast.success("Login Successful", {
         description: "You have successfully signed in.",
-      })
-      // In a real app, you would store the token here
-      console.log("Token stored:", data.token)
-      router.push("/dashboard") // Redirect to dashboard (mock)
+      });
+      router.push("/dashboard");
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
+      const message = error.response?.data?.message || error.message || "Login failed";
       toast.error("Login Failed", {
-        description: error.message,
-      })
+        description: message,
+      });
     },
-  })
-}
+  });
+};
 
 export const useRegister = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   return useMutation({
     mutationFn: authService.register,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Account Created!", {
-        description: "Please check your email to verify your account.",
-      })
-      router.push("/login")
+        description: "Your account has been created successfully. Please login.",
+      });
+      router.push("/login");
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
+      const message = error.response?.data?.message || error.message || "Registration failed";
       toast.error("Registration Failed", {
-        description: error.message,
-      })
+        description: message,
+      });
     },
-  })
-}
+  });
+};
+
+export const useProfile = (enabled = true) => {
+  const { setUser, clearAuth } = useAuthStore();
+
+  return useQuery({
+    queryKey: ["profile"],
+    queryFn: authService.getProfile,
+    enabled,
+    staleTime: Infinity,
+  });
+};

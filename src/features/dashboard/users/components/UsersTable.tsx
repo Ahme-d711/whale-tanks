@@ -73,7 +73,7 @@ export default function UsersTable() {
       cell: (value, row) => (
         <StatusSelectCell
           value={row.status}
-          onValueChange={(newStatus: string) => console.log(`Update ${row.id} to ${newStatus}`)}
+          onValueChange={(newStatus: string) => console.log(`Update ${row.user_id} to ${newStatus}`)}
           options={["active", "inactive", "suspended"]}
           colorMap={statusColorMap}
           t={(key: string) => t(`statuses.${key}`)}
@@ -85,7 +85,7 @@ export default function UsersTable() {
       header: t("joined"),
       cell: (value, row) => (
         <span className="text-content-tertiary">
-          {row.createdAt ? format(new Date(row.createdAt), "dd MMM yyyy") : "-"}
+          {row.created_at ? format(new Date(row.created_at), "dd MMM yyyy") : "-"}
         </span>
       ),
     },
@@ -95,10 +95,10 @@ export default function UsersTable() {
       cell: (value, row) => (
         <ActionCell>
           <EditActionButton 
-            onClick={() => console.log("Edit", row.id)} 
+            onClick={() => console.log("Edit", row.user_id)} 
           />
           <DeleteActionButton 
-            onClick={() => console.log("Delete", row.id)} 
+            onClick={() => console.log("Delete", row.user_id)} 
           />
         </ActionCell>
       ),

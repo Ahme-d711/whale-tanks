@@ -26,7 +26,7 @@ export function UserMenu() {
   const [imageError, setImageError] = useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
-  const userId = (user && (user._id || user.id)) as string | undefined;
+  const userId = (user && (user.user_id || user._id || user.id)) as string | undefined;
 
   const handleLogout = () => {
     setLogoutDialogOpen(true);

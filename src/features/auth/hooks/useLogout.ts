@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../stores/authStore";
+import { removeCookie } from "@/utils/cookies";
+import { TOKEN_KEY } from "@/utils/constants";
 
 interface UseLogoutReturn {
   logout: () => Promise<void>;
@@ -22,8 +24,9 @@ export function useLogout(): UseLogoutReturn {
 
 
       
-      // Clear the auth store
+      // Clear store and cookies
       clearAuth();
+      removeCookie(TOKEN_KEY);
 
       // Use router.replace for client-side navigation without page refresh
       router.replace("/login");

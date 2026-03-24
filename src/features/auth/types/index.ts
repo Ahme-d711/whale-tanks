@@ -1,18 +1,36 @@
 export interface User {
-  _id?: string;
+  user_id: string;
+  email: string;
+  name: string;
+  role: string;
+  status: string;
+  created_at: string;
+  // Backward compatibility
   id?: string;
-  name?: string;
-  email?: string;
-  role?: string;
-  rolesStr?: string[]; // Array of user permissions/roles
-  photo?: string | null;
-  username?: string;
-  phone?: string;
-  session_id?: string | null;
-  session_expiry?: string | null;
+  _id?: string;
   createdAt?: string;
-  [key: string]: any; // Allow additional fields from API
+  photo?: string | null;
+  picture?: string | null;
+  [key: string]: any;
 }
+
+export interface LoginResponse {
+  access_token: string;
+  token_type: string;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterData {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export interface RegisterResponse extends User {}
 
 export interface Sales {
   _id: string;

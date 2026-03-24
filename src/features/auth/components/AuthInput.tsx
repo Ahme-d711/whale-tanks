@@ -1,6 +1,4 @@
-"use client"
-
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from "motion/react"
 import {
   FormControl,
@@ -11,6 +9,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Control } from "react-hook-form"
+import { Eye, EyeOff } from "lucide-react"
 
 interface AuthInputProps {
   control: Control<any>
@@ -29,6 +28,10 @@ export const AuthInput = ({
   type = "text",
   delay = 0,
 }: AuthInputProps) => {
+  const [showPassword, setShowPassword] = useState(false)
+  const isPassword = type === "password"
+  const currentType = isPassword ? (showPassword ? "text" : "password") : type
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -42,12 +45,27 @@ export const AuthInput = ({
           <FormItem>
             <FormLabel className="text-foreground font-normal!">{label}</FormLabel>
             <FormControl>
-              <Input
-                type={type}
-                placeholder={placeholder}
-                {...field}
-                className="rounded-2xl h-12 border-border focus:border-none transition-all shadow-none placeholder:text-secondary-foreground"
-              />
+              <div className="relative">
+                <Input
+                  type={currentType}
+                  placeholder={placeholder}
+                  {...field}
+                  className="rounded-2xl h-12 border-border focus:border-none transition-all shadow-none placeholder:text-secondary-foreground pr-12"
+                />
+                {isPassword && (
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary-foreground hover:text-primary transition-colors cursor-pointer"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                )}
+              </div>
             </FormControl>
             <FormMessage />
           </FormItem>
