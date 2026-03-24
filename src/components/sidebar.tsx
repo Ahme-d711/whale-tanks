@@ -50,7 +50,7 @@ export function Sidebar() {
 
       {/* Theme Toggle */}
       <div className="p-6">
-        <Image src="/dashboard-logo.svg" alt="logo" width={180} height={185} />
+        <Image src="/logo.svg" alt="logo" width={180} height={185} />
       </div>
     </aside>
   );

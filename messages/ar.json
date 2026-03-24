@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "currency": "درهم"
+  },
   "Brand": {
     "name": "Whale Tanks"
   },
@@ -59,7 +62,18 @@
     "open": "فتح القائمة",
     "new_chat": "دردشة جديدة",
     "search": "البحث في المحادثات",
-    "last_chats": "المحادثات الأخيرة"
+    "last_chats": "المحادثات الأخيرة",
+    "title": "وايل تانكس",
+    "overview": "نظرة عامة",
+    "products": "المنتجات",
+    "categories": "الفئات",
+    "subcategories": "الفئات الفرعية",
+    "brands": "العلامات التجارية",
+    "sections": "الأقسام",
+    "advertisements": "الإعلانات",
+    "orders": "الطلبات",
+    "users": "المستخدمين",
+    "settings": "الإعدادات"
   },
   "Billing": {
     "insufficient_credits": {
@@ -89,7 +103,9 @@
     "password_placeholder": "كلمة المرور الخاصة بك",
     "authenticating": "جاري التحقق...",
     "creating_account": "جاري إنشاء الحساب...",
-    "submit": "دخول"
+    "submit": "دخول",
+    "user_fallback": "مستخدم",
+    "profile": "الملف الشخصي"
   },
   "Landing": {
     "About": {
@@ -128,7 +144,10 @@
     "about": "من نحن",
     "pricing": "الباقات والأسعار",
     "login": "تسجيل الدخول",
-    "open_menu": "فتح القائمة"
+    "open_menu": "فتح القائمة",
+    "user_fallback": "مستخدم",
+    "admin_status": "مسؤول",
+    "logout": "تسجيل الخروج"
   },
   "Dashboard": {
     "Advisors": {
@@ -145,6 +164,51 @@
       "title": "افتح المميزات الاحترافية",
       "subtitle": "احصل على استشارات غير محدودة ومميزات ذكاء اصطناعي متقدمة.",
       "button": "ترقية الآن"
-    }
+    },
+    "title": "لوحة التحكم الرئيسية",
+    "subtitle": "مرحباً بك في لوحة التحكم الخاصة بك",
+    "statistics": "إحصائيات ملخصة",
+    "total_users": "إجمالي المستخدمين",
+    "total_products": "إجمالي المنتجات",
+    "total_orders": "إجمالي الطلبات",
+    "total_revenue": "إجمالي الإيرادات",
+    "new_users_trend": "المستخدمين الجدد (30 يوم): {count}",
+    "available": "المنتجات المتاحة",
+    "cumulative": "الطلبات التراكمية",
+    "delivered": "الطلبات المسلمة",
+    "orders": "إدارة الطلبات الأخيرة",
+    "pending": "طلبات معلقة",
+    "processing": "جاري التجهيز",
+    "cancelled": "طلبات ملغاة",
+    "completed": "طلبات مكتملة",
+    "awaiting": "في انتظار الاستلام",
+    "in_progress": "قيد التنفيذ",
+    "failed": "فشل التوصيل",
+    "order_statistics": "إحصائيات الطلب",
+    "traffic_by_gov": "الزيارات حسب المحافظة",
+    "no_data": "لا توجد بيانات متاحة بعد",
+    "export_report": "تصدير التقرير",
+    "users_management": "إدارة المستخدمين",
+    "add_user": "إضافة مستخدم جديد"
+  },
+  "Users": {
+    "user": "المستخدم",
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "status": "الحالة",
+    "joined": "تاريخ الانضمام",
+    "actions": "العمليات",
+    "roles": {
+      "admin": "مدير",
+      "user": "مستخدم",
+      "editor": "محرر"
+    },
+    "statuses": {
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "suspended": "محظور"
+    },
+    "delete_confirm": "هل أنت متأكد من حذف هذا المستخدم؟",
+    "edit_user": "تعديل المستخدم"
   }
 }

@@ -5,3 +5,6 @@ export * from "./SelectionCell";
 export * from "./ActionButton";
 export * from "./ActionCell";
 export * from "./StatusSelectCell";
+export * from "./OneImage";
+export * from "./EditActionButton";
+export * from "./DeleteActionButton";
