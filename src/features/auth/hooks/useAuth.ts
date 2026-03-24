@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { authService } from "../services/auth.service";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -50,12 +50,34 @@ export const useRegister = () => {
 };
 
 export const useProfile = (enabled = true) => {
-  const { setUser, clearAuth } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   return useQuery({
     queryKey: ["profile"],
     queryFn: authService.getProfile,
     enabled,
     staleTime: Infinity,
+  });
+};
+
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+  const { setUser } = useAuthStore();
+
+  return useMutation({
+    mutationFn: authService.updateProfile,
+    onSuccess: (data) => {
+      setUser(data);
+      queryClient.setQueryData(["profile"], data);
+      toast.success("Profile Updated", {
+        description: "Your profile has been updated successfully.",
+      });
+    },
+    onError: (error: any) => {
+      const message = error.response?.data?.message || error.message || "Update failed";
+      toast.error("Update Failed", {
+        description: message,
+      });
+    },
   });
 };

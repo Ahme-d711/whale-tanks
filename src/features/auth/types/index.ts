@@ -32,6 +32,13 @@ export interface RegisterData {
 
 export interface RegisterResponse extends User {}
 
+export interface UpdateProfileData {
+  email: string;
+  name: string;
+  role: string;
+  status: string;
+}
+
 export interface Sales {
   _id: string;
   name: string;

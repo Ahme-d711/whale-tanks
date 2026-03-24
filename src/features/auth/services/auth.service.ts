@@ -1,5 +1,5 @@
 import clientAxios from "@/lib/axios/clientAxios";
-import { LoginResponse, RegisterResponse, LoginCredentials, RegisterData, User } from "../types";
+import { LoginResponse, RegisterResponse, LoginCredentials, RegisterData, User, UpdateProfileData } from "../types";
 
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
@@ -14,6 +14,11 @@ export const authService = {
 
   getProfile: async (): Promise<User> => {
     const response = await clientAxios.get<User>("/users/me");
+    return response.data;
+  },
+
+  updateProfile: async (data: UpdateProfileData): Promise<User> => {
+    const response = await clientAxios.put<User>("/users/me", data);
     return response.data;
   },
 };

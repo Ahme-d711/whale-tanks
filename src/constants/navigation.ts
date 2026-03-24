@@ -25,41 +25,6 @@ export const navItems: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
-    titleKey: "products",
-    href: "/dashboard/products",
-    icon: Package,
-  },
-  {
-    titleKey: "categories",
-    href: "/dashboard/categories",
-    icon: Layers,
-  },
-  {
-    titleKey: "subcategories",
-    href: "/dashboard/subcategories",
-    icon: Tag,
-  },
-  {
-    titleKey: "brands",
-    href: "/dashboard/brands",
-    icon: Award,
-  },
-  {
-    titleKey: "sections",
-    href: "/dashboard/sections",
-    icon: LayoutGrid,
-  },
-  {
-    titleKey: "advertisements",
-    href: "/dashboard/ads",
-    icon: Megaphone,
-  },
-  {
-    titleKey: "orders",
-    href: "/dashboard/orders",
-    icon: ShoppingCart,
-  },
-  {
     titleKey: "users",
     href: "/dashboard/users",
     icon: Users,

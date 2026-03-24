@@ -30,6 +30,9 @@ export const metadata: Metadata = {
   description: "Join the elite.",
 };
 
+import { cookies } from "next/headers";
+import { TOKEN_KEY } from "@/utils/constants";
+
 export default async function RootLayout({
   children,
   params
@@ -38,6 +41,8 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
+  const cookieStore = await cookies();
+  const token = cookieStore.get(TOKEN_KEY)?.value || null;
 
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
@@ -55,7 +60,7 @@ export default async function RootLayout({
         </div>
         <NextIntlClientProvider messages={messages}>
           <CoreProviders>
-            <Providers data={{ token: null, user: null }}>
+            <Providers data={{ token, user: null }}>
               <div className="relative z-10 w-full">
                 {children}
               </div>
