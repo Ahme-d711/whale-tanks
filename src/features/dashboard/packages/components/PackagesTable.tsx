@@ -20,7 +20,7 @@ export default function PackagesTable() {
   const t = useTranslations("Packages");
   const tDashboard = useTranslations("Dashboard");
   const [filters, setFilters] = React.useState<{ active_only?: boolean }>({ active_only: undefined });
-  const { packages, isLoading, deletePackage, updatePackage } = usePackages(filters);
+  const { packages, isLoading, deletePackage, updatePackage, isDeleting } = usePackages(filters);
   const [packageToDelete, setPackageToDelete] = React.useState<Package | null>(null);
   const [packageToEdit, setPackageToEdit] = React.useState<Package | null>(null);
 
@@ -125,13 +125,16 @@ export default function PackagesTable() {
         open={!!packageToDelete}
         onOpenChange={(open) => !open && setPackageToDelete(null)}
         title={t("delete_package")}
-        description={t("delete_confirm")}
+        description={`${t("delete_confirm")} : ${packageToDelete?.name}`}
         onConfirm={async () => {
           if (packageToDelete) {
             await deletePackage(packageToDelete.package_id);
             setPackageToDelete(null);
           }
         }}
+        confirmLabel={tDashboard("delete")}
+        cancelLabel={tDashboard("cancel")}
+        isLoading={isDeleting}
       />
     </div>
   );

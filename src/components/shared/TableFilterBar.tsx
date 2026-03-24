@@ -50,7 +50,7 @@ export function TableFilterBar({
                     key={String(option.value)}
                     onClick={() => onFilterChange(field.id, option.value)}
                     className={cn(
-                      "relative px-6 py-2 text-sm font-medium transition-colors duration-300 rounded-[16px] z-10",
+                      "relative px-6 py-2 text-sm font-medium transition-colors duration-300 rounded-[16px]",
                       isActive 
                         ? "text-primary drop-shadow-sm" 
                         : "text-content-tertiary hover:text-content-secondary"
@@ -59,11 +59,11 @@ export function TableFilterBar({
                     {isActive && (
                       <motion.div
                         layoutId={`active-pill-${field.id}`}
-                        className="absolute inset-0 bg-white rounded-[16px] shadow-sm ring-1 ring-black/5"
+                        className="absolute inset-0 bg-white rounded-[16px] shadow-sm ring-1 ring-black/5 z-0"
                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                       />
                     )}
-                    {option.label}
+                    <span className="relative z-10">{option.label}</span>
                   </button>
                 );
               })}
