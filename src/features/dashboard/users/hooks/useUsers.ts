@@ -1,21 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { mockUsers } from "../utils/mockUsers";
 import { authService } from "@/features/auth/services/auth.service";
+import { userService } from "../services/user.service";
 import { toast } from "sonner";
 import { UserDashboard } from "../types/user.types";
 
 export const useUsers = () => {
   const queryClient = useQueryClient();
 
-  const { data: users = mockUsers, isLoading } = useQuery<UserDashboard[]>({
+  const { data: users = [], isLoading } = useQuery<UserDashboard[]>({
     queryKey: ["users"],
-    queryFn: async () => {
-      // This is a placeholder for a real getUsers endpoint
-      // For now, we use mockData as the base
-      return mockUsers;
-    },
-    initialData: mockUsers,
-    staleTime: Infinity, // Keep it static in memory
+    queryFn: () => userService.getUsers(),
   });
 
   const addUserMutation = useMutation({
@@ -45,10 +39,30 @@ export const useUsers = () => {
     },
   });
 
+  const updateUserMutation = useMutation({
+    mutationFn: ({ userId, data }: { userId: string; data: Partial<UserDashboard> }) =>
+      userService.updateUser(userId, data),
+    onSuccess: (updatedUser) => {
+      queryClient.setQueryData(["users"], (oldUsers: UserDashboard[] | undefined) => {
+        return oldUsers?.map((u) => (u.user_id === updatedUser.user_id ? updatedUser : u));
+      });
+      toast.success("User Updated", {
+        description: `${updatedUser.name} has been updated successfully.`,
+      });
+    },
+    onError: (error: any) => {
+      toast.error("Error updating user", {
+        description: error.response?.data?.message || error.message || "Update failed",
+      });
+    },
+  });
+
   return {
     users,
     isLoading,
     addUser: addUserMutation.mutateAsync,
     isAdding: addUserMutation.isPending,
+    updateUser: updateUserMutation.mutateAsync,
+    isUpdating: updateUserMutation.isPending,
   };
 };

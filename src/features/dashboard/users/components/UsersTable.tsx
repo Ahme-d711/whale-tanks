@@ -19,11 +19,20 @@ import { Badge } from "@/components/ui/badge";
 import { UserDashboard, UserStatus } from "../types/user.types";
 import { mockUsers } from "../utils/mockUsers";
 import { useUsers } from "../hooks/useUsers";
+import { EditUserDialog } from "./EditUserDialog";
 
 export default function UsersTable() {
   const t = useTranslations("Users");
   const tDashboard = useTranslations("Dashboard");
-  const { users } = useUsers();
+  const { users, updateUser } = useUsers();
+
+  const [selectedUser, setSelectedUser] = React.useState<UserDashboard | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
+
+  const handleEdit = (user: UserDashboard) => {
+    setSelectedUser(user);
+    setIsEditDialogOpen(true);
+  };
 
   const statusColorMap: Record<UserStatus, string> = {
     active: "bg-emerald-50 text-emerald-700 border-emerald-200",
@@ -75,7 +84,9 @@ export default function UsersTable() {
       cell: (value, row) => (
         <StatusSelectCell
           value={row.status}
-          onValueChange={(newStatus: string) => console.log(`Update ${row.user_id} to ${newStatus}`)}
+          onValueChange={(newStatus: string) => {
+            updateUser({ userId: row.user_id, data: { status: newStatus as UserStatus } });
+          }}
           options={["active", "inactive", "suspended"]}
           colorMap={statusColorMap}
           t={(key: string) => t(`statuses.${key}`)}
@@ -97,7 +108,7 @@ export default function UsersTable() {
       cell: (value, row) => (
         <ActionCell>
           <EditActionButton 
-            onClick={() => console.log("Edit", row.user_id)} 
+            onClick={() => handleEdit(row)} 
           />
           <DeleteActionButton 
             onClick={() => console.log("Delete", row.user_id)} 
@@ -116,6 +127,12 @@ export default function UsersTable() {
         enablePagination
         pageSize={5}
         itemLabel={tDashboard("users_management")}
+      />
+
+      <EditUserDialog
+        user={selectedUser}
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
       />
     </div>
   );

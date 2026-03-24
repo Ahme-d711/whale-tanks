@@ -201,6 +201,7 @@
   },
   "Users": {
     "user": "User",
+    "edit_user": "Edit User",
     "email": "Email",
     "role": "Role",
     "status": "Status",
