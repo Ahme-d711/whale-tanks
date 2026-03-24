@@ -3,7 +3,7 @@ import { packageService } from "../services/package.service";
 import { toast } from "sonner";
 import { CreatePackageData, UpdatePackageData } from "../types/package.types";
 
-export function usePackages() {
+export function usePackages(filters?: { active_only?: boolean }) {
   const queryClient = useQueryClient();
 
   const {
@@ -11,8 +11,8 @@ export function usePackages() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["packages"],
-    queryFn: packageService.getPackages,
+    queryKey: ["packages", filters],
+    queryFn: () => packageService.getPackages(filters?.active_only),
   });
 
   const createMutation = useMutation({

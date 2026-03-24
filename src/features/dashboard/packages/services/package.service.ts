@@ -2,8 +2,12 @@ import clientAxios from "@/lib/axios/clientAxios";
 import { Package, CreatePackageData, UpdatePackageData } from "../types/package.types";
 
 export const packageService = {
-  getPackages: async (): Promise<Package[]> => {
-    const response = await clientAxios.get("/packages/");
+  getPackages: async (active_only?: boolean): Promise<Package[]> => {
+    const response = await clientAxios.get("/packages/", {
+      params: { 
+        ...(active_only !== undefined && { active_only })
+      }
+    });
     return response.data;
   },
 

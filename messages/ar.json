@@ -202,7 +202,9 @@
     "profits": "الأرباح",
     "orders_label": "الطلبات",
     "cancel": "إلغاء",
-    "delete": "حذف"
+    "delete": "حذف",
+    "all": "الكل",
+    "inactive": "غير نشط"
   },
   "Users": {
     "user": "المستخدم",
@@ -220,7 +222,8 @@
     "statuses": {
       "active": "نشط",
       "inactive": "غير نشط",
-      "suspended": "محظور"
+      "suspended": "محظور",
+      "all": "كل الحالات"
     },
     "delete_confirm": "هل أنت متأكد من حذف هذا المستخدم؟"
   },
@@ -236,6 +239,8 @@
     "duration": "المدة",
     "status": "الحالة",
     "is_active": "نشط",
+    "all": "الكل",
+    "inactive": "غير نشط",
     "days": "يوم",
     "actions": "العمليات",
     "delete_confirm": "هل أنت متأكد من حذف هذه الباقة؟"

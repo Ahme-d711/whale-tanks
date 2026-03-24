@@ -4,12 +4,12 @@ import { userService } from "../services/user.service";
 import { toast } from "sonner";
 import { UserDashboard } from "../types/user.types";
 
-export const useUsers = () => {
+export const useUsers = (filters?: { status?: string }) => {
   const queryClient = useQueryClient();
 
   const { data: users = [], isLoading } = useQuery<UserDashboard[]>({
-    queryKey: ["users"],
-    queryFn: () => userService.getUsers(),
+    queryKey: ["users", filters],
+    queryFn: () => userService.getUsers(0, 50, filters?.status),
   });
 
   const addUserMutation = useMutation({

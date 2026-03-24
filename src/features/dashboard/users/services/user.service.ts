@@ -2,9 +2,13 @@ import clientAxios from "@/lib/axios/clientAxios";
 import { UserDashboard } from "../types/user.types";
 
 export const userService = {
-  getUsers: async (skip = 0, limit = 10): Promise<UserDashboard[]> => {
+  getUsers: async (skip = 0, limit = 10, status?: string): Promise<UserDashboard[]> => {
     const response = await clientAxios.get<UserDashboard[]>("/users/", {
-      params: { skip, limit },
+      params: { 
+        skip, 
+        limit,
+        ...(status && { status })
+      },
     });
     return response.data;
   },

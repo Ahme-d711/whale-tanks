@@ -14,12 +14,32 @@ import { usePackages } from "../hooks/usePackages";
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { EditPackageDialog } from "./EditPackageDialog";
 import { Switch } from "@/components/ui/switch";
+import { TableFilterBar } from "@/components/shared/TableFilterBar";
 
 export default function PackagesTable() {
   const t = useTranslations("Packages");
-  const { packages, isLoading, deletePackage, updatePackage } = usePackages();
+  const tDashboard = useTranslations("Dashboard");
+  const [filters, setFilters] = React.useState<{ active_only?: boolean }>({ active_only: undefined });
+  const { packages, isLoading, deletePackage, updatePackage } = usePackages(filters);
   const [packageToDelete, setPackageToDelete] = React.useState<Package | null>(null);
   const [packageToEdit, setPackageToEdit] = React.useState<Package | null>(null);
+
+  const filterFields = [
+    {
+      id: "active_only",
+      label: t("status"),
+      type: "tabs" as const,
+      options: [
+        { label: t("all"), value: undefined },
+        { label: t("is_active"), value: true },
+        { label: t("inactive"), value: false },
+      ],
+    },
+  ];
+
+  const handleFilterChange = (id: string, value: any) => {
+    setFilters((prev) => ({ ...prev, [id]: value }));
+  };
 
   const columns: UniTableColumn<Package>[] = [
     {
@@ -81,7 +101,13 @@ export default function PackagesTable() {
   ];
 
   return (
-    <>
+    <div className="space-y-4">
+      <TableFilterBar
+        fields={filterFields}
+        values={filters}
+        onFilterChange={handleFilterChange}
+      />
+
       <div className="bg-white rounded-[32px] border border-divider overflow-hidden shadow-sm">
         <UniTable 
           data={packages} 
@@ -107,6 +133,6 @@ export default function PackagesTable() {
           }
         }}
       />
-    </>
+    </div>
   );
 }

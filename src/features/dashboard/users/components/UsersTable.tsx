@@ -17,16 +17,16 @@ import {
 } from "@/components/shared/uni-table";
 import { Badge } from "@/components/ui/badge";
 import { UserDashboard, UserStatus } from "../types/user.types";
-import { mockUsers } from "../utils/mockUsers";
 import { useUsers } from "../hooks/useUsers";
 import { EditUserDialog } from "./EditUserDialog";
-
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
+import { TableFilterBar } from "@/components/shared/TableFilterBar";
 
 export default function UsersTable() {
   const t = useTranslations("Users");
   const tDashboard = useTranslations("Dashboard");
-  const { users, updateUser, deleteUser, isDeleting } = useUsers();
+  const [filters, setFilters] = React.useState({ status: "" });
+  const { users, updateUser, deleteUser, isDeleting } = useUsers(filters);
 
   const [selectedUser, setSelectedUser] = React.useState<UserDashboard | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
@@ -56,6 +56,24 @@ export default function UsersTable() {
     active: "bg-emerald-50 text-emerald-700 border-emerald-200",
     inactive: "bg-amber-50 text-amber-700 border-amber-200",
     suspended: "bg-rose-50 text-rose-700 border-rose-200",
+  };
+
+  const filterFields = [
+    {
+      id: "status",
+      label: t("status"),
+      type: "tabs" as const,
+      options: [
+        { label: t("statuses.all"), value: "" },
+        { label: t("statuses.active"), value: "active" },
+        { label: t("statuses.inactive"), value: "inactive" },
+        { label: t("statuses.suspended"), value: "suspended" },
+      ],
+    },
+  ];
+
+  const handleFilterChange = (id: string, value: any) => {
+    setFilters((prev) => ({ ...prev, [id]: value }));
   };
 
   const columns: UniTableColumn<UserDashboard>[] = [
@@ -138,14 +156,22 @@ export default function UsersTable() {
   ];
 
   return (
-    <div className="bg-white rounded-[24px] border border-divider overflow-hidden shadow-sm">
-      <UniTable
-        data={users}
-        columns={columns}
-        enablePagination
-        pageSize={5}
-        itemLabel={tDashboard("users_management")}
+    <div className="space-y-4">
+      <TableFilterBar
+        fields={filterFields}
+        values={filters}
+        onFilterChange={handleFilterChange}
       />
+
+      <div className="bg-white rounded-[24px] border border-divider overflow-hidden shadow-sm">
+        <UniTable
+          data={users}
+          columns={columns}
+          enablePagination
+          pageSize={5}
+          itemLabel={tDashboard("users_management")}
+        />
+      </div>
 
       <EditUserDialog
         user={selectedUser}

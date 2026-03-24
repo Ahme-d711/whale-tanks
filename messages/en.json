@@ -202,7 +202,9 @@
     "profits": "Profits",
     "orders_label": "Orders",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "all": "All",
+    "inactive": "Inactive"
   },
   "Users": {
     "user": "User",
@@ -220,7 +222,8 @@
     "statuses": {
       "active": "Active",
       "inactive": "Inactive",
-      "suspended": "Suspended"
+      "suspended": "Suspended",
+      "all": "All Status"
     },
     "delete_confirm": "Are you sure you want to delete this user?"
   },
@@ -236,6 +239,8 @@
     "duration": "Duration",
     "status": "Status",
     "is_active": "Active",
+    "all": "All",
+    "inactive": "Inactive",
     "days": "Days",
     "actions": "Actions",
     "delete_confirm": "Are you sure you want to delete this package?"
