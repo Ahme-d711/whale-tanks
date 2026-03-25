@@ -5,6 +5,7 @@ import {
   Package,
   Bot,
   Server,
+  CreditCard,
 } from "lucide-react";
 import type { IconType } from "@/types";
 
@@ -24,6 +25,11 @@ export const navItems: NavItem[] = [
     titleKey: "users",
     href: "/dashboard/users",
     icon: Users,
+  },
+  {
+    titleKey: "subscriptions",
+    href: "/dashboard/subscriptions",
+    icon: CreditCard,
   },
   {
     titleKey: "packages",

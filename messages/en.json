@@ -73,6 +73,7 @@
     "advertisements": "Advertisements",
     "orders": "Orders",
     "users": "Users",
+    "subscriptions": "Subscriptions",
     "packages": "Packages",
     "models": "AI Models",
     "providers": "AI Providers",
@@ -280,5 +281,22 @@
     "all": "All",
     "actions": "Actions",
     "delete_confirm": "Are you sure you want to delete this AI provider?"
+  },
+  "Subscriptions": {
+    "title": "Subscriptions Management",
+    "add_subscription": "Add New Subscription",
+    "edit_subscription": "Edit Subscription",
+    "delete_subscription": "Delete Subscription",
+    "user": "User",
+    "package": "Package",
+    "status": "Status",
+    "status_active": "Active",
+    "status_inactive": "Inactive",
+    "status_expired": "Expired",
+    "status_cancelled": "Cancelled",
+    "tokens": "Tokens (Used/Limit)",
+    "dates": "Duration (Start - End)",
+    "actions": "Actions",
+    "delete_confirm": "Are you sure you want to delete this subscription?"
   }
 }

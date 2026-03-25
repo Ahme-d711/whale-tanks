@@ -73,6 +73,7 @@
     "advertisements": "الإعلانات",
     "orders": "الطلبات",
     "users": "المستخدمين",
+    "subscriptions": "الاشتراكات",
     "packages": "الباقات",
     "models": "نماذج الذكاء الاصطناعي",
     "providers": "مزودو الخدمة",
@@ -280,5 +281,22 @@
     "all": "الكل",
     "actions": "العمليات",
     "delete_confirm": "هل أنت متأكد من حذف هذا المزود؟"
+  },
+  "Subscriptions": {
+    "title": "إدارة الاشتراكات",
+    "add_subscription": "إضافة اشتراك جديد",
+    "edit_subscription": "تعديل الاشتراك",
+    "delete_subscription": "حذف الاشتراك",
+    "user": "المستخدم",
+    "package": "الباقة",
+    "status": "الحالة",
+    "status_active": "نشط",
+    "status_inactive": "غير نشط",
+    "status_expired": "منتهي",
+    "status_cancelled": "ملغي",
+    "tokens": "الرموز (مستخدمة/الحد)",
+    "dates": "المدة (بداية - نهاية)",
+    "actions": "العمليات",
+    "delete_confirm": "هل أنت متأكد من حذف هذا الاشتراك؟"
   }
 }
