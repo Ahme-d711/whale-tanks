@@ -1,16 +1,24 @@
 "use client"
 
+import React from "react"
 import { useTranslations } from 'next-intl'
 import PricingCard from "../components/PricingCard"
 import { usePackages } from "@/features/dashboard/packages/hooks/usePackages"
+import { Package } from "@/features/dashboard/packages/types/package.types"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useSubscriptions } from "@/features/dashboard/subscriptions/hooks/useSubscriptions"
+import { ConfirmDialog } from "@/components/shared/ConfirmDialog"
+import { addDays } from "date-fns"
 
 export default function PricingTemplate() {
   const t = useTranslations('Landing.Pricing')
   const { packages, isLoading } = usePackages({ active_only: true })
+  const { createSubscription, isCreating } = useSubscriptions()
+  
+  const [selectedPackage, setSelectedPackage] = React.useState<Package | null>(null)
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false)
 
   const getFeatures = (index: number) => {
-    // Current placeholder features from PricingTemplate
     const baseFeatures = [
       { text: t('plans.feature_dummy') },
       { text: t('plans.feature_dummy') },
@@ -22,7 +30,6 @@ export default function PricingTemplate() {
       { text: t('plans.feature_dummy') },
     ]
     
-    // Add logic if needed to differentiate plans (locks)
     if (index === 0) return baseFeatures;
     if (index === 1) return baseFeatures.map((f, i) => (i === 2 || i === 3) ? { ...f, isLocked: true } : f);
     return baseFeatures.map((f, i) => (i === 2 || i === 3 || i === 6) ? { ...f, isLocked: true } : f);
@@ -34,6 +41,29 @@ export default function PricingTemplate() {
     if (days === 180) return t('plans.months_6')
     if (days === 365) return t('plans.year_1')
     return `${days} ${t('days')}`
+  }
+
+  const handleSelectPackage = (pkg: Package) => {
+    setSelectedPackage(pkg)
+    setIsConfirmOpen(true)
+  }
+
+  const handleConfirmSubscription = async () => {
+    if (!selectedPackage) return
+
+    const startDate = new Date()
+    const endDate = addDays(startDate, selectedPackage.duration_days)
+
+    try {
+      await createSubscription({
+        package_id: selectedPackage.package_id,
+        start_date: startDate.toISOString().split('T')[0],
+        end_date: endDate.toISOString().split('T')[0],
+      })
+      setIsConfirmOpen(false)
+    } catch (error) {
+      // Handled by hook
+    }
   }
 
   return (
@@ -72,10 +102,23 @@ export default function PricingTemplate() {
               price={`$${pkg.price}`}
               features={getFeatures(index)}
               monthlyPrice={pkg.duration_days > 30 ? `$${Math.round(pkg.price / (pkg.duration_days / 30))}` : undefined}
+              onSelect={() => handleSelectPackage(pkg)}
             />
           ))
         )}
       </div>
+
+      <ConfirmDialog
+        open={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
+        title={t('subscribe_confirm_title')}
+        description={t('subscribe_confirm_desc', { planName: selectedPackage?.name || "" })}
+        variant="default"
+        onConfirm={handleConfirmSubscription}
+        isLoading={isCreating}
+        confirmLabel={t('select_plan')}
+        cancelLabel={t('plans.cancel') || "Cancel"} 
+      />
     </div>
   )
 }

@@ -17,6 +17,7 @@ interface PricingCardProps {
   monthlyPrice?: string
   features: PricingFeature[]
   isPopular?: boolean
+  onSelect?: () => void
 }
 
 export default function PricingCard({
@@ -26,6 +27,7 @@ export default function PricingCard({
   saveText,
   monthlyPrice,
   features,
+  onSelect,
 }: PricingCardProps) {
   const t = useTranslations('Landing.Pricing')
 
@@ -82,7 +84,10 @@ export default function PricingCard({
 
       {/* Action Button */}
       <div className="p-8">
-        <button className="w-full py-3.5 px-6 rounded-2xl border-2 border-primary cursor-pointer text-primary font-bold text-lg hover:bg-primary hover:text-white transition-all duration-300">
+        <button 
+          onClick={onSelect}
+          className="w-full py-3.5 px-6 rounded-2xl border-2 border-primary cursor-pointer text-primary font-bold text-lg hover:bg-primary hover:text-white transition-all duration-300"
+        >
           {t('select_plan')}
         </button>
       </div>

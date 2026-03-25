@@ -129,19 +129,22 @@
       "title": "Packages and prices",
       "choose_plan": "Choose a Subscription",
       "subtitle": "Loram your prominence on your portal site",
-      "month": "Month",
+      "month": "m",
       "select_plan": "Select this plan",
+      "subscribe_confirm_title": "Confirm Subscription",
+      "subscribe_confirm_desc": "Are you sure you want to subscribe to the {planName} plan?",
       "plans": {
         "basic": "Basic",
         "standard": "Standard",
-        "premium": "Premium",
+        "premium": "Premium Plan",
         "save": "SAVE",
         "months_1": "1 Month",
-        "months_3": "3 MONTHS",
+        "months_3": "3 Months",
         "months_6": "6 Months",
         "year_1": "1 Year",
         "days": "Days",
-        "feature_dummy": "Lorem ipsum dolor sit amet"
+        "feature_dummy": "Lorem ipsum dolor sit amet",
+        "cancel": "Cancel"
       }
     }
   },

@@ -130,18 +130,21 @@
       "choose_plan": "اختر اشتراكًا",
       "subtitle": "عزز تواجدك على موقعك بتميز",
       "month": "شهر",
-      "select_plan": "اختر هذه الخطة",
+      "select_plan": "اشترك في هذه الباقة",
+      "subscribe_confirm_title": "تأكيد الاشتراك",
+      "subscribe_confirm_desc": "هل أنت متأكد من رغبتك في الاشتراك في باقة {planName}؟",
       "plans": {
         "basic": "أساسي",
         "standard": "قياسي",
-        "premium": "مميز",
+        "premium": "باقة مميزة",
         "save": "وفر",
         "months_1": "شهر واحد",
         "months_3": "3 أشهر",
         "months_6": "6 أشهر",
         "year_1": "سنة واحدة",
         "days": "أيام",
-        "feature_dummy": "هذا النص هو مثال لنص يمكن أن يستبدل"
+        "feature_dummy": "هذا النص هو مثال لنص يمكن أن يستبدل",
+        "cancel": "إلغاء"
       }
     }
   },
