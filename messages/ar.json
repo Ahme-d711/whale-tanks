@@ -75,6 +75,7 @@
     "users": "المستخدمين",
     "packages": "الباقات",
     "models": "نماذج الذكاء الاصطناعي",
+    "providers": "مزودو الخدمة",
     "settings": "الإعدادات"
   },
   "Billing": {
@@ -262,5 +263,20 @@
     "inactive": "غير نشط",
     "actions": "العمليات",
     "delete_confirm": "هل أنت متأكد من حذف هذا النموذج؟"
+  },
+  "AIProviders": {
+    "title": "إدارة مزودي الذكاء الاصطناعي",
+    "add_provider": "إضافة مزود جديد",
+    "edit_provider": "تعديل المزود",
+    "delete_provider": "حذف المزود",
+    "provider_name": "اسم المزود",
+    "status": "الحالة",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "active_desc": "المزود يقبل الطلبات حالياً",
+    "inactive_desc": "المزود معطل مؤقتاً",
+    "all": "الكل",
+    "actions": "العمليات",
+    "delete_confirm": "هل أنت متأكد من حذف هذا المزود؟"
   }
 }

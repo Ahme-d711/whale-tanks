@@ -17,6 +17,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useProviders } from "../../providers/hooks/useProviders";
 
 const modelSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -40,6 +48,7 @@ interface ModelFormProps {
 export function ModelForm({ defaultValues, onSubmit, isLoading, submitLabel, onCancel }: ModelFormProps) {
   const t = useTranslations("AIModels");
   const tDashboard = useTranslations("Dashboard");
+  const { providers, isLoading: isLoadingProviders } = useProviders({ active_only: true });
 
   const form = useForm<ModelFormValues>({
     resolver: zodResolver(modelSchema) as any,
@@ -73,9 +82,25 @@ export function ModelForm({ defaultValues, onSubmit, isLoading, submitLabel, onC
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t("provider_id")}</FormLabel>
-                <FormControl>
-                  <Input placeholder="openai" className="rounded-xl" {...field} />
-                </FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  value={field.value}
+                  disabled={isLoadingProviders}
+                >
+                  <FormControl>
+                    <SelectTrigger className="rounded-xl">
+                      <SelectValue placeholder={isLoadingProviders ? "Loading..." : "Select provider"} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="rounded-xl">
+                    {providers.map((provider) => (
+                      <SelectItem key={provider.provider_id} value={provider.provider_id}>
+                        {provider.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -157,10 +182,10 @@ export function ModelForm({ defaultValues, onSubmit, isLoading, submitLabel, onC
           </Button>
           <Button
             type="submit"
-            disabled={isLoading}
-            className="rounded-xl min-w-[100px]"
+            disabled={isLoading || isLoadingProviders}
+            className="rounded-xl min-w-[120px]"
           >
-            {isLoading ? <Spinner className="w-4 h-4" /> : submitLabel}
+            {isLoading ? <Spinner className="w-5 h-5" /> : submitLabel}
           </Button>
         </div>
       </form>

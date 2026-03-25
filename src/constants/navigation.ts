@@ -1,15 +1,10 @@
 import {
   LayoutDashboard,
-  Megaphone,
   Users,
-  ShoppingCart,
   Settings,
   Package,
-  Layers,
-  Tag,
-  Award,
-  LayoutGrid,
   Bot,
+  Server,
 } from "lucide-react";
 import type { IconType } from "@/types";
 
@@ -34,6 +29,11 @@ export const navItems: NavItem[] = [
     titleKey: "packages",
     href: "/dashboard/packages",
     icon: Package,
+  },
+  {
+    titleKey: "providers",
+    href: "/dashboard/providers",
+    icon: Server,
   },
   {
     titleKey: "models",

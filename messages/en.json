@@ -75,6 +75,7 @@
     "users": "Users",
     "packages": "Packages",
     "models": "AI Models",
+    "providers": "AI Providers",
     "settings": "Settings"
   },
   "Billing": {
@@ -262,5 +263,20 @@
     "inactive": "Inactive",
     "actions": "Actions",
     "delete_confirm": "Are you sure you want to delete this AI model?"
+  },
+  "AIProviders": {
+    "title": "AI Providers Management",
+    "add_provider": "Add New Provider",
+    "edit_provider": "Edit AI Provider",
+    "delete_provider": "Delete AI Provider",
+    "provider_name": "Provider Name",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "active_desc": "Provider is currently accepting requests",
+    "inactive_desc": "Provider is temporarily disabled",
+    "all": "All",
+    "actions": "Actions",
+    "delete_confirm": "Are you sure you want to delete this AI provider?"
   }
 }
