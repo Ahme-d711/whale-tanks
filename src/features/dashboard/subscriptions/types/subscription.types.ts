@@ -14,11 +14,11 @@ export interface Subscription {
 }
 
 export interface CreateSubscriptionData {
-  user_id: string;
   package_id: string;
-  status: "active" | "inactive";
   start_date: string;
   end_date: string;
 }
 
-export interface UpdateSubscriptionData extends Partial<CreateSubscriptionData> {}
+export interface UpdateSubscriptionData extends Partial<CreateSubscriptionData> {
+  status?: "active" | "inactive" | "expired" | "cancelled";
+}

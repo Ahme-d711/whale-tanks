@@ -37,9 +37,7 @@ export function AddSubscriptionDialog({ open, onOpenChange }: AddSubscriptionDia
         </DialogHeader>
         <SubscriptionForm
           defaultValues={{
-            user_id: "",
             package_id: "",
-            status: "active",
             start_date: new Date().toISOString().split("T")[0],
             end_date: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split("T")[0],
           }}

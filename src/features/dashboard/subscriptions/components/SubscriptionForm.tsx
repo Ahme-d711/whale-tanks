@@ -21,9 +21,7 @@ import { usePackages } from "../../packages/hooks/usePackages";
 import { useUsers } from "../../users/hooks/useUsers";
 
 const subscriptionSchema = z.object({
-  user_id: z.string().min(1, "User is required"),
   package_id: z.string().min(1, "Package is required"),
-  status: z.enum(["active", "inactive"]),
   start_date: z.string().min(1, "Start Date is required"),
   end_date: z.string().min(1, "End Date is required"),
 });
@@ -41,7 +39,6 @@ interface SubscriptionFormProps {
 export function SubscriptionForm({ defaultValues, onSubmit, isLoading, submitLabel, onCancel }: SubscriptionFormProps) {
   const t = useTranslations("Subscriptions");
   const tDashboard = useTranslations("Dashboard");
-  const { users, isLoading: isLoadingUsers } = useUsers();
   const { packages, isLoading: isLoadingPackages } = usePackages({ active_only: true });
 
   const form = useForm<SubscriptionFormValues>({
@@ -56,18 +53,6 @@ export function SubscriptionForm({ defaultValues, onSubmit, isLoading, submitLab
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
-        <FormSelect
-          control={form.control}
-          name="user_id"
-          label={t("user")}
-          placeholder="Select user"
-          isLoading={isLoadingUsers}
-          options={users.map((user) => ({
-            label: user.full_name || user.email,
-            value: user.user_id,
-          }))}
-        />
-
         <FormSelect
           control={form.control}
           name="package_id"
@@ -108,17 +93,6 @@ export function SubscriptionForm({ defaultValues, onSubmit, isLoading, submitLab
             )}
           />
         </div>
-
-        <FormSelect
-          control={form.control}
-          name="status"
-          label={t("status")}
-          placeholder="Select status"
-          options={[
-            { label: t("status_active"), value: "active" },
-            { label: t("status_inactive"), value: "inactive" },
-          ]}
-        />
 
         <div className="flex justify-end gap-3 pt-4">
           <Button
