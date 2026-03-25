@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -17,12 +18,11 @@ import LogoComponent from "@/components/shared/LogoComponent"
 import { useAuthStore } from "../stores/authStore"
 import { AuthInput } from "./AuthInput"
 import ShinyButton from "@/components/shared/ShinyButton"
+import { useUpdateProfile } from "../hooks/useAuth"
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
-  oldPassword: z.string().min(6, "Password must be at least 6 characters"),
-  newPassword: z.string().min(6, "Password must be at least 6 characters"),
 })
 
 interface EditProfileDialogProps {
@@ -35,21 +35,38 @@ export default function EditProfileDialog({
   onOpenChange,
 }: EditProfileDialogProps) {
   const { user } = useAuthStore()
+  const { mutate: updateProfile, isPending } = useUpdateProfile()
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema) as any,
     defaultValues: {
       name: user?.name || "",
       email: user?.email || "",
-      oldPassword: "",
-      newPassword: "",
     },
   })
 
+  // Watch user and reset form when user changes (e.g. after update or fresh fetch)
+  React.useEffect(() => {
+    if (user && open) {
+      form.reset({
+        name: user.name,
+        email: user.email,
+      })
+    }
+  }, [user, open, form])
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-    // Handle profile update logic here
-    onOpenChange(false)
+    // Merge new values with existing user data for required fields like role/status
+    const updateData = {
+      ...user,
+      ...values,
+    } as any
+    
+    updateProfile(updateData, {
+      onSuccess: () => {
+        onOpenChange(false)
+      }
+    })
   }
 
   return (
@@ -81,32 +98,14 @@ export default function EditProfileDialog({
               delay={0.2}
             />
 
-            <AuthInput
-              control={form.control}
-              name="oldPassword"
-              label="Old Password"
-              placeholder="Your old password"
-              type="password"
-              delay={0.3}
-            />
-
-            <AuthInput
-              control={form.control}
-              name="newPassword"
-              label="New Password"
-              placeholder="Your new password"
-              type="password"
-              delay={0.4}
-            />
-
-
             <ShinyButton 
-            type="submit" 
-            loadingText="Confirm..."
-            className="w-full font-medium! capitalize!"
-          >
-            Confirm
-          </ShinyButton>
+              type="submit" 
+              isLoading={isPending}
+              loadingText="Confirming..."
+              className="w-full font-medium! capitalize!"
+            >
+              Confirm
+            </ShinyButton>
           </form>
         </Form>
       </DialogContent>
