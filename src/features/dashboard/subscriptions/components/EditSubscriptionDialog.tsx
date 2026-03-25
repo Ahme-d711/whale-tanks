@@ -45,6 +45,8 @@ export function EditSubscriptionDialog({ subscriptionData, open, onOpenChange }:
             user_id: subscriptionData.user_id,
             package_id: subscriptionData.package_id,
             status: subscriptionData.status as any,
+            start_date: subscriptionData.start_date.split("T")[0],
+            end_date: subscriptionData.end_date.split("T")[0],
           }}
           onSubmit={handleSubmit}
           isLoading={isUpdating}

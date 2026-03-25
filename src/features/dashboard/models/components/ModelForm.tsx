@@ -17,13 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { FormSelect } from "@/components/shared/form";
 import { useProviders } from "../../providers/hooks/useProviders";
 
 const modelSchema = z.object({
@@ -76,34 +70,16 @@ export function ModelForm({ defaultValues, onSubmit, isLoading, submitLabel, onC
               </FormItem>
             )}
           />
-          <FormField
+          <FormSelect
             control={form.control}
             name="provider_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("provider_id")}</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  value={field.value}
-                  disabled={isLoadingProviders}
-                >
-                  <FormControl>
-                    <SelectTrigger className="rounded-xl">
-                      <SelectValue placeholder={isLoadingProviders ? "Loading..." : "Select provider"} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="rounded-xl">
-                    {providers.map((provider) => (
-                      <SelectItem key={provider.provider_id} value={provider.provider_id}>
-                        {provider.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+            label={t("provider_id")}
+            placeholder="Select provider"
+            isLoading={isLoadingProviders}
+            options={providers.map((p) => ({
+              label: p.name,
+              value: p.provider_id,
+            }))}
           />
         </div>
 

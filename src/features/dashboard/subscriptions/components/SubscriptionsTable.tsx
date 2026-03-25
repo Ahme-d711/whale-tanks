@@ -42,13 +42,21 @@ export default function SubscriptionsTable() {
       id: "user_name",
       accessorKey: "user_name",
       header: t("user"),
-      cell: (value, row) => <span>{(value as string) || row.user_id}</span>,
+      cell: (value, row) => (
+        <span className="font-mono text-xs">
+          {(value as string) || `${row.user_id.substring(0, 8)}...`}
+        </span>
+      ),
     },
     {
       id: "package_name",
       accessorKey: "package_name",
       header: t("package"),
-      cell: (value, row) => <span>{(value as string) || row.package_id}</span>,
+      cell: (value, row) => (
+        <span className="font-mono text-xs">
+          {(value as string) || `${row.package_id.substring(0, 8)}...`}
+        </span>
+      ),
     },
     {
       id: "status",
@@ -66,13 +74,23 @@ export default function SubscriptionsTable() {
       ),
     },
     {
-      id: "dates",
-      header: t("dates"),
-      cell: (_, row) => (
-        <div className="flex flex-col text-xs text-content-tertiary">
-          <span>{row.start_date ? format(new Date(row.start_date), "MMM d, yyyy") : "-"}</span>
-          <span>{row.end_date ? format(new Date(row.end_date), "MMM d, yyyy") : "-"}</span>
-        </div>
+      id: "start_date",
+      accessorKey: "start_date",
+      header: t("start_date"),
+      cell: (value) => (
+        <span className="text-xs">
+          {value ? format(new Date(value as string), "MMM d, yyyy") : "-"}
+        </span>
+      ),
+    },
+    {
+      id: "end_date",
+      accessorKey: "end_date",
+      header: t("end_date"),
+      cell: (value) => (
+        <span className="text-xs">
+          {value ? format(new Date(value as string), "MMM d, yyyy") : "-"}
+        </span>
       ),
     },
     {

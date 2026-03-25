@@ -295,7 +295,8 @@
     "status_expired": "Expired",
     "status_cancelled": "Cancelled",
     "tokens": "Tokens (Used/Limit)",
-    "dates": "Duration (Start - End)",
+    "start_date": "Start Date",
+    "end_date": "End Date",
     "actions": "Actions",
     "delete_confirm": "Are you sure you want to delete this subscription?"
   }
