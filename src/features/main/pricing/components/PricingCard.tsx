@@ -45,7 +45,7 @@ export default function PricingCard({
               {saveText}
             </span>
           )}
-          <span className="text-5xl font-bold font-poppins">{price}</span>
+          <span className="text-4xl font-bold font-poppins">{price}</span>
           {monthlyPrice && (
             <span className="text-sm font-medium opacity-80 font-poppins text-center">
               {monthlyPrice} /{t('month')}

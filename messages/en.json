@@ -135,9 +135,11 @@
         "standard": "Standard",
         "premium": "Premium",
         "save": "SAVE",
+        "months_1": "1 Month",
         "months_3": "3 MONTHS",
         "months_6": "6 Months",
         "year_1": "1 Year",
+        "days": "Days",
         "feature_dummy": "Lorem ipsum dolor sit amet"
       }
     }
