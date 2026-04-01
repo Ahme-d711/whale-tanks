@@ -20,7 +20,15 @@ export const IdeaAnalyzer = () => {
     handleRemoveAttachment,
     handleSend,
     triggerFileInput,
-    fileInputRef
+    fileInputRef,
+    isLoading,
+    executionType,
+    setExecutionType,
+    analysisType,
+    setAnalysisType,
+    models,
+    selectedModelId,
+    setSelectedModelId
   } = useIdeaAnalyzer((data) => {
     console.log("Sending Idea Data:", data)
   })
@@ -53,6 +61,14 @@ export const IdeaAnalyzer = () => {
             onSend={handleSend}
             fileInputRef={fileInputRef}
             onFilesSelectedDirect={handleFilesSelectedDirect}
+            isLoading={isLoading}
+            executionType={executionType}
+            setExecutionType={setExecutionType}
+            analysisType={analysisType}
+            setAnalysisType={setAnalysisType}
+            models={models}
+            selectedModelId={selectedModelId}
+            setSelectedModelId={setSelectedModelId}
           />
         </AnimatedBorder>
       </motion.div>

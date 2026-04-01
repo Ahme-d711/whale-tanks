@@ -1,6 +1,11 @@
 "use client"
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
+import { toast } from 'sonner'
+import { executionService } from '@/features/dashboard/executions/services/execution.service'
+import { ExecuteRequest, ExecuteResponse } from '@/features/dashboard/executions/types/execution.types'
+import { modelService } from '@/features/dashboard/models/services/model.service'
+import { AIModel } from '@/features/dashboard/models/types/model.types'
 
 export interface IdeaAnalyzerState {
   ideaText: string
@@ -12,10 +17,33 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const [ideaText, setIdeaText] = useState('')
   const [attachments, setAttachments] = useState<File[]>([])
   const [isRecording, setIsRecording] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [result, setResult] = useState<ExecuteResponse | null>(null)
+  const [executionType, setExecutionType] = useState<ExecuteRequest["execution_type"]>("chat")
+  const [analysisType, setAnalysisType] = useState<string>("marketing")
+  const [models, setModels] = useState<AIModel[]>([])
+  const [selectedModelId, setSelectedModelId] = useState<string>("")
   
   const fileInputRef = useRef<HTMLInputElement>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<Blob[]>([])
+
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const data = await modelService.getModels(true)
+        setModels(data)
+        if (data.length > 0 && !selectedModelId) {
+          // Find if there is a default model or just pick the first from images if exists
+          const defaultModel = data.find(m => m.model_id === "3fa85f64-5717-4562-b3fc-2c963f66afa6") || data[0]
+          setSelectedModelId(defaultModel.model_id)
+        }
+      } catch (err) {
+        console.error("Error fetching models:", err)
+      }
+    }
+    fetchModels()
+  }, [])
 
   const handleToggleRecording = useCallback(async () => {
     if (isRecording) {
@@ -64,21 +92,40 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const handleRemoveAttachment = useCallback((index: number) => {
     setAttachments(prev => prev.filter((_, i) => i !== index))
   }, [])
+  const handleSend = useCallback(async () => {
+    if (!ideaText.trim()) return;
 
-  const handleSend = useCallback(() => {
-    const data = {
-      text: ideaText,
-      attachments: attachments.map(f => ({ name: f.name, size: f.size, type: f.type })),
-      timestamp: new Date().toISOString()
-    }
+    setIsLoading(true);
+    const analysisToast = toast.loading("Analyzing your idea...")
     
-    if (onSendCallback) {
-      onSendCallback(data)
-    }
+    try {
+      const requestData: ExecuteRequest = {
+        prompt: ideaText,
+        execution_type: executionType,
+        model_id: selectedModelId || "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        analysis_type: executionType === "report" ? analysisType : undefined,
+        tier: "free",
+        extra: {}
+      }
 
-    setIdeaText('')
-    setAttachments([])
-  }, [ideaText, attachments, onSendCallback])
+      const response = await executionService.execute(requestData)
+      setResult(response)
+      
+      toast.success("Analysis complete!", { id: analysisToast })
+      
+      if (onSendCallback) {
+        onSendCallback(response)
+      }
+
+      setIdeaText('')
+      setAttachments([])
+    } catch (error) {
+      console.error("Execution error:", error)
+      toast.error("Failed to analyze idea. Please try again.", { id: analysisToast })
+    } finally {
+      setIsLoading(false)
+    }
+  }, [ideaText, onSendCallback])
 
   const triggerFileInput = useCallback(() => {
     fileInputRef.current?.click()
@@ -95,6 +142,15 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     handleFilesSelectedDirect,
     handleRemoveAttachment,
     handleSend,
-    triggerFileInput
+    triggerFileInput,
+    isLoading,
+    result,
+    executionType,
+    setExecutionType,
+    analysisType,
+    setAnalysisType,
+    models,
+    selectedModelId,
+    setSelectedModelId
   }
 }

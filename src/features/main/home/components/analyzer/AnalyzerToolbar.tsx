@@ -6,6 +6,15 @@ import { Mic, ArrowUpRight, ArrowUpLeft, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTranslations, useLocale } from 'next-intl'
 import { toast } from 'sonner'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { BarChart3, MessageSquare, ClipboardList, Scissors, FileText, CheckCircle2, Sparkles } from 'lucide-react'
+import { AIModel } from '@/features/dashboard/models/types/model.types'
 
 interface AnalyzerToolbarProps {
   isRecording: boolean
@@ -14,6 +23,14 @@ interface AnalyzerToolbarProps {
   onSend: () => void
   triggerFileInput: () => void
   fileInputRef: React.RefObject<HTMLInputElement | null>
+  isLoading?: boolean
+  executionType: string
+  setExecutionType: (value: any) => void
+  analysisType: string
+  setAnalysisType: (value: string) => void
+  models: AIModel[]
+  selectedModelId: string
+  setSelectedModelId: (value: string) => void
 }
 
 export const AnalyzerToolbar = ({ 
@@ -22,7 +39,15 @@ export const AnalyzerToolbar = ({
   onFilesSelectedDirect, 
   onSend,
   triggerFileInput,
-  fileInputRef
+  fileInputRef,
+  isLoading,
+  executionType,
+  setExecutionType,
+  analysisType,
+  setAnalysisType,
+  models,
+  selectedModelId,
+  setSelectedModelId
 }: AnalyzerToolbarProps) => {
   const t = useTranslations('HomePage.Analyzer')
   const locale = useLocale()
@@ -45,6 +70,17 @@ export const AnalyzerToolbar = ({
     }
   }
 
+  const getExecutionIcon = (type: string) => {
+    switch (type) {
+      case "report": return <FileText className="w-4 h-4 text-blue-500" />
+      case "analysis": return <BarChart3 className="w-4 h-4 text-orange-500" />
+      case "summary": return <ClipboardList className="w-4 h-4 text-green-500" />
+      case "chat": return <MessageSquare className="w-4 h-4 text-purple-500" />
+      case "classification": return <Scissors className="w-4 h-4 text-pink-500" />
+      default: return <BarChart3 className="w-4 h-4" />
+    }
+  }
+
   return (
     <div className="flex items-center gap-3">
       <input 
@@ -55,28 +91,49 @@ export const AnalyzerToolbar = ({
         onChange={handleFileChange}
       />
 
-      {/* Tank Selection Buttons */}
-      <Button
-        variant="ghost"
-        className="h-10 px-3 gap-2 bg-secondary hover:bg-secondary/80 text-foreground rounded-2xl cursor-pointer"
-      >
-        <Image src="/startup-logo.svg" alt="Startup" width={18} height={18} className="object-contain" />
-        <span className="text-sm font-medium">{t('startup')}</span>
-      </Button>
-      <Button
-        variant="ghost"
-        className="h-10 px-3 gap-2 bg-border hover:bg-border/80 text-foreground rounded-2xl cursor-pointer"
-      >
-        <Image src="/tech-logo.svg" alt="Tech" width={18} height={18} className="object-contain" />
-        <span className="text-sm font-medium">{t('tech')}</span>
-      </Button>
-      <Button
-        variant="ghost"
-        className="h-10 px-3 gap-2 bg-border hover:bg-border/80 text-foreground rounded-2xl cursor-pointer"
-      >
-        <Image src="/logo.svg" alt="Investor" width={18} height={18} className="object-contain" />
-        <span className="text-sm font-medium">{t('investor')}</span>
-      </Button>
+      <div className="flex items-center gap-2">
+        <Select value={executionType} onValueChange={setExecutionType}>
+          <SelectTrigger className="h-10 px-3 bg-secondary border-0 rounded-2xl text-foreground font-medium w-fit gap-2 transition-all">
+            <SelectValue placeholder="Execution Type" />
+          </SelectTrigger>
+          <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[160px]">
+            <SelectItem value="report" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><FileText className="w-4 h-4 text-blue-500" /> Report</div></SelectItem>
+            <SelectItem value="analysis" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-orange-500" /> Analysis</div></SelectItem>
+            <SelectItem value="summary" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><ClipboardList className="w-4 h-4 text-green-500" /> Summary</div></SelectItem>
+            <SelectItem value="chat" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-500" /> Chat</div></SelectItem>
+            <SelectItem value="classification" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><Scissors className="w-4 h-4 text-pink-500" /> Classification</div></SelectItem>
+          </SelectContent>
+        </Select>
+
+        {executionType === "report" && (
+           <Select value={analysisType} onValueChange={setAnalysisType}>
+             <SelectTrigger className="h-10 px-3 bg-border border-0 rounded-2xl text-foreground font-medium w-fit gap-2 transition-all">
+               <SelectValue placeholder="Analysis Type" />
+             </SelectTrigger>
+             <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[140px]">
+               <SelectItem value="financial" className="cursor-pointer"><div className="flex items-center gap-2">Financial</div></SelectItem>
+               <SelectItem value="legal" className="cursor-pointer"><div className="flex items-center gap-2">Legal</div></SelectItem>
+               <SelectItem value="marketing" className="cursor-pointer"><div className="flex items-center gap-2">Marketing</div></SelectItem>
+               <SelectItem value="revenue" className="cursor-pointer"><div className="flex items-center gap-2">Revenue</div></SelectItem>
+               <SelectItem value="technical" className="cursor-pointer"><div className="flex items-center gap-2">Technical</div></SelectItem>
+             </SelectContent>
+           </Select>
+        )}
+
+        <Select value={selectedModelId} onValueChange={setSelectedModelId}>
+          <SelectTrigger className="h-10 px-3 bg-border border-0 rounded-2xl text-foreground font-medium w-fit gap-2 transition-all">
+            <Sparkles className="w-4 h-4 text-amber-500" />
+            <SelectValue placeholder="Model" />
+          </SelectTrigger>
+          <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[180px]">
+             {models.map(model => (
+               <SelectItem key={model.model_id} value={model.model_id} className="cursor-pointer">
+                 {model.name}
+               </SelectItem>
+             ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       <div className="flex-1" />
 
@@ -103,6 +160,7 @@ export const AnalyzerToolbar = ({
       <Button
         variant="ghost"
         onClick={onSend}
+        isLoading={isLoading}
         className="h-10 px-4 rounded-xl text-foreground gap-2 cursor-pointer bg-border hover:bg-border/80"
       >
         <span className="text-sm font-medium">{t('send')}</span>

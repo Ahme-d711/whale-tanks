@@ -1,5 +1,5 @@
 import clientAxios from "@/lib/axios/clientAxios";
-import { Execution, CreateExecutionData } from "../types/execution.types";
+import { Execution, CreateExecutionData, ExecuteRequest, ExecuteResponse } from "../types/execution.types";
 
 export const executionService = {
   getExecutions: async (skip = 0, limit = 50): Promise<Execution[]> => {
@@ -16,6 +16,11 @@ export const executionService = {
 
   createExecution: async (data: CreateExecutionData): Promise<Execution> => {
     const response = await clientAxios.post<Execution>("executions/", data);
+    return response.data;
+  },
+
+  execute: async (data: ExecuteRequest): Promise<ExecuteResponse> => {
+    const response = await clientAxios.post<ExecuteResponse>("execute", data);
     return response.data;
   },
 };

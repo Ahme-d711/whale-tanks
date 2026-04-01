@@ -18,3 +18,23 @@ export interface CreateExecutionData {
   cost: number;
   execution_type: string;
 }
+
+export interface ExecuteRequest {
+  prompt: string;
+  execution_type: "report" | "analysis" | "summary" | "chat" | "classification";
+  model_id: string; // "3fa85f64-5717-4562-b3fc-2c963f66afa6" for now
+  analysis_type?: string; 
+  tier?: string;
+  extra?: Record<string, any>;
+}
+
+export interface ExecuteResponse {
+  execution_id: string;
+  execution_type: string;
+  result: string;
+  input_tokens: number;
+  output_tokens: number;
+  total_tokens: number;
+  user_cost: string;
+  internal_cost: string;
+}
