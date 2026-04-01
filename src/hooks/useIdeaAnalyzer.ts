@@ -7,6 +7,12 @@ import { ExecuteRequest, ExecuteResponse } from '@/features/dashboard/executions
 import { modelService } from '@/features/dashboard/models/services/model.service'
 import { AIModel } from '@/features/dashboard/models/types/model.types'
 
+export interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp?: number;
+}
+
 export interface IdeaAnalyzerState {
   ideaText: string
   attachments: File[]
@@ -23,6 +29,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const [analysisType, setAnalysisType] = useState<string>("marketing")
   const [models, setModels] = useState<AIModel[]>([])
   const [selectedModelId, setSelectedModelId] = useState<string>("")
+  const [messages, setMessages] = useState<Message[]>([])
   
   const fileInputRef = useRef<HTMLInputElement>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
@@ -95,12 +102,25 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const handleSend = useCallback(async () => {
     if (!ideaText.trim()) return;
 
+    const currentMessage = ideaText.trim();
+    const isChat = executionType === "chat";
+
+    if (isChat) {
+      setMessages(prev => [...prev, { role: 'user', content: currentMessage, timestamp: Date.now() }]);
+    }
+    
+    setIdeaText('');
+    setAttachments([]);
     setIsLoading(true);
-    const analysisToast = toast.loading("Analyzing your idea...")
+
+    let analysisToast: string | number | undefined;
+    if (!isChat) {
+      analysisToast = toast.loading("Analyzing your idea...");
+    }
     
     try {
       const requestData: ExecuteRequest = {
-        prompt: ideaText,
+        prompt: currentMessage,
         execution_type: executionType,
         model_id: selectedModelId || "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         analysis_type: executionType === "report" ? analysisType : undefined,
@@ -111,21 +131,26 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       const response = await executionService.execute(requestData)
       setResult(response)
       
-      toast.success("Analysis complete!", { id: analysisToast })
+      if (isChat) {
+        setMessages(prev => [...prev, { role: 'assistant', content: response.result, timestamp: Date.now() }]);
+      } else if (analysisToast) {
+        toast.success("Analysis complete!", { id: analysisToast })
+      }
       
       if (onSendCallback) {
         onSendCallback(response)
       }
-
-      setIdeaText('')
-      setAttachments([])
     } catch (error) {
       console.error("Execution error:", error)
-      toast.error("Failed to analyze idea. Please try again.", { id: analysisToast })
+      if (!isChat && analysisToast) {
+        toast.error("Failed to analyze idea. Please try again.", { id: analysisToast })
+      } else if (isChat) {
+        toast.error("AI failed to respond. Please try again.")
+      }
     } finally {
       setIsLoading(false)
     }
-  }, [ideaText, onSendCallback])
+  }, [ideaText, executionType, selectedModelId, analysisType, onSendCallback])
 
   const triggerFileInput = useCallback(() => {
     fileInputRef.current?.click()
@@ -151,6 +176,8 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     setAnalysisType,
     models,
     selectedModelId,
-    setSelectedModelId
+    setSelectedModelId,
+    messages,
+    setMessages
   }
 }

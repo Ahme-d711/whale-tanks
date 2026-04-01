@@ -17,7 +17,11 @@ import {
 } from "@/components/ui/select"
 import { BarChart3, MessageSquare, ClipboardList, Scissors, FileText, CheckCircle2, Sparkles } from 'lucide-react'
 
-export default function DashboardIdeaAnalyzer() {
+interface DashboardIdeaAnalyzerProps {
+  analyzer: ReturnType<typeof useIdeaAnalyzer>
+}
+
+export default function DashboardIdeaAnalyzer({ analyzer }: DashboardIdeaAnalyzerProps) {
   const locale = useLocale()
   const t = useTranslations('HomePage.Analyzer')
   
@@ -41,9 +45,7 @@ export default function DashboardIdeaAnalyzer() {
     handleRemoveAttachment,
     handleSend,
     triggerFileInput
-  } = useIdeaAnalyzer((data) => {
-    console.log("Dashboard Sending Idea Data:", data)
-  })
+  } = analyzer
 
   return (
     <motion.div

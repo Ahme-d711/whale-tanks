@@ -6,6 +6,8 @@ import AdvisorSelector from './AdvisorSelector'
 import TankSelector from './TankSelector'
 import PreviousProjects from './PreviousProjects'
 import SubscriptionUpsell from './SubscriptionUpsell'
+import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
+import { ChatDisplay } from './ChatDisplay'
 
 interface DashboardGridProps {
   activeTankId: string
@@ -13,6 +15,12 @@ interface DashboardGridProps {
 }
 
 export default function DashboardGrid({ activeTankId, onTankChange }: DashboardGridProps) {
+  const analyzer = useIdeaAnalyzer((data) => {
+    console.log("Chat Response Received:", data)
+  })
+
+  const { messages, isLoading } = analyzer
+
   return (
     <section className="relative z-10 flex-1 px-6 pb-4 flex gap-12 overflow-hidden py-4">
       {/* Container for three columns */}
@@ -26,13 +34,10 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
           </div>
         </div>
 
-        {/* Center Column - Right Column in previous layout */}
-        <div className="w-1/2 flex flex-col gap-4">
-          <div className="bg-white backdrop-blur-md rounded-3xl h-full border border-primary shadow-xl shadow-blue-500/5 flex flex-col overflow-hidden">
-             <div className="p-5 h-full border border-primary rounded-2xl bg-white" />
-          </div>
-          
-          <DashboardIdeaAnalyzer />
+        {/* Center Column - Chat Display */}
+        <div className="w-1/2 flex flex-col gap-7">
+          <ChatDisplay messages={messages} isLoading={isLoading} />
+          <DashboardIdeaAnalyzer analyzer={analyzer} />
         </div>
       </div>
 
