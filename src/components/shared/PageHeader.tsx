@@ -10,6 +10,7 @@ export interface ActionButton {
   icon?: React.ElementType;
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
   className?: string;
+  isLoading?: boolean;
 }
 
 interface BreadcrumbItem {
@@ -95,7 +96,7 @@ export function PageHeader({
             if (action.href) {
               return (
                 <Link key={idx} href={action.href}>
-                   <Button variant={action.variant || "default"} className={btnClasses}>
+                   <Button variant={action.variant || "default"} className={btnClasses} isLoading={action.isLoading}>
                      {content}
                    </Button>
                 </Link>
@@ -103,7 +104,7 @@ export function PageHeader({
             }
             
             return (
-               <Button key={idx} variant={action.variant || "default"} onClick={action.onClick} className={btnClasses}>
+               <Button key={idx} variant={action.variant || "default"} onClick={action.onClick} className={btnClasses} isLoading={action.isLoading}>
                  {content}
                </Button>
             )

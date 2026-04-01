@@ -25,6 +25,7 @@ export interface UniTableProps<TData> {
   showSelection?: boolean
   onSelectionChange?: (selectedRows: TData[]) => void
   getRowId?: (row: TData) => string
+  isLoading?: boolean
   serverPagination?: {
     currentPage: number
     totalPages: number

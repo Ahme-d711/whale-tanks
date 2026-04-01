@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { UniTableProps } from "./types";
 import { Pagination } from "../Pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function UniTable<TData>({
   data,
@@ -19,6 +20,7 @@ export function UniTable<TData>({
   showSelection = false,
   onSelectionChange,
   getRowId,
+  isLoading = false,
   serverPagination,
 }: UniTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState({});
@@ -72,7 +74,7 @@ export function UniTable<TData>({
     }
   }, [rowSelection]);
 
-  if (data.length === 0) {
+  if (data.length === 0 && !isLoading) {
     return (
       <div className={cn("text-center py-20 text-muted-foreground bg-white rounded-2xl border border-divider", className)}>
         {emptyMessage}
@@ -108,37 +110,50 @@ export function UniTable<TData>({
           </thead>
           <tbody className="relative">
             <AnimatePresence mode="popLayout" initial={false}>
-              {table.getRowModel().rows.map((row) => (
-                <motion.tr
-                  key={row.id}
-                  layout
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20, backgroundColor: "rgba(239, 68, 68, 0.1)" }}
-                  transition={{ 
-                    opacity: { duration: 0.2 },
-                    layout: { type: "spring", stiffness: 500, damping: 50, mass: 1 }
-                  }}
-                  className="bg-white border-b border-divider hover:bg-gray-50/50 transition-colors cursor-pointer"
-                >
-                  {row.getVisibleCells().map((cell) => {
-                    const column = columns.find((col) => col.id === cell.column.id);
-                    return (
-                      <td
-                        key={cell.id}
-                        className={cn(
-                          "p-4 align-middle first:pl-6 last:pr-6",
-                          column?.className
-                        )}
-                      >
-                        <div className="flex items-center whitespace-nowrap">
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </div>
+              {isLoading ? (
+                // Skeleton Rows
+                Array.from({ length: pageSize }).map((_, rowIndex) => (
+                  <tr key={`skeleton-row-${rowIndex}`} className="border-b border-divider">
+                    {columns.map((col, colIndex) => (
+                      <td key={`skeleton-cell-${rowIndex}-${colIndex}`} className="p-4 align-middle first:pl-6 last:pr-6">
+                        <Skeleton className="h-6 w-full max-w-[100px]" />
                       </td>
-                    );
-                  })}
-                </motion.tr>
-              ))}
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                table.getRowModel().rows.map((row) => (
+                  <motion.tr
+                    key={row.id}
+                    layout
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20, backgroundColor: "rgba(239, 68, 68, 0.1)" }}
+                    transition={{ 
+                      opacity: { duration: 0.2 },
+                      layout: { type: "spring", stiffness: 500, damping: 50, mass: 1 }
+                    }}
+                    className="bg-white border-b border-divider hover:bg-gray-50/50 transition-colors cursor-pointer"
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      const column = columns.find((col) => col.id === cell.column.id);
+                      return (
+                        <td
+                          key={cell.id}
+                          className={cn(
+                            "p-4 align-middle first:pl-6 last:pr-6",
+                            column?.className
+                          )}
+                        >
+                          <div className="flex items-center whitespace-nowrap">
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </div>
+                        </td>
+                      );
+                    })}
+                  </motion.tr>
+                ))
+              )}
             </AnimatePresence>
           </tbody>
         </table>
