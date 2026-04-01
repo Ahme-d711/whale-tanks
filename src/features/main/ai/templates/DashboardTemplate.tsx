@@ -4,7 +4,6 @@ import React from 'react'
 import { Menu } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import SidebarMenu from '@/components/SidebarMenu'
-import SidebarToggle from '../components/SidebarToggle'
 import DashboardGrid from '../components/DashboardGrid'
 
 export default function DashboardTemplate() {
