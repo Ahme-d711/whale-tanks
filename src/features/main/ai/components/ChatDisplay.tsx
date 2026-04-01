@@ -11,6 +11,60 @@ interface ChatDisplayProps {
   isLoading: boolean
 }
 
+const MessageContent = ({ content, role }: { content: string, role: string }) => {
+  if (role === 'user') return <p>{content}</p>
+
+  // Helper function to format AI text based on user rules
+  const formatAIText = (text: string) => {
+    // 1. Remove markdown symbols like ##, **, --, etc.
+    let clean = text
+      .replace(/[#*_-]/g, '')
+      .replace(/\n{3,}/g, '\n\n') // Normalize multiple newlines
+    
+    // 2. Identify and tag sections with emojis if they match certain patterns
+    const sections = [
+      { pattern: /الهدف|Goal/i, emoji: "🎯" },
+      { pattern: /الخطوات|Key Steps/i, emoji: "🧠" },
+      { pattern: /الخطة|Execution Plan/i, emoji: "🛠️" },
+      { pattern: /نصائح|Tips/i, emoji: "💡" },
+      { pattern: /أخطاء|Mistakes/i, emoji: "⚠️" }
+    ]
+
+    // Split into lines to process headings
+    let lines = clean.split('\n')
+    let formattedLines = lines.map(line => {
+      let trimmed = line.trim()
+      if (!trimmed) return "";
+      
+      // Check if this line is a heading (usually short and at start of paragraph)
+      for (const section of sections) {
+        if (section.pattern.test(trimmed) && trimmed.length < 30) {
+          return `\n${section.emoji} ${trimmed}\n`
+        }
+      }
+      
+      // Convert list indicators to proper bullets
+      if (/^\s*[0-9]+\.|\u2022|\-/.test(trimmed)) {
+        return `\u2022 ${trimmed.replace(/^[0-9]+\.|\-/, '').trim()}`
+      }
+      
+      return trimmed
+    })
+
+    return formattedLines.join('\n').trim()
+  }
+
+  const formatted = formatAIText(content)
+
+  return (
+    <div className="whitespace-pre-wrap leading-relaxed space-y-2">
+      {formatted.split('\n\n').map((paragraph, i) => (
+        <p key={i}>{paragraph}</p>
+      ))}
+    </div>
+  )
+}
+
 export const ChatDisplay = ({ messages, isLoading }: ChatDisplayProps) => {
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -50,7 +104,7 @@ export const ChatDisplay = ({ messages, isLoading }: ChatDisplayProps) => {
                     ? 'bg-primary text-primary-foreground rounded-tr-none' 
                     : 'bg-secondary text-secondary-foreground rounded-tl-none'
                 }`}>
-                  {msg.content}
+                  <MessageContent content={msg.content} role={msg.role} />
                 </div>
               </motion.div>
             ))}
