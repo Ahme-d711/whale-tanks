@@ -15,7 +15,7 @@ import { Link } from '@/i18n/routing'
 import { AuthInput } from './AuthInput'
 import { useRegister } from "../hooks/useAuth"
 import ShinyButton from "@/components/shared/ShinyButton"
-import { Switch } from "@/components/ui/switch"
+
 import { useTranslations } from 'next-intl'
 
 const formSchema = z.object({
@@ -28,7 +28,6 @@ const formSchema = z.object({
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
   }),
-  rememberMe: z.boolean(),
 })
 
 export default function RegisterForm() {
@@ -41,7 +40,6 @@ export default function RegisterForm() {
       name: "",
       email: "",
       password: "",
-      rememberMe: false,
     },
   })
 
@@ -79,31 +77,7 @@ export default function RegisterForm() {
               delay={0.3}
             />
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex items-center space-x-2"
-            >
-              <FormField
-                control={form.control}
-                name="rememberMe"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center space-x-3 space-y-0 p-0">
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        className="data-[state=checked]:bg-primary"
-                      />
-                    </FormControl>
-                    <FormLabel className="text-secondary-foreground font-medium cursor-pointer">
-                      {t('remember_me')}
-                    </FormLabel>
-                  </FormItem>
-                )}
-              />
-            </motion.div>
+
           </fieldset>
         </div>
 

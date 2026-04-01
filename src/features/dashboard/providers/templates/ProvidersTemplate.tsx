@@ -13,7 +13,7 @@ export function ProvidersTemplate() {
   const [isAddOpen, setIsAddOpen] = React.useState(false);
 
   return (
-    <div className="flex flex-col gap-8 pb-10 max-w-[1200px]">
+    <div className="flex flex-col gap-8 pb-10">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-content-primary">
