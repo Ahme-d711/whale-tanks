@@ -1,2 +1,2 @@
 export * from "./UniSelect";
-export * from "./FormSelect";
+export * from "./UniInput";

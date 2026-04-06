@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FormSelect } from "@/components/shared/form";
+import { UniSelect } from "@/components/shared/form";
 import { useProviders } from "../../providers/hooks/useProviders";
 
 const modelSchema = z.object({
@@ -70,7 +70,7 @@ export function ModelForm({ defaultValues, onSubmit, isLoading, submitLabel, onC
               </FormItem>
             )}
           />
-          <FormSelect
+          <UniSelect
             control={form.control}
             name="provider_id"
             label={t("provider_id")}

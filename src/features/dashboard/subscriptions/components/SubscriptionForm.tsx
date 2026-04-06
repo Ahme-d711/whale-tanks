@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { FormSelect } from "@/components/shared/form";
+import { UniSelect } from "@/components/shared/form";
 import { usePackages } from "../../packages/hooks/usePackages";
 import { useUsers } from "../../users/hooks/useUsers";
 
@@ -53,7 +53,7 @@ export function SubscriptionForm({ defaultValues, onSubmit, isLoading, submitLab
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
-        <FormSelect
+        <UniSelect
           control={form.control}
           name="package_id"
           label={t("package")}

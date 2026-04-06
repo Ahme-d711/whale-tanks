@@ -5,24 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslations } from "next-intl";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { UniInput, UniSelect } from "@/components/shared/form";
 
 const userSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -63,113 +49,65 @@ export function UserForm({ mode, defaultValues, onSubmit, isLoading, submitLabel
     form.reset(defaultValues);
   }, [defaultValues, form]);
 
+  const roleOptions = [
+    { label: tUsers("roles.admin"), value: "admin" },
+    { label: tUsers("roles.editor"), value: "editor" },
+    { label: tUsers("roles.user"), value: "user" },
+  ];
+
+  const statusOptions = [
+    { label: tUsers("statuses.active"), value: "active" },
+    { label: tUsers("statuses.inactive"), value: "inactive" },
+    { label: tUsers("statuses.suspended"), value: "suspended" },
+  ];
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
-        <FormField
+        <UniInput
           control={form.control}
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{tAuth("name")}</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={tAuth("name_placeholder")}
-                  className="rounded-xl"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label={tAuth("name")}
+          placeholder={tAuth("name_placeholder")}
+          isLoading={isLoading}
         />
 
-        <FormField
+        <UniInput
           control={form.control}
           name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{tAuth("email")}</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder={tAuth("email_placeholder")}
-                  className="rounded-xl"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label={tAuth("email")}
+          type="email"
+          placeholder={tAuth("email_placeholder")}
+          isLoading={isLoading}
         />
 
         {mode === "add" && (
-          <FormField
+          <UniInput
             control={form.control}
             name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{tAuth("password")}</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder={tAuth("password_placeholder")}
-                    className="rounded-xl"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label={tAuth("password")}
+            type="password"
+            placeholder={tAuth("password_placeholder")}
+            isLoading={isLoading}
           />
         )}
 
         {mode === "edit" && (
           <div className="grid grid-cols-2 gap-4">
-            <FormField
+            <UniSelect
               control={form.control}
               name="role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{tUsers("role")}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="rounded-xl">
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="rounded-xl">
-                      <SelectItem value="admin">{tUsers("roles.admin")}</SelectItem>
-                      <SelectItem value="editor">{tUsers("roles.editor")}</SelectItem>
-                      <SelectItem value="user">{tUsers("roles.user")}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label={tUsers("role")}
+              options={roleOptions}
+              isLoading={isLoading}
             />
 
-            <FormField
+            <UniSelect
               control={form.control}
               name="status"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{tUsers("status")}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="rounded-xl">
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="rounded-xl">
-                      <SelectItem value="active">{tUsers("statuses.active")}</SelectItem>
-                      <SelectItem value="inactive">{tUsers("statuses.inactive")}</SelectItem>
-                      <SelectItem value="suspended">{tUsers("statuses.suspended")}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label={tUsers("status")}
+              options={statusOptions}
+              isLoading={isLoading}
             />
           </div>
         )}
