@@ -15,6 +15,7 @@ import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { EditSubscriptionDialog } from "./EditSubscriptionDialog";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
+import { truncateId } from "@/lib/utils";
 
 export default function SubscriptionsTable() {
   const t = useTranslations("Subscriptions");
@@ -44,7 +45,7 @@ export default function SubscriptionsTable() {
       header: t("user"),
       cell: (value, row) => (
         <span className="font-mono text-xs">
-          {(value as string) || `${row.user_id.substring(0, 8)}...`}
+          {(value as string) || truncateId(row.user_id)}
         </span>
       ),
     },
@@ -54,7 +55,7 @@ export default function SubscriptionsTable() {
       header: t("package"),
       cell: (value, row) => (
         <span className="font-mono text-xs">
-          {(value as string) || `${row.package_id.substring(0, 8)}...`}
+          {(value as string) || truncateId(row.package_id)}
         </span>
       ),
     },

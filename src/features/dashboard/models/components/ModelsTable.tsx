@@ -15,6 +15,7 @@ import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { EditModelDialog } from "./EditModelDialog";
 import { Switch } from "@/components/ui/switch";
 import { TableFilterBar } from "@/components/shared/TableFilterBar";
+import { truncateId } from "@/lib/utils";
 
 export default function ModelsTable() {
   const t = useTranslations("AIModels");
@@ -53,6 +54,7 @@ export default function ModelsTable() {
       accessorKey: "provider_id",
       header: t("provider_id"),
       className: "font-medium text-content-secondary",
+      cell: (value: any) => truncateId(String(value)),
     },
     {
       id: "input_token_cost",

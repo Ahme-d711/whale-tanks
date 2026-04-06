@@ -10,6 +10,7 @@ import {
   SelectionCell,
   SelectionHeader
 } from "@/components/shared/uni-table";
+import { cn, truncateId } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Execution } from "../types/execution.types";
 import { useExecutions } from "../hooks/useExecutions";
@@ -41,21 +42,23 @@ export default function ExecutionsTable() {
       id: "execution_id",
       header: t("execution_id"),
       accessorKey: "execution_id",
+      cell: (value: any) => truncateId(String(value)),
       className: "font-mono text-xs text-content-tertiary",
     },
     {
       id: "user_id",
       header: t("user_id"),
       accessorKey: "user_id",
+      cell: (value: any) => truncateId(String(value)),
       className: "text-content-secondary text-sm",
     },
     {
       id: "model_id",
       header: t("model_id"),
       accessorKey: "model_id",
-      cell: (value, row) => (
+      cell: (value: any) => (
         <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 rounded-lg">
-          {row.model_id}
+          {truncateId(String(value))}
         </Badge>
       ),
     },
