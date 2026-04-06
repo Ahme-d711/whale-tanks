@@ -12,7 +12,13 @@ interface ChatDisplayProps {
 }
 
 const MessageContent = ({ content, role }: { content: string, role: string }) => {
-  if (role === 'user') return <p>{content}</p>
+  const isArabic = /[\u0600-\u06FF]/.test(content);
+  
+  if (role === 'user') return (
+    <p dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'text-right' : 'text-left'}>
+      {content}
+    </p>
+  )
 
   // Helper function to format AI text based on user rules
   const formatAIText = (text: string) => {
@@ -57,7 +63,10 @@ const MessageContent = ({ content, role }: { content: string, role: string }) =>
   const formatted = formatAIText(content)
 
   return (
-    <div className="whitespace-pre-wrap leading-relaxed space-y-2">
+    <div 
+      dir={isArabic ? 'rtl' : 'ltr'} 
+      className={`whitespace-pre-wrap leading-relaxed space-y-2 ${isArabic ? 'text-right' : 'text-left'}`}
+    >
       {formatted.split('\n\n').map((paragraph, i) => (
         <p key={i}>{paragraph}</p>
       ))}

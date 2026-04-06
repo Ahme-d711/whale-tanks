@@ -111,6 +111,7 @@ export const AnalyzerToolbar = ({
                <SelectValue placeholder="Analysis Type" />
              </SelectTrigger>
              <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[140px]">
+               <SelectItem value="all" className="cursor-pointer"><div className="flex items-center gap-2">All</div></SelectItem>
                <SelectItem value="financial" className="cursor-pointer"><div className="flex items-center gap-2">Financial</div></SelectItem>
                <SelectItem value="legal" className="cursor-pointer"><div className="flex items-center gap-2">Legal</div></SelectItem>
                <SelectItem value="marketing" className="cursor-pointer"><div className="flex items-center gap-2">Marketing</div></SelectItem>

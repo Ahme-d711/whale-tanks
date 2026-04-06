@@ -97,6 +97,7 @@ export default function DashboardIdeaAnalyzer({ analyzer }: DashboardIdeaAnalyze
                  <SelectValue placeholder="Analysis" />
                </SelectTrigger>
                <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[120px]">
+                 <SelectItem value="all" className="cursor-pointer text-xs">All</SelectItem>
                  <SelectItem value="financial" className="cursor-pointer text-xs">Financial</SelectItem>
                  <SelectItem value="legal" className="cursor-pointer text-xs">Legal</SelectItem>
                  <SelectItem value="marketing" className="cursor-pointer text-xs">Marketing</SelectItem>

@@ -26,7 +26,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<ExecuteResponse | null>(null)
   const [executionType, setExecutionType] = useState<ExecuteRequest["execution_type"]>("chat")
-  const [analysisType, setAnalysisType] = useState<string>("marketing")
+  const [analysisType, setAnalysisType] = useState<string>("all")
   const [models, setModels] = useState<AIModel[]>([])
   const [selectedModelId, setSelectedModelId] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
@@ -113,11 +113,6 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     setAttachments([]);
     setIsLoading(true);
 
-    let analysisToast: string | number | undefined;
-    if (!isChat) {
-      analysisToast = toast.loading("Analyzing your idea...");
-    }
-    
     try {
       const requestData: ExecuteRequest = {
         prompt: currentMessage,
@@ -133,8 +128,6 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       
       if (isChat) {
         setMessages(prev => [...prev, { role: 'assistant', content: response.result, timestamp: Date.now() }]);
-      } else if (analysisToast) {
-        toast.success("Analysis complete!", { id: analysisToast })
       }
       
       if (onSendCallback) {
@@ -142,10 +135,10 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       }
     } catch (error) {
       console.error("Execution error:", error)
-      if (!isChat && analysisToast) {
-        toast.error("Failed to analyze idea. Please try again.", { id: analysisToast })
-      } else if (isChat) {
+      if (isChat) {
         toast.error("AI failed to respond. Please try again.")
+      } else {
+        toast.error("Failed to analyze idea. Please try again.")
       }
     } finally {
       setIsLoading(false)
