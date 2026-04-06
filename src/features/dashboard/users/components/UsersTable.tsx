@@ -26,7 +26,7 @@ export default function UsersTable() {
   const t = useTranslations("Users");
   const tDashboard = useTranslations("Dashboard");
   const [filters, setFilters] = React.useState({ status: "" });
-  const { users, updateUser, deleteUser, isDeleting } = useUsers(filters);
+  const { users, updateUser, deleteUser, isDeleting, pagination, isLoading } = useUsers(filters);
 
   const [selectedUser, setSelectedUser] = React.useState<UserDashboard | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
@@ -167,8 +167,8 @@ export default function UsersTable() {
         <UniTable
           data={users}
           columns={columns}
-          enablePagination
-          pageSize={5}
+          serverPagination={pagination}
+          isLoading={isLoading}
           itemLabel={tDashboard("users_management")}
         />
       </div>
