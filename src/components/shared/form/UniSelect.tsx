@@ -59,7 +59,7 @@ export function UniSelect<T extends FieldValues>({
       defaultValue={field?.value ?? defaultValue ?? ""}
       disabled={disabled || isLoading}
     >
-      <SelectTrigger className={cn("rounded-xl w-full h-16!", triggerClassName)}>
+      <SelectTrigger className={cn("rounded-xl w-full h-12!", triggerClassName)}>
         <SelectValue placeholder={isLoading ? "Loading..." : placeholder} />
       </SelectTrigger>
       <SelectContent className="rounded-xl" position="popper">

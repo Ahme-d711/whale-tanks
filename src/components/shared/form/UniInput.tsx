@@ -34,7 +34,7 @@ export const UniInput = <T extends FieldValues>({
       {...field}
       {...props}
       disabled={disabled || isLoading}
-      className="h-16! px-4 rounded-xl"
+      className="h-12 px-4 rounded-xl"
     />
   );
 
