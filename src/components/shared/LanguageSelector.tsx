@@ -32,11 +32,10 @@ export default function LanguageSelector() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button 
-          className="p-2 text-foreground hover:text-primary cursor-pointer transition-colors rounded-xl hover:bg-gray-100/50"
+          className="p-2 text-foreground hidden md:block hover:text-primary cursor-pointer transition-colors rounded-xl hover:bg-gray-100/50"
           aria-label="Select Language"
         >
-          <Globe className="w-6 h-6 md:w-8 md:h-8 " />
-          <span className="sr-only">Select Language</span>
+          <Globe className=" w-6 h-6 md:w-8 md:h-8 " />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">

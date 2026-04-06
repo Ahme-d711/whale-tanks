@@ -22,7 +22,7 @@ export default function LogoComponent({ className, textClassName, imageClassName
           />
         </div>
 
-        <h1 className={cn("text-foreground text-3xl font-bold! tracking-tight", textClassName)}>
+        <h1 className={cn("text-foreground text-xl font-extrabold md:text-3xl md:font-bold! tracking-tight", textClassName)}>
           {t("name")}
         </h1>
       </div>

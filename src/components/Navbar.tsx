@@ -86,11 +86,10 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
             {user ? (
               <div 
                 onClick={() => setIsEditProfileOpen(true)}
-                className="flex items-center gap-2 bg-secondary px-3 py-2 rounded-2xl cursor-pointer hover:bg-secondary/70 transition-colors group"
+                className="flex items-center bg-secondary p-1 rounded-full cursor-pointer hover:bg-secondary/70 transition-all group"
               >
-                <UserRound className="w-6 h-6 text-foreground" />
-                <div className="bg-primary rounded-lg p-1">
-                  <ChevronDown className="w-4 h-4 text-white" />
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:scale-105 transition-transform border-2 border-white/20">
+                  {user.name?.[0]?.toUpperCase() || "U"}
                 </div>
               </div>
             ) : (
