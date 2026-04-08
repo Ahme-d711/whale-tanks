@@ -42,26 +42,43 @@ export const IdeaAnalyzer = () => {
         viewport={{ once: true }}
         className="w-full"
       >
-        <AnimatedBorder 
-          containerClassName="rounded-3xl shadow-lg overflow-hidden"
-          className="bg-background rounded-3xl p-6"
-          borderWidth={3.5}
-          duration={10}
-        >
-          <AnalyzerInput 
-            value={ideaText} 
-            onChange={setIdeaText} 
-            attachments={attachments}
-            onRemoveAttachment={handleRemoveAttachment}
-          />
+        <div className="flex flex-col gap-4">
+          <AnimatedBorder 
+            containerClassName="rounded-[28px] shadow-lg overflow-hidden"
+            className="bg-background rounded-[28px] px-4 py-3 flex items-end min-h-[60px]"
+            borderWidth={1.5}
+            duration={10}
+          >
+            <div className="flex-1 flex items-center gap-3">
+              <AnalyzerInput 
+                value={ideaText} 
+                onChange={setIdeaText} 
+                attachments={attachments}
+                onRemoveAttachment={handleRemoveAttachment}
+                compact
+              />
+            </div>
+            
+            <AnalyzerToolbar 
+              isRecording={isRecording}
+              onToggleRecording={handleToggleRecording}
+              triggerFileInput={triggerFileInput}
+              onSend={handleSend}
+              fileInputRef={fileInputRef}
+              onFilesSelectedDirect={handleFilesSelectedDirect}
+              isLoading={isLoading}
+              executionType={executionType}
+              setExecutionType={setExecutionType}
+              analysisType={analysisType}
+              setAnalysisType={setAnalysisType}
+              models={models}
+              selectedModelId={selectedModelId}
+              setSelectedModelId={setSelectedModelId}
+              onlyActions
+            />
+          </AnimatedBorder>
+
           <AnalyzerToolbar 
-            isRecording={isRecording}
-            onToggleRecording={handleToggleRecording}
-            triggerFileInput={triggerFileInput}
-            onSend={handleSend}
-            fileInputRef={fileInputRef}
-            onFilesSelectedDirect={handleFilesSelectedDirect}
-            isLoading={isLoading}
             executionType={executionType}
             setExecutionType={setExecutionType}
             analysisType={analysisType}
@@ -69,8 +86,9 @@ export const IdeaAnalyzer = () => {
             models={models}
             selectedModelId={selectedModelId}
             setSelectedModelId={setSelectedModelId}
+            onlySelects
           />
-        </AnimatedBorder>
+        </div>
       </motion.div>
     </section>
   )
