@@ -1,7 +1,7 @@
 "use client"
 
 import { Link } from "@/i18n/routing"
-import { ChevronDown, UserRound, PanelLeft, Menu, X } from "lucide-react"
+import { ChevronDown, Menu, X } from "lucide-react"
 import LogoComponent from "./shared/LogoComponent"
 import ShinyButton from "./shared/ShinyButton"
 import LanguageSelector from "./shared/LanguageSelector"

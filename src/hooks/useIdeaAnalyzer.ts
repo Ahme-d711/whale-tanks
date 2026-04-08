@@ -105,9 +105,8 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     const currentMessage = ideaText.trim();
     const isChat = executionType === "chat";
 
-    if (isChat) {
-      setMessages(prev => [...prev, { role: 'user', content: currentMessage, timestamp: Date.now() }]);
-    }
+    // Always add user message to history
+    setMessages(prev => [...prev, { role: 'user', content: currentMessage, timestamp: Date.now() }]);
     
     setIdeaText('');
     setAttachments([]);
@@ -126,9 +125,12 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       const response = await executionService.execute(requestData)
       setResult(response)
       
-      if (isChat) {
-        setMessages(prev => [...prev, { role: 'assistant', content: response.result, timestamp: Date.now() }]);
-      }
+      // Always add the response to messages to ensure it shows up in the UI
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: response.result, 
+        timestamp: Date.now() 
+      }]);
       
       if (onSendCallback) {
         onSendCallback(response)
