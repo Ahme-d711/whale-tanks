@@ -34,6 +34,7 @@ interface AnalyzerToolbarProps {
   setSelectedModelId: (value: string) => void
   onlyActions?: boolean
   onlySelects?: boolean
+  className?: string
 }
 
 export const AnalyzerToolbar = ({ 
@@ -52,7 +53,8 @@ export const AnalyzerToolbar = ({
   selectedModelId,
   setSelectedModelId,
   onlyActions,
-  onlySelects
+  onlySelects,
+  className
 }: AnalyzerToolbarProps) => {
   const t = useTranslations('HomePage.Analyzer')
   const locale = useLocale()
@@ -78,7 +80,7 @@ export const AnalyzerToolbar = ({
   }
 
   return (
-    <div className={cn("flex items-center gap-2 md:gap-3", onlySelects && "w-full justify-center mt-2 flex-wrap")}>
+    <div className={cn("flex items-center gap-2 md:gap-3", onlySelects && "w-full justify-center mt-2 flex-wrap", className)}>
       {!onlySelects && (
         <input 
           type="file" 
@@ -90,44 +92,44 @@ export const AnalyzerToolbar = ({
       )}
 
       {(onlySelects || (!onlyActions && !onlySelects)) && (
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className={cn("flex items-center gap-2 flex-wrap", !onlySelects && "hidden md:flex")}>
           <Select value={executionType} onValueChange={setExecutionType}>
-            <SelectTrigger className="h-8 md:h-10 px-2 md:px-3 bg-secondary border-0 rounded-xl md:rounded-2xl text-foreground font-medium w-fit gap-1 md:gap-2 transition-all text-xs md:text-sm">
-              <SelectValue placeholder="Execution Type" />
+            <SelectTrigger className="h-9 md:h-12 px-4 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-sm md:text-base cursor-pointer shadow-sm">
+              <SelectValue placeholder="Type" />
             </SelectTrigger>
-            <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[160px]">
-              <SelectItem value="report" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><FileText className="w-4 h-4 text-blue-500" /> Report</div></SelectItem>
-              <SelectItem value="analysis" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-orange-500" /> Analysis</div></SelectItem>
-              <SelectItem value="summary" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><ClipboardList className="w-4 h-4 text-green-500" /> Summary</div></SelectItem>
-              <SelectItem value="chat" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-500" /> Chat</div></SelectItem>
-              <SelectItem value="classification" className="cursor-pointer gap-2"><div className="flex items-center gap-2"><Scissors className="w-4 h-4 text-pink-500" /> Classification</div></SelectItem>
+            <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[160px] p-1 shadow-lg">
+              <SelectItem value="report" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><FileText className="w-4 h-4 text-blue-500" /> Report</div></SelectItem>
+              <SelectItem value="analysis" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-orange-500" /> Analysis</div></SelectItem>
+              <SelectItem value="summary" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><ClipboardList className="w-4 h-4 text-green-500" /> Summary</div></SelectItem>
+              <SelectItem value="chat" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-500" /> Chat</div></SelectItem>
+              <SelectItem value="classification" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><Scissors className="w-4 h-4 text-pink-500" /> Classification</div></SelectItem>
             </SelectContent>
           </Select>
 
           {executionType === "report" && (
             <Select value={analysisType} onValueChange={setAnalysisType}>
-              <SelectTrigger className="h-8 md:h-10 px-2 md:px-3 bg-border border-0 rounded-xl md:rounded-2xl text-foreground font-medium w-fit gap-1 md:gap-2 transition-all text-xs md:text-sm">
-                <SelectValue placeholder="Analysis Type" />
+              <SelectTrigger className="h-9 md:h-12 px-4 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-sm md:text-base cursor-pointer shadow-sm">
+                <SelectValue placeholder="Category" />
               </SelectTrigger>
-              <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[140px]">
-                <SelectItem value="all" className="cursor-pointer"><div className="flex items-center gap-2">All</div></SelectItem>
-                <SelectItem value="financial" className="cursor-pointer"><div className="flex items-center gap-2">Financial</div></SelectItem>
-                <SelectItem value="legal" className="cursor-pointer"><div className="flex items-center gap-2">Legal</div></SelectItem>
-                <SelectItem value="marketing" className="cursor-pointer"><div className="flex items-center gap-2">Marketing</div></SelectItem>
-                <SelectItem value="revenue" className="cursor-pointer"><div className="flex items-center gap-2">Revenue</div></SelectItem>
-                <SelectItem value="technical" className="cursor-pointer"><div className="flex items-center gap-2">Technical</div></SelectItem>
+              <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[140px] p-1 shadow-lg">
+                <SelectItem value="all" className="cursor-pointer rounded-xl">All</SelectItem>
+                <SelectItem value="financial" className="cursor-pointer rounded-xl">Financial</SelectItem>
+                <SelectItem value="legal" className="cursor-pointer rounded-xl">Legal</SelectItem>
+                <SelectItem value="marketing" className="cursor-pointer rounded-xl">Marketing</SelectItem>
+                <SelectItem value="revenue" className="cursor-pointer rounded-xl">Revenue</SelectItem>
+                <SelectItem value="technical" className="cursor-pointer rounded-xl">Technical</SelectItem>
               </SelectContent>
             </Select>
           )}
 
           <Select value={selectedModelId} onValueChange={setSelectedModelId}>
-            <SelectTrigger className="h-8 md:h-10 px-2 md:px-3 bg-border border-0 rounded-xl md:rounded-2xl text-foreground font-medium w-fit gap-1 md:gap-2 transition-all text-xs md:text-sm">
-              <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-amber-500" />
+            <SelectTrigger className="h-9 md:h-12 px-4 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-sm md:text-base cursor-pointer shadow-sm">
+              <Sparkles className="w-4 h-4 text-amber-500" />
               <SelectValue placeholder="Model" />
             </SelectTrigger>
-            <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[180px]">
+            <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[180px] p-1 shadow-lg">
               {models.map(model => (
-                <SelectItem key={model.model_id} value={model.model_id} className="cursor-pointer">
+                <SelectItem key={model.model_id} value={model.model_id} className="cursor-pointer rounded-xl">
                   {model.name}
                 </SelectItem>
               ))}
@@ -139,23 +141,23 @@ export const AnalyzerToolbar = ({
       {!onlyActions && !onlySelects && <div className="flex-1 hidden md:block" />}
 
       {(onlyActions || (!onlyActions && !onlySelects)) && (
-        <div className={cn("flex items-center gap-2", onlyActions && "ml-auto")}>
-          <div className="flex items-center gap-1 md:gap-2 bg-border text-foreground rounded-xl md:rounded-2xl p-0.5 md:p-1">
+        <div className={cn("flex items-center gap-3", onlyActions && "ml-auto")}>
+          <div className="flex items-center gap-1 md:gap-2 bg-muted/60 text-foreground rounded-xl md:rounded-2xl p-1 md:p-1.5 shadow-sm">
             <Button
               variant="ghost"
               size="icon"
               onClick={handleMicClick}
-              className={`h-7 w-7 md:h-8 md:w-8 rounded-lg md:rounded-xl hover:bg-background cursor-pointer transition-colors ${isRecording ? 'bg-red-100 text-red-600 animate-pulse' : ''}`}
+              className={`h-7 w-7 md:h-9 md:w-9 rounded-lg md:rounded-xl hover:bg-background cursor-pointer transition-colors ${isRecording ? 'bg-red-100 text-red-600 animate-pulse' : ''}`}
             >
-              <Mic strokeWidth={3} className={`w-4! h-4! md:w-5! md:h-5! ${isRecording ? 'fill-current' : ''}`} />
+              <Mic strokeWidth={2.5} className={`w-4! h-4! md:w-5! md:h-5! ${isRecording ? 'fill-current' : ''}`} />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               onClick={triggerFileInput}
-              className="h-7 w-7 md:h-8 md:w-8 rounded-lg md:rounded-xl hover:bg-background cursor-pointer"
+              className="h-7 w-7 md:h-9 md:w-9 rounded-lg md:rounded-xl hover:bg-background cursor-pointer"
             >
-              <Plus className="w-4! h-4! md:w-5! md:h-5! text-foreground bg-foreground/30 rounded-sm" />
+              <Plus className="w-4! h-4! md:w-5! md:h-5! text-foreground bg-foreground/10 rounded-md" />
             </Button>
           </div>
 
@@ -163,11 +165,11 @@ export const AnalyzerToolbar = ({
             variant="ghost"
             onClick={onSend}
             isLoading={isLoading}
-            className="h-8 md:h-10 px-3 md:px-4 rounded-xl text-foreground gap-1 md:gap-2 cursor-pointer bg-border hover:bg-border/80"
+            className="h-9 md:h-12 px-4 md:px-7 rounded-xl md:rounded-2xl text-foreground gap-2 cursor-pointer bg-muted/60 hover:bg-muted font-semibold shadow-sm transition-all active:scale-95"
           >
-            <span className="text-xs md:text-sm font-medium">{t('send')}</span>
-            <div className="w-4 h-4 md:w-5 md:h-5 flex items-center justify-center rounded-sm text-foreground bg-foreground/30">
-              {locale === 'ar' ? <ArrowUpLeft className="w-3 h-3 md:w-4 md:h-4" /> : <ArrowUpRight className="w-3 h-3 md:w-4 md:h-4" />}
+            <span className="text-sm md:text-base">{t('send')}</span>
+            <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-md text-foreground bg-foreground/10">
+              {locale === 'ar' ? <ArrowUpLeft className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
             </div>
           </Button>
         </div>

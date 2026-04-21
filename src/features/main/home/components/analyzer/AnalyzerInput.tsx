@@ -1,6 +1,5 @@
 "use client"
 
-import React from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { useTranslations, useLocale } from 'next-intl'
 import { cn } from '@/lib/utils'
@@ -20,27 +19,25 @@ export const AnalyzerInput = ({ value, onChange, attachments = [], onRemoveAttac
   const locale = useLocale()
 
   return (
-    <div className={cn("relative w-full flex items-center", !compact && "mb-4 flex-col items-start")}>
-      {!compact && (
-        <AnalyzerCounter 
-          className={cn(
-            "absolute top-0 select-none",
-            locale === 'ar' ? "left-0" : "right-0"
-          )}
-        />
-      )}
+    <div className={cn("relative w-full flex items-center", !compact ? "flex-col items-start" : "")}>
+      <AnalyzerCounter 
+        className={cn(
+          "absolute top-0 select-none transition-opacity duration-200",
+          compact ? "opacity-0 pointer-events-none" : "opacity-100",
+          locale === 'ar' ? "left-0" : "right-0"
+        )}
+      />
 
       <Textarea
         value={value}
         onChange={(e) => {
           onChange(e.target.value)
-          // Simple auto-resize logic
           e.target.style.height = 'auto'
           e.target.style.height = `${e.target.scrollHeight}px`
         }}
         className={cn(
-          "w-full placeholder:text-secondary-foreground p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-sm md:text-base font-normal text-foreground leading-[1.4] shadow-none no-scrollbar transition-[height] duration-200",
-          compact ? "h-6 min-h-[24px]" : "min-h-10 md:min-h-12",
+          "w-full placeholder:text-muted-foreground/60 p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-sm md:text-xl font-normal text-foreground leading-[1.6] shadow-none no-scrollbar transition-[height] duration-200",
+          compact ? "h-6 min-h-[24px]" : "min-h-[40px] md:min-h-[60px]",
           !compact && (locale === 'ar' ? "pl-20" : "pr-20")
         )}
         placeholder={t('title')}

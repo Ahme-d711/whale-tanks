@@ -61,7 +61,7 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
         isVisible ? 'top-6 translate-y-0' : 'top-6 -translate-y-32'
       }`}
     >
-      <nav className="flex flex-col bg-background rounded-2xl shadow-sm overflow-hidden w-full max-w-5xl border-t-2 border-primary">
+      <nav className="flex flex-col bg-background rounded-2xl shadow-sm overflow-hidden w-full max-w-6xl border-t-2 border-primary">
         <div className="flex items-center justify-between px-6 py-2 min-h-[64px]">
           {/* Logo Section */}
           <Link href="/">

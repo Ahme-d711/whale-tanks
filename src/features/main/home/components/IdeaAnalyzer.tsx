@@ -44,18 +44,18 @@ export const IdeaAnalyzer = () => {
       >
         <div className="flex flex-col gap-4">
           <AnimatedBorder 
-            containerClassName="rounded-[28px] shadow-lg overflow-hidden"
-            className="bg-background rounded-[28px] px-4 py-3 flex items-end min-h-[60px]"
+            containerClassName="rounded-[28px] md:rounded-[40px] shadow-2xl overflow-hidden w-full mx-auto"
+            className="bg-background rounded-[28px] md:rounded-[36px] px-4 py-3 md:px-10 md:py-6 flex flex-col min-h-[65px] md:min-h-[210px] gap-4 md:gap-5"
             borderWidth={1.5}
             duration={10}
           >
-            <div className="flex-1 flex items-center gap-3">
+            <div className="flex-1 flex w-full">
               <AnalyzerInput 
                 value={ideaText} 
                 onChange={setIdeaText} 
                 attachments={attachments}
                 onRemoveAttachment={handleRemoveAttachment}
-                compact
+                compact={false}
               />
             </div>
             
@@ -74,7 +74,7 @@ export const IdeaAnalyzer = () => {
               models={models}
               selectedModelId={selectedModelId}
               setSelectedModelId={setSelectedModelId}
-              onlyActions
+              className="w-full"
             />
           </AnimatedBorder>
 
@@ -87,6 +87,7 @@ export const IdeaAnalyzer = () => {
             selectedModelId={selectedModelId}
             setSelectedModelId={setSelectedModelId}
             onlySelects
+            className="md:hidden"
           />
         </div>
       </motion.div>
