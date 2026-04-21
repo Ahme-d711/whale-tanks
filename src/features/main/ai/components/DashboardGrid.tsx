@@ -31,7 +31,8 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
     activeAction,
     setActiveAction,
     activeSubAction,
-    setActiveSubAction
+    setActiveSubAction,
+    canView
   } = analyzer
 
   return (
@@ -44,6 +45,7 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
           setActiveAction={setActiveAction}
           activeSubAction={activeSubAction}
           setActiveSubAction={setActiveSubAction}
+          canView={canView}
         />
         <div className="w-full flex-1 bg-white backdrop-blur-md rounded-3xl border border-primary shadow-xl shadow-blue-500/5 overflow-hidden flex flex-col min-h-0">
           <div className="flex-1 h-full border border-primary rounded-2xl bg-white overflow-hidden flex flex-col">

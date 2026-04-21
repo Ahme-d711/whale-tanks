@@ -4,18 +4,22 @@ import React from 'react'
 import { Sparkles, Layout } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 
+export type SubActionId = 'code' | 'view' | 'database';
+
 interface ActionSelectorProps {
   activeAction: 'consultation' | 'web_builder'
   setActiveAction: (action: 'consultation' | 'web_builder') => void
-  activeSubAction: 'code' | 'view' | 'database'
-  setActiveSubAction: (action: 'code' | 'view' | 'database') => void
+  activeSubAction: SubActionId
+  setActiveSubAction: (action: SubActionId) => void
+  canView?: boolean
 }
 
 export default function ActionSelector({
   activeAction,
   setActiveAction,
   activeSubAction,
-  setActiveSubAction
+  setActiveSubAction,
+  canView = true
 }: ActionSelectorProps) {
   const mainActions = [
     { 
@@ -30,11 +34,12 @@ export default function ActionSelector({
     }
   ] as const;
 
-  const subActions = [
+  // Build sub-actions array based on renderability
+  const subActions: { id: SubActionId, label: string }[] = [
     { id: 'code', label: 'Code' },
-    { id: 'view', label: 'View' },
+    ...(canView ? [{ id: 'view' as SubActionId, label: 'View' }] : []),
     { id: 'database', label: 'Database' }
-  ] as const;
+  ];
 
   return (
     <div className="flex flex-col gap-4">

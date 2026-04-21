@@ -9,6 +9,8 @@ import { AIModel } from '@/features/dashboard/models/types/model.types'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { usePathname } from '@/i18n/routing'
 
+import { detectContentType } from '../features/main/ai/utils/code-detection'
+
 export interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -234,9 +236,10 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
             setActiveBlockIndex(0);
             
             // If it's a significant block, maybe switch action?
-            if (blocks[blocks.length - 1].length > 50 && activeAction !== 'web_builder') {
+            if (blocks[0].length > 50 && activeAction !== 'web_builder') {
               setActiveAction('web_builder');
-              setActiveSubAction('view');
+              const canViewFirst = detectContentType(blocks[0]).contentType !== 'none';
+              setActiveSubAction(canViewFirst ? 'view' : 'code');
             }
           }
         }
@@ -289,6 +292,14 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       setMessages([])
     }
   }, [searchParams, sessionId, messages.length, isHistoryLoading, fetchHistory])
+  
+  // Auto-switch away from "View" if the active block is not renderable
+  useEffect(() => {
+    const isRenderable = detectContentType(webBuilderBlocks[activeBlockIndex] || "").contentType !== 'none'
+    if (activeSubAction === 'view' && !isRenderable) {
+      setActiveSubAction('code')
+    }
+  }, [activeBlockIndex, webBuilderBlocks, activeSubAction])
 
   const triggerFileInput = useCallback(() => {
     fileInputRef.current?.click()
@@ -321,6 +332,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     setWebBuilderBlocks,
     activeBlockIndex,
     setActiveBlockIndex,
+    canView: detectContentType(webBuilderBlocks[activeBlockIndex] || "").contentType !== 'none',
     activeAction,
     setActiveAction,
     activeSubAction,

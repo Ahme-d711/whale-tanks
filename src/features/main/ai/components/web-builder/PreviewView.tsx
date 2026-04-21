@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react'
 import { Code2, Globe, ChevronLeft, ChevronRight } from 'lucide-react'
+import { detectContentType } from '../../utils/code-detection'
 
 interface PreviewViewProps {
   code: string
@@ -16,23 +17,7 @@ export default function PreviewView({
   activeIndex, 
   onIndexChange 
 }: PreviewViewProps) {
-  const { contentType, isFragment } = useMemo(() => {
-    if (!code) return { contentType: 'none', isFragment: false }
-    const trimmed = code.trim()
-    const lower = trimmed.toLowerCase()
-    
-    if (lower.startsWith('<!doctype html>') || lower.startsWith('<html') || lower.includes('<head>') || lower.includes('<body>')) {
-      return { contentType: 'html', isFragment: false }
-    }
-
-    const looksLikeFragment = (trimmed.startsWith('<') || trimmed.startsWith('(')) && 
-                              !trimmed.includes('function') && 
-                              !trimmed.includes('const') &&
-                              !trimmed.includes('class') &&
-                              !trimmed.includes('import ')
-
-    return { contentType: 'react', isFragment: looksLikeFragment }
-  }, [code])
+  const { contentType, isFragment } = useMemo(() => detectContentType(code), [code])
 
   const isRenderable = useMemo(() => {
     return contentType !== 'none'
