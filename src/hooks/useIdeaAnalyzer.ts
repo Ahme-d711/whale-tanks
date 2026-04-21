@@ -38,10 +38,24 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const [models, setModels] = useState<AIModel[]>([])
   const [selectedModelId, setSelectedModelId] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
+  const [webBuilderCode, setWebBuilderCode] = useState<string>('')
+  const [activeAction, setActiveAction] = useState<'consultation' | 'web_builder'>('consultation')
+  const [activeSubAction, setActiveSubAction] = useState<'code' | 'view' | 'database'>('code')
   
   const fileInputRef = useRef<HTMLInputElement>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<Blob[]>([])
+
+  const extractCode = useCallback((text: string) => {
+    // Look for code blocks: ```jsx, ```tsx, ```html, or plain ```
+    const regex = /```(?:jsx|tsx|html|javascript|js|typescript|ts|css)?\n([\s\S]*?)```/g
+    const matches = Array.from(text.matchAll(regex))
+    if (matches.length > 0) {
+      // Return the content of the last code block (usually the most complete one)
+      return matches[matches.length - 1][1].trim()
+    }
+    return ''
+  }, [])
 
   useEffect(() => {
     const fetchModels = async () => {
@@ -135,6 +149,13 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       })
       
       setMessages(historicalMessages)
+      
+      // Extract code from history if any
+      const lastAssistantMsg = historicalMessages.filter(m => m.role === 'assistant').pop()
+      if (lastAssistantMsg) {
+        const code = extractCode(lastAssistantMsg.content)
+        if (code) setWebBuilderCode(code)
+      }
     } catch (error) {
       console.error("Failed to fetch chat history:", error)
       toast.error("Failed to load chat history.")
@@ -192,6 +213,18 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
             }
             return newMessages;
           });
+
+          // Check for code in the stream
+          const code = extractCode(fullContent);
+          if (code) {
+            setWebBuilderCode(code);
+            // If it's a significant block, maybe switch action?
+            // For professionalism, we switch only when the code looks mostly complete or has content
+            if (code.length > 50 && activeAction !== 'web_builder') {
+              setActiveAction('web_builder');
+              setActiveSubAction('view'); // Show view by default for wow factor
+            }
+          }
         }
       });
       
@@ -270,6 +303,12 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     setSelectedModelId,
     messages,
     setMessages,
+    webBuilderCode,
+    setWebBuilderCode,
+    activeAction,
+    setActiveAction,
+    activeSubAction,
+    setActiveSubAction,
     sessionId,
     setSessionId,
     isHistoryLoading

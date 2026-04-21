@@ -4,10 +4,19 @@ import React from 'react'
 import { Sparkles, Layout } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 
-export default function ActionSelector() {
-  const [activeAction, setActiveAction] = React.useState<'consultation' | 'web_builder'>('consultation')
-  const [activeSubAction, setActiveSubAction] = React.useState<'code' | 'view' | 'database'>('code')
+interface ActionSelectorProps {
+  activeAction: 'consultation' | 'web_builder'
+  setActiveAction: (action: 'consultation' | 'web_builder') => void
+  activeSubAction: 'code' | 'view' | 'database'
+  setActiveSubAction: (action: 'code' | 'view' | 'database') => void
+}
 
+export default function ActionSelector({
+  activeAction,
+  setActiveAction,
+  activeSubAction,
+  setActiveSubAction
+}: ActionSelectorProps) {
   const mainActions = [
     { 
       id: 'consultation', 
