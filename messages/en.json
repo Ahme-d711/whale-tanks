@@ -78,7 +78,10 @@
     "models": "AI Models",
     "providers": "AI Providers",
     "executions": "AI Executions",
-    "settings": "Settings"
+    "settings": "Settings",
+    "chat_deleted": "Chat deleted successfully",
+    "delete_failed": "Failed to delete chat",
+    "confirm_delete": "Are you sure you want to delete this chat?"
   },
   "Billing": {
     "insufficient_credits": {

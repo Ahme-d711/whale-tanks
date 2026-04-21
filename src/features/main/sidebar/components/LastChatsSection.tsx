@@ -3,10 +3,12 @@
 import { useTranslations, useLocale } from 'next-intl'
 import { useQuery } from '@tanstack/react-query'
 import { executionService } from '@/features/dashboard/executions/services/execution.service'
-import { MessageSquare, Clock, MessageCircle } from 'lucide-react'
+import { MessageSquare, Clock, MessageCircle, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useRouter } from '@/i18n/routing'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 interface LastChatsSectionProps {
   isCollapsed?: boolean
@@ -17,11 +19,31 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
   const locale = useLocale()
   const router = useRouter()
 
+  const queryClient = useQueryClient()
+
   const { data: sessions, isLoading, isError } = useQuery({
     queryKey: ['chat-sessions'],
     queryFn: () => executionService.getSessions(),
     refetchInterval: 30000, 
   })
+
+  const { mutate: deleteMutation } = useMutation({
+    mutationFn: (id: string) => executionService.deleteSession(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['chat-sessions'] })
+      toast.success(t('chat_deleted'))
+    },
+    onError: () => {
+      toast.error(t('delete_failed'))
+    }
+  })
+
+  const handleDelete = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation()
+    if (window.confirm(t('confirm_delete'))) {
+      deleteMutation(id)
+    }
+  }
 
   if (isCollapsed) return null
 
@@ -47,14 +69,22 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
               key={session.session_id}
               onClick={() => router.push(`/ai?session_id=${session.session_id}`)}
               className={cn(
-                "w-full text-start p-3 rounded-xl transition-all hover:bg-muted/50 group flex flex-col gap-1 active:scale-[0.98]",
+                "w-full text-start p-3 rounded-xl transition-all hover:bg-muted/50 group flex flex-col gap-1 active:scale-[0.98] relative",
               )}
             >
-              <div className="flex items-center gap-2">
-                <MessageCircle className="w-4 h-4 text-primary opacity-70 group-hover:opacity-100 transition-opacity" />
-                <span className="text-sm font-medium text-foreground line-clamp-1">
-                  {session.title || "New Conversation"}
-                </span>
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <MessageCircle className="w-4 h-4 text-primary opacity-70 group-hover:opacity-100 transition-opacity" />
+                  <span className="text-sm font-medium text-foreground line-clamp-1">
+                    {session.title || "New Conversation"}
+                  </span>
+                </div>
+                <button
+                  onClick={(e) => handleDelete(e, session.session_id)}
+                  className="opacity-0 group-hover:opacity-40 hover:!opacity-100 p-1 rounded-md hover:bg-destructive/10 text-destructive transition-all"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
               </div>
               <div className="flex items-center gap-3 text-[10px] text-muted-foreground mt-0.5">
                 <span className="flex items-center gap-1">

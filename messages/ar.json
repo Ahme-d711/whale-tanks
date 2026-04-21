@@ -78,7 +78,10 @@
     "models": "نماذج الذكاء الاصطناعي",
     "providers": "مزودو الخدمة",
     "executions": "عمليات الذكاء الاصطناعي",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "chat_deleted": "تم حذف المحادثة بنجاح",
+    "delete_failed": "فشل حذف المحادثة",
+    "confirm_delete": "هل أنت متأكد من حذف هذه المحادثة؟"
   },
   "Billing": {
     "insufficient_credits": {

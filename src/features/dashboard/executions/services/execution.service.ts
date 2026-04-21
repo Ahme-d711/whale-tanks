@@ -83,6 +83,10 @@ export const executionService = {
     const response = await clientAxios.get<SessionMessagesResponse>(`execute/sessions/${sessionId}/messages`);
     return response.data;
   },
+
+  deleteSession: async (sessionId: string): Promise<void> => {
+    await clientAxios.delete(`execute/sessions/${sessionId}`);
+  },
 };
 
 
