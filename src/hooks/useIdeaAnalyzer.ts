@@ -34,6 +34,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const [executionType, setExecutionType] = useState<ExecuteRequest["execution_type"]>("chat")
   const [analysisType, setAnalysisType] = useState<string>("all")
   const [sessionId, setSessionId] = useState<string | null>(null)
+  const [isHistoryLoading, setIsHistoryLoading] = useState(false)
   const [models, setModels] = useState<AIModel[]>([])
   const [selectedModelId, setSelectedModelId] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
@@ -106,6 +107,35 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const handleRemoveAttachment = useCallback((index: number) => {
     setAttachments(prev => prev.filter((_, i) => i !== index))
   }, [])
+
+  const fetchHistory = useCallback(async (sId: string) => {
+    setIsHistoryLoading(true)
+    try {
+      const data = await executionService.getSessionMessages(sId)
+      const historicalMessages: Message[] = []
+      
+      data.pairs.forEach(pair => {
+        historicalMessages.push({
+          role: 'user',
+          content: pair.question.content,
+          timestamp: new Date(pair.question.created_at).getTime()
+        })
+        historicalMessages.push({
+          role: 'assistant',
+          content: pair.answer.content,
+          timestamp: new Date(pair.answer.created_at).getTime()
+        })
+      })
+      
+      setMessages(historicalMessages)
+    } catch (error) {
+      console.error("Failed to fetch chat history:", error)
+      toast.error("Failed to load chat history.")
+    } finally {
+      setIsHistoryLoading(false)
+    }
+  }, [])
+
   const handleSend = useCallback(async (explicitPrompt?: string) => {
     const currentMessage = (explicitPrompt || ideaText).trim();
     if (!currentMessage) return;
@@ -192,14 +222,17 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     if (sId) {
       if (sId !== sessionId) {
         setSessionId(sId)
-        setMessages([]) // Reset messages when switching sessions (until we have a fetch messages endpoint)
+        fetchHistory(sId)
+      } else if (messages.length === 0 && !isHistoryLoading) {
+        // Fallback for direct reload with sessionId
+        fetchHistory(sId)
       }
     } else if (sessionId && !searchParams.get('q')) {
       // If we are on /ai without session_id or prompt, it's a new chat
       setSessionId(null)
       setMessages([])
     }
-  }, [searchParams, sessionId])
+  }, [searchParams, sessionId, messages.length, isHistoryLoading, fetchHistory])
 
   const triggerFileInput = useCallback(() => {
     fileInputRef.current?.click()
@@ -229,6 +262,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     messages,
     setMessages,
     sessionId,
-    setSessionId
+    setSessionId,
+    isHistoryLoading
   }
 }

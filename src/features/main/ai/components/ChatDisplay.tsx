@@ -9,6 +9,7 @@ import { Message } from '@/hooks/useIdeaAnalyzer'
 interface ChatDisplayProps {
   messages: Message[]
   isLoading: boolean
+  isHistoryLoading?: boolean
 }
 
 const MessageContent = ({ content = "", role }: { content?: string, role: string }) => {
@@ -75,7 +76,7 @@ const MessageContent = ({ content = "", role }: { content?: string, role: string
   )
 }
 
-export const ChatDisplay = ({ messages, isLoading }: ChatDisplayProps) => {
+export const ChatDisplay = ({ messages, isLoading, isHistoryLoading }: ChatDisplayProps) => {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -91,11 +92,22 @@ export const ChatDisplay = ({ messages, isLoading }: ChatDisplayProps) => {
         className="flex-1 p-5 overflow-y-auto custom-scrollbar scroll-smooth"
       >
         <div className="flex flex-col gap-4">
-          {messages.length === 0 && !isLoading && (
-            <div className="h-full flex flex-col items-center justify-center text-center p-10 opacity-50 my-auto">
-              <Bot className="w-12 h-12 mb-4" />
-              <p className="text-lg font-medium text-foreground/70">Start a conversation to analyze your idea!</p>
-            </div>
+          {isHistoryLoading ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className={`flex items-start gap-3 ${i % 2 === 0 ? '' : 'flex-row-reverse'}`}>
+                <div className="w-8 h-8 rounded-full bg-muted animate-pulse shrink-0" />
+                <div className={`h-12 w-2/3 bg-muted animate-pulse rounded-2xl ${i % 2 === 0 ? 'rounded-tl-none' : 'rounded-tr-none'}`} />
+              </div>
+            ))
+          ) : (
+            <>
+              {messages.length === 0 && !isLoading && (
+                <div className="h-full flex flex-col items-center justify-center text-center p-10 opacity-50 my-auto">
+                  <Bot className="w-12 h-12 mb-4" />
+                  <p className="text-lg font-medium text-foreground/70">Start a conversation to analyze your idea!</p>
+                </div>
+              )}
+            </>
           )}
           
           <AnimatePresence initial={false}>

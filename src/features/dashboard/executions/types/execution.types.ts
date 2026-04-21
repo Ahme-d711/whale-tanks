@@ -49,3 +49,22 @@ export interface ChatSession {
   created_at: string;
   updated_at: string;
 }
+
+export interface MessagePair {
+  turn: number;
+  question: {
+    content: string;
+    created_at: string;
+  };
+  answer: {
+    content: string;
+    created_at: string;
+    execution_id: string;
+  };
+}
+
+export interface SessionMessagesResponse {
+  session_id: string;
+  turn_count: number;
+  pairs: MessagePair[];
+}

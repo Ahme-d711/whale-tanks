@@ -19,7 +19,7 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
     console.log("Chat Response Received:", data)
   })
 
-  const { messages, isLoading } = analyzer
+  const { messages, isLoading, isHistoryLoading } = analyzer
 
   return (
     <section className="relative z-10 flex-1 px-6 pb-4 flex gap-12 overflow-hidden py-4">
@@ -36,7 +36,7 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
 
         {/* Center Column - Chat Display */}
         <div className="w-1/2 flex flex-col gap-7">
-          <ChatDisplay messages={messages} isLoading={isLoading} />
+          <ChatDisplay messages={messages} isLoading={isLoading} isHistoryLoading={isHistoryLoading} />
           <DashboardIdeaAnalyzer analyzer={analyzer} />
         </div>
       </div>

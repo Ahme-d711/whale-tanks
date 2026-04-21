@@ -1,5 +1,5 @@
 import clientAxios from "@/lib/axios/clientAxios";
-import { Execution, CreateExecutionData, ExecuteRequest, ExecuteResponse } from "../types/execution.types";
+import { Execution, CreateExecutionData, ExecuteRequest, ExecuteResponse, ChatSession, SessionMessagesResponse } from "../types/execution.types";
 import { useAuthStore } from "@/features/auth/stores/authStore";
 import { API_URL } from "@/utils/constants";
 
@@ -76,6 +76,11 @@ export const executionService = {
   
   getSessions: async (): Promise<ChatSession[]> => {
     const response = await clientAxios.get<ChatSession[]>("execute/sessions");
+    return response.data;
+  },
+
+  getSessionMessages: async (sessionId: string): Promise<SessionMessagesResponse> => {
+    const response = await clientAxios.get<SessionMessagesResponse>(`execute/sessions/${sessionId}/messages`);
     return response.data;
   },
 };
