@@ -81,7 +81,7 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <MessageCircle className="w-4 h-4 text-primary opacity-70 group-hover:opacity-100 transition-opacity" />
+                  <MessageCircle className="w-4 h-4 text-primary opacity-70 group-hover:opacity-100 transition-opacity shrink-0" />
                   <span className="text-sm font-medium text-foreground line-clamp-1">
                     {session.title || "New Conversation"}
                   </span>
@@ -95,11 +95,11 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
               </div>
               <div className="flex items-center gap-3 text-[10px] text-muted-foreground mt-0.5">
                 <span className="flex items-center gap-1">
-                  < Clock className="w-3 h-3" />
+                  <Clock className="w-3 h-3 shrink-0" />
                   {new Date(session.updated_at).toLocaleDateString(locale, { month: 'short', day: 'numeric' })}
                 </span>
                 <span className="flex items-center gap-1">
-                  <MessageSquare className="w-3 h-3" />
+                  <MessageSquare className="w-3 h-3 shrink-0" />
                   {session.message_count}
                 </span>
               </div>
