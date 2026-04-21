@@ -65,11 +65,18 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
           <p className="text-sm text-muted-foreground px-2 italic opacity-70">No recent chats</p>
         ) : (
           sessions?.map((session) => (
-            <button
+            <div
               key={session.session_id}
               onClick={() => router.push(`/ai?session_id=${session.session_id}`)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  router.push(`/ai?session_id=${session.session_id}`)
+                }
+              }}
+              role="button"
+              tabIndex={0}
               className={cn(
-                "w-full text-start p-3 rounded-xl transition-all hover:bg-muted/50 group flex flex-col gap-1 active:scale-[0.98] relative",
+                "w-full text-start p-3 rounded-xl transition-all hover:bg-muted/50 group flex flex-col gap-1 active:scale-[0.98] relative cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-primary",
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -88,7 +95,7 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
               </div>
               <div className="flex items-center gap-3 text-[10px] text-muted-foreground mt-0.5">
                 <span className="flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
+                  < Clock className="w-3 h-3" />
                   {new Date(session.updated_at).toLocaleDateString(locale, { month: 'short', day: 'numeric' })}
                 </span>
                 <span className="flex items-center gap-1">
@@ -96,7 +103,7 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
                   {session.message_count}
                 </span>
               </div>
-            </button>
+            </div>
           ))
         )}
       </div>
