@@ -11,17 +11,18 @@ interface ChatDisplayProps {
   isLoading: boolean
 }
 
-const MessageContent = ({ content, role }: { content: string, role: string }) => {
-  const isArabic = /[\u0600-\u06FF]/.test(content);
+const MessageContent = ({ content = "", role }: { content?: string, role: string }) => {
+  const safeContent = content || "";
+  const isArabic = /[\u0600-\u06FF]/.test(safeContent);
   
   if (role === 'user') return (
     <p dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'text-right' : 'text-left'}>
-      {content}
+      {safeContent}
     </p>
   )
 
   // Helper function to format AI text based on user rules
-  const formatAIText = (text: string) => {
+  const formatAIText = (text: string = "") => {
     // 1. Remove markdown symbols like ##, **, --, etc.
     let clean = text
       .replace(/[#*_-]/g, '')
@@ -60,7 +61,7 @@ const MessageContent = ({ content, role }: { content: string, role: string }) =>
     return formattedLines.join('\n').trim()
   }
 
-  const formatted = formatAIText(content)
+  const formatted = formatAIText(safeContent)
 
   return (
     <div 
@@ -98,27 +99,31 @@ export const ChatDisplay = ({ messages, isLoading }: ChatDisplayProps) => {
           )}
           
           <AnimatePresence initial={false}>
-            {messages.map((msg, idx) => (
-              <motion.div
-                key={msg.timestamp || idx}
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                className={`flex items-start gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
-              >
-                <Avatar className="w-8 h-8 mt-1 border">
-                  <AvatarFallback>{msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}</AvatarFallback>
-                </Avatar>
-                <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow-sm ${
-                  msg.role === 'user' 
-                    ? 'bg-primary text-primary-foreground rounded-tr-none' 
-                    : 'bg-secondary text-secondary-foreground rounded-tl-none'
-                }`}>
-                  <MessageContent content={msg.content} role={msg.role} />
-                </div>
-              </motion.div>
-            ))}
+            {messages.map((msg, idx) => {
+              if (msg.role === 'assistant' && !msg.content) return null;
+              
+              return (
+                <motion.div
+                  key={msg.timestamp || idx}
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  className={`flex items-start gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+                >
+                  <Avatar className="w-8 h-8 mt-1 border">
+                    <AvatarFallback>{msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}</AvatarFallback>
+                  </Avatar>
+                  <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow-sm ${
+                    msg.role === 'user' 
+                      ? 'bg-primary text-primary-foreground rounded-tr-none' 
+                      : 'bg-secondary text-secondary-foreground rounded-tl-none'
+                  }`}>
+                    <MessageContent content={msg.content} role={msg.role} />
+                  </div>
+                </motion.div>
+              )
+            })}
             
-            {isLoading && (
+            {isLoading && (messages.length === 0 || !messages[messages.length - 1]?.content) && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}

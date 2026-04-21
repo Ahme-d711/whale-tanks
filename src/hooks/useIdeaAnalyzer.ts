@@ -122,26 +122,41 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
         extra: {}
       }
 
-      const response = await executionService.execute(requestData)
-      setResult(response)
-      
-      // Always add the response to messages to ensure it shows up in the UI
+      // 1. Add empty assistant message
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: response.result, 
+        content: '', 
         timestamp: Date.now() 
       }]);
+
+      let fullContent = "";
+      
+      await executionService.streamExecute(requestData, (chunk) => {
+        fullContent += chunk;
+        setMessages(prev => {
+          const newMessages = [...prev];
+          const lastMessage = newMessages[newMessages.length - 1];
+          if (lastMessage && lastMessage.role === 'assistant') {
+            lastMessage.content = fullContent;
+          }
+          return newMessages;
+        });
+      });
       
       if (onSendCallback) {
-        onSendCallback(response)
+        onSendCallback({ result: fullContent })
       }
     } catch (error) {
       console.error("Execution error:", error)
-      if (isChat) {
-        toast.error("AI failed to respond. Please try again.")
-      } else {
-        toast.error("Failed to analyze idea. Please try again.")
-      }
+      toast.error(isChat ? "AI failed to respond." : "Failed to analyze idea.")
+      
+      // Remove empty assistant message on error
+      setMessages(prev => {
+        if (prev.length > 0 && prev[prev.length - 1].role === 'assistant' && !prev[prev.length - 1].content) {
+          return prev.slice(0, -1);
+        }
+        return prev;
+      });
     } finally {
       setIsLoading(false)
     }
