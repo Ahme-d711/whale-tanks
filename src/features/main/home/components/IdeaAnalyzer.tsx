@@ -6,9 +6,11 @@ import { AnalyzerInput } from './analyzer/AnalyzerInput'
 import { AnalyzerToolbar } from './analyzer/AnalyzerToolbar'
 import AnimatedBorder from "@/components/shared/AnimatedBorder"
 import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
+import { useRouter } from '@/i18n/routing'
 
 
 export const IdeaAnalyzer = () => {
+  const router = useRouter()
   const {
     ideaText,
     setIdeaText,
@@ -33,6 +35,18 @@ export const IdeaAnalyzer = () => {
     console.log("Sending Idea Data:", data)
   })
 
+  const onActionSend = () => {
+    if (!ideaText.trim()) return
+    router.push(`/ai?q=${encodeURIComponent(ideaText.trim())}`)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      onActionSend()
+    }
+  }
+
   return (
     <section className="relative z-10 px-4 lg:px-0 mx-auto w-full">
       <motion.div
@@ -56,6 +70,7 @@ export const IdeaAnalyzer = () => {
                 attachments={attachments}
                 onRemoveAttachment={handleRemoveAttachment}
                 compact={false}
+                onKeyDown={handleKeyDown}
               />
             </div>
             
@@ -63,7 +78,7 @@ export const IdeaAnalyzer = () => {
               isRecording={isRecording}
               onToggleRecording={handleToggleRecording}
               triggerFileInput={triggerFileInput}
-              onSend={handleSend}
+              onSend={onActionSend}
               fileInputRef={fileInputRef}
               onFilesSelectedDirect={handleFilesSelectedDirect}
               isLoading={isLoading}

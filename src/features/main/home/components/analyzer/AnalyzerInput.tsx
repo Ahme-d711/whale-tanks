@@ -12,9 +12,10 @@ interface AnalyzerInputProps {
   attachments?: File[]
   onRemoveAttachment?: (index: number) => void
   compact?: boolean
+  onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void
 }
 
-export const AnalyzerInput = ({ value, onChange, attachments = [], onRemoveAttachment, compact }: AnalyzerInputProps) => {
+export const AnalyzerInput = ({ value, onChange, attachments = [], onRemoveAttachment, compact, onKeyDown }: AnalyzerInputProps) => {
   const t = useTranslations('HomePage.Analyzer')
   const locale = useLocale()
 
@@ -35,6 +36,7 @@ export const AnalyzerInput = ({ value, onChange, attachments = [], onRemoveAttac
           e.target.style.height = 'auto'
           e.target.style.height = `${e.target.scrollHeight}px`
         }}
+        onKeyDown={onKeyDown}
         className={cn(
           "w-full placeholder:text-muted-foreground/60 p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-sm md:text-xl font-normal text-foreground leading-[1.6] shadow-none no-scrollbar transition-[height] duration-200",
           compact ? "h-6 min-h-[24px]" : "min-h-[40px] md:min-h-[60px]",

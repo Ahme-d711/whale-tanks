@@ -6,6 +6,8 @@ import { executionService } from '@/features/dashboard/executions/services/execu
 import { ExecuteRequest, ExecuteResponse } from '@/features/dashboard/executions/types/execution.types'
 import { modelService } from '@/features/dashboard/models/services/model.service'
 import { AIModel } from '@/features/dashboard/models/types/model.types'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { usePathname } from '@/i18n/routing'
 
 export interface Message {
   role: 'user' | 'assistant';
@@ -20,6 +22,10 @@ export interface IdeaAnalyzerState {
 }
 
 export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+
   const [ideaText, setIdeaText] = useState('')
   const [attachments, setAttachments] = useState<File[]>([])
   const [isRecording, setIsRecording] = useState(false)
@@ -99,10 +105,10 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const handleRemoveAttachment = useCallback((index: number) => {
     setAttachments(prev => prev.filter((_, i) => i !== index))
   }, [])
-  const handleSend = useCallback(async () => {
-    if (!ideaText.trim()) return;
+  const handleSend = useCallback(async (explicitPrompt?: string) => {
+    const currentMessage = (explicitPrompt || ideaText).trim();
+    if (!currentMessage) return;
 
-    const currentMessage = ideaText.trim();
     const isChat = executionType === "chat";
 
     // Always add user message to history
@@ -161,6 +167,17 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       setIsLoading(false)
     }
   }, [ideaText, executionType, selectedModelId, analysisType, onSendCallback])
+
+  useEffect(() => {
+    const q = searchParams.get('q')
+    if (q && messages.length === 0 && !isLoading && selectedModelId) {
+      handleSend(q)
+      // Clear the query param to avoid re-sending on refresh or navigation
+      const newParams = new URLSearchParams(searchParams.toString())
+      newParams.delete('q')
+      router.replace(`${pathname}?${newParams.toString()}`)
+    }
+  }, [searchParams, messages.length, isLoading, selectedModelId, handleSend, router, pathname])
 
   const triggerFileInput = useCallback(() => {
     fileInputRef.current?.click()
