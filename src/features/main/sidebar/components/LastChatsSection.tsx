@@ -1,6 +1,12 @@
 "use client"
 
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
+import { useQuery } from '@tanstack/react-query'
+import { executionService } from '@/features/dashboard/executions/services/execution.service'
+import { MessageSquare, Clock, MessageCircle } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useRouter } from '@/i18n/routing'
 
 interface LastChatsSectionProps {
   isCollapsed?: boolean
@@ -8,12 +14,62 @@ interface LastChatsSectionProps {
 
 export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps) {
   const t = useTranslations('Sidebar')
+  const locale = useLocale()
+  const router = useRouter()
 
-  if (isCollapsed) return null // Hide for now in rail view as per typical design, or could show icons
+  const { data: sessions, isLoading, isError } = useQuery({
+    queryKey: ['chat-sessions'],
+    queryFn: () => executionService.getSessions(),
+    refetchInterval: 30000, 
+  })
+
+  if (isCollapsed) return null
 
   return (
     <div className="space-y-6 pt-4 px-5">
       <h3 className="text-xl text-secondary-foreground font-medium">{t('last_chats')}</h3>
+      
+      <div className="space-y-2">
+        {isLoading ? (
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="flex flex-col gap-2 p-3">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-1/2 opacity-50" />
+            </div>
+          ))
+        ) : isError ? (
+          <p className="text-sm text-destructive px-2 italic opacity-70">Failed to load chats</p>
+        ) : sessions?.length === 0 ? (
+          <p className="text-sm text-muted-foreground px-2 italic opacity-70">No recent chats</p>
+        ) : (
+          sessions?.map((session) => (
+            <button
+              key={session.session_id}
+              onClick={() => router.push(`/ai?session_id=${session.session_id}`)}
+              className={cn(
+                "w-full text-start p-3 rounded-xl transition-all hover:bg-muted/50 group flex flex-col gap-1 active:scale-[0.98]",
+              )}
+            >
+              <div className="flex items-center gap-2">
+                <MessageCircle className="w-4 h-4 text-primary opacity-70 group-hover:opacity-100 transition-opacity" />
+                <span className="text-sm font-medium text-foreground line-clamp-1">
+                  {session.title || "New Conversation"}
+                </span>
+              </div>
+              <div className="flex items-center gap-3 text-[10px] text-muted-foreground mt-0.5">
+                <span className="flex items-center gap-1">
+                  <Clock className="w-3 h-3" />
+                  {new Date(session.updated_at).toLocaleDateString(locale, { month: 'short', day: 'numeric' })}
+                </span>
+                <span className="flex items-center gap-1">
+                  <MessageSquare className="w-3 h-3" />
+                  {session.message_count}
+                </span>
+              </div>
+            </button>
+          ))
+        )}
+      </div>
     </div>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import { SquarePen, Search } from "lucide-react"
+import { useRouter } from '@/i18n/routing'
 import {
   Tooltip,
   TooltipContent,
@@ -16,8 +17,10 @@ interface SidebarActionsProps {
 export default function SidebarActions({ isCollapsed }: SidebarActionsProps) {
   const t = useTranslations('Sidebar')
 
+  const router = useRouter()
+
   const actions = [
-    { icon: SquarePen, label: t('new_chat'), id: 'new_chat' },
+    { icon: SquarePen, label: t('new_chat'), id: 'new_chat', onClick: () => router.push('/ai') },
     { icon: Search, label: t('search'), id: 'search' },
   ]
 
@@ -27,12 +30,15 @@ export default function SidebarActions({ isCollapsed }: SidebarActionsProps) {
         {actions.map((action) => (
           <Tooltip key={action.id} delayDuration={isCollapsed ? 0 : 1000000}>
             <TooltipTrigger asChild>
-              <div className={`flex items-center gap-2 cursor-pointer hover:bg-secondary transition-colors rounded-xl ${isCollapsed ? 'justify-center w-12 h-12 p-0' : 'px-3 py-2'}`}>
+              <button 
+                onClick={action.onClick}
+                className={`w-full flex items-center gap-2 cursor-pointer hover:bg-secondary transition-colors rounded-xl ${isCollapsed ? 'justify-center w-12 h-12 p-0' : 'px-3 py-2'}`}
+              >
                 <div className="flex items-center justify-center text-foreground shrink-0">
                   <action.icon className="w-6 h-6" />
                 </div>
-                {!isCollapsed && <span className="text-base text-foreground truncate">{action.label}</span>}
-              </div>
+                {!isCollapsed && <span className="text-base text-foreground truncate text-start">{action.label}</span>}
+              </button>
             </TooltipTrigger>
             {isCollapsed && (
               <TooltipContent side="right" className="bg-secondary text-foreground border-none rounded-lg px-3 py-1.5 font-bold">

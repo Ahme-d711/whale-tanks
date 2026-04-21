@@ -187,6 +187,20 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     }
   }, [searchParams, messages.length, isLoading, selectedModelId, handleSend, router, pathname])
 
+  useEffect(() => {
+    const sId = searchParams.get('session_id')
+    if (sId) {
+      if (sId !== sessionId) {
+        setSessionId(sId)
+        setMessages([]) // Reset messages when switching sessions (until we have a fetch messages endpoint)
+      }
+    } else if (sessionId && !searchParams.get('q')) {
+      // If we are on /ai without session_id or prompt, it's a new chat
+      setSessionId(null)
+      setMessages([])
+    }
+  }, [searchParams, sessionId])
+
   const triggerFileInput = useCallback(() => {
     fileInputRef.current?.click()
   }, [])

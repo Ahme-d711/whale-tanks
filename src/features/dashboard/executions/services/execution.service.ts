@@ -73,6 +73,11 @@ export const executionService = {
       }
     }
   },
+  
+  getSessions: async (): Promise<ChatSession[]> => {
+    const response = await clientAxios.get<ChatSession[]>("execute/sessions");
+    return response.data;
+  },
 };
 
 

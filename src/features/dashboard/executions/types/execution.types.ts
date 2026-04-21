@@ -39,3 +39,13 @@ export interface ExecuteResponse {
   user_cost: string;
   internal_cost: string;
 }
+
+export interface ChatSession {
+  session_id: string;
+  title: string;
+  preview: string;
+  turn_count: number;
+  message_count: number;
+  created_at: string;
+  updated_at: string;
+}
