@@ -115,7 +115,7 @@ const MessageContent = ({ content = "", role, activeAction }: { content?: string
               key={index} 
               code={code} 
               lang={part.match(/```(\w+)/)?.[1] || 'code'} 
-              initiallyCollapsed={activeAction === 'web_builder'}
+              initiallyCollapsed={false}
             />
           )
         }
