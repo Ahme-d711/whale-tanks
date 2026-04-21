@@ -1,232 +1,79 @@
 "use client"
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { toast } from 'sonner'
 import { executionService } from '@/features/dashboard/executions/services/execution.service'
-import { ExecuteRequest, ExecuteResponse } from '@/features/dashboard/executions/types/execution.types'
-import { modelService } from '@/features/dashboard/models/services/model.service'
-import { AIModel } from '@/features/dashboard/models/types/model.types'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { usePathname } from '@/i18n/routing'
+import { ExecuteRequest } from '@/features/dashboard/executions/types/execution.types'
+import { useSearchParams } from 'next/navigation'
 
-import { detectContentType } from '../features/main/ai/utils/code-detection'
+import { detectContentType } from '@/features/main/ai/utils/code-detection'
+import { extractCode } from '@/features/main/ai/utils/code-extraction'
 
-export interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp?: number;
-}
-
-export interface IdeaAnalyzerState {
-  ideaText: string
-  attachments: File[]
-  isRecording: boolean
-}
+// Sub-hooks
+import { useAudioRecorder } from './useAudioRecorder'
+import { useFileAttachments } from './useFileAttachments'
+import { useAIBuilderState } from './useAIBuilderState'
+import { useChatSession } from './useChatSession'
+import { useAIModels } from './useAIModels'
 
 export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const searchParams = useSearchParams()
-  const router = useRouter()
-  const pathname = usePathname()
+  
+  // 1. Initialise Specialized Hooks
+  const builder = useAIBuilderState()
+  const files = useFileAttachments()
+  const models = useAIModels()
+  
+  // Chat session needs to update builder state when history loads
+  const chat = useChatSession(useCallback((ui, db) => {
+    if (ui.length > 0) {
+      builder.setWebBuilderBlocks(ui)
+      builder.setActiveBlockIndex(0)
+    }
+    if (db.length > 0) {
+      builder.setDbBlocks(db)
+      builder.setActiveDbBlockIndex(0)
+    }
+  }, [builder]))
 
+  const record = useAudioRecorder(useCallback((file) => {
+    files.setAttachments(prev => [...prev, file])
+  }, [files]))
+
+  // 2. Local UI State
   const [ideaText, setIdeaText] = useState('')
-  const [attachments, setAttachments] = useState<File[]>([])
-  const [isRecording, setIsRecording] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [result, setResult] = useState<ExecuteResponse | null>(null)
   const [executionType, setExecutionType] = useState<ExecuteRequest["execution_type"]>("chat")
   const [analysisType, setAnalysisType] = useState<string>("all")
-  const [sessionId, setSessionId] = useState<string | null>(null)
-  const [isHistoryLoading, setIsHistoryLoading] = useState(false)
-  const [models, setModels] = useState<AIModel[]>([])
-  const [selectedModelId, setSelectedModelId] = useState<string>("")
-  const [messages, setMessages] = useState<Message[]>([])
-  const [webBuilderBlocks, setWebBuilderBlocks] = useState<string[]>([])
-  const [dbBlocks, setDbBlocks] = useState<string[]>([])
-  const [activeBlockIndex, setActiveBlockIndex] = useState(0)
-  const [activeDbBlockIndex, setActiveDbBlockIndex] = useState(0)
-  const [activeAction, setActiveAction] = useState<'consultation' | 'web_builder'>('consultation')
-  const [activeSubAction, setActiveSubAction] = useState<'code' | 'view' | 'database'>('code')
-  
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
-  const chunksRef = useRef<Blob[]>([])
 
-  const extractCode = useCallback((text: string) => {
-    const regex = /```(jsx|tsx|html|javascript|js|typescript|ts|css|bash|sh|json|sql|prisma)?\n?([\s\S]*?)```/g
-    const matches = Array.from(text.matchAll(regex))
-    
-    const uiBlocks: string[] = []
-    const dbBlocks: string[] = []
-
-    matches.forEach(m => {
-      const lang = m[1]?.toLowerCase() || ''
-      const content = m[2].trim()
-      
-      if (content.length < 20) return
-
-      // Ignore installation commands
-      if (content.toLowerCase().startsWith('npm ') || content.toLowerCase().startsWith('bun ')) return
-
-      // Determine Category
-      if (lang === 'sql' || lang === 'prisma' || 
-          (lang === 'json' && content.includes('"type": "object"')) ||
-          ((lang === 'ts' || lang === 'typescript') && (content.includes('interface') || content.includes('type')) && !content.includes('React'))
-      ) {
-        dbBlocks.push(content)
-      } else {
-        uiBlocks.push(content)
-      }
-    })
-
-    return {
-      ui: Array.from(new Set(uiBlocks)),
-      db: Array.from(new Set(dbBlocks))
-    }
-  }, [])
-
-  // ... (rest of the handleSend and fetchHistory will be updated in chunks if needed)
-
-  useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const data = await modelService.getModels(true)
-        setModels(data)
-        if (data.length > 0 && !selectedModelId) {
-          // Find if there is a default model or just pick the first from images if exists
-          const defaultModel = data.find(m => m.model_id === "3fa85f64-5717-4562-b3fc-2c963f66afa6") || data[0]
-          setSelectedModelId(defaultModel.model_id)
-        }
-      } catch (err) {
-        console.error("Error fetching models:", err)
-      }
-    }
-    fetchModels()
-  }, [])
-
-  const handleToggleRecording = useCallback(async () => {
-    if (isRecording) {
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-        mediaRecorderRef.current.stop()
-        setIsRecording(false)
-      }
-    } else {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-        const mediaRecorder = new MediaRecorder(stream)
-        mediaRecorderRef.current = mediaRecorder
-        chunksRef.current = []
-
-        mediaRecorder.ondataavailable = (e) => {
-          if (e.data.size > 0) chunksRef.current.push(e.data)
-        }
-
-        mediaRecorder.onstop = () => {
-          const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' })
-          const file = new File([audioBlob], `recording-${Date.now()}.webm`, { type: 'audio/webm' })
-          setAttachments(prev => [...prev, file])
-          stream.getTracks().forEach(track => track.stop())
-        }
-
-        mediaRecorder.start()
-        setIsRecording(true)
-      } catch (err) {
-        console.error("Mic error:", err)
-      }
-    }
-  }, [isRecording])
-
-  const handleFilesSelected = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = Array.from(e.target.files)
-      setAttachments(prev => [...prev, ...files])
-      e.target.value = '' // Reset input
-    }
-  }, [])
-
-  const handleFilesSelectedDirect = useCallback((files: File[]) => {
-    setAttachments(prev => [...prev, ...files])
-  }, [])
-
-  const handleRemoveAttachment = useCallback((index: number) => {
-    setAttachments(prev => prev.filter((_, i) => i !== index))
-  }, [])
-
-  const fetchHistory = useCallback(async (sId: string) => {
-    setIsHistoryLoading(true)
-    try {
-      const data = await executionService.getSessionMessages(sId)
-      const historicalMessages: Message[] = []
-      
-      data.pairs.forEach((pair, idx) => {
-        const qTime = new Date(pair.question.created_at).getTime()
-        // Use index offset to prevent collisions between different turns
-        const uniqueQ = qTime + (idx * 2)
-        
-        historicalMessages.push({
-          role: 'user',
-          content: pair.question.content,
-          timestamp: uniqueQ
-        })
-
-        const aTime = new Date(pair.answer.created_at).getTime()
-        historicalMessages.push({
-          role: 'assistant',
-          content: pair.answer.content,
-          // Ensure assistant message is always unique and after user message
-          timestamp: (aTime <= qTime) ? uniqueQ + 1 : aTime + (idx * 2)
-        })
-      })
-      
-      setMessages(historicalMessages)
-      
-      // Extract code from history if any
-      const lastAssistantMsg = historicalMessages.filter(m => m.role === 'assistant').pop()
-      if (lastAssistantMsg) {
-        const { ui, db } = extractCode(lastAssistantMsg.content)
-        if (ui.length > 0) {
-          setWebBuilderBlocks(ui)
-          setActiveBlockIndex(0)
-        }
-        if (db.length > 0) {
-          setDbBlocks(db)
-          setActiveDbBlockIndex(0)
-        }
-      }
-    } catch (error) {
-      console.error("Failed to fetch chat history:", error)
-      toast.error("Failed to load chat history.")
-    } finally {
-      setIsHistoryLoading(false)
-    }
-  }, [])
-
+  // 3. Core Logic (Sending)
   const handleSend = useCallback(async (explicitPrompt?: string) => {
     const currentMessage = (explicitPrompt || ideaText).trim();
     if (!currentMessage) return;
 
     const isChat = executionType === "chat";
-
     const userTimestamp = Date.now();
-    // Always add user message to history
-    setMessages(prev => [...prev, { role: 'user', content: currentMessage, timestamp: userTimestamp }]);
+    
+    // Add user message to history
+    chat.setMessages(prev => [...prev, { role: 'user', content: currentMessage, timestamp: userTimestamp }]);
     
     setIdeaText('');
-    setAttachments([]);
+    files.setAttachments([]);
     setIsLoading(true);
 
     try {
       const requestData: ExecuteRequest = {
         prompt: currentMessage,
         execution_type: executionType,
-        model_id: selectedModelId || "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        model_id: models.selectedModelId || "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         analysis_type: executionType === "report" ? analysisType : undefined,
-        session_id: sessionId || undefined,
+        session_id: chat.sessionId || undefined,
         tier: "free",
         extra: {}
       }
 
-      // 1. Add empty assistant message with a slightly different timestamp to avoid duplicate keys
-      setMessages(prev => [...prev, { 
+      // Add empty assistant message
+      chat.setMessages(prev => [...prev, { 
         role: 'assistant', 
         content: '', 
         timestamp: userTimestamp + 1 
@@ -235,13 +82,11 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       let fullContent = "";
       
       await executionService.streamExecute(requestData, (update) => {
-        if (update.session_id) {
-          setSessionId(update.session_id);
-        }
+        if (update.session_id) chat.setSessionId(update.session_id);
         
         if (update.text) {
           fullContent += update.text;
-          setMessages(prev => {
+          chat.setMessages(prev => {
             const newMessages = [...prev];
             const lastMessage = newMessages[newMessages.length - 1];
             if (lastMessage && lastMessage.role === 'assistant') {
@@ -254,33 +99,31 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
           const { ui, db } = extractCode(fullContent);
           
           if (ui.length > 0) {
-            setWebBuilderBlocks(ui);
-            setActiveBlockIndex(0);
+            builder.setWebBuilderBlocks(ui);
+            builder.setActiveBlockIndex(0);
             
-            // If it's a significant block, maybe switch action?
-            if (ui[0].length > 50 && activeAction !== 'web_builder') {
-              setActiveAction('web_builder');
+            // Switch to Web Builder if UI code appears
+            if (ui[0].length > 50 && builder.activeAction !== 'web_builder') {
+              builder.setActiveAction('web_builder');
               const canViewFirst = detectContentType(ui[0]).contentType !== 'none';
-              setActiveSubAction(canViewFirst ? 'view' : 'code');
+              builder.setActiveSubAction(canViewFirst ? 'view' : 'code');
             }
           }
 
           if (db.length > 0) {
-            setDbBlocks(db);
-            setActiveDbBlockIndex(0);
+            builder.setDbBlocks(db);
+            builder.setActiveDbBlockIndex(0);
           }
         }
       });
       
-      if (onSendCallback) {
-        onSendCallback({ result: fullContent })
-      }
+      if (onSendCallback) onSendCallback({ result: fullContent })
     } catch (error) {
       console.error("Execution error:", error)
       toast.error(isChat ? "AI failed to respond." : "Failed to analyze idea.")
       
-      // Remove empty assistant message on error
-      setMessages(prev => {
+      // Cleanup assistant message on error
+      chat.setMessages(prev => {
         if (prev.length > 0 && prev[prev.length - 1].role === 'assistant' && !prev[prev.length - 1].content) {
           return prev.slice(0, -1);
         }
@@ -289,87 +132,55 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     } finally {
       setIsLoading(false)
     }
-  }, [ideaText, executionType, selectedModelId, analysisType, onSendCallback, sessionId])
+  }, [ideaText, executionType, models.selectedModelId, analysisType, onSendCallback, chat, files, builder])
 
+  // 4. URL & Initialisation Sync
   useEffect(() => {
     const q = searchParams.get('q')
-    if (q && messages.length === 0 && !isLoading && selectedModelId) {
+    if (q && chat.messages.length === 0 && !isLoading && models.selectedModelId) {
       handleSend(q)
-      // Clear the query param to avoid re-sending on refresh or navigation
-      const newParams = new URLSearchParams(searchParams.toString())
-      newParams.delete('q')
-      router.replace(`${pathname}?${newParams.toString()}`)
+      chat.clearQueryParam()
     }
-  }, [searchParams, messages.length, isLoading, selectedModelId, handleSend, router, pathname])
+  }, [searchParams, chat, isLoading, models.selectedModelId, handleSend])
 
-  useEffect(() => {
-    const sId = searchParams.get('session_id')
-    if (sId) {
-      if (sId !== sessionId) {
-        setSessionId(sId)
-        setMessages([]) // MUST clear current messages immediately when switching sessions
-        fetchHistory(sId)
-      } else if (messages.length === 0 && !isHistoryLoading) {
-        // Fallback for direct reload with sessionId
-        fetchHistory(sId)
-      }
-    } else if (sessionId && !searchParams.get('q')) {
-      // If we are on /ai without session_id or prompt, it's a new chat
-      setSessionId(null)
-      setMessages([])
-    }
-  }, [searchParams, sessionId, messages.length, isHistoryLoading, fetchHistory])
-  
-  // Auto-switch away from "View" if the active block is not renderable
-  useEffect(() => {
-    const isRenderable = detectContentType(webBuilderBlocks[activeBlockIndex] || "").contentType !== 'none'
-    if (activeSubAction === 'view' && !isRenderable) {
-      setActiveSubAction('code')
-    }
-  }, [activeBlockIndex, webBuilderBlocks, activeSubAction])
-
-  const triggerFileInput = useCallback(() => {
-    fileInputRef.current?.click()
-  }, [])
-
+  // 5. Final Export (Preserve API compatibility)
   return {
     ideaText,
     setIdeaText,
-    attachments,
-    isRecording,
-    fileInputRef,
-    handleToggleRecording,
-    handleFilesSelected,
-    handleFilesSelectedDirect,
-    handleRemoveAttachment,
+    attachments: files.attachments,
+    isRecording: record.isRecording,
+    fileInputRef: files.fileInputRef,
+    handleToggleRecording: record.handleToggleRecording,
+    handleFilesSelected: files.handleFilesSelected,
+    handleFilesSelectedDirect: files.handleFilesSelectedDirect,
+    handleRemoveAttachment: files.handleRemoveAttachment,
     handleSend,
-    triggerFileInput,
+    triggerFileInput: files.triggerFileInput,
     isLoading,
-    result,
     executionType,
     setExecutionType,
     analysisType,
     setAnalysisType,
-    models,
-    selectedModelId,
-    setSelectedModelId,
-    messages,
-    setMessages,
-    webBuilderBlocks,
-    setWebBuilderBlocks,
-    dbBlocks,
-    setDbBlocks,
-    activeBlockIndex,
-    setActiveBlockIndex,
-    activeDbBlockIndex,
-    setActiveDbBlockIndex,
-    canView: detectContentType(webBuilderBlocks[activeBlockIndex] || "").contentType !== 'none',
-    activeAction,
-    setActiveAction,
-    activeSubAction,
-    setActiveSubAction,
-    sessionId,
-    setSessionId,
-    isHistoryLoading
+    models: models.models,
+    selectedModelId: models.selectedModelId,
+    setSelectedModelId: models.setSelectedModelId,
+    messages: chat.messages,
+    setMessages: chat.setMessages,
+    webBuilderBlocks: builder.webBuilderBlocks,
+    setWebBuilderBlocks: builder.setWebBuilderBlocks,
+    dbBlocks: builder.dbBlocks,
+    setDbBlocks: builder.setDbBlocks,
+    activeBlockIndex: builder.activeBlockIndex,
+    setActiveBlockIndex: builder.setActiveBlockIndex,
+    activeDbBlockIndex: builder.activeDbBlockIndex,
+    setActiveDbBlockIndex: builder.setActiveDbBlockIndex,
+    canView: builder.canView,
+    activeAction: builder.activeAction,
+    setActiveAction: builder.setActiveAction,
+    activeSubAction: builder.activeSubAction,
+    setActiveSubAction: builder.setActiveSubAction,
+    sessionId: chat.sessionId,
+    setSessionId: chat.setSessionId,
+    isHistoryLoading: chat.isHistoryLoading
   }
 }
