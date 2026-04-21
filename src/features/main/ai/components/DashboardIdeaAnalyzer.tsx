@@ -41,11 +41,17 @@ export default function DashboardIdeaAnalyzer({ analyzer }: DashboardIdeaAnalyze
     setSelectedModelId,
     handleToggleRecording,
     handleFilesSelected,
-    handleFilesSelectedDirect,
     handleRemoveAttachment,
     handleSend,
     triggerFileInput
   } = analyzer
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSend()
+    }
+  }
 
   return (
     <motion.div
@@ -57,6 +63,7 @@ export default function DashboardIdeaAnalyzer({ analyzer }: DashboardIdeaAnalyze
         <Textarea
           value={ideaText}
           onChange={(e) => setIdeaText(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="w-full h-full min-h-[126px] placeholder:text-secondary-foreground p-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none resize-none bg-transparent text-lg font-medium text-foreground leading-snug shadow-none"
           placeholder={t('title')}
         />
@@ -147,7 +154,7 @@ export default function DashboardIdeaAnalyzer({ analyzer }: DashboardIdeaAnalyze
 
         {/* Send Pill */}
         <button 
-          onClick={handleSend}
+          onClick={() => handleSend()}
           disabled={isLoading}
           className="flex items-center gap-2 bg-border hover:bg-border/80 transition-colors rounded-full px-4 py-1.5 text-foreground font-medium text-sm disabled:opacity-50"
         >

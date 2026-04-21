@@ -128,11 +128,11 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
         extra: {}
       }
 
-      // 1. Add empty assistant message
+      // 1. Add empty assistant message with a slightly different timestamp to avoid duplicate keys
       setMessages(prev => [...prev, { 
         role: 'assistant', 
         content: '', 
-        timestamp: Date.now() 
+        timestamp: Date.now() + 1 
       }]);
 
       let fullContent = "";
