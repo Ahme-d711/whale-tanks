@@ -41,7 +41,9 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const [selectedModelId, setSelectedModelId] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
   const [webBuilderBlocks, setWebBuilderBlocks] = useState<string[]>([])
+  const [dbBlocks, setDbBlocks] = useState<string[]>([])
   const [activeBlockIndex, setActiveBlockIndex] = useState(0)
+  const [activeDbBlockIndex, setActiveDbBlockIndex] = useState(0)
   const [activeAction, setActiveAction] = useState<'consultation' | 'web_builder'>('consultation')
   const [activeSubAction, setActiveSubAction] = useState<'code' | 'view' | 'database'>('code')
   
@@ -50,21 +52,36 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const chunksRef = useRef<Blob[]>([])
 
   const extractCode = useCallback((text: string) => {
-    const regex = /```(?:jsx|tsx|html|javascript|js|typescript|ts|css|bash|sh|json)?\n?([\s\S]*?)```/g
+    const regex = /```(jsx|tsx|html|javascript|js|typescript|ts|css|bash|sh|json|sql|prisma)?\n?([\s\S]*?)```/g
     const matches = Array.from(text.matchAll(regex))
     
-    // Filter and return unique substantial blocks
-    const validBlocks = matches
-      .map(m => m[1].trim())
-      .filter(content => {
-        if (content.length < 20) return false
-        // Ignore installation commands
-        const lower = content.toLowerCase()
-        if (lower.startsWith('npm ') || lower.startsWith('bun ') || lower.startsWith('yarn ') || lower.startsWith('pnpm ')) return false
-        return true
-      })
+    const uiBlocks: string[] = []
+    const dbBlocks: string[] = []
 
-    return Array.from(new Set(validBlocks))
+    matches.forEach(m => {
+      const lang = m[1]?.toLowerCase() || ''
+      const content = m[2].trim()
+      
+      if (content.length < 20) return
+
+      // Ignore installation commands
+      if (content.toLowerCase().startsWith('npm ') || content.toLowerCase().startsWith('bun ')) return
+
+      // Determine Category
+      if (lang === 'sql' || lang === 'prisma' || 
+          (lang === 'json' && content.includes('"type": "object"')) ||
+          ((lang === 'ts' || lang === 'typescript') && (content.includes('interface') || content.includes('type')) && !content.includes('React'))
+      ) {
+        dbBlocks.push(content)
+      } else {
+        uiBlocks.push(content)
+      }
+    })
+
+    return {
+      ui: Array.from(new Set(uiBlocks)),
+      db: Array.from(new Set(dbBlocks))
+    }
   }, [])
 
   // ... (rest of the handleSend and fetchHistory will be updated in chunks if needed)
@@ -165,10 +182,14 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       // Extract code from history if any
       const lastAssistantMsg = historicalMessages.filter(m => m.role === 'assistant').pop()
       if (lastAssistantMsg) {
-        const blocks = extractCode(lastAssistantMsg.content)
-        if (blocks.length > 0) {
-          setWebBuilderBlocks(blocks)
+        const { ui, db } = extractCode(lastAssistantMsg.content)
+        if (ui.length > 0) {
+          setWebBuilderBlocks(ui)
           setActiveBlockIndex(0)
+        }
+        if (db.length > 0) {
+          setDbBlocks(db)
+          setActiveDbBlockIndex(0)
         }
       }
     } catch (error) {
@@ -230,17 +251,23 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
           });
 
           // Check for code in the stream
-          const blocks = extractCode(fullContent);
-          if (blocks.length > 0) {
-            setWebBuilderBlocks(blocks);
+          const { ui, db } = extractCode(fullContent);
+          
+          if (ui.length > 0) {
+            setWebBuilderBlocks(ui);
             setActiveBlockIndex(0);
             
             // If it's a significant block, maybe switch action?
-            if (blocks[0].length > 50 && activeAction !== 'web_builder') {
+            if (ui[0].length > 50 && activeAction !== 'web_builder') {
               setActiveAction('web_builder');
-              const canViewFirst = detectContentType(blocks[0]).contentType !== 'none';
+              const canViewFirst = detectContentType(ui[0]).contentType !== 'none';
               setActiveSubAction(canViewFirst ? 'view' : 'code');
             }
+          }
+
+          if (db.length > 0) {
+            setDbBlocks(db);
+            setActiveDbBlockIndex(0);
           }
         }
       });
@@ -330,8 +357,12 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     setMessages,
     webBuilderBlocks,
     setWebBuilderBlocks,
+    dbBlocks,
+    setDbBlocks,
     activeBlockIndex,
     setActiveBlockIndex,
+    activeDbBlockIndex,
+    setActiveDbBlockIndex,
     canView: detectContentType(webBuilderBlocks[activeBlockIndex] || "").contentType !== 'none',
     activeAction,
     setActiveAction,

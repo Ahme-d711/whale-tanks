@@ -9,16 +9,23 @@ interface WebBuilderProps {
   blocks: string[]
   activeIndex: number
   onIndexChange: (index: number) => void
+  dbBlocks: string[]
+  activeDbIndex: number
+  onDbIndexChange: (index: number) => void
   activeSubAction: 'code' | 'view' | 'database'
 }
 
 export default function WebBuilder({ 
   blocks, 
   activeIndex, 
-  onIndexChange, 
+  onIndexChange,
+  dbBlocks,
+  activeDbIndex,
+  onDbIndexChange,
   activeSubAction 
 }: WebBuilderProps) {
   const currentCode = blocks[activeIndex] || ""
+  const currentDbCode = dbBlocks[activeDbIndex] || ""
 
   return (
     <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white">
@@ -38,7 +45,14 @@ export default function WebBuilder({
           onIndexChange={onIndexChange}
         />
       )}
-      {activeSubAction === 'database' && <DatabaseView />}
+      {activeSubAction === 'database' && (
+        <DatabaseView 
+          code={currentDbCode}
+          blocksCount={dbBlocks.length}
+          activeIndex={activeDbIndex}
+          onIndexChange={onDbIndexChange}
+        />
+      )}
     </div>
   )
 }

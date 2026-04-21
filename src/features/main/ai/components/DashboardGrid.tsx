@@ -28,6 +28,9 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
     webBuilderBlocks,
     activeBlockIndex,
     setActiveBlockIndex,
+    dbBlocks,
+    activeDbBlockIndex,
+    setActiveDbBlockIndex,
     activeAction,
     setActiveAction,
     activeSubAction,
@@ -54,6 +57,9 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
                 blocks={webBuilderBlocks} 
                 activeIndex={activeBlockIndex}
                 onIndexChange={setActiveBlockIndex}
+                dbBlocks={dbBlocks}
+                activeDbIndex={activeDbBlockIndex}
+                onDbIndexChange={setActiveDbBlockIndex}
                 activeSubAction={activeSubAction} 
               />
             ) : (
