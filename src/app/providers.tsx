@@ -9,6 +9,8 @@ import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import SidebarMenu from "@/components/SidebarMenu";
 
+import { ConfirmationProvider } from "@/providers/ConfirmationProvider";
+
 const queryClient = getQueryClient();
 
 // Core providers that don't need auth data - used globally
@@ -19,8 +21,10 @@ export function CoreProviders({
 }) {
   return (
     <QueryClientProvider client={queryClient}>
+      <ConfirmationProvider>
         {children}
         <Toaster />
+      </ConfirmationProvider>
     </QueryClientProvider>
   );
 }

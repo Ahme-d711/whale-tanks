@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useRouter } from '@/i18n/routing'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useConfirm } from '@/providers/ConfirmationProvider'
 
 interface LastChatsSectionProps {
   isCollapsed?: boolean
@@ -18,6 +19,7 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
   const t = useTranslations('Sidebar')
   const locale = useLocale()
   const router = useRouter()
+  const confirm = useConfirm()
 
   const queryClient = useQueryClient()
 
@@ -38,9 +40,16 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
     }
   })
 
-  const handleDelete = (e: React.MouseEvent, id: string) => {
+  const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation()
-    if (window.confirm(t('confirm_delete'))) {
+    const ok = await confirm({
+      title: t('confirm_delete_title') || "Delete Chat?",
+      description: t('confirm_delete_desc') || "Are you sure you want to delete this conversation? This action cannot be undone.",
+      confirmText: t('delete') || "Delete",
+      variant: "destructive"
+    })
+
+    if (ok) {
       deleteMutation(id)
     }
   }
