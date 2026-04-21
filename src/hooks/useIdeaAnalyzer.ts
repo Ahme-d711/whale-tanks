@@ -47,14 +47,43 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const chunksRef = useRef<Blob[]>([])
 
   const extractCode = useCallback((text: string) => {
-    // Look for code blocks: ```jsx, ```tsx, ```html, or plain ```
-    const regex = /```(?:jsx|tsx|html|javascript|js|typescript|ts|css)?\n([\s\S]*?)```/g
+    // Look for code blocks with various tags
+    const regex = /```(?:jsx|tsx|html|javascript|js|typescript|ts|css|bash|sh|json)?\n?([\s\S]*?)```/g
     const matches = Array.from(text.matchAll(regex))
-    if (matches.length > 0) {
-      // Return the content of the last code block (usually the most complete one)
-      return matches[matches.length - 1][1].trim()
-    }
-    return ''
+    
+    if (matches.length === 0) return ''
+
+    // 1. High Priority: UI components (JSX, TSX, HTML)
+    const uiBlock = [...matches].reverse().find(m => {
+      const tag = m[0].match(/```(\w+)/)?.[1]?.toLowerCase()
+      return tag && ['jsx', 'tsx', 'html'].includes(tag)
+    })
+    if (uiBlock) return uiBlock[1].trim()
+
+    // 2. Medium Priority: JS/TS that looks like React code
+    const reactBlock = [...matches].reverse().find(m => {
+      const content = m[1]
+      return content.includes('import React') || content.includes('export default') || content.includes('return (') || content.includes('<div')
+    })
+    if (reactBlock) return reactBlock[1].trim()
+
+    // 3. Low Priority: CSS or standard Scripting
+    const scriptBlock = [...matches].reverse().find(m => {
+      const tag = m[0].match(/```(\w+)/)?.[1]?.toLowerCase()
+      return tag && ['css', 'javascript', 'js', 'typescript', 'ts'].includes(tag)
+    })
+    if (scriptBlock) return scriptBlock[1].trim()
+
+    // 4. Fallback: The last substantial block that isn't just installation commands
+    const validBlocks = matches.filter(m => {
+      const tag = m[0].match(/```(\w+)/)?.[1]?.toLowerCase()
+      return tag !== 'bash' && tag !== 'sh'
+    })
+    
+    if (validBlocks.length > 0) return validBlocks[validBlocks.length - 1][1].trim()
+
+    // Absolute fallback: last block
+    return matches[matches.length - 1][1].trim()
   }, [])
 
   useEffect(() => {

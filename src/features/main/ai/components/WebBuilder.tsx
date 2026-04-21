@@ -82,6 +82,18 @@ export default function WebBuilder({ code, activeSubAction }: WebBuilderProps) {
     return template
   }, [code])
 
+  const isRenderable = useMemo(() => {
+    if (!code) return false
+    const lowerCode = code.toLowerCase()
+    return lowerCode.includes('import react') || 
+           lowerCode.includes('export default') || 
+           lowerCode.includes('return (') || 
+           lowerCode.includes('<div') ||
+           lowerCode.includes('<!doctype html>') ||
+           lowerCode.includes('function') ||
+           lowerCode.includes('const')
+  }, [code])
+
   return (
     <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white">
       {activeSubAction === 'code' && (
@@ -116,13 +128,21 @@ export default function WebBuilder({ code, activeSubAction }: WebBuilderProps) {
       {activeSubAction === 'view' && (
         <div className="flex-1 flex flex-col min-h-0 bg-zinc-100 p-4">
           <div className="flex-1 bg-white rounded-xl shadow-inner border overflow-hidden relative">
-            {code ? (
+            {code && isRenderable ? (
               <iframe
                 srcDoc={iframeSrc}
                 title="AI Web Builder Preview"
                 className="w-full h-full border-0"
                 sandbox="allow-scripts"
               />
+            ) : code ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 opacity-40">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <Code2 className="w-8 h-8 text-primary" />
+                </div>
+                <p className="text-lg font-medium">Non-Visual Code</p>
+                <p className="text-sm max-w-[280px]">This snippet appears to be a configuration, style, or setup file. Use the "Code" tab to view it.</p>
+              </div>
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 opacity-40">
                 <Globe className="w-12 h-12 mb-4" />
