@@ -13,8 +13,24 @@ export default function PreviewView({ code }: PreviewViewProps) {
     const trimmed = code.trim()
     const lower = trimmed.toLowerCase()
     
+    // 1. Detect Mermaid (Diagrams)
+    if (lower.match(/^(graph|sequenceDiagram|pie|gantt|classDiagram|erDiagram|stateDiagram|journey|gitGraph|pie|quadrantChart|mindmap|timeline)/i)) {
+      return { contentType: 'mermaid', isFragment: false }
+    }
+
+    // 2. Detect HTML (Full Documents)
     if (lower.startsWith('<!doctype html>') || lower.startsWith('<html') || lower.includes('<head>') || lower.includes('<body>')) {
       return { contentType: 'html', isFragment: false }
+    }
+
+    // 3. Detect Vue.js
+    if (lower.includes('vue.createapp') || lower.includes('new vue') || (lower.includes('{{') && lower.includes('}}') && !lower.includes('React'))) {
+      return { contentType: 'vue', isFragment: false }
+    }
+
+    // 4. Detect Alpine.js (via attributes)
+    if (lower.includes('x-data') || lower.includes('x-on:') || lower.includes('x-bind:')) {
+      return { contentType: 'alpine', isFragment: false }
     }
 
     const looksLikeFragment = (trimmed.startsWith('<') || trimmed.startsWith('(')) && 
@@ -33,15 +49,72 @@ export default function PreviewView({ code }: PreviewViewProps) {
   const iframeSrc = useMemo(() => {
     if (!code || !isRenderable) return ""
 
-    if (contentType === 'html') {
-      // If it's HTML, we just ensure Tailwind is there if they might want it
-      if (!code.toLowerCase().includes('tailwindcss.com')) {
-        return code.replace('</head>', '<script src="https://cdn.tailwindcss.com"></script></head>')
-      }
-      return code
+    // Base Style for all templates
+    const baseStyle = `
+      body { background: white; min-height: 100vh; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+      #root { width: 100%; height: 100%; }
+      .mermaid { display: flex; justify-content: center; padding: 20px; }
+    `
+
+    // --- MERMAID MODE ---
+    if (contentType === 'mermaid') {
+      return `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+            <style>${baseStyle}</style>
+          </head>
+          <body>
+            <div class="mermaid">${code}</div>
+            <script>
+              mermaid.initialize({ startOnLoad: true, theme: 'forest' });
+            </script>
+          </body>
+        </html>
+      `
     }
 
-    // For React/Next.js
+    // --- HTML / ALPINE MODE ---
+    if (contentType === 'html' || contentType === 'alpine') {
+      let html = code
+      // Inject Tailwind if missing
+      if (!html.toLowerCase().includes('tailwindcss.com')) {
+        html = html.replace('</head>', '<script src="https://cdn.tailwindcss.com"></script></head>')
+      }
+      // Inject Alpine if detected
+      if (contentType === 'alpine' && !html.toLowerCase().includes('alpinejs')) {
+        html = html.replace('</head>', '<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script></head>')
+      }
+      return html
+    }
+
+    // --- VUE MODE ---
+    if (contentType === 'vue') {
+      return `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <style>${baseStyle}</style>
+          </head>
+          <body>
+            <div id="root">${code.includes('{{') ? code : ''}</div>
+            <script>
+              const { createApp } = Vue;
+              try {
+                ${code.includes('createApp') ? code : `createApp({}).mount('#root')`}
+              } catch (e) {
+                document.getElementById('root').innerHTML = '<div style="color: red">Vue Render Error: ' + e.message + '</div>';
+              }
+            </script>
+          </body>
+        </html>
+      `
+    }
+
+    // --- REACT MODE (Default) ---
     let processedCode = code
       .replace(/import\s+[\s\S]*?from\s+['"].*?['"];?/g, '')
       .replace(/export\s+default\s+/g, 'const MainExport = ')
@@ -51,31 +124,19 @@ export default function PreviewView({ code }: PreviewViewProps) {
       processedCode = `const GeneratedFragment = () => (${processedCode});\nconst MainExport = GeneratedFragment;`
     }
 
-    const template = `
+    return `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1">
           <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
           <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
           <script src="https://cdn.tailwindcss.com"></script>
           <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-          <style>
-            body { background: white; min-height: 100vh; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
-            #root { width: 100%; height: 100%; }
-          </style>
+          <style>${baseStyle}</style>
           <script>
-            window.next = {
-              link: (p) => React.createElement('a', { ...p, href: p.href || '#' }, p.children),
-              image: (p) => React.createElement('img', { ...p })
-            };
-            window.Lucide = new Proxy({}, { 
-              get: (t, prop) => (p) => React.createElement('div', { 
-                ...p, 
-                style: { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f1f5f9', color: '#64748b', borderRadius: '4px', padding: '2px', ...(p.style || {}) }
-              }, prop[0]) 
-            });
+            window.next={link:p=>React.createElement('a',{...p,href:p.href||'#'},p.children),image:p=>React.createElement('img',{...p})};
+            window.Lucide=new Proxy({},{get:(t,n)=>p=>React.createElement('div',{...p,style:{display:'inline-flex',alignItems:'center',justifyContent:'center',backgroundColor:'#f1f5f9',color:'#64748b',borderRadius:'4px',padding:'2px',...(p.style||{})}},n[0])});
           </script>
         </head>
         <body>
@@ -86,29 +147,22 @@ export default function PreviewView({ code }: PreviewViewProps) {
               ${processedCode}
               const findComp = () => {
                 if (typeof MainExport !== 'undefined') return MainExport;
-                const names = ['App', 'SimpleLoginCard', 'LoginCard', 'Page', 'Main', 'Dashboard'];
+                const names = ['App','SimpleLoginCard','LoginCard','Page','Main','Dashboard'];
                 for (const n of names) if (typeof window[n] === 'function') return window[n];
                 const ks = Object.keys(window).reverse();
-                for (const k of ks) if (typeof window[k] === 'function' && /^[A-Z]/.test(k) && !['React', 'ReactDOM', 'Babel'].includes(k)) return window[k];
+                for (const k of ks) if (typeof window[k] === 'function' && /^[A-Z]/.test(k) && !['React','ReactDOM','Babel'].includes(k)) return window[k];
                 return null;
               };
               const Root = findComp();
-              if (Root) {
-                ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
-              } else {
-                document.getElementById('root').innerHTML = '<div style="padding: 40px; text-align: center; color: #94a3b8;">Defining component...</div>';
-              }
+              if (Root) ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
+              else document.getElementById('root').innerHTML = '<div style="padding:40px;text-align:center;color:#94a3b8;">Defining component...</div>';
             } catch (err) {
-              document.getElementById('root').innerHTML = \`
-                <div style="padding: 20px; color: #ef4444; background: #fff1f2; border: 1px solid #fecaca; border-radius: 8px; margin: 20px; font-family: monospace; font-size: 13px;">
-                  <strong>Render Error:</strong><br/>\${err.message}
-                </div>\`;
+              document.getElementById('root').innerHTML = '<div style="padding:20px;color:#ef4444;background:#fff1f2;border:1px solid #fecaca;border-radius:8px;margin:20px;font-family:monospace;font-size:13px;"><strong>Render Error:</strong><br/>'+err.message+'</div>';
             }
           </script>
         </body>
       </html>
     `
-    return template
   }, [code, contentType, isFragment, isRenderable])
 
   return (
