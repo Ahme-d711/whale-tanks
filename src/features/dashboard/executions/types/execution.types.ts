@@ -24,6 +24,7 @@ export interface ExecuteRequest {
   execution_type: "report" | "analysis" | "summary" | "chat" | "classification";
   model_id: string; // "3fa85f64-5717-4562-b3fc-2c963f66afa6" for now
   analysis_type?: string; 
+  session_id?: string;
   tier?: string;
   extra?: Record<string, any>;
 }

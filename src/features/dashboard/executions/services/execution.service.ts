@@ -26,7 +26,7 @@ export const executionService = {
     return response.data;
   },
 
-  streamExecute: async (data: ExecuteRequest, onChunk: (text: string) => void): Promise<void> => {
+  streamExecute: async (data: ExecuteRequest, onUpdate: (data: { text?: string; session_id?: string }) => void): Promise<void> => {
     const token = useAuthStore.getState().token;
     
     const response = await fetch(`${API_URL}execute`, {
@@ -65,9 +65,7 @@ export const executionService = {
             const jsonStr = line.replace("data: ", "").trim();
             if (jsonStr === "[DONE]") return;
             const jsonData = JSON.parse(jsonStr);
-            if (jsonData.text) {
-              onChunk(jsonData.text);
-            }
+            onUpdate(jsonData);
           } catch (e) {
             console.error("Error parsing SSE chunk:", e, line);
           }

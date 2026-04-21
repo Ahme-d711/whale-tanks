@@ -33,6 +33,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const [result, setResult] = useState<ExecuteResponse | null>(null)
   const [executionType, setExecutionType] = useState<ExecuteRequest["execution_type"]>("chat")
   const [analysisType, setAnalysisType] = useState<string>("all")
+  const [sessionId, setSessionId] = useState<string | null>(null)
   const [models, setModels] = useState<AIModel[]>([])
   const [selectedModelId, setSelectedModelId] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
@@ -124,6 +125,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
         execution_type: executionType,
         model_id: selectedModelId || "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         analysis_type: executionType === "report" ? analysisType : undefined,
+        session_id: sessionId || undefined,
         tier: "free",
         extra: {}
       }
@@ -137,16 +139,22 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
 
       let fullContent = "";
       
-      await executionService.streamExecute(requestData, (chunk) => {
-        fullContent += chunk;
-        setMessages(prev => {
-          const newMessages = [...prev];
-          const lastMessage = newMessages[newMessages.length - 1];
-          if (lastMessage && lastMessage.role === 'assistant') {
-            lastMessage.content = fullContent;
-          }
-          return newMessages;
-        });
+      await executionService.streamExecute(requestData, (update) => {
+        if (update.session_id) {
+          setSessionId(update.session_id);
+        }
+        
+        if (update.text) {
+          fullContent += update.text;
+          setMessages(prev => {
+            const newMessages = [...prev];
+            const lastMessage = newMessages[newMessages.length - 1];
+            if (lastMessage && lastMessage.role === 'assistant') {
+              lastMessage.content = fullContent;
+            }
+            return newMessages;
+          });
+        }
       });
       
       if (onSendCallback) {
@@ -166,7 +174,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     } finally {
       setIsLoading(false)
     }
-  }, [ideaText, executionType, selectedModelId, analysisType, onSendCallback])
+  }, [ideaText, executionType, selectedModelId, analysisType, onSendCallback, sessionId])
 
   useEffect(() => {
     const q = searchParams.get('q')
@@ -205,6 +213,8 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     selectedModelId,
     setSelectedModelId,
     messages,
-    setMessages
+    setMessages,
+    sessionId,
+    setSessionId
   }
 }
