@@ -19,9 +19,8 @@ export default function PreviewView({
 }: PreviewViewProps) {
   const { contentType, isFragment } = useMemo(() => detectContentType(code), [code])
 
-  const isRenderable = useMemo(() => {
-    return contentType !== 'none'
-  }, [contentType])
+  const isRenderable = useMemo(() => contentType !== 'none', [contentType])
+  const isMobile = useMemo(() => ['flutter', 'swift', 'kotlin'].includes(contentType), [contentType])
 
   const iframeSrc = useMemo(() => {
     if (!code || !isRenderable) return ""
@@ -30,8 +29,50 @@ export default function PreviewView({
       body { background: white; min-height: 100vh; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
       #root { width: 100%; height: 100%; }
       .mermaid { display: flex; justify-content: center; padding: 20px; }
+      pre[run-dartpad] { margin: 0; height: 100vh; width: 100vw; }
     `
 
+    // --- FLUTTER MODE ---
+    if (contentType === 'flutter') {
+      return `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script type="text/javascript" src="https://dartpad.dev/inject_embed.dart.js" defer></script>
+            <style>${baseStyle}</style>
+          </head>
+          <body style="overflow: hidden;">
+            <pre run-dartpad="true" mode-flutter="true" theme-light="true" style="border:none;">
+${code}
+            </pre>
+          </body>
+        </html>
+      `
+    }
+
+    // --- NATIVE MOBILE VISUALIZATIONS (SWIFT/KOTLIN) ---
+    if (contentType === 'swift' || contentType === 'kotlin') {
+      const langName = contentType === 'swift' ? 'SwiftUI' : 'Jetpack Compose'
+      const icon = contentType === 'swift' ? '🍎' : '🤖'
+      return `
+        <!DOCTYPE html>
+        <html>
+          <head><style>${baseStyle}</style></head>
+          <body style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px; background:#f8fafc;">
+            <div style="font-size:60px; margin-bottom:20px;">${icon}</div>
+            <h2 style="color:#1e293b; margin-bottom:10px;">${langName} Native Code</h2>
+            <p style="color:#64748b; max-width:280px; font-size:14px; line-height:1.6;">
+              This is a native mobile component. While true execution requires a native environment, you can view the structure in the <strong>Code</strong> tab.
+            </p>
+            <div style="margin-top:20px; padding:10px 20px; background:#e2e8f0; border-radius:30px; font-size:12px; font-weight:bold; color:#475569;">
+              BLUE WHALE MOBILE BLUEPRINT
+            </div>
+          </body>
+        </html>
+      `
+    }
+
+    // --- MERMAID MODE ---
     if (contentType === 'mermaid') {
       return `
         <!DOCTYPE html>
@@ -50,6 +91,7 @@ export default function PreviewView({
       `
     }
 
+    // --- HTML / ALPINE MODE ---
     if (contentType === 'html' || contentType === 'alpine') {
       let html = code
       if (!html.toLowerCase().includes('tailwindcss.com')) {
@@ -61,6 +103,7 @@ export default function PreviewView({
       return html
     }
 
+    // --- VUE MODE ---
     if (contentType === 'vue') {
       return `
         <!DOCTYPE html>
@@ -85,6 +128,7 @@ export default function PreviewView({
       `
     }
 
+    // --- REACT MODE (Default) ---
     let processedCode = code
       .replace(/import\s+[\s\S]*?from\s+['"].*?['"];?/g, '')
       .replace(/export\s+default\s+/g, 'const MainExport = ')
@@ -136,29 +180,47 @@ export default function PreviewView({
 
   return (
     <div className="flex-1 flex flex-col min-h-0 bg-zinc-100 p-4 relative group">
-      <div className="flex-1 bg-white rounded-xl shadow-inner border overflow-hidden relative">
-        {code && isRenderable ? (
-          <iframe
-            srcDoc={iframeSrc}
-            title="AI Web Builder Preview"
-            className="w-full h-full border-0"
-            sandbox="allow-scripts"
-          />
-        ) : code ? (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 opacity-40">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <Code2 className="w-8 h-8 text-primary" />
-            </div>
-            <p className="text-lg font-medium">Non-Visual Code</p>
-            <p className="text-sm max-w-[280px]">This snippet appears to be a configuration, style, or setup file. Use the "Code" tab to view it.</p>
+      <div className={`flex-1 flex items-center justify-center relative ${isMobile ? 'py-4' : ''}`}>
+        {/* Mobile Frame (Conditional) */}
+        <div className={`relative transition-all duration-500 ${
+          isMobile 
+            ? 'w-[320px] h-[640px] bg-zinc-900 rounded-[3rem] p-3 shadow-2xl border-[6px] border-zinc-800' 
+            : 'w-full h-full bg-white rounded-xl shadow-inner border overflow-hidden'
+        }`}>
+          {isMobile && (
+            <>
+              {/* Speaker */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-zinc-800 rounded-b-2xl z-20"></div>
+              {/* Home Indicator */}
+              <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-24 h-1 bg-white/20 rounded-full z-20"></div>
+            </>
+          )}
+
+          <div className={`w-full h-full overflow-hidden ${isMobile ? 'rounded-[2.2rem] bg-white' : ''}`}>
+            {code && isRenderable ? (
+              <iframe
+                srcDoc={iframeSrc}
+                title="AI Web Builder Preview"
+                className="w-full h-full border-0"
+                sandbox="allow-scripts allow-same-origin"
+              />
+            ) : code ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 opacity-40">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <Code2 className="w-8 h-8 text-primary" />
+                </div>
+                <p className="text-lg font-medium">Non-Visual Code</p>
+                <p className="text-sm max-w-[280px]">This snippet appears to be a configuration, style, or setup file. Use the "Code" tab to view it.</p>
+              </div>
+            ) : (
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 opacity-40">
+                <Globe className="w-12 h-12 mb-4" />
+                <p className="text-lg font-medium">Preview Area</p>
+                <p className="text-sm">The generated web UI will appear here.</p>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 opacity-40">
-            <Globe className="w-12 h-12 mb-4" />
-            <p className="text-lg font-medium">Preview Area</p>
-            <p className="text-sm">The generated web UI will appear here.</p>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   )
