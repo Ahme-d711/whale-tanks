@@ -136,30 +136,6 @@ export default function PreviewView({
 
   return (
     <div className="flex-1 flex flex-col min-h-0 bg-zinc-100 p-4 relative group">
-      {/* Version Navigation Overlay */}
-      {blocksCount > 1 && (
-        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 bg-white/90 backdrop-blur-md shadow-2xl rounded-full px-4 py-2 border border-primary/20 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300">
-          <button 
-            onClick={() => onIndexChange(Math.max(0, activeIndex - 1))}
-            disabled={activeIndex === 0}
-            className="p-1.5 text-zinc-600 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <div className="flex flex-col items-center min-w-[60px]">
-             <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-tighter">Version</span>
-             <span className="text-xs font-black text-primary leading-none">{activeIndex + 1} / {blocksCount}</span>
-          </div>
-          <button 
-            onClick={() => onIndexChange(Math.min(blocksCount - 1, activeIndex + 1))}
-            disabled={activeIndex === blocksCount - 1}
-            className="p-1.5 text-zinc-600 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
-      )}
-
       <div className="flex-1 bg-white rounded-xl shadow-inner border overflow-hidden relative">
         {code && isRenderable ? (
           <iframe
