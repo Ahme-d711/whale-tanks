@@ -25,7 +25,9 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
     messages, 
     isLoading, 
     isHistoryLoading,
-    webBuilderCode,
+    webBuilderBlocks,
+    activeBlockIndex,
+    setActiveBlockIndex,
     activeAction,
     setActiveAction,
     activeSubAction,
@@ -46,7 +48,12 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
         <div className="w-full flex-1 bg-white backdrop-blur-md rounded-3xl border border-primary shadow-xl shadow-blue-500/5 overflow-hidden flex flex-col min-h-0">
           <div className="flex-1 h-full border border-primary rounded-2xl bg-white overflow-hidden flex flex-col">
             {activeAction === 'web_builder' ? (
-              <WebBuilder code={webBuilderCode} activeSubAction={activeSubAction} />
+              <WebBuilder 
+                blocks={webBuilderBlocks} 
+                activeIndex={activeBlockIndex}
+                onIndexChange={setActiveBlockIndex}
+                activeSubAction={activeSubAction} 
+              />
             ) : (
               <div className="p-5 h-full flex flex-col items-center justify-center text-center opacity-40">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">

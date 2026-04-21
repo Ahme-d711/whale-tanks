@@ -38,7 +38,8 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const [models, setModels] = useState<AIModel[]>([])
   const [selectedModelId, setSelectedModelId] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
-  const [webBuilderCode, setWebBuilderCode] = useState<string>('')
+  const [webBuilderBlocks, setWebBuilderBlocks] = useState<string[]>([])
+  const [activeBlockIndex, setActiveBlockIndex] = useState(0)
   const [activeAction, setActiveAction] = useState<'consultation' | 'web_builder'>('consultation')
   const [activeSubAction, setActiveSubAction] = useState<'code' | 'view' | 'database'>('code')
   
@@ -47,44 +48,24 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const chunksRef = useRef<Blob[]>([])
 
   const extractCode = useCallback((text: string) => {
-    // Look for code blocks with various tags
     const regex = /```(?:jsx|tsx|html|javascript|js|typescript|ts|css|bash|sh|json)?\n?([\s\S]*?)```/g
     const matches = Array.from(text.matchAll(regex))
     
-    if (matches.length === 0) return ''
+    // Filter and return unique substantial blocks
+    const validBlocks = matches
+      .map(m => m[1].trim())
+      .filter(content => {
+        if (content.length < 20) return false
+        // Ignore installation commands
+        const lower = content.toLowerCase()
+        if (lower.startsWith('npm ') || lower.startsWith('bun ') || lower.startsWith('yarn ') || lower.startsWith('pnpm ')) return false
+        return true
+      })
 
-    // 1. High Priority: UI components (JSX, TSX, HTML)
-    const uiBlock = [...matches].reverse().find(m => {
-      const tag = m[0].match(/```(\w+)/)?.[1]?.toLowerCase()
-      return tag && ['jsx', 'tsx', 'html'].includes(tag)
-    })
-    if (uiBlock) return uiBlock[1].trim()
-
-    // 2. Medium Priority: JS/TS that looks like React code
-    const reactBlock = [...matches].reverse().find(m => {
-      const content = m[1]
-      return content.includes('import React') || content.includes('export default') || content.includes('return (') || content.includes('<div')
-    })
-    if (reactBlock) return reactBlock[1].trim()
-
-    // 3. Low Priority: CSS or standard Scripting
-    const scriptBlock = [...matches].reverse().find(m => {
-      const tag = m[0].match(/```(\w+)/)?.[1]?.toLowerCase()
-      return tag && ['css', 'javascript', 'js', 'typescript', 'ts'].includes(tag)
-    })
-    if (scriptBlock) return scriptBlock[1].trim()
-
-    // 4. Fallback: The last substantial block that isn't just installation commands
-    const validBlocks = matches.filter(m => {
-      const tag = m[0].match(/```(\w+)/)?.[1]?.toLowerCase()
-      return tag !== 'bash' && tag !== 'sh'
-    })
-    
-    if (validBlocks.length > 0) return validBlocks[validBlocks.length - 1][1].trim()
-
-    // Absolute fallback: last block
-    return matches[matches.length - 1][1].trim()
+    return Array.from(new Set(validBlocks))
   }, [])
+
+  // ... (rest of the handleSend and fetchHistory will be updated in chunks if needed)
 
   useEffect(() => {
     const fetchModels = async () => {
@@ -182,8 +163,11 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       // Extract code from history if any
       const lastAssistantMsg = historicalMessages.filter(m => m.role === 'assistant').pop()
       if (lastAssistantMsg) {
-        const code = extractCode(lastAssistantMsg.content)
-        if (code) setWebBuilderCode(code)
+        const blocks = extractCode(lastAssistantMsg.content)
+        if (blocks.length > 0) {
+          setWebBuilderBlocks(blocks)
+          setActiveBlockIndex(0)
+        }
       }
     } catch (error) {
       console.error("Failed to fetch chat history:", error)
@@ -244,14 +228,15 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
           });
 
           // Check for code in the stream
-          const code = extractCode(fullContent);
-          if (code) {
-            setWebBuilderCode(code);
+          const blocks = extractCode(fullContent);
+          if (blocks.length > 0) {
+            setWebBuilderBlocks(blocks);
+            setActiveBlockIndex(0);
+            
             // If it's a significant block, maybe switch action?
-            // For professionalism, we switch only when the code looks mostly complete or has content
-            if (code.length > 50 && activeAction !== 'web_builder') {
+            if (blocks[blocks.length - 1].length > 50 && activeAction !== 'web_builder') {
               setActiveAction('web_builder');
-              setActiveSubAction('view'); // Show view by default for wow factor
+              setActiveSubAction('view');
             }
           }
         }
@@ -332,8 +317,10 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     setSelectedModelId,
     messages,
     setMessages,
-    webBuilderCode,
-    setWebBuilderCode,
+    webBuilderBlocks,
+    setWebBuilderBlocks,
+    activeBlockIndex,
+    setActiveBlockIndex,
     activeAction,
     setActiveAction,
     activeSubAction,

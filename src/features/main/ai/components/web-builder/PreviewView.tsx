@@ -1,36 +1,28 @@
 "use client"
 
 import React, { useMemo } from 'react'
-import { Code2, Globe } from 'lucide-react'
+import { Code2, Globe, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface PreviewViewProps {
   code: string
+  blocksCount: number
+  activeIndex: number
+  onIndexChange: (index: number) => void
 }
 
-export default function PreviewView({ code }: PreviewViewProps) {
+export default function PreviewView({ 
+  code, 
+  blocksCount, 
+  activeIndex, 
+  onIndexChange 
+}: PreviewViewProps) {
   const { contentType, isFragment } = useMemo(() => {
     if (!code) return { contentType: 'none', isFragment: false }
     const trimmed = code.trim()
     const lower = trimmed.toLowerCase()
     
-    // 1. Detect Mermaid (Diagrams)
-    if (lower.match(/^(graph|sequenceDiagram|pie|gantt|classDiagram|erDiagram|stateDiagram|journey|gitGraph|pie|quadrantChart|mindmap|timeline)/i)) {
-      return { contentType: 'mermaid', isFragment: false }
-    }
-
-    // 2. Detect HTML (Full Documents)
     if (lower.startsWith('<!doctype html>') || lower.startsWith('<html') || lower.includes('<head>') || lower.includes('<body>')) {
       return { contentType: 'html', isFragment: false }
-    }
-
-    // 3. Detect Vue.js
-    if (lower.includes('vue.createapp') || lower.includes('new vue') || (lower.includes('{{') && lower.includes('}}') && !lower.includes('React'))) {
-      return { contentType: 'vue', isFragment: false }
-    }
-
-    // 4. Detect Alpine.js (via attributes)
-    if (lower.includes('x-data') || lower.includes('x-on:') || lower.includes('x-bind:')) {
-      return { contentType: 'alpine', isFragment: false }
     }
 
     const looksLikeFragment = (trimmed.startsWith('<') || trimmed.startsWith('(')) && 
@@ -49,14 +41,12 @@ export default function PreviewView({ code }: PreviewViewProps) {
   const iframeSrc = useMemo(() => {
     if (!code || !isRenderable) return ""
 
-    // Base Style for all templates
     const baseStyle = `
       body { background: white; min-height: 100vh; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
       #root { width: 100%; height: 100%; }
       .mermaid { display: flex; justify-content: center; padding: 20px; }
     `
 
-    // --- MERMAID MODE ---
     if (contentType === 'mermaid') {
       return `
         <!DOCTYPE html>
@@ -75,21 +65,17 @@ export default function PreviewView({ code }: PreviewViewProps) {
       `
     }
 
-    // --- HTML / ALPINE MODE ---
     if (contentType === 'html' || contentType === 'alpine') {
       let html = code
-      // Inject Tailwind if missing
       if (!html.toLowerCase().includes('tailwindcss.com')) {
         html = html.replace('</head>', '<script src="https://cdn.tailwindcss.com"></script></head>')
       }
-      // Inject Alpine if detected
       if (contentType === 'alpine' && !html.toLowerCase().includes('alpinejs')) {
         html = html.replace('</head>', '<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script></head>')
       }
       return html
     }
 
-    // --- VUE MODE ---
     if (contentType === 'vue') {
       return `
         <!DOCTYPE html>
@@ -114,7 +100,6 @@ export default function PreviewView({ code }: PreviewViewProps) {
       `
     }
 
-    // --- REACT MODE (Default) ---
     let processedCode = code
       .replace(/import\s+[\s\S]*?from\s+['"].*?['"];?/g, '')
       .replace(/export\s+default\s+/g, 'const MainExport = ')
@@ -128,7 +113,6 @@ export default function PreviewView({ code }: PreviewViewProps) {
       <!DOCTYPE html>
       <html>
         <head>
-          <meta charset="utf-8">
           <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
           <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
           <script src="https://cdn.tailwindcss.com"></script>
@@ -166,7 +150,31 @@ export default function PreviewView({ code }: PreviewViewProps) {
   }, [code, contentType, isFragment, isRenderable])
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 bg-zinc-100 p-4">
+    <div className="flex-1 flex flex-col min-h-0 bg-zinc-100 p-4 relative group">
+      {/* Version Navigation Overlay */}
+      {blocksCount > 1 && (
+        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 bg-white/90 backdrop-blur-md shadow-2xl rounded-full px-4 py-2 border border-primary/20 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300">
+          <button 
+            onClick={() => onIndexChange(Math.max(0, activeIndex - 1))}
+            disabled={activeIndex === 0}
+            className="p-1.5 text-zinc-600 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <div className="flex flex-col items-center min-w-[60px]">
+             <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-tighter">Version</span>
+             <span className="text-xs font-black text-primary leading-none">{activeIndex + 1} / {blocksCount}</span>
+          </div>
+          <button 
+            onClick={() => onIndexChange(Math.min(blocksCount - 1, activeIndex + 1))}
+            disabled={activeIndex === blocksCount - 1}
+            className="p-1.5 text-zinc-600 hover:text-primary disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      )}
+
       <div className="flex-1 bg-white rounded-xl shadow-inner border overflow-hidden relative">
         {code && isRenderable ? (
           <iframe
