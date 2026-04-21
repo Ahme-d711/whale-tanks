@@ -8,27 +8,48 @@ interface PreviewViewProps {
 }
 
 export default function PreviewView({ code }: PreviewViewProps) {
-  const isRenderable = useMemo(() => {
-    if (!code) return false
-    const lowerCode = code.toLowerCase()
-    return lowerCode.includes('import react') || 
-           lowerCode.includes('export default') || 
-           lowerCode.includes('return (') || 
-           lowerCode.includes('<div') ||
-           lowerCode.includes('<!doctype html>') ||
-           lowerCode.includes('function') ||
-           lowerCode.includes('const')
+  const { contentType, isFragment } = useMemo(() => {
+    if (!code) return { contentType: 'none', isFragment: false }
+    const trimmed = code.trim()
+    const lower = trimmed.toLowerCase()
+    
+    if (lower.startsWith('<!doctype html>') || lower.startsWith('<html') || lower.includes('<head>') || lower.includes('<body>')) {
+      return { contentType: 'html', isFragment: false }
+    }
+
+    const looksLikeFragment = (trimmed.startsWith('<') || trimmed.startsWith('(')) && 
+                              !trimmed.includes('function') && 
+                              !trimmed.includes('const') &&
+                              !trimmed.includes('class') &&
+                              !trimmed.includes('import ')
+
+    return { contentType: 'react', isFragment: looksLikeFragment }
   }, [code])
+
+  const isRenderable = useMemo(() => {
+    return contentType !== 'none'
+  }, [contentType])
 
   const iframeSrc = useMemo(() => {
     if (!code || !isRenderable) return ""
 
-    // Clean code by removing ALL import statements (not supported in simple browser-side babel)
-    // and removing any export keywords that might break local definition
-    const cleanCode = code
+    if (contentType === 'html') {
+      // If it's HTML, we just ensure Tailwind is there if they might want it
+      if (!code.toLowerCase().includes('tailwindcss.com')) {
+        return code.replace('</head>', '<script src="https://cdn.tailwindcss.com"></script></head>')
+      }
+      return code
+    }
+
+    // For React/Next.js
+    let processedCode = code
       .replace(/import\s+[\s\S]*?from\s+['"].*?['"];?/g, '')
       .replace(/export\s+default\s+/g, 'const MainExport = ')
       .replace(/export\s+(const|function|class)/g, '$1')
+
+    if (isFragment) {
+      processedCode = `const GeneratedFragment = () => (${processedCode});\nconst MainExport = GeneratedFragment;`
+    }
 
     const template = `
       <!DOCTYPE html>
@@ -36,29 +57,23 @@ export default function PreviewView({ code }: PreviewViewProps) {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          
           <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
           <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
           <script src="https://cdn.tailwindcss.com"></script>
           <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-          
           <style>
-            body { background: white; min-height: 100vh; margin: 0; font-family: system-ui, -apple-system, sans-serif; display: flex; align-items: start; justify-content: center; }
+            body { background: white; min-height: 100vh; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
             #root { width: 100%; height: 100%; }
-            ::-webkit-scrollbar { width: 6px; }
-            ::-webkit-scrollbar-track { background: transparent; }
-            ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
           </style>
-
           <script>
             window.next = {
-              link: (props) => React.createElement('a', { ...props, href: props.href || '#' }, props.children),
-              image: (props) => React.createElement('img', { ...props })
+              link: (p) => React.createElement('a', { ...p, href: p.href || '#' }, p.children),
+              image: (p) => React.createElement('img', { ...p })
             };
             window.Lucide = new Proxy({}, { 
-              get: (target, prop) => (props) => React.createElement('div', { 
-                ...props, 
-                style: { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#e2e8f0', color: '#64748b', borderRadius: '4px', padding: '2px', ...(props.style || {}) }
+              get: (t, prop) => (p) => React.createElement('div', { 
+                ...p, 
+                style: { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f1f5f9', color: '#64748b', borderRadius: '4px', padding: '2px', ...(p.style || {}) }
               }, prop[0]) 
             });
           </script>
@@ -68,43 +83,33 @@ export default function PreviewView({ code }: PreviewViewProps) {
           <script type="text/babel">
             const { useState, useEffect, useMemo, useCallback, useRef, forwardRef } = React;
             try {
-              ${cleanCode}
-              const findComponent = () => {
+              ${processedCode}
+              const findComp = () => {
                 if (typeof MainExport !== 'undefined') return MainExport;
-                const commonNames = ['App', 'SimpleLoginCard', 'LoginCard', 'Page', 'Main', 'Dashboard'];
-                for (const name of commonNames) {
-                  if (typeof window[name] === 'function') return window[name];
-                }
-                const globals = Object.keys(window).reverse();
-                for (const key of globals) {
-                  if (typeof window[key] === 'function' && /^[A-Z]/.test(key) && !['React', 'ReactDOM', 'Babel'].includes(key)) {
-                    return window[key];
-                  }
-                }
+                const names = ['App', 'SimpleLoginCard', 'LoginCard', 'Page', 'Main', 'Dashboard'];
+                for (const n of names) if (typeof window[n] === 'function') return window[n];
+                const ks = Object.keys(window).reverse();
+                for (const k of ks) if (typeof window[k] === 'function' && /^[A-Z]/.test(k) && !['React', 'ReactDOM', 'Babel'].includes(k)) return window[k];
                 return null;
               };
-
-              const RootComponent = findComponent();
-              if (RootComponent) {
-                const root = ReactDOM.createRoot(document.getElementById('root'));
-                root.render(<RootComponent />);
+              const Root = findComp();
+              if (Root) {
+                ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
               } else {
-                document.getElementById('root').innerHTML = '<div style="padding: 40px; text-align: center; color: #94a3b8;">Waiting for code completion...</div>';
+                document.getElementById('root').innerHTML = '<div style="padding: 40px; text-align: center; color: #94a3b8;">Defining component...</div>';
               }
             } catch (err) {
               document.getElementById('root').innerHTML = \`
-                <div style="padding: 24px; color: #ef4444; background: #fef2f2; border: 1px solid #fee2e2; border-radius: 12px; margin: 20px; font-family: monospace;">
-                  <h3 style="margin-top:0; font-size: 16px;">Render Error</h3>
-                  <pre style="white-space: pre-wrap; font-size: 12px;">\${err.message}</pre>
-                </div>
-              \`;
+                <div style="padding: 20px; color: #ef4444; background: #fff1f2; border: 1px solid #fecaca; border-radius: 8px; margin: 20px; font-family: monospace; font-size: 13px;">
+                  <strong>Render Error:</strong><br/>\${err.message}
+                </div>\`;
             }
           </script>
         </body>
       </html>
     `
     return template
-  }, [code, isRenderable])
+  }, [code, contentType, isFragment, isRenderable])
 
   return (
     <div className="flex-1 flex flex-col min-h-0 bg-zinc-100 p-4">
