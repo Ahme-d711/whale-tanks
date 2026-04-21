@@ -114,16 +114,23 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       const data = await executionService.getSessionMessages(sId)
       const historicalMessages: Message[] = []
       
-      data.pairs.forEach(pair => {
+      data.pairs.forEach((pair, idx) => {
+        const qTime = new Date(pair.question.created_at).getTime()
+        // Use index offset to prevent collisions between different turns
+        const uniqueQ = qTime + (idx * 2)
+        
         historicalMessages.push({
           role: 'user',
           content: pair.question.content,
-          timestamp: new Date(pair.question.created_at).getTime()
+          timestamp: uniqueQ
         })
+
+        const aTime = new Date(pair.answer.created_at).getTime()
         historicalMessages.push({
           role: 'assistant',
           content: pair.answer.content,
-          timestamp: new Date(pair.answer.created_at).getTime()
+          // Ensure assistant message is always unique and after user message
+          timestamp: (aTime <= qTime) ? uniqueQ + 1 : aTime + (idx * 2)
         })
       })
       
@@ -142,8 +149,9 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
 
     const isChat = executionType === "chat";
 
+    const userTimestamp = Date.now();
     // Always add user message to history
-    setMessages(prev => [...prev, { role: 'user', content: currentMessage, timestamp: Date.now() }]);
+    setMessages(prev => [...prev, { role: 'user', content: currentMessage, timestamp: userTimestamp }]);
     
     setIdeaText('');
     setAttachments([]);
@@ -164,7 +172,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
         content: '', 
-        timestamp: Date.now() + 1 
+        timestamp: userTimestamp + 1 
       }]);
 
       let fullContent = "";
@@ -222,6 +230,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     if (sId) {
       if (sId !== sessionId) {
         setSessionId(sId)
+        setMessages([]) // MUST clear current messages immediately when switching sessions
         fetchHistory(sId)
       } else if (messages.length === 0 && !isHistoryLoading) {
         // Fallback for direct reload with sessionId
