@@ -6,11 +6,13 @@ export function detectContentType(code: string): { contentType: ContentType; isF
   const trimmed = code.trim()
   const lower = trimmed.toLowerCase()
   
-  // 1. Exclude obvious non-visual config files
+  // 1. Exclude obvious non-visual config files or files with local imports
   if (lower.includes('module.exports') || 
       lower.includes('export const config') || 
       lower.includes('next.config') || 
       lower.includes('tailwind.config') ||
+      lower.includes("from './") || lower.includes("from './") || 
+      lower.includes("from \"./") || lower.includes("from \"../") ||
       trimmed.startsWith('{') && trimmed.endsWith('}') // Likely JSON
   ) {
     return { contentType: 'none', isFragment: false }
