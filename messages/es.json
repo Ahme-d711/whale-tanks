@@ -48,7 +48,11 @@
     "close": "Cerrar barra lateral",
     "new_chat": "Nuevo chat",
     "search": "Buscar chats",
-    "last_chats": "Últimos chats"
+    "last_chats": "Últimos chats",
+    "confirm_delete": "¿Estás seguro de que deseas eliminar este chat?",
+    "confirm_delete_title": "¿Eliminar chat?",
+    "confirm_delete_desc": "¿Estás seguro de que deseas eliminar esta conversación? Esta acción no se puede deshacer.",
+    "delete": "Eliminar"
   },
   "Billing": {
     "insufficient_credits": {

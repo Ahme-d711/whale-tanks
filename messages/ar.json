@@ -81,7 +81,10 @@
     "settings": "الإعدادات",
     "chat_deleted": "تم حذف المحادثة بنجاح",
     "delete_failed": "فشل حذف المحادثة",
-    "confirm_delete": "هل أنت متأكد من حذف هذه المحادثة؟"
+    "confirm_delete": "هل أنت متأكد من حذف هذه المحادثة؟",
+    "confirm_delete_title": "حذف المحادثة؟",
+    "confirm_delete_desc": "هل أنت متأكد من رغبتك في حذف هذه المحادثة؟ لا يمكن التراجع عن هذا الإجراء.",
+    "delete": "حذف"
   },
   "Billing": {
     "insufficient_credits": {

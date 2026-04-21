@@ -61,20 +61,34 @@ export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) =
   }, [onBlocksExtracted])
 
   useEffect(() => {
-    const sId = searchParams.get('session_id')
-    if (sId) {
-      if (sId !== sessionId) {
-        setSessionId(sId)
-        setMessages([])
-        fetchHistory(sId)
-      } else if (messages.length === 0 && !isHistoryLoading) {
-        fetchHistory(sId)
-      }
-    } else if (sessionId && !searchParams.get('q')) {
-      setSessionId(null)
+    const sIdFromUrl = searchParams.get('session_id')
+    
+    // 1. If URL has an ID and it's different from our current state, LOAD IT
+    if (sIdFromUrl && sIdFromUrl !== sessionId) {
+      setSessionId(sIdFromUrl)
       setMessages([])
+      fetchHistory(sIdFromUrl)
+      return
     }
-  }, [searchParams, sessionId, messages.length, isHistoryLoading, fetchHistory])
+
+    // 2. If we are on a clean URL (/ai) but we have a sessionId state, 
+    // we only reset if there's no active prompt/streaming happening.
+    // However, if we just generated a sessionId via handleSend, we want to KEEP it.
+    // The previous logic was too aggressive and cleared the session immediately.
+    
+    if (!sIdFromUrl && sessionId && !searchParams.get('q')) {
+      // Only clear if the user is explicitly navigating away to a "New Chat" state
+      // We can check if messages are empty or if we should stay in current session.
+      // For now, let's allow the handleSend logic to explicitly set the URL.
+    }
+  }, [searchParams, sessionId, fetchHistory])
+
+  const syncSessionUrl = useCallback((sId: string) => {
+    if (searchParams.get('session_id') === sId) return
+    const newParams = new URLSearchParams(searchParams.toString())
+    newParams.set('session_id', sId)
+    router.replace(`${pathname}?${newParams.toString()}`)
+  }, [searchParams, router, pathname])
 
   const clearQueryParam = useCallback(() => {
     const newParams = new URLSearchParams(searchParams.toString())
@@ -89,6 +103,7 @@ export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) =
     setSessionId,
     isHistoryLoading,
     fetchHistory,
-    clearQueryParam
+    clearQueryParam,
+    syncSessionUrl
   }
 }

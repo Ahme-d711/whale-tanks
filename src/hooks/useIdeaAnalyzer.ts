@@ -82,7 +82,10 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       let fullContent = "";
       
       await executionService.streamExecute(requestData, (update) => {
-        if (update.session_id) chat.setSessionId(update.session_id);
+        if (update.session_id) {
+          chat.setSessionId(update.session_id);
+          chat.syncSessionUrl(update.session_id);
+        }
         
         if (update.text) {
           fullContent += update.text;

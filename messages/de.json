@@ -48,7 +48,11 @@
     "close": "Seitenleiste schließen",
     "new_chat": "Neuer Chat",
     "search": "Chats durchsuchen",
-    "last_chats": "Letzte Chats"
+    "last_chats": "Letzte Chats",
+    "confirm_delete": "Sind Sie sicher, dass Sie diesen Chat löschen möchten?",
+    "confirm_delete_title": "Chat löschen?",
+    "confirm_delete_desc": "Sind Sie sicher, dass Sie diese Konversation löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "delete": "Löschen"
   },
   "Billing": {
     "insufficient_credits": {
