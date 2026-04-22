@@ -31,9 +31,15 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
 
   const { mutate: deleteMutation } = useMutation({
     mutationFn: (id: string) => executionService.deleteSession(id),
-    onSuccess: () => {
+    onSuccess: (_, deletedId) => {
       queryClient.invalidateQueries({ queryKey: ['chat-sessions'] })
       toast.success(t('chat_deleted'))
+
+      // If the deleted session is the one being viewed, go to new chat
+      const currentSearchParams = new URLSearchParams(window.location.search)
+      if (currentSearchParams.get('session_id') === deletedId) {
+        router.push('/ai')
+      }
     },
     onError: () => {
       toast.error(t('delete_failed'))

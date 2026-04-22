@@ -77,9 +77,8 @@ export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) =
     // The previous logic was too aggressive and cleared the session immediately.
     
     if (!sIdFromUrl && sessionId && !searchParams.get('q')) {
-      // Only clear if the user is explicitly navigating away to a "New Chat" state
-      // We can check if messages are empty or if we should stay in current session.
-      // For now, let's allow the handleSend logic to explicitly set the URL.
+      setSessionId(null)
+      setMessages([])
     }
   }, [searchParams, sessionId, fetchHistory])
 
