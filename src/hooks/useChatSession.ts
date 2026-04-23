@@ -1,24 +1,28 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { toast } from 'sonner'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { usePathname } from '@/i18n/routing'
 import { executionService } from '@/features/dashboard/executions/services/execution.service'
 import { extractCode } from '@/features/main/ai/utils/code-extraction'
+import { useChatStore, Message } from './useChatStore'
 
-export interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp?: number;
-}
+export type { Message }
 
 export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) => void) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
 
-  const [messages, setMessages] = useState<Message[]>([])
-  const [sessionId, setSessionId] = useState<string | null>(null)
-  const [isHistoryLoading, setIsHistoryLoading] = useState(false)
+  // Use Global Store
+  const { 
+    messages, 
+    setMessages, 
+    sessionId, 
+    setSessionId, 
+    isHistoryLoading, 
+    setIsHistoryLoading,
+    resetChat 
+  } = useChatStore()
 
   const fetchHistory = useCallback(async (sId: string) => {
     setIsHistoryLoading(true)
@@ -58,41 +62,45 @@ export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) =
     } finally {
       setIsHistoryLoading(false)
     }
-  }, [onBlocksExtracted])
+  }, [onBlocksExtracted, setMessages, setIsHistoryLoading])
 
   useEffect(() => {
     const sIdFromUrl = searchParams.get('session_id')
     
-    // 1. If URL has an ID and it's different from our current state, LOAD IT
+    // Logic for loading/syncing sessions
     if (sIdFromUrl && sIdFromUrl !== sessionId) {
-      setSessionId(sIdFromUrl)
-      setMessages([])
-      fetchHistory(sIdFromUrl)
-      return
+      // 1. Initial Load (no messages, ID in URL)
+      if (messages.length === 0) {
+        setSessionId(sIdFromUrl)
+        fetchHistory(sIdFromUrl)
+      } 
+      // 2. Syncing a live session (messages exist, sessionId was null)
+      else if (sessionId === null) {
+        setSessionId(sIdFromUrl)
+      } 
+      // 3. Explicitly switching to another session via URL/Sidebar
+      else {
+        setSessionId(sIdFromUrl)
+        setMessages([])
+        fetchHistory(sIdFromUrl)
+      }
     }
-
-    // 2. If we are on a clean URL (/ai) but we have a sessionId state, 
-    // we only reset if there's no active prompt/streaming happening.
-    // However, if we just generated a sessionId via handleSend, we want to KEEP it.
-    // The previous logic was too aggressive and cleared the session immediately.
-    
-    if (!sIdFromUrl && sessionId && !searchParams.get('q')) {
-      setSessionId(null)
-      setMessages([])
-    }
-  }, [searchParams, sessionId, fetchHistory])
+  }, [searchParams, sessionId, fetchHistory, messages.length, setSessionId, setMessages])
 
   const syncSessionUrl = useCallback((sId: string) => {
     if (searchParams.get('session_id') === sId) return
     const newParams = new URLSearchParams(searchParams.toString())
     newParams.set('session_id', sId)
-    router.replace(`${pathname}?${newParams.toString()}`)
+    newParams.delete('q') 
+    
+    router.replace(`${pathname}?${newParams.toString()}`, { scroll: false })
   }, [searchParams, router, pathname])
 
   const clearQueryParam = useCallback(() => {
+    if (!searchParams.get('q')) return
     const newParams = new URLSearchParams(searchParams.toString())
     newParams.delete('q')
-    router.replace(`${pathname}?${newParams.toString()}`)
+    router.replace(`${pathname}?${newParams.toString()}`, { scroll: false })
   }, [searchParams, router, pathname])
 
   return {
@@ -103,6 +111,7 @@ export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) =
     isHistoryLoading,
     fetchHistory,
     clearQueryParam,
-    syncSessionUrl
+    syncSessionUrl,
+    resetSession: resetChat // Maintain same API name for easier transition
   }
 }

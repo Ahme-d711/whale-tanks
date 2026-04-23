@@ -184,6 +184,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     setActiveSubAction: builder.setActiveSubAction,
     sessionId: chat.sessionId,
     setSessionId: chat.setSessionId,
+    resetSession: chat.resetSession,
     isHistoryLoading: chat.isHistoryLoading
   }
 }

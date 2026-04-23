@@ -10,17 +10,27 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
+import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
+
 interface SidebarActionsProps {
   isCollapsed?: boolean
 }
 
 export default function SidebarActions({ isCollapsed }: SidebarActionsProps) {
   const t = useTranslations('Sidebar')
-
+  const analyzer = useIdeaAnalyzer()
   const router = useRouter()
 
   const actions = [
-    { icon: SquarePen, label: t('new_chat'), id: 'new_chat', onClick: () => router.push('/ai') },
+    { 
+      icon: SquarePen, 
+      label: t('new_chat'), 
+      id: 'new_chat', 
+      onClick: () => {
+        analyzer.resetSession()
+        router.push('/ai')
+      } 
+    },
     { icon: Search, label: t('search'), id: 'search' },
   ]
 

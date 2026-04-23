@@ -1,6 +1,7 @@
 "use client"
 
 import { useTranslations, useLocale } from 'next-intl'
+import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
 import { useQuery } from '@tanstack/react-query'
 import { executionService } from '@/features/dashboard/executions/services/execution.service'
 import { MessageSquare, Clock, MessageCircle, Trash2 } from 'lucide-react'
@@ -29,15 +30,17 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
     refetchInterval: 30000, 
   })
 
+  const analyzer = useIdeaAnalyzer() // We need this for resetting
   const { mutate: deleteMutation } = useMutation({
     mutationFn: (id: string) => executionService.deleteSession(id),
     onSuccess: (_, deletedId) => {
       queryClient.invalidateQueries({ queryKey: ['chat-sessions'] })
       toast.success(t('chat_deleted'))
 
-      // If the deleted session is the one being viewed, go to new chat
+      // If the deleted session is the one being viewed, clear state and go home
       const currentSearchParams = new URLSearchParams(window.location.search)
       if (currentSearchParams.get('session_id') === deletedId) {
+        analyzer.resetSession()
         router.push('/ai')
       }
     },
