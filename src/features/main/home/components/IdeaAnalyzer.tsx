@@ -93,17 +93,6 @@ export const IdeaAnalyzer = () => {
             />
           </AnimatedBorder>
 
-          <AnalyzerToolbar 
-            executionType={executionType}
-            setExecutionType={setExecutionType}
-            analysisType={analysisType}
-            setAnalysisType={setAnalysisType}
-            models={models}
-            selectedModelId={selectedModelId}
-            setSelectedModelId={setSelectedModelId}
-            onlySelects
-            className="md:hidden"
-          />
         </div>
       </motion.div>
     </section>

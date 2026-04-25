@@ -92,45 +92,45 @@ export const AnalyzerToolbar = ({
       )}
 
       {(onlySelects || (!onlyActions && !onlySelects)) && (
-        <div className={cn("flex items-center gap-2 flex-wrap", !onlySelects && "hidden md:flex")}>
+        <div className={cn("flex items-center gap-2 flex-wrap", !onlySelects && "")}>
           <Select value={executionType} onValueChange={setExecutionType}>
-            <SelectTrigger className="h-9 md:h-12 px-4 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-sm md:text-base cursor-pointer shadow-sm">
+            <SelectTrigger className="h-9 md:h-12 px-3 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm">
               <SelectValue placeholder="Type" />
             </SelectTrigger>
-            <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[160px] p-1 shadow-lg">
-              <SelectItem value="report" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><FileText className="w-4 h-4 text-blue-500" /> Report</div></SelectItem>
-              <SelectItem value="analysis" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-orange-500" /> Analysis</div></SelectItem>
-              <SelectItem value="summary" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><ClipboardList className="w-4 h-4 text-green-500" /> Summary</div></SelectItem>
-              <SelectItem value="chat" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-500" /> Chat</div></SelectItem>
-              <SelectItem value="classification" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><Scissors className="w-4 h-4 text-pink-500" /> Classification</div></SelectItem>
+            <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[160px] p-1 shadow-lg [&_.mobile-text]:inline">
+              <SelectItem value="report" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><FileText className="w-4 h-4 text-blue-500" /> <span className="mobile-text hidden md:inline">Report</span></div></SelectItem>
+              <SelectItem value="analysis" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-orange-500" /> <span className="mobile-text hidden md:inline">Analysis</span></div></SelectItem>
+              <SelectItem value="summary" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><ClipboardList className="w-4 h-4 text-green-500" /> <span className="mobile-text hidden md:inline">Summary</span></div></SelectItem>
+              <SelectItem value="chat" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-500" /> <span className="mobile-text hidden md:inline">Chat</span></div></SelectItem>
+              <SelectItem value="classification" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><Scissors className="w-4 h-4 text-pink-500" /> <span className="mobile-text hidden md:inline">Classification</span></div></SelectItem>
             </SelectContent>
           </Select>
 
           {executionType === "report" && (
             <Select value={analysisType} onValueChange={setAnalysisType}>
-              <SelectTrigger className="h-9 md:h-12 px-4 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-sm md:text-base cursor-pointer shadow-sm">
+              <SelectTrigger className="h-9 md:h-12 px-3 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
-              <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[140px] p-1 shadow-lg">
-                <SelectItem value="all" className="cursor-pointer rounded-xl">All</SelectItem>
-                <SelectItem value="financial" className="cursor-pointer rounded-xl">Financial</SelectItem>
-                <SelectItem value="legal" className="cursor-pointer rounded-xl">Legal</SelectItem>
-                <SelectItem value="marketing" className="cursor-pointer rounded-xl">Marketing</SelectItem>
-                <SelectItem value="revenue" className="cursor-pointer rounded-xl">Revenue</SelectItem>
-                <SelectItem value="technical" className="cursor-pointer rounded-xl">Technical</SelectItem>
+              <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[140px] p-1 shadow-lg [&_.mobile-text]:inline">
+                <SelectItem value="all" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">All</span></SelectItem>
+                <SelectItem value="financial" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Financial</span></SelectItem>
+                <SelectItem value="legal" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Legal</span></SelectItem>
+                <SelectItem value="marketing" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Marketing</span></SelectItem>
+                <SelectItem value="revenue" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Revenue</span></SelectItem>
+                <SelectItem value="technical" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Technical</span></SelectItem>
               </SelectContent>
             </Select>
           )}
 
           <Select value={selectedModelId} onValueChange={setSelectedModelId}>
-            <SelectTrigger className="h-9 md:h-12 px-4 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-sm md:text-base cursor-pointer shadow-sm">
+            <SelectTrigger className="h-9 md:h-12 px-3 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm">
               <Sparkles className="w-4 h-4 text-amber-500" />
               <SelectValue placeholder="Model" />
             </SelectTrigger>
-            <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[180px] p-1 shadow-lg">
+            <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[180px] p-1 shadow-lg [&_.mobile-text]:inline">
               {models.map(model => (
                 <SelectItem key={model.model_id} value={model.model_id} className="cursor-pointer rounded-xl">
-                  {model.name}
+                  <span className="mobile-text hidden md:inline">{model.name}</span>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -138,7 +138,7 @@ export const AnalyzerToolbar = ({
         </div>
       )}
 
-      {!onlyActions && !onlySelects && <div className="flex-1 hidden md:block" />}
+      {!onlyActions && !onlySelects && <div className="flex-1" />}
 
       {(onlyActions || (!onlyActions && !onlySelects)) && (
         <div className={cn("flex items-center gap-3", onlyActions && "ml-auto")}>
@@ -165,9 +165,9 @@ export const AnalyzerToolbar = ({
             variant="ghost"
             onClick={onSend}
             isLoading={isLoading}
-            className="h-9 md:h-12 px-4 md:px-7 rounded-xl md:rounded-2xl text-foreground gap-2 cursor-pointer bg-muted/60 hover:bg-muted font-semibold shadow-sm transition-all active:scale-95"
+            className="h-9 md:h-12 px-2 md:px-7 rounded-xl md:rounded-2xl text-foreground gap-2 cursor-pointer bg-muted/60 hover:bg-muted font-semibold shadow-sm transition-all active:scale-95"
           >
-            <span className="text-sm md:text-base">{t('send')}</span>
+            <span className="hidden md:inline text-sm md:text-base">{t('send')}</span>
             <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-md text-foreground bg-foreground/10">
               {locale === 'ar' ? <ArrowUpLeft className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
             </div>

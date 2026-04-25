@@ -24,6 +24,9 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { user } = useAuthStore()
 
+  console.log(user);
+  
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
