@@ -71,16 +71,16 @@ export default function EditProfileDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[440px] rounded-[40px] p-10 border-none shadow-2xl">
-        <DialogHeader className="items-start space-y-7 text-left">
+      <DialogContent className="w-[90vw] max-w-[440px] rounded-[32px] md:rounded-[40px] p-6 md:p-10 border-none shadow-2xl">
+        <DialogHeader className="items-start space-y-4 md:space-y-7 text-left">
           <LogoComponent />
-          <DialogTitle className="text-[32px] font-medium text-primary leading-tight">
+          <DialogTitle className="text-xl md:text-[32px] font-medium text-primary leading-tight">
             Edit Profile
           </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-6 mt-4">
             <AuthInput
               control={form.control}
               name="name"
@@ -102,7 +102,7 @@ export default function EditProfileDialog({
               type="submit" 
               isLoading={isPending}
               loadingText="Confirming..."
-              className="w-full font-medium! capitalize!"
+              className="w-full text-sm md:text-base font-medium! capitalize!"
             >
               Confirm
             </ShinyButton>

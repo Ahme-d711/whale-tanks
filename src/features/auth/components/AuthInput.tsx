@@ -43,14 +43,14 @@ export const AuthInput = ({
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-foreground font-normal!">{label}</FormLabel>
+            <FormLabel className="text-xs md:text-sm text-foreground font-normal!">{label}</FormLabel>
             <FormControl>
               <div className="relative">
                 <Input
                   type={currentType}
                   placeholder={placeholder}
                   {...field}
-                  className="rounded-2xl h-12 border-border focus:border-none transition-all shadow-none placeholder:text-secondary-foreground pr-12"
+                  className="rounded-xl md:rounded-2xl h-10 md:h-12 border-border focus:border-none transition-all shadow-none placeholder:text-secondary-foreground pr-12 text-sm md:text-base"
                 />
                 {isPassword && (
                   <button

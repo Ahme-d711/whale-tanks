@@ -92,7 +92,7 @@ export const useUpdateProfile = () => {
   const [isPending, setIsPending] = useState(false);
   const { setUser } = useAuthStore();
 
-  const mutate = useCallback(async (data: UpdateProfileData) => {
+  const mutate = useCallback(async (data: UpdateProfileData, options?: { onSuccess?: () => void; onError?: (err: any) => void }) => {
     setIsPending(true);
     try {
       const updatedUser = await authService.updateProfile(data);
@@ -100,11 +100,13 @@ export const useUpdateProfile = () => {
       toast.success("Profile Updated", {
         description: "Your profile has been updated successfully.",
       });
+      options?.onSuccess?.();
     } catch (error: any) {
       const message = error.response?.data?.message || error.message || "Update failed";
       toast.error("Update Failed", {
         description: message,
       });
+      options?.onError?.(error);
     } finally {
       setIsPending(false);
     }
