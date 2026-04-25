@@ -60,7 +60,7 @@ export default function ProjectsCards() {
           <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
             <Plus className="w-10 h-10 text-primary" />
           </div>
-          <p className="text-lg font-semibold text-muted-foreground group-hover:text-primary transition-colors">
+          <p className="text-base md:text-lg font-semibold text-muted-foreground group-hover:text-primary transition-colors">
             Add New Project
           </p>
         </div>
