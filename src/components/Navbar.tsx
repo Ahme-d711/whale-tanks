@@ -1,7 +1,7 @@
 "use client"
 
 import { Link } from "@/i18n/routing"
-import { ChevronDown, Menu, X } from "lucide-react"
+import { ChevronDown, LogOut, Menu, X } from "lucide-react"
 import LogoComponent from "./shared/LogoComponent"
 import ShinyButton from "./shared/ShinyButton"
 import LanguageSelector from "./shared/LanguageSelector"
@@ -11,6 +11,9 @@ import { useAuthStore } from "@/features/auth/stores/authStore"
 import EditProfileDialog from "@/features/auth/components/EditProfileDialog"
 import { Button } from "./ui/button"
 import { AnimatePresence, motion } from "motion/react"
+import { removeCookie } from "@/utils/cookies"
+import { TOKEN_KEY } from "@/utils/constants"
+import { useRouter } from "next/navigation"
 
 interface NavbarProps {
   onSidebarToggle?: () => void
@@ -18,13 +21,19 @@ interface NavbarProps {
 
 export default function Navbar({ onSidebarToggle }: NavbarProps) {
   const t = useTranslations('Navigation');
+  const router = useRouter()
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { user } = useAuthStore()
+  const { user, clearAuth } = useAuthStore()
 
-  console.log(user);
+  const handleLogout = () => {
+    clearAuth()
+    removeCookie(TOKEN_KEY)
+    setIsMobileMenuOpen(false)
+    router.push('/')
+  };
   
 
   useEffect(() => {
@@ -88,13 +97,24 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
           {/* Right Actions */}
           <div className="flex items-center gap-2 sm:gap-4">
             {user ? (
-              <div 
-                onClick={() => setIsEditProfileOpen(true)}
-                className="flex items-center bg-secondary p-1 rounded-full cursor-pointer hover:bg-secondary/70 transition-all group"
-              >
-                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:scale-105 transition-transform border-2 border-white/20">
-                  {user.name?.[0]?.toUpperCase() || "U"}
+              <div className="flex items-center gap-3">
+                <div 
+                  onClick={() => setIsEditProfileOpen(true)}
+                  className="flex items-center bg-secondary p-1 rounded-full cursor-pointer hover:bg-secondary/70 transition-all group"
+                >
+                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:scale-105 transition-transform border-2 border-white/20">
+                    {user.name?.[0]?.toUpperCase() || "U"}
+                  </div>
                 </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleLogout}
+                  className="rounded-full hover:bg-destructive/10 text-destructive hover:text-destructive transition-all cursor-pointer hidden md:flex"
+                  title={t("logout")}
+                >
+                  <LogOut className="w-5 h-5" />
+                </Button>
               </div>
             ) : (
               <ShinyButton 
@@ -145,7 +165,17 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
                     <ChevronDown className="w-4 h-4 -rotate-90 text-muted-foreground" />
                   </Link>
                 ))}
-                {!user && (
+                {user ? (
+                  <button 
+                    onClick={handleLogout}
+                    className="flex items-center justify-between text-base font-medium text-destructive hover:bg-destructive/10 transition-colors p-2 rounded-lg mt-2 cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2">
+                       <LogOut className="w-4 h-4" />
+                       {t("logout")}
+                    </div>
+                  </button>
+                ) : (
                   <div className="mt-2 text-center sm:hidden">
                     <ShinyButton 
                       href="/login"
