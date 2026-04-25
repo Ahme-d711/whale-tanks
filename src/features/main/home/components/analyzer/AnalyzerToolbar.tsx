@@ -94,21 +94,21 @@ export const AnalyzerToolbar = ({
       {(onlySelects || (!onlyActions && !onlySelects)) && (
         <div className={cn("flex items-center gap-2 flex-wrap", !onlySelects && "")}>
           <Select value={executionType} onValueChange={setExecutionType}>
-            <SelectTrigger className="h-9 md:h-12 px-3 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm">
+            <SelectTrigger className="h-9 md:h-12 px-2 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm [&>svg:last-child]:hidden data-[placeholder]:[&_[data-slot=select-value]]:hidden">
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[160px] p-1 shadow-lg [&_.mobile-text]:inline">
+              <SelectItem value="chat" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-500" /> <span className="mobile-text hidden md:inline">Chat</span></div></SelectItem>
               <SelectItem value="report" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><FileText className="w-4 h-4 text-blue-500" /> <span className="mobile-text hidden md:inline">Report</span></div></SelectItem>
               <SelectItem value="analysis" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-orange-500" /> <span className="mobile-text hidden md:inline">Analysis</span></div></SelectItem>
               <SelectItem value="summary" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><ClipboardList className="w-4 h-4 text-green-500" /> <span className="mobile-text hidden md:inline">Summary</span></div></SelectItem>
-              <SelectItem value="chat" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-500" /> <span className="mobile-text hidden md:inline">Chat</span></div></SelectItem>
               <SelectItem value="classification" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><Scissors className="w-4 h-4 text-pink-500" /> <span className="mobile-text hidden md:inline">Classification</span></div></SelectItem>
             </SelectContent>
           </Select>
 
           {executionType === "report" && (
             <Select value={analysisType} onValueChange={setAnalysisType}>
-              <SelectTrigger className="h-9 md:h-12 px-3 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm">
+              <SelectTrigger className="h-9 md:h-12 px-2 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm [&>svg:last-child]:hidden data-[placeholder]:[&_[data-slot=select-value]]:hidden">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[140px] p-1 shadow-lg [&_.mobile-text]:inline">
@@ -123,7 +123,7 @@ export const AnalyzerToolbar = ({
           )}
 
           <Select value={selectedModelId} onValueChange={setSelectedModelId}>
-            <SelectTrigger className="h-9 md:h-12 px-3 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-2 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm">
+            <SelectTrigger className="h-9 md:h-12 px-2 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm [&>svg:last-child]:hidden data-[placeholder]:[&_[data-slot=select-value]]:hidden">
               <Sparkles className="w-4 h-4 text-amber-500" />
               <SelectValue placeholder="Model" />
             </SelectTrigger>
