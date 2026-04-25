@@ -10,6 +10,12 @@ import { useSubscriptions } from "@/features/dashboard/subscriptions/hooks/useSu
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog"
 import { addDays } from "date-fns"
 
+// Swiper imports
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+
 export default function PricingTemplate() {
   const t = useTranslations('Landing.Pricing')
   const { packages, isLoading } = usePackages({ active_only: true })
@@ -67,44 +73,76 @@ export default function PricingTemplate() {
   }
 
   return (
-    <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-4 py-12 pt-20 space-y-12 md:px-12">
-      <div className="space-y-8 xl:px-16">
-        <h1 className="text-[32px] font-semibold text-foreground">{t('title')}</h1>
+    <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-4 py-8 md:py-12 pt-20 space-y-8 md:space-y-12 md:px-12">
+      <div className="space-y-6 md:space-y-8 xl:px-16">
+        <h1 className="text-xl md:text-[32px] font-semibold text-foreground">{t('title')}</h1>
         
         <div className="text-center p-1">
-          <h2 className="text-primary text-[40px] font-black leading-[100%] tracking-normal font-poppins mb-6">{t('choose_plan')}</h2>
-          <p className="text-secondary-foreground text-sm font-medium leading-[100%] tracking-normal font-poppins">{t('subtitle')}</p>
+          <h2 className="text-primary text-2xl md:text-[40px] font-black leading-tight tracking-normal font-poppins mb-4 md:mb-6">{t('choose_plan')}</h2>
+          <p className="text-secondary-foreground text-xs md:text-sm font-medium leading-relaxed tracking-normal font-poppins px-4">{t('subtitle')}</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8">
+      <div className="pb-8">
         {isLoading ? (
-          Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-[600px] w-full bg-background rounded-2xl border border-border shadow-xl overflow-hidden p-8 flex flex-col gap-8">
-               <Skeleton className="h-40 w-full rounded-xl" />
-               <div className="flex-1 space-y-4">
-                 {Array.from({ length: 8 }).map((_, j) => (
-                   <div key={j} className="flex gap-4">
-                     <Skeleton className="h-5 w-5 rounded-full" />
-                     <Skeleton className="h-5 w-full flex-1" />
-                   </div>
-                 ))}
-               </div>
-               <Skeleton className="h-14 w-full rounded-2xl" />
-            </div>
-          ))
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="h-[600px] w-full bg-background rounded-2xl border border-border shadow-xl overflow-hidden p-8 flex flex-col gap-8">
+                <Skeleton className="h-40 w-full rounded-xl" />
+                <div className="flex-1 space-y-4">
+                  {Array.from({ length: 8 }).map((_, j) => (
+                    <div key={j} className="flex gap-4">
+                      <Skeleton className="h-5 w-5 rounded-full" />
+                      <Skeleton className="h-5 w-full flex-1" />
+                    </div>
+                  ))}
+                </div>
+                <Skeleton className="h-14 w-full rounded-2xl" />
+              </div>
+            ))}
+          </div>
         ) : (
-          packages.map((pkg, index) => (
-            <PricingCard 
-              key={pkg.package_id || index}
-              title={pkg.name}
-              duration={formatDuration(pkg.duration_days)}
-              price={`$${pkg.price}`}
-              features={getFeatures(index)}
-              monthlyPrice={pkg.duration_days > 30 ? `$${Math.round(pkg.price / (pkg.duration_days / 30))}` : undefined}
-              onSelect={() => handleSelectPackage(pkg)}
-            />
-          ))
+          <>
+            {/* Desktop Grid */}
+            <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8">
+              {packages.map((pkg, index) => (
+                <PricingCard 
+                  key={pkg.package_id || index}
+                  title={pkg.name}
+                  duration={formatDuration(pkg.duration_days)}
+                  price={`$${pkg.price}`}
+                  features={getFeatures(index)}
+                  monthlyPrice={pkg.duration_days > 30 ? `$${Math.round(pkg.price / (pkg.duration_days / 30))}` : undefined}
+                  onSelect={() => handleSelectPackage(pkg)}
+                />
+              ))}
+            </div>
+
+            {/* Mobile Swiper */}
+            <div className="md:hidden">
+              <Swiper
+                modules={[Pagination]}
+                spaceBetween={20}
+                slidesPerView={1.1}
+                pagination={{ clickable: true }}
+                centeredSlides={true}
+                className="pb-12 pricing-swiper"
+              >
+                {packages.map((pkg, index) => (
+                  <SwiperSlide key={pkg.package_id || index}>
+                    <PricingCard 
+                      title={pkg.name}
+                      duration={formatDuration(pkg.duration_days)}
+                      price={`$${pkg.price}`}
+                      features={getFeatures(index)}
+                      monthlyPrice={pkg.duration_days > 30 ? `$${Math.round(pkg.price / (pkg.duration_days / 30))}` : undefined}
+                      onSelect={() => handleSelectPackage(pkg)}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          </>
         )}
       </div>
 
