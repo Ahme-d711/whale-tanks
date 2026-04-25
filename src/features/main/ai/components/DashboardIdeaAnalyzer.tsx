@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { BarChart3, MessageSquare, ClipboardList, Scissors, FileText, CheckCircle2, Sparkles } from 'lucide-react'
+import { useEffect, useState } from "react"
 
 interface DashboardIdeaAnalyzerProps {
   analyzer: ReturnType<typeof useIdeaAnalyzer>
@@ -24,6 +25,11 @@ interface DashboardIdeaAnalyzerProps {
 export default function DashboardIdeaAnalyzer({ analyzer }: DashboardIdeaAnalyzerProps) {
   const locale = useLocale()
   const t = useTranslations('HomePage.Analyzer')
+  const [hasHydrated, setHasHydrated] = useState(false)
+
+  useEffect(() => {
+    setHasHydrated(true)
+  }, [])
   
   const {
     ideaText,
@@ -85,48 +91,54 @@ export default function DashboardIdeaAnalyzer({ analyzer }: DashboardIdeaAnalyze
         />
 
         <div className="flex items-center gap-2">
-          <Select value={executionType} onValueChange={(val) => setExecutionType(val as any)}>
-            <SelectTrigger className="h-9 px-3 bg-border border-0 rounded-full text-foreground font-medium w-fit gap-2 transition-all text-xs">
-              <SelectValue placeholder="Type" />
-            </SelectTrigger>
-            <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[140px]">
-              <SelectItem value="report" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><FileText className="w-3.5 h-3.5 text-blue-500" /> Report</div></SelectItem>
-              <SelectItem value="analysis" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><BarChart3 className="w-3.5 h-3.5 text-orange-500" /> Analysis</div></SelectItem>
-              <SelectItem value="summary" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><ClipboardList className="w-3.5 h-3.5 text-green-500" /> Summary</div></SelectItem>
-              <SelectItem value="chat" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><MessageSquare className="w-3.5 h-3.5 text-purple-500" /> Chat</div></SelectItem>
-              <SelectItem value="classification" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><Scissors className="w-3.5 h-3.5 text-pink-500" /> Classification</div></SelectItem>
-            </SelectContent>
-          </Select>
+          {!hasHydrated ? (
+            <div className="h-9 w-[100px] border-2 border-border rounded-full animate-pulse" />
+          ) : (
+            <>
+              <Select value={executionType} onValueChange={(val) => setExecutionType(val as any)}>
+                <SelectTrigger className="h-9 px-3 bg-border border-0 rounded-full text-foreground font-medium w-fit gap-2 transition-all text-xs">
+                  <SelectValue placeholder="Type" />
+                </SelectTrigger>
+                <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[140px]">
+                  <SelectItem value="report" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><FileText className="w-3.5 h-3.5 text-blue-500" /> Report</div></SelectItem>
+                  <SelectItem value="analysis" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><BarChart3 className="w-3.5 h-3.5 text-orange-500" /> Analysis</div></SelectItem>
+                  <SelectItem value="summary" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><ClipboardList className="w-3.5 h-3.5 text-green-500" /> Summary</div></SelectItem>
+                  <SelectItem value="chat" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><MessageSquare className="w-3.5 h-3.5 text-purple-500" /> Chat</div></SelectItem>
+                  <SelectItem value="classification" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><Scissors className="w-3.5 h-3.5 text-pink-500" /> Classification</div></SelectItem>
+                </SelectContent>
+              </Select>
 
-          {executionType === "report" && (
-             <Select value={analysisType} onValueChange={setAnalysisType}>
-               <SelectTrigger className="h-9 px-3 bg-border border-0 rounded-full text-foreground font-medium w-fit gap-2 transition-all text-xs">
-                 <SelectValue placeholder="Analysis" />
-               </SelectTrigger>
-               <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[120px]">
-                 <SelectItem value="all" className="cursor-pointer text-xs">All</SelectItem>
-                 <SelectItem value="financial" className="cursor-pointer text-xs">Financial</SelectItem>
-                 <SelectItem value="legal" className="cursor-pointer text-xs">Legal</SelectItem>
-                 <SelectItem value="marketing" className="cursor-pointer text-xs">Marketing</SelectItem>
-                 <SelectItem value="revenue" className="cursor-pointer text-xs">Revenue</SelectItem>
-                 <SelectItem value="technical" className="cursor-pointer text-xs">Technical</SelectItem>
-               </SelectContent>
-             </Select>
+              {executionType === "report" && (
+                <Select value={analysisType} onValueChange={setAnalysisType}>
+                  <SelectTrigger className="h-9 px-3 bg-border border-0 rounded-full text-foreground font-medium w-fit gap-2 transition-all text-xs">
+                    <SelectValue placeholder="Analysis" />
+                  </SelectTrigger>
+                  <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[120px]">
+                    <SelectItem value="all" className="cursor-pointer text-xs">All</SelectItem>
+                    <SelectItem value="financial" className="cursor-pointer text-xs">Financial</SelectItem>
+                    <SelectItem value="legal" className="cursor-pointer text-xs">Legal</SelectItem>
+                    <SelectItem value="marketing" className="cursor-pointer text-xs">Marketing</SelectItem>
+                    <SelectItem value="revenue" className="cursor-pointer text-xs">Revenue</SelectItem>
+                    <SelectItem value="technical" className="cursor-pointer text-xs">Technical</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+
+              <Select value={selectedModelId} onValueChange={setSelectedModelId}>
+                <SelectTrigger className="h-9 px-3 bg-border border-0 rounded-full text-foreground font-medium w-fit gap-2 transition-all text-xs">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <SelectValue placeholder="Model" />
+                </SelectTrigger>
+                <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[150px]">
+                  {models.map(model => (
+                    <SelectItem key={model.model_id} value={model.model_id} className="cursor-pointer text-xs">
+                      {model.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </>
           )}
-
-          <Select value={selectedModelId} onValueChange={setSelectedModelId}>
-            <SelectTrigger className="h-9 px-3 bg-border border-0 rounded-full text-foreground font-medium w-fit gap-2 transition-all text-xs">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <SelectValue placeholder="Model" />
-            </SelectTrigger>
-            <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[150px]">
-               {models.map(model => (
-                 <SelectItem key={model.model_id} value={model.model_id} className="cursor-pointer text-xs">
-                   {model.name}
-                 </SelectItem>
-               ))}
-            </SelectContent>
-          </Select>
         </div>
         
         <div className="flex items-center gap-2">
