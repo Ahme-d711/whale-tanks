@@ -26,7 +26,7 @@ export const ServiceCard = ({ icon, title, subtitle, description, features }: Se
           <Image src={icon} alt={title} width={40} height={40} className="object-contain w-full h-full" />
         </div>
         <div className="flex-1">
-          <h3 className="text-lg md:text-2xl font-bold text-foreground leading-tight">{title}</h3>
+          <h3 className="text-base md:text-2xl font-bold text-foreground leading-tight">{title}</h3>
           <p className="text-[10px] md:text-xs text-muted-foreground">
             {subtitle}
           </p>

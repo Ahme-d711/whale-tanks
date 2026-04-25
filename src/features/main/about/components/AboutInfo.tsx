@@ -8,8 +8,8 @@ export default function AboutInfo() {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-[32px] font-semibold text-foreground mb-6">{t('title')}</h1>
-      <div className="space-y-6 text-lg lg:text-xl text-secondary-foreground leading-relaxed">
+      <h1 className="text-xl md:text-[32px] font-semibold text-foreground mb-4 md:mb-6">{t('title')}</h1>
+      <div className="space-y-4 md:space-y-6 text-sm md:text-lg lg:text-xl text-secondary-foreground leading-relaxed">
         <p>
           {t.rich('description', {
             br: (chunks) => <><br />{chunks}</>

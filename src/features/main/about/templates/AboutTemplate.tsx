@@ -41,12 +41,12 @@ export default function AboutTemplate() {
 
 
   return (
-    <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-4 md:px-12 xl:px-29 py-12 pt-20 space-y-6">
+    <div className="w-full container mx-auto min-h-screen max-w-[1440px] px-6 md:px-12 xl:px-29 py-12 md:pt-20 space-y-6">
       <AboutInfo />
 
       {/* Examples Header */}
       <div>
-        <h2 className="text-[32px] font-semibold text-foreground">{t('examples')}</h2>
+        <h2 className="text-xl md:text-[32px] font-semibold text-foreground">{t('examples')}</h2>
       </div>
 
       {/* Examples Grid */}
