@@ -1,79 +1,58 @@
 "use client"
 
 import { ServiceCard } from "@/components/shared/ServiceCard"
-import { Plus } from "lucide-react"
-
-const projects = [
-  {
-    icon: "/logo.svg",
-    title: "Clothes Project",
-    subtitle: "Black Whale",
-    features: [
-      "A modern fashion-focused digital platform designed to showcase, manage, and sell clothing products with a seamless user experience.",
-      "The project focuses on creating a clean, visually appealing interface that highlights collections, product details, and brand identity while ensuring smooth navigation and fast performance."
-    ]
-  },
-  {
-    icon: "/clothes.svg",
-    title: "Restaurant Project",
-    subtitle: "Blue Whale",
-    features: [
-      "A modern digital platform designed for restaurants to showcase their menu, brand identity, and dining experience through a clean and intuitive interface.",
-      "The project focuses on clear menu presentation, smooth navigation, and visually engaging layouts that enhance the customer's journey from discovery to decision."
-    ]
-  },
-    {
-    icon: "/logo.svg",
-    title: "Clothes Project",
-    subtitle: "Black Whale",
-    features: [
-      "A modern fashion-focused digital platform designed to showcase, manage, and sell clothing products with a seamless user experience.",
-      "The project focuses on creating a clean, visually appealing interface that highlights collections, product details, and brand identity while ensuring smooth navigation and fast performance."
-    ]
-  },
-  {
-    icon: "/clothes.svg",
-    title: "Restaurant Project",
-    subtitle: "Blue Whale",
-    features: [
-      "A modern digital platform designed for restaurants to showcase their menu, brand identity, and dining experience through a clean and intuitive interface.",
-      "The project focuses on clear menu presentation, smooth navigation, and visually engaging layouts that enhance the customer's journey from discovery to decision."
-    ]
-  },
-    {
-    icon: "/logo.svg",
-    title: "Restaurant Project",
-    subtitle: "Blue Whale",
-    features: [
-      "A modern digital platform designed for restaurants to showcase their menu, brand identity, and dining experience through a clean and intuitive interface.",
-      "The project focuses on clear menu presentation, smooth navigation, and visually engaging layouts that enhance the customer's journey from discovery to decision."
-    ]
-  }
-]
+import { useProjects } from "@/features/dashboard/projects/hooks/useProjects"
+import { Skeleton } from "@/components/ui/skeleton"
+import { EmptyState } from "@/components/shared/EmptyState"
+import { useRouter } from "@/i18n/routing"
+import { FolderKanban } from "lucide-react"
 
 export default function ProjectsCards() {
+  const { projects, isLoading, isError } = useProjects()
+  const router = useRouter()
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl! mx-auto justify-items-center">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Skeleton key={i} className="w-full max-w-[390px] h-[300px] rounded-3xl" />
+        ))}
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className="text-center py-20">
+        <p className="text-destructive font-medium">Failed to load projects. Please try again later.</p>
+      </div>
+    )
+  }
+
+  if (!projects || projects.length === 0) {
+    return (
+      <div className="col-span-full w-full">
+        <EmptyState 
+          icon={FolderKanban}
+          title="No Projects Found"
+          description="It looks like you haven't started any projects yet. Let's transform your first idea into a success story!"
+          actionLabel="Start Analyzing"
+          onAction={() => router.push('/ai')}
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl! mx-auto justify-items-center">
-      {/* Add New Project Card
-      <div className="backdrop-blur-xl w-full max-w-[390px] bg-background rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-border flex items-center justify-center min-h-[300px] cursor-pointer group">
-        <div className="text-center">
-          <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-            <Plus className="w-10 h-10 text-primary" />
-          </div>
-          <p className="text-base md:text-lg font-semibold text-muted-foreground group-hover:text-primary transition-colors">
-            Add New Project
-          </p>
-        </div>
-      </div> */}
-
       {/* Project Cards */}
-      {projects.map((project, index) => (
+      {projects?.map((project, index) => (
         <ServiceCard
-          key={index}
-          icon={project.icon}
-          title={project.title}
-          subtitle={project.subtitle}
-          features={project.features}
+          key={project.project_id || index}
+          icon="/logo.svg"
+          title={project.name || "Untitled Project"}
+          subtitle={new Date(project.created_at).toLocaleDateString()}
+          features={["View detailed analysis and reports for this project."]}
         />
       ))}
     </div>

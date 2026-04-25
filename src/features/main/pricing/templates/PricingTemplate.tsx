@@ -9,17 +9,21 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useSubscriptions } from "@/features/dashboard/subscriptions/hooks/useSubscriptions"
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog"
 import { addDays } from "date-fns"
+import { CreditCard } from "lucide-react"
 
 // Swiper imports
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import { EmptyState } from "@/components/shared/EmptyState"
+import { useRouter } from "@/i18n/routing"
 
 export default function PricingTemplate() {
   const t = useTranslations('Landing.Pricing')
   const { packages, isLoading } = usePackages({ active_only: true })
   const { createSubscription, isCreating } = useSubscriptions()
+  const router = useRouter()
   
   const [selectedPackage, setSelectedPackage] = React.useState<Package | null>(null)
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false)
@@ -101,6 +105,14 @@ export default function PricingTemplate() {
               </div>
             ))}
           </div>
+        ) : !packages || packages.length === 0 ? (
+          <EmptyState
+            icon={CreditCard}
+            title="No Plans Available"
+            description="We're currently updating our subscription plans. Please check back later or contact support for assistance."
+            actionLabel="Return Home"
+            onAction={() => router.push('/')}
+          />
         ) : (
           <>
             {/* Desktop Grid */}
