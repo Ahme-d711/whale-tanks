@@ -118,7 +118,7 @@ export default function RegisterForm() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="text-center text-secondary-foreground"
+          className="text-center text-secondary-foreground text-xs md:text-sm"
         >
           {t('already_have_account')}{" "}
           <Link href="/login" className="text-primary font-semibold hover:underline">

@@ -31,7 +31,7 @@ export default function RegisterTemplate() {
       >
         <CoreGlow />
         <Card className="border-none shadow-[0_40px_80px_rgba(34,96,255,0.12)] rounded-[2.5rem] overflow-hidden backdrop-blur-xl">
-          <CardContent className="pt-5 pb-8 px-10">
+          <CardContent className="pt-5 pb-8 px-6 md:px-10">
                   {/* Branded Header */}
             <AuthHeader cardTitle={t('create_account')} cardBaio={t('sign_up_text')}/>
 

@@ -96,6 +96,9 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 sm:gap-4">
+            
+            <LanguageSelector />
+
             {user ? (
               <div className="flex items-center gap-3">
                 <div 
@@ -124,8 +127,6 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
                 {t("login")}
               </ShinyButton>
             )}
-            
-            <LanguageSelector />
 
             {/* Mobile Menu Toggle */}
             <Button

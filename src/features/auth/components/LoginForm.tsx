@@ -133,7 +133,7 @@ export default function LoginForm() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-center text-secondary-foreground"
+          className="text-center text-secondary-foreground text-xs md:text-sm"
         >
           {t('dont_have_account')}{" "}
           <Link href="/signup" className="text-primary cursor-pointer font-semibold hover:underline">
