@@ -146,16 +146,37 @@ ${code}
           <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
           <script src="https://cdn.tailwindcss.com"></script>
           <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/zod@3.23.8/lib/index.umd.js"></script>
+          <script src="https://unpkg.com/react-hook-form@7.51.5/dist/index.umd.js"></script>
+          <script src="https://unpkg.com/@hookform/resolvers@3.3.4/dist/zod.umd.js"></script>
+          <script src="https://unpkg.com/framer-motion@11.0.8/dist/framer-motion.js"></script>
+          <script src="https://unpkg.com/lucide-react@0.363.0/dist/umd/lucide-react.js"></script>
+          <script src="https://unpkg.com/recharts@2.12.2/umd/Recharts.js"></script>
+          <script src="https://unpkg.com/clsx@2.1.0/dist/clsx.min.js"></script>
           <style>${baseStyle}</style>
           <script>
             window.next={link:p=>React.createElement('a',{...p,href:p.href||'#'},p.children),image:p=>React.createElement('img',{...p})};
-            window.Lucide=new Proxy({},{get:(t,n)=>p=>React.createElement('div',{...p,style:{display:'inline-flex',alignItems:'center',justifyContent:'center',backgroundColor:'#f1f5f9',color:'#64748b',borderRadius:'4px',padding:'2px',...(p.style||{})}},n[0])});
+            window.cn=(...args)=>window.clsx?(window.clsx(...args)):args.filter(Boolean).join(' ');
+            // Mapping for common imports
+            window.framerMotion = window.Motion;
+            window.Recharts = window.Recharts || {};
           </script>
         </head>
         <body>
           <div id="root"></div>
           <script type="text/babel">
             const { useState, useEffect, useMemo, useCallback, useRef, forwardRef } = React;
+            const z = window.z || window.zod;
+            const { useForm, Controller, useFieldArray, useWatch } = window.ReactHookForm || {};
+            const { zodResolver } = window.ZodResolver || {};
+            const motion = window.Motion ? window.Motion.motion : (window.framerMotion ? window.framerMotion.motion : null);
+            const AnimatePresence = window.Motion ? window.Motion.AnimatePresence : (window.framerMotion ? window.framerMotion.AnimatePresence : null);
+            const Lucide = window.LucideReact || {};
+            const { 
+              LineChart, Line, BarChart, Bar, PieChart, Pie, XAxis, YAxis, 
+              CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, AreaChart, Area
+            } = window.Recharts || {};
+            const cn = window.cn;
             try {
               ${processedCode}
               const findComp = () => {
