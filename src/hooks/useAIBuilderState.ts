@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { detectContentType } from '@/features/main/ai/utils/code-detection'
 
 export function useAIBuilderState() {
@@ -21,6 +21,15 @@ export function useAIBuilderState() {
     }
   }, [canView, activeSubAction])
 
+  const reset = useCallback(() => {
+    setWebBuilderBlocks([])
+    setDbBlocks([])
+    setActiveBlockIndex(0)
+    setActiveDbBlockIndex(0)
+    setActiveAction('consultation')
+    setActiveSubAction('code')
+  }, [])
+
   return {
     webBuilderBlocks,
     setWebBuilderBlocks,
@@ -34,6 +43,7 @@ export function useAIBuilderState() {
     setActiveAction,
     activeSubAction,
     setActiveSubAction,
-    canView
+    canView,
+    reset
   }
 }

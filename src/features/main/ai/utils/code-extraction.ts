@@ -12,7 +12,7 @@ export function extractCode(text: string) {
     if (content.length < 20) return
 
     // Ignore installation commands
-    if (content.toLowerCase().startsWith('npm ') || content.toLowerCase().startsWith('bun ') || content.toLowerCase().startsWith('yarn ')) return
+    if (content.toLowerCase().startsWith('npm ') || content.toLowerCase().startsWith('bun ') || content.toLowerCase().startsWith('yarn ') || content.toLowerCase().startsWith('npx ')) return
 
     // Determine Category
     const isDb = lang === 'sql' || lang === 'prisma' || 
