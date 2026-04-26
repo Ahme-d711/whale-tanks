@@ -56,8 +56,8 @@ export function EditUserDialog({ user, open, onOpenChange }: EditUserDialogProps
               className="w-full h-full p-6"
             >
               <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-primary">
-                  {t("users_management")} - {tUsers("edit_user")}
+                <DialogTitle className="text-2xl text-center font-bold text-primary">
+                  {tUsers("edit_user")}
                 </DialogTitle>
               </DialogHeader>
 

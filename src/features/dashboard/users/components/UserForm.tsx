@@ -112,19 +112,19 @@ export function UserForm({ mode, defaultValues, onSubmit, isLoading, submitLabel
           </div>
         )}
 
-        <div className="flex justify-end gap-3 pt-4">
+        <div className="flex justify-end gap-3 pt-4 w-full">
           <Button
             type="button"
             variant="ghost"
             onClick={onCancel}
-            className="rounded-xl"
+            className="rounded-xl w-1/2"
           >
             Cancel
           </Button>
           <Button
             type="submit"
             disabled={isLoading}
-            className="rounded-xl min-w-[100px]"
+            className="rounded-xl min-w-[100px] w-1/2"
           >
             {isLoading ? <Spinner className="w-4 h-4" /> : submitLabel}
           </Button>
