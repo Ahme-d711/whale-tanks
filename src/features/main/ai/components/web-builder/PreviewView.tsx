@@ -22,6 +22,14 @@ export default function PreviewView({ code }: PreviewViewProps) {
       processedCode += "\nwindow." + name + " = " + name + ";";
     });
 
+    // 🔍 Catch missing components (e.g. imports that don't exist in sandbox)
+    const usedComponents = [...new Set([...code.matchAll(/<([A-Z]\w+)/g)].map(m => m[1]))];
+    let componentMocks = "\n// --- Missing Component Mocks ---\n";
+    usedComponents.forEach(name => {
+      componentMocks += `if (typeof ${name} === 'undefined') window.${name} = (props) => <div className="p-4 border border-dashed border-zinc-300 rounded text-[10px] text-zinc-400 font-mono">Missing: &lt;${name} /&gt;</div>;\n`;
+    });
+    processedCode = componentMocks + "\n" + processedCode;
+
     // 🔍 استخراج أسماء components
     const detectedNames = [
       ...new Set([

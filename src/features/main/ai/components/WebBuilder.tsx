@@ -40,9 +40,6 @@ export default function WebBuilder({
       {activeSubAction === 'view' && (
         <PreviewView 
           code={currentCode} 
-          blocksCount={blocks.length}
-          activeIndex={activeIndex}
-          onIndexChange={onIndexChange}
         />
       )}
       {activeSubAction === 'database' && (
