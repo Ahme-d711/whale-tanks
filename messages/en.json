@@ -46,7 +46,25 @@
       "info_tooltip": "Describe your idea clearly, then choose a tank to analyze it.",
       "recording_started": "Recording started...",
       "recording_saved": "Recording saved!",
-      "files_attached": "{count} file(s) attached"
+      "files_attached": "{count} file(s) attached",
+      "executions": {
+        "chat": "Chat",
+        "report": "Report",
+        "analysis": "Analysis",
+        "summary": "Summary",
+        "classification": "Classification"
+      },
+      "categories": {
+        "all": "All",
+        "financial": "Financial",
+        "legal": "Legal",
+        "marketing": "Marketing",
+        "revenue": "Revenue",
+        "technical": "Technical"
+      },
+      "select_type": "Type",
+      "select_category": "Category",
+      "select_model": "Model"
     },
     "Advisors": {
       "consultation": "{count} consultation",
@@ -152,8 +170,24 @@
         "days": "Days",
         "feature_dummy": "Lorem ipsum dolor sit amet",
         "cancel": "Cancel"
+      },
+      "empty": {
+        "title": "No Plans Available",
+        "description": "We're currently updating our subscription plans. Please check back later or contact support for assistance.",
+        "action": "Return Home"
       }
     }
+  },
+  "Projects": {
+    "title": "Your Projects",
+    "failed_load": "Failed to load projects. Please try again later.",
+    "empty": {
+      "title": "No Projects Found",
+      "description": "It looks like you haven't started any projects yet. Let's transform your first idea into a success story!",
+      "action": "Start Analyzing"
+    },
+    "untitled": "Untitled Project",
+    "details": "View detailed analysis and reports for this project."
   },
   "Navigation": {
     "home": "Home",
