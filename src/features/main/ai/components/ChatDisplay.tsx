@@ -71,8 +71,8 @@ const MessageContent = ({ content = "", role, activeAction }: { content?: string
     </p>
   )
 
-  // Separates code blocks from normal text
-  const parts = safeContent.split(/(```[\s\S]*?```)/g);
+  // Separates code blocks from normal text (handles open blocks for streaming)
+  const parts = safeContent.split(/(```[\s\S]*?(?:```|$))/g);
 
   const formatAIText = (text: string = "") => {
     let clean = text
@@ -139,8 +139,13 @@ export const ChatDisplay = ({ messages, isLoading, isHistoryLoading, activeActio
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    const container = scrollRef.current;
+    if (container) {
+      const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 150;
+      
+      if (isNearBottom) {
+        container.scrollTop = container.scrollHeight;
+      }
     }
   }, [messages, isLoading])
 

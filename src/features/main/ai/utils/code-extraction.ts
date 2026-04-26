@@ -1,5 +1,5 @@
 export function extractCode(text: string) {
-  const regex = /```(jsx|tsx|html|javascript|js|typescript|ts|css|bash|sh|json|sql|prisma|flutter|dart|swift|kotlin)?\n?([\s\S]*?)```/g
+  const regex = /```(jsx|tsx|html|javascript|js|typescript|ts|css|bash|sh|json|sql|prisma|flutter|dart|swift|kotlin)?\n?([\s\S]*?)(?:```|$)/g
   const matches = Array.from(text.matchAll(regex))
   
   const uiBlocks: string[] = []

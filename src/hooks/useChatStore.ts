@@ -12,9 +12,9 @@ interface ChatState {
   isHistoryLoading: boolean;
   
   // Actions
-  setMessages: (messages: Message[]) => void;
-  setSessionId: (id: string | null) => void;
-  setIsHistoryLoading: (isLoading: boolean) => void;
+  setMessages: (messages: Message[] | ((prev: Message[]) => Message[])) => void;
+  setSessionId: (id: string | null | ((prev: string | null) => string | null)) => void;
+  setIsHistoryLoading: (isLoading: boolean | ((prev: boolean) => boolean)) => void;
   resetChat: () => void;
 }
 

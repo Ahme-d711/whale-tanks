@@ -13,8 +13,10 @@ import { extractCode } from '@/features/main/ai/utils/code-extraction'
 import { useAudioRecorder } from './useAudioRecorder'
 import { useFileAttachments } from './useFileAttachments'
 import { useAIBuilderState } from './useAIBuilderState'
-import { useChatSession } from './useChatSession'
+import { useChatSession, Message } from './useChatSession'
 import { useAIModels } from './useAIModels'
+
+export type { Message }
 
 export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const searchParams = useSearchParams()
