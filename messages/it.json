@@ -64,6 +64,9 @@
   },
   "Auth": {
     "login": "Accedi",
+    "user_fallback": "Utente",
+    "profile": "Profilo",
+    "edit_profile": "Modifica profilo",
     "register": "Registrati",
     "email": "Email",
     "name": "Nome",

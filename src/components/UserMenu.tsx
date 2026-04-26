@@ -11,6 +11,8 @@ import { useLogout } from "@/features/auth/hooks/useLogout";
 import { ConfirmationDialog } from "./shared/ConfirmationDialog";
 import { useTranslations } from "next-intl";
 import { getImageUrl } from "@/utils/images";
+import { EditUserDialog } from "@/features/dashboard/users/components/EditUserDialog";
+import { UserDashboard } from "@/features/dashboard/users/types/user.types";
 
 export function UserMenu() {
   const { user } = useAuthStore();
@@ -25,6 +27,7 @@ export function UserMenu() {
   const userRole = user?.role === "admin" ? t("admin_status") : t("user_fallback"); 
   const [imageError, setImageError] = useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const userId = (user && (user.user_id || user._id || user.id)) as string | undefined;
 
@@ -75,15 +78,14 @@ export function UserMenu() {
         </PopoverTrigger>
         <PopoverContent className="w-56 mt-2 border-divider" align="end">
           <div className="flex flex-col gap-2">
-            <Link href={`/dashboard/users/${userId}`}>
-              <Button
-                variant="outline"
-                className="w-full justify-start cursor-pointer"
-              >
-                <User className="h-4 w-4 mr-2" />
-                {tAuth("profile")}
-              </Button>
-            </Link>
+            <Button
+              variant="outline"
+              className="w-full justify-start cursor-pointer transition-colors"
+              onClick={() => setIsEditDialogOpen(true)}
+            >
+              <User className="h-4 w-4 mr-2" />
+              {tAuth("edit_profile")}
+            </Button>
 
             <Button
               onClick={handleLogout}
@@ -108,6 +110,12 @@ export function UserMenu() {
         variant="default"
         onConfirm={handleConfirmLogout}
         isLoading={isLoggingOut}
+      />
+
+      <EditUserDialog
+        user={user as unknown as UserDashboard}
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
       />
     </>
   );

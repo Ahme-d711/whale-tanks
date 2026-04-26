@@ -134,7 +134,8 @@
     "creating_account": "Creating Account...",
     "submit": "Sign In",
     "user_fallback": "User",
-    "profile": "Profile"
+    "profile": "Profile",
+    "edit_profile": "Edit Profile"
   },
   "Landing": {
     "About": {

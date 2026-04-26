@@ -63,6 +63,9 @@
     }
   },
   "Auth": {
+    "user_fallback": "Usuario",
+    "profile": "Perfil",
+    "edit_profile": "Editar perfil",
     "login": "Iniciar sesión",
     "register": "Registrarse",
     "email": "Correo electrónico",

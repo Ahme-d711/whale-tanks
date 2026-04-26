@@ -52,9 +52,4 @@ export const navItems: NavItem[] = [
     href: "/dashboard/models",
     icon: Bot,
   },
-  {
-    titleKey: "settings",
-    href: "/dashboard/settings",
-    icon: Settings,
-  },
 ];
