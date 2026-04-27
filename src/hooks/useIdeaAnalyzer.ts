@@ -51,7 +51,41 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const [executionType, setExecutionType] = useState<ExecuteRequest["execution_type"]>("chat")
   const [analysisType, setAnalysisType] = useState<string>("all")
 
-  // 3. Core Logic (Sending)
+  // 3. Reactively Sync Code Blocks with Messages History
+  useEffect(() => {
+    const allUi: string[] = [];
+    const allDb: string[] = [];
+
+    chat.messages.forEach(m => {
+      if (m.role === 'assistant') {
+        const { ui, db } = extractCode(m.content);
+        allUi.push(...ui);
+        allDb.push(...db);
+      }
+    });
+
+    const uniqueUi = Array.from(new Set(allUi));
+    const uniqueDb = Array.from(new Set(allDb));
+
+    if (uniqueUi.length > 0) {
+      builder.setWebBuilderBlocks(uniqueUi);
+      
+      // Auto-switch to Web Builder only if it's new large code and we aren't already there
+      const lastUi = uniqueUi[uniqueUi.length - 1];
+      if (lastUi && lastUi.length > 300 && builder.activeAction !== 'web_builder' && isLoading) {
+        builder.setActiveAction('web_builder');
+        const canView = detectContentType(lastUi).contentType !== 'none';
+        builder.setActiveSubAction(canView ? 'view' : 'code');
+        builder.setActiveBlockIndex(uniqueUi.length - 1);
+      }
+    }
+
+    if (uniqueDb.length > 0) {
+      builder.setDbBlocks(uniqueDb);
+    }
+  }, [chat.messages, isLoading]); // Only update when messages change or loading finishes
+
+  // 4. Core Logic (Sending)
   const handleSend = useCallback(async (explicitPrompt?: string) => {
     const currentMessage = (explicitPrompt || ideaText).trim();
     if (!currentMessage) return;
@@ -102,26 +136,6 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
             }
             return newMessages;
           });
-
-          // Check for code in the stream
-          const { ui, db } = extractCode(fullContent);
-          
-          if (ui.length > 0) {
-            builder.setWebBuilderBlocks(ui);
-            builder.setActiveBlockIndex(0);
-            
-            // Switch to Web Builder if UI code appears
-            if (ui[0].length > 50 && builder.activeAction !== 'web_builder') {
-              builder.setActiveAction('web_builder');
-              const canViewFirst = detectContentType(ui[0]).contentType !== 'none';
-              builder.setActiveSubAction(canViewFirst ? 'view' : 'code');
-            }
-          }
-
-          if (db.length > 0) {
-            builder.setDbBlocks(db);
-            builder.setActiveDbBlockIndex(0);
-          }
         }
       });
       
@@ -140,7 +154,7 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     } finally {
       setIsLoading(false)
     }
-  }, [ideaText, executionType, models.selectedModelId, analysisType, onSendCallback, chat, files, builder])
+  }, [ideaText, executionType, models.selectedModelId, analysisType, onSendCallback, chat, files, builder, isLoading])
 
   // 4. URL & Initialisation Sync
   useEffect(() => {

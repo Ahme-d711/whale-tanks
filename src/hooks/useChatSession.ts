@@ -54,11 +54,23 @@ export function useChatSession(
       
       setMessages(historicalMessages)
       
-      // Extract code from history if any
-      const lastAssistantMsg = historicalMessages.filter(m => m.role === 'assistant').pop()
-      if (lastAssistantMsg) {
-        const { ui, db } = extractCode(lastAssistantMsg.content)
-        onBlocksExtracted(ui, db)
+      // Extract code from ALL assistant messages in history
+      const allUiBlocks: string[] = []
+      const allDbBlocks: string[] = []
+      
+      historicalMessages.forEach(m => {
+        if (m.role === 'assistant') {
+          const { ui, db } = extractCode(m.content)
+          allUiBlocks.push(...ui)
+          allDbBlocks.push(...db)
+        }
+      })
+
+      if (allUiBlocks.length > 0 || allDbBlocks.length > 0) {
+        onBlocksExtracted(
+          Array.from(new Set(allUiBlocks)), 
+          Array.from(new Set(allDbBlocks))
+        )
       }
     } catch (error) {
       console.error("Failed to fetch chat history:", error)
