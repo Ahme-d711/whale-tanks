@@ -27,16 +27,19 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   const models = useAIModels()
   
   // Chat session needs to update builder state when history loads
-  const chat = useChatSession(useCallback((ui, db) => {
-    if (ui.length > 0) {
-      builder.setWebBuilderBlocks(ui)
-      builder.setActiveBlockIndex(0)
-    }
-    if (db.length > 0) {
-      builder.setDbBlocks(db)
-      builder.setActiveDbBlockIndex(0)
-    }
-  }, [builder]))
+  const chat = useChatSession(
+    useCallback((ui, db) => {
+      if (ui.length > 0) {
+        builder.setWebBuilderBlocks(ui)
+        builder.setActiveBlockIndex(0)
+      }
+      if (db.length > 0) {
+        builder.setDbBlocks(db)
+        builder.setActiveDbBlockIndex(0)
+      }
+    }, [builder]),
+    builder.reset
+  )
 
   const record = useAudioRecorder(useCallback((file) => {
     files.setAttachments(prev => [...prev, file])
@@ -189,6 +192,8 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     resetSession: () => {
       chat.resetSession()
       builder.reset()
+      setIdeaText("")
+      setIsLoading(false)
     },
     isHistoryLoading: chat.isHistoryLoading
   }

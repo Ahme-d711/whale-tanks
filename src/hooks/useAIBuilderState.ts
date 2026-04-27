@@ -1,49 +1,20 @@
-import { useState, useMemo, useEffect, useCallback } from 'react'
-import { detectContentType } from '@/features/main/ai/utils/code-detection'
+import { useEffect } from 'react'
+import { useAIBuilderStore, useCanView } from './useAIBuilderStore'
 
 export function useAIBuilderState() {
-  const [webBuilderBlocks, setWebBuilderBlocks] = useState<string[]>([])
-  const [dbBlocks, setDbBlocks] = useState<string[]>([])
-  const [activeBlockIndex, setActiveBlockIndex] = useState(0)
-  const [activeDbBlockIndex, setActiveDbBlockIndex] = useState(0)
-  const [activeAction, setActiveAction] = useState<'consultation' | 'web_builder'>('consultation')
-  const [activeSubAction, setActiveSubAction] = useState<'code' | 'view' | 'database'>('code')
-
-  const canView = useMemo(() => {
-    const activeCode = webBuilderBlocks[activeBlockIndex] || ""
-    return detectContentType(activeCode).contentType !== 'none'
-  }, [webBuilderBlocks, activeBlockIndex])
+  const store = useAIBuilderStore()
+  const canView = useCanView()
 
   // Auto-switch away from "View" if the active block is not renderable
   useEffect(() => {
-    if (activeSubAction === 'view' && !canView) {
-      setActiveSubAction('code')
+    if (store.activeSubAction === 'view' && !canView) {
+      store.setActiveSubAction('code')
     }
-  }, [canView, activeSubAction])
-
-  const reset = useCallback(() => {
-    setWebBuilderBlocks([])
-    setDbBlocks([])
-    setActiveBlockIndex(0)
-    setActiveDbBlockIndex(0)
-    setActiveAction('consultation')
-    setActiveSubAction('code')
-  }, [])
+  }, [canView, store.activeSubAction, store.setActiveSubAction])
 
   return {
-    webBuilderBlocks,
-    setWebBuilderBlocks,
-    dbBlocks,
-    setDbBlocks,
-    activeBlockIndex,
-    setActiveBlockIndex,
-    activeDbBlockIndex,
-    setActiveDbBlockIndex,
-    activeAction,
-    setActiveAction,
-    activeSubAction,
-    setActiveSubAction,
+    ...store,
     canView,
-    reset
+    reset: store.resetBuilder
   }
 }

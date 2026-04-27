@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { usePathname } from '@/i18n/routing'
@@ -8,10 +8,14 @@ import { useChatStore, Message } from './useChatStore'
 
 export type { Message }
 
-export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) => void) {
+export function useChatSession(
+  onBlocksExtracted: (ui: string[], db: string[]) => void,
+  onReset?: () => void
+) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const lastUrlIdRef = useRef<string | null>(null)
 
   // Use Global Store
   const { 
@@ -67,25 +71,27 @@ export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) =
   useEffect(() => {
     const sIdFromUrl = searchParams.get('session_id')
     
-    // Logic for loading/syncing sessions
-    if (sIdFromUrl && sIdFromUrl !== sessionId) {
-      // 1. Initial Load (no messages, ID in URL)
-      if (messages.length === 0) {
-        setSessionId(sIdFromUrl)
-        fetchHistory(sIdFromUrl)
-      } 
-      // 2. Syncing a live session (messages exist, sessionId was null)
-      else if (sessionId === null) {
-        setSessionId(sIdFromUrl)
-      } 
-      // 3. Explicitly switching to another session via URL/Sidebar
-      else {
-        setSessionId(sIdFromUrl)
-        setMessages([])
-        fetchHistory(sIdFromUrl)
-      }
+    // 🔥 Check if the URL ID actually changed compared to what we last processed
+    if (sIdFromUrl === lastUrlIdRef.current) return;
+    
+    lastUrlIdRef.current = sIdFromUrl;
+
+    // 1. Session cleared (New Chat)
+    if (!sIdFromUrl) {
+      resetChat()
+      if (onReset) onReset()
+      return
     }
-  }, [searchParams, sessionId, fetchHistory, messages.length, setSessionId, setMessages])
+
+    // 2. New session ID detected in URL
+    if (sIdFromUrl !== sessionId) {
+      // Clear current messages to show skeletons
+      if (messages.length > 0) setMessages([])
+      
+      setSessionId(sIdFromUrl)
+      fetchHistory(sIdFromUrl)
+    }
+  }, [searchParams, sessionId, fetchHistory, messages.length, setSessionId, setMessages, resetChat, onReset])
 
   const syncSessionUrl = useCallback((sId: string) => {
     if (searchParams.get('session_id') === sId) return
@@ -93,6 +99,7 @@ export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) =
     newParams.set('session_id', sId)
     newParams.delete('q') 
     
+    lastUrlIdRef.current = sId // Mark as already handled to prevent re-fetch loop
     router.replace(`${pathname}?${newParams.toString()}`, { scroll: false })
   }, [searchParams, router, pathname])
 
@@ -112,6 +119,9 @@ export function useChatSession(onBlocksExtracted: (ui: string[], db: string[]) =
     fetchHistory,
     clearQueryParam,
     syncSessionUrl,
-    resetSession: resetChat // Maintain same API name for easier transition
+    resetSession: () => {
+      resetChat()
+      if (onReset) onReset()
+    }
   }
 }
