@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'motion/react'
 import { User, Bot, ChevronDown, ChevronUp, Terminal } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Message } from '@/hooks/useIdeaAnalyzer'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface ChatDisplayProps {
   messages: Message[]
@@ -61,7 +63,69 @@ const CollapsibleCode = ({ code, lang, initiallyCollapsed }: { code: string, lan
   )
 }
 
-const MessageContent = ({ content = "", role, activeAction }: { content?: string, role: string, activeAction?: string }) => {
+const MarkdownRenderer = ({ content, isArabic }: { content: string, isArabic: boolean }) => {
+  const clean = content
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .split('\n')
+    .map(line => {
+      const trimmed = line.trim()
+      if (/^نقاط القوة|^Strengths/i.test(trimmed)) return `### ✅ نقاط القوة`
+      if (/^نقاط الضعف|^Weaknesses/i.test(trimmed)) return `### ❌ نقاط الضعف`
+      if (/^الفرص|^Opportunities/i.test(trimmed)) return `### 🚀 الفرص`
+      if (/^التهديدات|^Threats/i.test(trimmed)) return `### ⚠️ التهديدات`
+      return line
+    })
+    .join('\n')
+
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        h1: ({ children }) => <h1 className="text-xl font-bold mt-6 mb-3 text-primary border-r-4 border-primary/20 pr-3">{children}</h1>,
+        h2: ({ children }) => <h2 className="text-lg font-bold mt-5 mb-2 text-primary border-r-4 border-primary/10 pr-3">{children}</h2>,
+        h3: ({ children }) => <h3 className="text-base font-semibold mt-4 mb-2 text-primary">{children}</h3>,
+        p: ({ children }) => <p className="text-zinc-700 leading-relaxed mb-4 whitespace-pre-wrap">{children}</p>,
+        li: ({ children }) => <li className="mb-1">{children}</li>,
+        ul: ({ children }) => <ul className={`list-disc ${isArabic ? 'pr-6' : 'pl-6'} space-y-1 mb-4`}>{children}</ul>,
+        ol: ({ children }) => <ol className={`list-decimal ${isArabic ? 'pr-6' : 'pl-6'} space-y-1 mb-4`}>{children}</ol>,
+        strong: ({ children }) => <strong className="font-bold text-primary">{children}</strong>,
+        table: ({ children }) => (
+          <div className="overflow-x-auto my-4 rounded-xl border border-zinc-200">
+            <table className="w-full text-right border-collapse">
+              {children}
+            </table>
+          </div>
+        ),
+        th: ({ children }) => <th className="bg-zinc-50 p-3 text-sm font-bold border-b">{children}</th>,
+        td: ({ children }) => <td className="p-3 text-sm border-b border-zinc-100">{children}</td>,
+        code: ({ node, inline, className, children, ...props }: any) => {
+          const match = /language-(\w+)/.exec(className || '')
+          const codeString = String(children).replace(/\n$/, '')
+          
+          if (!inline && match) {
+            return (
+              <CollapsibleCode 
+                code={codeString} 
+                lang={match[1]} 
+                initiallyCollapsed={false}
+              />
+            )
+          }
+          return (
+            <code className="bg-primary/10 text-primary px-1.5 py-0.5 rounded font-mono text-xs" {...props}>
+              {children}
+            </code>
+          )
+        }
+      }}
+    >
+      {clean}
+    </ReactMarkdown>
+  )
+}
+
+const MessageContent = ({ content = "", role }: { content?: string, role: string }) => {
   const safeContent = content || "";
   const isArabic = /[\u0600-\u06FF]/.test(safeContent);
   
@@ -71,95 +135,9 @@ const MessageContent = ({ content = "", role, activeAction }: { content?: string
     </p>
   )
 
-  // Separates code blocks from normal text (handles open blocks for streaming)
-  const parts = safeContent.split(/(```[\s\S]*?(?:```|$))/g);
-
-  const formatAIText = (text: string = "") => {
-    let clean = text
-      // 1. Cleaning redundant symbols & tags while keeping readability
-      .replace(/<br\s*\/?>/gi, '\n')
-      .replace(/[#*_|]/g, '') 
-      .replace(/\n{3,}/g, '\n\n')
-    
-    // 2. Sections & SWOT Detection (Senior Content Designer standards)
-    const patterns = [
-      { key: /نقاط القوة|Strengths/i, emoji: "✅", title: "نقاط القوة الأساسية" },
-      { key: /نقاط الضعف|Weaknesses/i, emoji: "❌", title: "تحديات ونقاط ضعف" },
-      { key: /الفرص|Opportunities/i, emoji: "🚀", title: "فرص النمو" },
-      { key: /التهديدات|Threats/i, emoji: "⚠️", title: "مخاطر محتملة" },
-      { key: /الهدف|Goal|Vision/i, emoji: "🎯", title: "الرؤية والهدف" },
-      { key: /الخلاصة|Summary|Conclusion/i, emoji: "📌", title: "الملخص التنفيذي" },
-      { key: /الخطوات|Action|Steps/i, emoji: "🛠️", title: "خارطة الطريق" },
-      { key: /الميزانية|Financial|Budget/i, emoji: "💰", title: "التحليل المالي" },
-      { key: /نصائح|Tips/i, emoji: "💡", title: "توصيات الخبراء" }
-    ]
-
-    let lines = clean.split('\n')
-    let formattedLines = lines.map((line, idx) => {
-      let trimmed = line.trim()
-      if (!trimmed) return "";
-
-      // Handle Financial Ranges (e.g. 15-25 or $100K - $200K)
-      if (/(\d+)\s?[-]\s?(\d+)/.test(trimmed)) {
-        trimmed = trimmed.replace(/(\d+)\s?[-]\s?(\d+)/g, "$1 – $2")
-      }
-
-      // Check for Section Headings
-      for (const p of patterns) {
-        if (p.key.test(trimmed) && trimmed.length < 50) {
-          return `\n${p.emoji} **${p.title}**\n`
-        }
-      }
-
-      // Bullets & Checklist conversion
-      if (/^\s*[0-9]+\.|\u2022|\-/.test(trimmed)) {
-        return `• ${trimmed.replace(/^[0-9]+\.|\-/, '').trim()}`
-      }
-
-      // Highlight important keywords (Numbers, Percentages)
-      if (/(\d+%|\$\d+|\d+\s?مليون|\d+\s?جنيه)/.test(trimmed)) {
-        // We can't easily bold here without breaking MD, but we'll rely on pre-style
-      }
-
-      return trimmed
-    })
-
-    return formattedLines.join('\n').trim()
-  }
-
   return (
-    <div dir={isArabic ? 'rtl' : 'ltr'} className={`leading-relaxed space-y-4 ${isArabic ? 'text-right' : 'text-left'}`}>
-      {parts.map((part, index) => {
-        if (part.startsWith('```')) {
-          const code = part.replace(/```(?:\w+)?\n?|```$/g, '').trim();
-          return (
-            <CollapsibleCode 
-              key={index} 
-              code={code} 
-              lang={part.match(/```(\w+)/)?.[1] || 'code'} 
-              initiallyCollapsed={false}
-            />
-          )
-        }
-
-        const formatted = formatAIText(part)
-        if (!formatted) return null;
-
-        return (
-          <div key={index} className="space-y-4">
-            {formatted.split('\n\n').map((paragraph, i) => {
-              const isHeading = paragraph.includes('**');
-              return (
-                <div key={i} className={isHeading ? 'mt-6 mb-2 border-r-4 border-primary/20 pr-3' : ''}>
-                  <p className={`whitespace-pre-wrap ${isHeading ? 'text-lg font-bold text-primary' : 'text-zinc-700 leading-relaxed'}`}>
-                    {paragraph}
-                  </p>
-                </div>
-              )
-            })}
-          </div>
-        )
-      })}
+    <div dir={isArabic ? 'rtl' : 'ltr'} className={`text-sm ${isArabic ? 'text-right' : 'text-left'}`}>
+      <MarkdownRenderer content={safeContent} isArabic={isArabic} />
     </div>
   )
 }
@@ -182,9 +160,9 @@ export const ChatDisplay = ({ messages, isLoading, isHistoryLoading, activeActio
     <div className="bg-white backdrop-blur-md rounded-3xl flex-1 border-2 border-primary shadow-xl shadow-blue-500/5 flex flex-col overflow-hidden relative">
       <div 
         ref={scrollRef}
-        className="flex-1 p-5 overflow-y-auto custom-scrollbar scroll-smooth"
+        className="flex-1 p-4 sm:p-8 overflow-y-auto custom-scrollbar scroll-smooth bg-zinc-50/50"
       >
-        <div className="flex flex-col gap-4">
+        <div className="max-w-3xl mx-auto flex flex-col gap-8">
           {isHistoryLoading ? (
             Array.from({ length: 3 }).map((_, i) => (
               <div key={i} className={`flex items-start gap-3 ${i % 2 === 0 ? '' : 'flex-row-reverse'}`}>
@@ -217,12 +195,14 @@ export const ChatDisplay = ({ messages, isLoading, isHistoryLoading, activeActio
                   <Avatar className="w-8 h-8 mt-1 border">
                     <AvatarFallback>{msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}</AvatarFallback>
                   </Avatar>
-                  <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow-sm ${
-                    msg.role === 'user' 
-                      ? 'bg-primary text-primary-foreground rounded-tr-none' 
-                      : 'bg-secondary text-secondary-foreground rounded-tl-none'
-                  }`}>
-                    <MessageContent content={msg.content} role={msg.role} activeAction={activeAction} />
+                  <div className={`flex flex-col gap-2 ${msg.role === 'user' ? 'max-w-[85%]' : 'w-full'}`}>
+                    <div className={`px-5 py-4 text-sm shadow-sm transition-all ${
+                      msg.role === 'user' 
+                        ? 'bg-primary text-primary-foreground rounded-2xl rounded-tr-none' 
+                        : 'bg-white text-secondary-foreground rounded-2xl border border-zinc-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] w-full'
+                    }`}>
+                      <MessageContent content={msg.content} role={msg.role} />
+                    </div>
                   </div>
                 </motion.div>
               )
