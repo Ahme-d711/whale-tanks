@@ -8,14 +8,16 @@ import {
   ChevronRight, 
   LayoutPanelTop,
   Maximize2,
-  Download
+  Download,
+  FileText
 } from 'lucide-react'
 
 interface DatabaseHeaderProps {
   viewMode: 'code' | 'visual'
   setViewMode: (mode: 'code' | 'visual') => void
   onMaximize: () => void
-  onDownload: () => void
+  onDownloadImage: () => void
+  onDownloadPDF: () => void
   blocksCount: number
   activeIndex: number
   onIndexChange: (index: number) => void
@@ -25,7 +27,8 @@ export const DatabaseHeader = ({
   viewMode,
   setViewMode,
   onMaximize,
-  onDownload,
+  onDownloadImage,
+  onDownloadPDF,
   blocksCount,
   activeIndex,
   onIndexChange
@@ -45,16 +48,26 @@ export const DatabaseHeader = ({
           <button 
             onClick={onMaximize}
             className="p-1.5 rounded-md hover:bg-zinc-200 text-zinc-500 transition-colors"
-            title="Fullscreen"
+            title="Fullscreen + Interactive View"
           >
             <Maximize2 className="w-4 h-4" />
           </button>
+          <div className="h-4 w-px bg-zinc-300 mx-1" />
           <button 
-            onClick={onDownload}
-            className="p-1.5 rounded-md hover:bg-zinc-200 text-zinc-500 transition-colors"
-            title="Download Schema"
+            onClick={onDownloadImage}
+            className="p-1.5 rounded-md hover:bg-zinc-200 text-zinc-500 transition-colors flex items-center gap-1.5 px-2"
+            title="Download PNG (Quick Share)"
           >
             <Download className="w-4 h-4" />
+            <span className="text-[11px] font-bold uppercase tracking-wider opacity-70">PNG</span>
+          </button>
+          <button 
+            onClick={onDownloadPDF}
+            className="p-1.5 rounded-md hover:bg-zinc-200 text-zinc-500 transition-colors flex items-center gap-1.5 px-2"
+            title="Download PDF (Documentation)"
+          >
+            <FileText className="w-4 h-4" />
+            <span className="text-[11px] font-bold uppercase tracking-wider opacity-70">PDF</span>
           </button>
         </div>
 

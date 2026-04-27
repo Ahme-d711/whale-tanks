@@ -22,20 +22,27 @@ export default function DatabaseView({
 }: DatabaseViewProps) {
   const [viewMode, setViewMode] = useState<'code' | 'visual'>('visual')
   const [isMaximized, setIsMaximized] = useState(false)
-  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-  const handleDownload = () => {
-    if (!iframeRef.current) return;
+  const getSvgElement = () => {
+    if (!containerRef.current) return null;
+    return containerRef.current.querySelector('.mermaid-viewer svg');
+  }
+
+  const handleDownloadImage = () => {
+    const originalSvg = getSvgElement();
+    if (!originalSvg) return;
+
     try {
-      const iframeDocument = iframeRef.current.contentDocument || iframeRef.current.contentWindow?.document;
-      if (!iframeDocument) return;
-      
-      const svg = iframeDocument.querySelector('svg');
-      if (!svg) return;
-
-      const svgData = new XMLSerializer().serializeToString(svg);
+      const svg = originalSvg.cloneNode(true) as SVGSVGElement;
       const viewBox = svg.getAttribute('viewBox')?.split(' ').map(Number) || [0, 0, 800, 600];
       const [vx, vy, vw, vh] = viewBox;
+      
+      // Crucial: Set explicit width and height for the canvas/image to interpret correctly
+      svg.setAttribute('width', vw.toString());
+      svg.setAttribute('height', vh.toString());
+      
+      const svgData = new XMLSerializer().serializeToString(svg);
       const scale = 3;
       
       const canvas = document.createElement('canvas');
@@ -43,15 +50,11 @@ export default function DatabaseView({
       const img = new Image();
       
       img.onload = () => {
-        // Use the native SVG viewbox dimensions
         canvas.width = vw * scale;
         canvas.height = vh * scale;
-        
         if (ctx) {
           ctx.fillStyle = 'white';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-          // Align with viewbox coordinates
           ctx.setTransform(scale, 0, 0, scale, -vx * scale, -vy * scale);
           ctx.drawImage(img, 0, 0);
           
@@ -64,21 +67,61 @@ export default function DatabaseView({
             downloadLink.click();
             document.body.removeChild(downloadLink);
           } catch (e) {
-            console.error("Canvas export failed, falling back to SVG:", e);
-            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-            const svgUrl = URL.createObjectURL(svgBlob);
-            const link = document.createElement('a');
-            link.href = svgUrl;
-            link.download = `database-schema-${activeIndex + 1}.svg`;
-            link.click();
+            console.error("PNG export failed:", e);
           }
         }
       };
-      
       const svgBase64 = btoa(unescape(encodeURIComponent(svgData)));
       img.src = `data:image/svg+xml;base64,${svgBase64}`;
     } catch (error) {
       console.error("Failed to download image:", error);
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    const originalSvg = getSvgElement();
+    if (!originalSvg) return;
+
+    try {
+      const { jsPDF } = await import('jspdf');
+      const svg = originalSvg.cloneNode(true) as SVGSVGElement;
+      const viewBox = svg.getAttribute('viewBox')?.split(' ').map(Number) || [0, 0, 800, 600];
+      const [vx, vy, vw, vh] = viewBox;
+      
+      svg.setAttribute('width', vw.toString());
+      svg.setAttribute('height', vh.toString());
+
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      img.onload = () => {
+        const scale = 2;
+        canvas.width = vw * scale;
+        canvas.height = vh * scale;
+        
+        if (ctx) {
+          ctx.fillStyle = 'white';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.setTransform(scale, 0, 0, scale, -vx * scale, -vy * scale);
+          ctx.drawImage(img, 0, 0);
+          
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF({
+            orientation: vw > vh ? 'landscape' : 'portrait',
+            unit: 'px',
+            format: [vw, vh]
+          });
+          
+          pdf.addImage(imgData, 'PNG', 0, 0, vw, vh);
+          pdf.save(`database-schema-${activeIndex + 1}.pdf`);
+        }
+      };
+      const svgBase64 = btoa(unescape(encodeURIComponent(svgData)));
+      img.src = `data:image/svg+xml;base64,${svgBase64}`;
+    } catch (error) {
+      console.error("Failed to download PDF:", error);
     }
   };
 
@@ -92,7 +135,8 @@ export default function DatabaseView({
         viewMode={viewMode}
         setViewMode={setViewMode}
         onMaximize={() => setIsMaximized(true)}
-        onDownload={handleDownload}
+        onDownloadImage={handleDownloadImage}
+        onDownloadPDF={handleDownloadPDF}
         blocksCount={blocksCount}
         activeIndex={activeIndex}
         onIndexChange={onIndexChange}
@@ -100,7 +144,7 @@ export default function DatabaseView({
 
       <div className="flex-1 overflow-hidden relative">
         {viewMode === 'visual' ? (
-          <DatabaseVisualizer code={code} iframeRef={iframeRef} />
+          <DatabaseVisualizer code={code} containerRef={containerRef} />
         ) : (
           <DatabaseCodeView code={code} />
         )}
@@ -110,8 +154,9 @@ export default function DatabaseView({
         isOpen={isMaximized}
         onClose={() => setIsMaximized(false)}
         code={code}
-        onDownload={handleDownload}
-        iframeRef={iframeRef}
+        onDownloadImage={handleDownloadImage}
+        onDownloadPDF={handleDownloadPDF}
+        containerRef={containerRef}
       />
     </div>
   )

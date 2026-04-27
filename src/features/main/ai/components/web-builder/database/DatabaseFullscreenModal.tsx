@@ -3,7 +3,7 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { Database as DBIcon, Download, X } from 'lucide-react'
+import { Database as DBIcon, Download, FileText, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DatabaseVisualizer } from './DatabaseVisualizer'
 
@@ -11,16 +11,18 @@ interface DatabaseFullscreenModalProps {
   isOpen: boolean
   onClose: () => void
   code: string
-  onDownload: () => void
-  iframeRef: React.RefObject<HTMLIFrameElement | null>
+  onDownloadImage: () => void
+  onDownloadPDF: () => void
+  containerRef: React.RefObject<HTMLDivElement | null>
 }
 
 export const DatabaseFullscreenModal = ({
   isOpen,
   onClose,
   code,
-  onDownload,
-  iframeRef
+  onDownloadImage,
+  onDownloadPDF,
+  containerRef
 }: DatabaseFullscreenModalProps) => {
   if (typeof document === 'undefined') return null
 
@@ -41,9 +43,13 @@ export const DatabaseFullscreenModal = ({
               <span className="font-bold text-lg text-zinc-800">Full Database Schema Preview</span>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" onClick={onDownload} className="gap-2 border-primary/20 hover:bg-primary/5">
+              <Button variant="outline" size="sm" onClick={onDownloadImage} className="gap-2 border-primary/20 hover:bg-primary/5">
                 <Download className="w-4 h-4" />
-                Download PNG
+                PNG
+              </Button>
+              <Button variant="outline" size="sm" onClick={onDownloadPDF} className="gap-2 border-primary/20 hover:bg-primary/5">
+                <FileText className="w-4 h-4" />
+                PDF
               </Button>
               <Button 
                 variant="ghost" 
@@ -57,7 +63,7 @@ export const DatabaseFullscreenModal = ({
           </div>
           <div className="flex-1 overflow-hidden p-4 sm:p-10 bg-zinc-100/30">
             <div className="w-full h-full bg-white rounded-3xl shadow-2xl border border-zinc-200 overflow-hidden relative">
-              <DatabaseVisualizer code={code} iframeRef={iframeRef} />
+              <DatabaseVisualizer code={code} containerRef={containerRef} />
             </div>
           </div>
         </motion.div>
