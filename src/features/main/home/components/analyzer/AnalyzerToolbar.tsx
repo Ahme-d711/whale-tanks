@@ -94,7 +94,7 @@ export const AnalyzerToolbar = ({
       {(onlySelects || (!onlyActions && !onlySelects)) && (
         <div className={cn("flex items-center gap-2 flex-wrap", !onlySelects && "")}>
           <Select value={executionType} onValueChange={setExecutionType}>
-            <SelectTrigger className="h-9 md:h-12 px-2 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm [&>svg:last-child]:hidden data-placeholder:**:data-[slot=select-value]:hidden">
+            <SelectTrigger className="h-9 md:h-10! px-2 md:px-6 bg-muted/60 hover:bg-muted rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer  [&>svg:last-child]:hidden data-placeholder:**:data-[slot=select-value]:hidden">
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[160px] p-1 shadow-lg [&_.mobile-text]:inline">
@@ -108,7 +108,7 @@ export const AnalyzerToolbar = ({
 
           {executionType === "report" && (
             <Select value={analysisType} onValueChange={setAnalysisType}>
-              <SelectTrigger className="h-9 md:h-12 px-2 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm [&>svg:last-child]:hidden data-placeholder:**:data-[slot=select-value]:hidden">
+              <SelectTrigger className="h-9 md:h-10! px-2 md:px-6 bg-muted hover:bg-muted rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer  [&>svg:last-child]:hidden data-placeholder:**:data-[slot=select-value]:hidden">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[140px] p-1 shadow-lg [&_.mobile-text]:inline">
@@ -123,7 +123,7 @@ export const AnalyzerToolbar = ({
           )}
 
           <Select value={selectedModelId} onValueChange={setSelectedModelId}>
-            <SelectTrigger className="h-9 md:h-12 px-2 md:px-6 bg-muted/60 hover:bg-muted border-0 rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer shadow-sm [&>svg:last-child]:hidden data-placeholder:**:data-[slot=select-value]:hidden">
+            <SelectTrigger className="h-9 md:h-10! px-2 md:px-6 bg-muted hover:bg-muted  rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer  [&>svg:last-child]:hidden data-placeholder:**:data-[slot=select-value]:hidden">
               <Sparkles className="w-4 h-4 text-amber-500" />
               <SelectValue placeholder="Model" />
             </SelectTrigger>
@@ -142,7 +142,7 @@ export const AnalyzerToolbar = ({
 
       {(onlyActions || (!onlyActions && !onlySelects)) && (
         <div className={cn("flex items-center gap-3", onlyActions && "ml-auto")}>
-          <div className="flex items-center gap-1 md:gap-2 bg-muted/60 text-foreground rounded-xl md:rounded-2xl p-1 md:p-1.5 shadow-sm">
+          <div className="flex h-9 md:h-10! items-center gap-1 md:gap-2 bg-muted text-foreground rounded-xl md:rounded-2xl p-1 md:p-1.5 shadow-sm">
             <Button
               variant="ghost"
               size="icon"
@@ -165,7 +165,7 @@ export const AnalyzerToolbar = ({
             variant="ghost"
             onClick={onSend}
             isLoading={isLoading}
-            className="h-9 md:h-12 px-2 md:px-7 rounded-xl md:rounded-2xl text-foreground gap-2 cursor-pointer bg-muted/60 hover:bg-muted font-semibold shadow-sm transition-all active:scale-95"
+            className="h-9 md:h-10! px-2 md:px-3 rounded-xl md:rounded-2xl text-foreground gap-2 cursor-pointer bg-muted hover:bg-muted font-semibold shadow-sm transition-all active:scale-95"
           >
             <span className="hidden md:inline text-sm md:text-base">{t('send')}</span>
             <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-md text-foreground bg-foreground/10">
