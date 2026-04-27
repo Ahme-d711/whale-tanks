@@ -34,17 +34,27 @@ export default function DatabaseView({
       if (!svg) return;
 
       const svgData = new XMLSerializer().serializeToString(svg);
+      const viewBox = svg.getAttribute('viewBox')?.split(' ').map(Number) || [0, 0, 800, 600];
+      const [vx, vy, vw, vh] = viewBox;
+      const scale = 3;
+      
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       const img = new Image();
       
       img.onload = () => {
-        canvas.width = img.width * 2;
-        canvas.height = img.height * 2;
+        // Use the native SVG viewbox dimensions
+        canvas.width = vw * scale;
+        canvas.height = vh * scale;
+        
         if (ctx) {
           ctx.fillStyle = 'white';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          
+          // Align with viewbox coordinates
+          ctx.setTransform(scale, 0, 0, scale, -vx * scale, -vy * scale);
+          ctx.drawImage(img, 0, 0);
+          
           try {
             const pngUrl = canvas.toDataURL('image/png');
             const downloadLink = document.createElement('a');
@@ -55,7 +65,6 @@ export default function DatabaseView({
             document.body.removeChild(downloadLink);
           } catch (e) {
             console.error("Canvas export failed, falling back to SVG:", e);
-            // Fallback to direct SVG download if PNG fails
             const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
             const svgUrl = URL.createObjectURL(svgBlob);
             const link = document.createElement('a');
