@@ -45,19 +45,29 @@ export default function DatabaseView({
           ctx.fillStyle = 'white';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          const pngUrl = canvas.toDataURL('image/png');
-          const downloadLink = document.createElement('a');
-          downloadLink.href = pngUrl;
-          downloadLink.download = `database-schema-${activeIndex + 1}.png`;
-          document.body.appendChild(downloadLink);
-          downloadLink.click();
-          document.body.removeChild(downloadLink);
+          try {
+            const pngUrl = canvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pngUrl;
+            downloadLink.download = `database-schema-${activeIndex + 1}.png`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+          } catch (e) {
+            console.error("Canvas export failed, falling back to SVG:", e);
+            // Fallback to direct SVG download if PNG fails
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const svgUrl = URL.createObjectURL(svgBlob);
+            const link = document.createElement('a');
+            link.href = svgUrl;
+            link.download = `database-schema-${activeIndex + 1}.svg`;
+            link.click();
+          }
         }
       };
       
-      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(svgBlob);
-      img.src = url;
+      const svgBase64 = btoa(unescape(encodeURIComponent(svgData)));
+      img.src = `data:image/svg+xml;base64,${svgBase64}`;
     } catch (error) {
       console.error("Failed to download image:", error);
     }
@@ -92,6 +102,7 @@ export default function DatabaseView({
         onClose={() => setIsMaximized(false)}
         code={code}
         onDownload={handleDownload}
+        iframeRef={iframeRef}
       />
     </div>
   )

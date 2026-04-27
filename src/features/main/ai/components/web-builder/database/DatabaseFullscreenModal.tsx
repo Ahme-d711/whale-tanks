@@ -12,13 +12,15 @@ interface DatabaseFullscreenModalProps {
   onClose: () => void
   code: string
   onDownload: () => void
+  iframeRef: React.RefObject<HTMLIFrameElement | null>
 }
 
 export const DatabaseFullscreenModal = ({
   isOpen,
   onClose,
   code,
-  onDownload
+  onDownload,
+  iframeRef
 }: DatabaseFullscreenModalProps) => {
   if (typeof document === 'undefined') return null
 
@@ -55,7 +57,7 @@ export const DatabaseFullscreenModal = ({
           </div>
           <div className="flex-1 overflow-hidden p-4 sm:p-10 bg-zinc-100/30">
             <div className="w-full h-full bg-white rounded-3xl shadow-2xl border border-zinc-200 overflow-hidden relative">
-              <DatabaseVisualizer code={code} />
+              <DatabaseVisualizer code={code} iframeRef={iframeRef} />
             </div>
           </div>
         </motion.div>
