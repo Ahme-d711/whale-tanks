@@ -95,8 +95,11 @@ export function useChatSession(
       return
     }
 
-    // 3. New session ID detected from outside (e.g. forward/back button)
+    // 3. New session ID detected from outside (e.g. forward/back button or sidebar click)
     if (sIdFromUrl !== sessionId) {
+      // Clear current messages to show skeletons/loading state immediately
+      setMessages([])
+      
       lastUrlIdRef.current = sIdFromUrl;
       setSessionId(sIdFromUrl)
       fetchHistory(sIdFromUrl)
