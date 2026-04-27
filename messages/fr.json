@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "currency": "EUR"
+  },
   "Brand": {
     "name": "Whale Tanks"
   },
@@ -35,20 +38,67 @@
       }
     },
     "Analyzer": {
-      "title": "Analysez votre idée avant de construire quoi que ce soit",
-      "placeholder": "Qu'avez-vous en tête ?",
-      "startup": "Startup",
-      "tech": "Tech",
-      "investor": "Investisseur",
-      "send": "Envoyer",
-      "info_tooltip": "Crédits disponibles pour l'analyse d'idées"
+      "title": "Commencez à taper votre idée...",
+      "startup": "Startup Tank",
+      "tech": "Tech Tank",
+      "investor": "Investor Tank",
+      "send": "Analyser",
+      "info_tooltip": "Décrivez votre idée clairement, puis choisissez un réservoir pour l'analyser.",
+      "recording_started": "Enregistrement démarré...",
+      "recording_saved": "Enregistrement sauvegardé !",
+      "files_attached": "{count} fichier(s) attaché(s)",
+      "executions": {
+        "chat": "Chat",
+        "report": "Rapport",
+        "analysis": "Analyse",
+        "summary": "Résumé",
+        "classification": "Classification"
+      },
+      "categories": {
+        "all": "Tout",
+        "financial": "Financier",
+        "legal": "Juridique",
+        "marketing": "Marketing",
+        "revenue": "Revenu",
+        "technical": "Technique"
+      },
+      "select_type": "Type",
+      "select_category": "Catégorie",
+      "select_model": "Modèle"
+    },
+    "Advisors": {
+      "consultation": "{count} consultation",
+      "legal": "Conseiller Juridique",
+      "psychological": "Conseiller Psychologique",
+      "financial": "Conseiller Financier",
+      "marketing": "Conseiller Marketing",
+      "technical": "Conseiller Technique"
     }
   },
   "Sidebar": {
     "close": "Fermer la barre latérale",
-    "new_chat": "Nouveau chat",
-    "search": "Rechercher des chats",
-    "last_chats": "Derniers chats",
+    "open": "Ouvrir la barre latérale",
+    "new_chat": "Nouveau Chat",
+    "search": "Rechercher des Chats",
+    "last_chats": "Derniers Chats",
+    "title": "Whale Tanks",
+    "overview": "Aperçu",
+    "products": "Produits",
+    "categories": "Catégories",
+    "subcategories": "Sous-catégories",
+    "brands": "Marques",
+    "sections": "Sections",
+    "advertisements": "Publicités",
+    "orders": "Commandes",
+    "users": "Utilisateurs",
+    "subscriptions": "Abonnements",
+    "packages": "Forfaits",
+    "models": "Modèles d'IA",
+    "providers": "Fournisseurs d'IA",
+    "executions": "Exécutions d'IA",
+    "settings": "Paramètres",
+    "chat_deleted": "Chat supprimé avec succès",
+    "delete_failed": "Échec de la suppression du chat",
     "confirm_delete": "Êtes-vous sûr de vouloir supprimer ce chat ?",
     "confirm_delete_title": "Supprimer le chat ?",
     "confirm_delete_desc": "Êtes-vous sûr de vouloir supprimer cette conversation ? Cette action est irréversible.",
@@ -63,9 +113,6 @@
     }
   },
   "Auth": {
-    "user_fallback": "Utilisateur",
-    "profile": "Profil",
-    "edit_profile": "Modifier le profil",
     "login": "Connexion",
     "register": "S'inscrire",
     "email": "Email",
@@ -85,7 +132,10 @@
     "password_placeholder": "Votre mot de passe",
     "authenticating": "Authentification...",
     "creating_account": "Création du compte...",
-    "submit": "Se connecter"
+    "submit": "D'accord",
+    "user_fallback": "Utilisateur",
+    "profile": "Profil",
+    "edit_profile": "Modifier le profil"
   },
   "Landing": {
     "About": {
@@ -104,26 +154,213 @@
     "Pricing": {
       "title": "Forfaits et prix",
       "choose_plan": "Choisissez un abonnement",
-      "subtitle": "Loram your prominence on your portal site",
-      "month": "Mois",
+      "subtitle": "Améliorez votre présence sur votre plateforme",
+      "month": "m",
       "select_plan": "Sélectionner ce forfait",
+      "subscribe_confirm_title": "Confirmer l'abonnement",
+      "subscribe_confirm_desc": "Êtes-vous sûr de vouloir vous abonner au forfait {planName} ?",
       "plans": {
         "basic": "Basique",
         "standard": "Standard",
         "premium": "Premium",
         "save": "ÉCONOMISEZ",
-        "months_3": "3 MOIS",
-        "months_6": "6 mois",
-        "year_1": "1 an",
-        "feature_dummy": "Lorem ipsum dolor sit amet"
+        "months_1": "1 Mois",
+        "months_3": "3 Mois",
+        "months_6": "6 Mois",
+        "year_1": "1 An",
+        "days": "Jours",
+        "feature_dummy": "Lorem ipsum dolor sit amet",
+        "cancel": "Annuler"
+      },
+      "empty": {
+        "title": "Aucun forfait disponible",
+        "description": "Nous mettons actuellement à jour nos forfaits d'abonnement. Veuillez revenir plus tard ou contacter le support.",
+        "action": "Retour à l'accueil"
       }
     }
+  },
+  "Projects": {
+    "title": "Vos Projets",
+    "failed_load": "Échec du chargement des projets. Veuillez réessayer plus tard.",
+    "empty": {
+      "title": "Aucun projet trouvé",
+      "description": "Il semble que vous n'ayez pas encore commencé de projet. Transformons votre première idée en succès !",
+      "action": "Commencer l'analyse"
+    },
+    "untitled": "Projet sans titre",
+    "details": "Voir l'analyse détaillée et les rapports pour ce projet."
   },
   "Navigation": {
     "home": "Accueil",
     "about": "À propos de nous",
     "pricing": "Forfaits et prix",
+    "projects": "Nos Projets",
     "login": "Connexion",
-    "open_menu": "Ouvrir le menu"
+    "open_menu": "Ouvrir le menu",
+    "user_fallback": "Utilisateur",
+    "admin_status": "Administrateur",
+    "logout_confirm_title": "Déconnexion ?",
+    "logout_confirm_desc": "Êtes-vous sûr de vouloir vous déconnecter de votre compte ?",
+    "logout": "Déconnexion"
+  },
+  "Dashboard": {
+    "Advisors": {
+      "title_council": "Conseil d'IA",
+      "title_investor": "Conseil d'Investisseurs",
+      "description": "Sélectionnez votre conseiller virtuel"
+    },
+    "Projects": {
+      "title": "Projets Précédents",
+      "no_projects": "Aucun projet pour le moment",
+      "view_all": "Tout afficher"
+    },
+    "Subscription": {
+      "title": "Débloquez les fonctionnalités Pro",
+      "subtitle": "Obtenez des consultations illimitées et des fonctionnalités d'IA avancées.",
+      "button": "Mettre à jour maintenant"
+    },
+    "title": "Tableau de Bord Principal",
+    "subtitle": "Bienvenue sur votre panneau de contrôle",
+    "statistics": "Statistiques Récapitulatives",
+    "total_users": "Total Utilisateurs",
+    "total_products": "Total Produits",
+    "total_orders": "Total Commandes",
+    "total_revenue": "Total Revenus",
+    "new_users_trend": "Nouveaux Utilisateurs (30j) : {count}",
+    "new_users_30d": "Nouveaux Utilisateurs (30 derniers jours)",
+    "available": "Produits Disponibles",
+    "cumulative": "Commandes Cumulées",
+    "delivered": "Commandes Livrées",
+    "orders": "Gestion des Commandes Récentes",
+    "pending": "Commandes en attente",
+    "processing": "En cours de traitement",
+    "cancelled": "Commandes annulées",
+    "completed": "Commandes complétées",
+    "awaiting": "En attente de ramassage",
+    "in_progress": "En cours",
+    "failed": "Échec de livraison",
+    "order_statistics": "Statistiques de Commandes",
+    "traffic_by_gov": "Trafic par Gouvernorat",
+    "no_data": "Aucune donnée disponible",
+    "export_report": "Exporter le Rapport",
+    "users_management": "Gestion des Utilisateurs",
+    "add_user": "Ajouter un Utilisateur",
+    "packages_management": "Gestion des Forfaits",
+    "add_package": "Ajouter un Forfait",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "week": "Cette Semaine",
+    "month": "Ce Mois",
+    "revenue_overview": "Aperçu des Revenus",
+    "profits": "Bénéfices",
+    "orders_label": "Commandes",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "all": "Tout",
+    "inactive": "Inactif"
+  },
+  "Users": {
+    "user": "Utilisateur",
+    "edit_user": "Modifier l'Utilisateur",
+    "email": "Email",
+    "role": "Rôle",
+    "status": "Statut",
+    "joined": "Date d'adhésion",
+    "actions": "Actions",
+    "roles": {
+      "admin": "Admin",
+      "user": "Utilisateur",
+      "editor": "Éditeur"
+    },
+    "statuses": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "suspended": "Suspendu",
+      "all": "Tous les statuts"
+    },
+    "delete_confirm": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?"
+  },
+  "Packages": {
+    "package": "Forfait",
+    "add_package": "Ajouter un Forfait",
+    "edit_package": "Modifier le Forfait",
+    "delete_package": "Supprimer le Forfait",
+    "package_name": "Nom du Forfait",
+    "monthly_tokens": "Jetons Mensuels",
+    "price": "Prix",
+    "overage_cost": "Coût du dépassement",
+    "duration": "Durée",
+    "status": "Statut",
+    "is_active": "Actif",
+    "all": "Tout",
+    "inactive": "Inactif",
+    "days": "Jours",
+    "actions": "Actions",
+    "delete_confirm": "Êtes-vous sûr de vouloir supprimer ce forfait ?"
+  },
+  "AIModels": {
+    "title": "Gestion des Modèles d'IA",
+    "add_model": "Ajouter un Modèle",
+    "edit_model": "Modifier le Modèle",
+    "delete_model": "Supprimer le Modèle",
+    "model_name": "Nom du Modèle",
+    "provider_id": "ID du Fournisseur",
+    "input_cost": "Coût d'entrée",
+    "output_cost": "Coût de sortie",
+    "max_tokens": "Max Jetons",
+    "status": "Statut",
+    "is_active": "Actif",
+    "all": "Tout",
+    "inactive": "Inactif",
+    "actions": "Actions",
+    "delete_confirm": "Êtes-vous sûr de vouloir supprimer ce modèle d'IA ?"
+  },
+  "AIProviders": {
+    "title": "Gestion des Fournisseurs d'IA",
+    "add_provider": "Ajouter un Fournisseur",
+    "edit_provider": "Modifier le Fournisseur",
+    "delete_provider": "Supprimer le Fournisseur",
+    "provider_name": "Nom du Fournisseur",
+    "status": "Statut",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "active_desc": "Le fournisseur accepte les demandes",
+    "inactive_desc": "Le fournisseur est temporairement désactivé",
+    "all": "Tout",
+    "actions": "Actions",
+    "delete_confirm": "Êtes-vous sûr de vouloir supprimer ce fournisseur d'IA ?"
+  },
+  "Subscriptions": {
+    "title": "Gestion des Abonnements",
+    "add_subscription": "Ajouter un Abonnement",
+    "edit_subscription": "Modifier l'Abonnement",
+    "delete_subscription": "Supprimer l'Abonnement",
+    "user": "Utilisateur",
+    "package": "Forfait",
+    "status": "Statut",
+    "status_active": "Actif",
+    "status_inactive": "Inactif",
+    "status_expired": "Expiré",
+    "status_cancelled": "Annulé",
+    "tokens": "Jetons (Utilisés/Limite)",
+    "start_date": "Date de début",
+    "end_date": "Date de fin",
+    "actions": "Actions",
+    "delete_confirm": "Êtes-vous sûr de vouloir supprimer cet abonnement ?"
+  },
+  "Executions": {
+    "title": "Gestion des Exécutions d'IA",
+    "execution_id": "ID de l'Exécution",
+    "user_id": "Utilisateur",
+    "model_id": "Modèle d'IA",
+    "tokens": "Jetons (Entrée/Sortie/Total)",
+    "tokens_short": "Jetons",
+    "input_tokens": "Jetons d'entrée",
+    "output_tokens": "Jetons de sortie",
+    "total_tokens": "Total Jetons",
+    "cost": "Coût",
+    "type": "Type d'Exécution",
+    "executed_at": "Date d'exécution",
+    "actions": "Actions"
   }
 }

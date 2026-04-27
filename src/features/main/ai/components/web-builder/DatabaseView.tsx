@@ -74,6 +74,11 @@ export default function DatabaseView({
           <style>
             body { background: transparent; margin: 0; display: flex; justify-content: center; align-items: flex-start; padding: 20px; font-family: sans-serif; }
             #graph { width: 100%; display: flex; justify-content: center; }
+            .mermaid .entityBox { fill: #fff !important; }
+            .mermaid .entityLabel { fill: #fff !important; }
+            .mermaid .attributeBoxOdd, .mermaid .attributeBoxEven { fill: #f8fafc !important; }
+            .mermaid text { fill: #18181b !important; }
+            .mermaid .entityHeader text { fill: #ffffff !important; }
           </style>
         </head>
         <body>
@@ -86,9 +91,12 @@ export default function DatabaseView({
                 primaryColor: '#3b82f6',
                 primaryTextColor: '#fff',
                 primaryBorderColor: '#2563eb',
-                lineColor: '#94a3b8',
-                secondaryColor: '#f1f5f9',
-                tertiaryColor: '#fff'
+                lineColor: '#64748b',
+                secondaryColor: '#f8fafc',
+                tertiaryColor: '#f8fafc',
+                attributeTextColor: '#18181b', // Dark zinc for readability
+                nodeTextColor: '#18181b',
+                mainBkg: '#ffffff',
               }
             });
           </script>

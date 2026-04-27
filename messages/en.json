@@ -199,6 +199,8 @@
     "open_menu": "Open Menu",
     "user_fallback": "User",
     "admin_status": "Administrator",
+    "logout_confirm_title": "Logout?",
+    "logout_confirm_desc": "Are you sure you want to log out of your account?",
     "logout": "Logout"
   },
   "Dashboard": {

@@ -14,6 +14,7 @@ import { AnimatePresence, motion } from "motion/react"
 import { removeCookie } from "@/utils/cookies"
 import { TOKEN_KEY } from "@/utils/constants"
 import { useRouter } from "next/navigation"
+import { useConfirm } from "@/providers/ConfirmationProvider"
 
 interface NavbarProps {
   onSidebarToggle?: () => void
@@ -27,12 +28,22 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { user, clearAuth } = useAuthStore()
+  const confirm = useConfirm()
 
-  const handleLogout = () => {
-    clearAuth()
-    removeCookie(TOKEN_KEY)
-    setIsMobileMenuOpen(false)
-    router.push('/')
+  const handleLogout = async () => {
+    const ok = await confirm({
+      title: t("logout_confirm_title"),
+      description: t("logout_confirm_desc"),
+      confirmText: t("logout"),
+      variant: "destructive"
+    })
+
+    if (ok) {
+      clearAuth()
+      removeCookie(TOKEN_KEY)
+      setIsMobileMenuOpen(false)
+      router.push('/')
+    }
   };
   
 
