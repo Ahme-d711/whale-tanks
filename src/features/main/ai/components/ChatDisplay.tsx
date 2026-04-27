@@ -76,29 +76,51 @@ const MessageContent = ({ content = "", role, activeAction }: { content?: string
 
   const formatAIText = (text: string = "") => {
     let clean = text
-      .replace(/[#*_-]/g, '')
+      // 1. Cleaning redundant symbols & tags while keeping readability
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/[#*_|]/g, '') 
       .replace(/\n{3,}/g, '\n\n')
     
-    const sections = [
-      { pattern: /الهدف|Goal/i, emoji: "🎯" },
-      { pattern: /الخطوات|Key Steps/i, emoji: "🧠" },
-      { pattern: /الخطة|Execution Plan/i, emoji: "🛠️" },
-      { pattern: /نصائح|Tips/i, emoji: "💡" },
-      { pattern: /أخطاء|Mistakes/i, emoji: "⚠️" }
+    // 2. Sections & SWOT Detection (Senior Content Designer standards)
+    const patterns = [
+      { key: /نقاط القوة|Strengths/i, emoji: "✅", title: "نقاط القوة الأساسية" },
+      { key: /نقاط الضعف|Weaknesses/i, emoji: "❌", title: "تحديات ونقاط ضعف" },
+      { key: /الفرص|Opportunities/i, emoji: "🚀", title: "فرص النمو" },
+      { key: /التهديدات|Threats/i, emoji: "⚠️", title: "مخاطر محتملة" },
+      { key: /الهدف|Goal|Vision/i, emoji: "🎯", title: "الرؤية والهدف" },
+      { key: /الخلاصة|Summary|Conclusion/i, emoji: "📌", title: "الملخص التنفيذي" },
+      { key: /الخطوات|Action|Steps/i, emoji: "🛠️", title: "خارطة الطريق" },
+      { key: /الميزانية|Financial|Budget/i, emoji: "💰", title: "التحليل المالي" },
+      { key: /نصائح|Tips/i, emoji: "💡", title: "توصيات الخبراء" }
     ]
 
     let lines = clean.split('\n')
-    let formattedLines = lines.map(line => {
+    let formattedLines = lines.map((line, idx) => {
       let trimmed = line.trim()
       if (!trimmed) return "";
-      for (const section of sections) {
-        if (section.pattern.test(trimmed) && trimmed.length < 30) {
-          return `\n${section.emoji} ${trimmed}\n`
+
+      // Handle Financial Ranges (e.g. 15-25 or $100K - $200K)
+      if (/(\d+)\s?[-]\s?(\d+)/.test(trimmed)) {
+        trimmed = trimmed.replace(/(\d+)\s?[-]\s?(\d+)/g, "$1 – $2")
+      }
+
+      // Check for Section Headings
+      for (const p of patterns) {
+        if (p.key.test(trimmed) && trimmed.length < 50) {
+          return `\n${p.emoji} **${p.title}**\n`
         }
       }
+
+      // Bullets & Checklist conversion
       if (/^\s*[0-9]+\.|\u2022|\-/.test(trimmed)) {
-        return `\u2022 ${trimmed.replace(/^[0-9]+\.|\-/, '').trim()}`
+        return `• ${trimmed.replace(/^[0-9]+\.|\-/, '').trim()}`
       }
+
+      // Highlight important keywords (Numbers, Percentages)
+      if (/(\d+%|\$\d+|\d+\s?مليون|\d+\s?جنيه)/.test(trimmed)) {
+        // We can't easily bold here without breaking MD, but we'll rely on pre-style
+      }
+
       return trimmed
     })
 
@@ -124,10 +146,17 @@ const MessageContent = ({ content = "", role, activeAction }: { content?: string
         if (!formatted) return null;
 
         return (
-          <div key={index} className="space-y-2">
-            {formatted.split('\n\n').map((paragraph, i) => (
-              <p key={i} className="whitespace-pre-wrap">{paragraph}</p>
-            ))}
+          <div key={index} className="space-y-4">
+            {formatted.split('\n\n').map((paragraph, i) => {
+              const isHeading = paragraph.includes('**');
+              return (
+                <div key={i} className={isHeading ? 'mt-6 mb-2 border-r-4 border-primary/20 pr-3' : ''}>
+                  <p className={`whitespace-pre-wrap ${isHeading ? 'text-lg font-bold text-primary' : 'text-zinc-700 leading-relaxed'}`}>
+                    {paragraph}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         )
       })}
