@@ -21,16 +21,16 @@ const MessageItem = React.memo(({ msg, idx }: { msg: Message, idx: number }) => 
     <motion.div
       initial={{ opacity: 0, y: 10, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      className={`flex items-start gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+      className={`flex items-start gap-3 w-full ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
     >
-      <Avatar className="w-8 h-8 mt-1 border">
+      <Avatar className="w-8 h-8 mt-1 border shrink-0">
         <AvatarFallback>{msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}</AvatarFallback>
       </Avatar>
-      <div className={`flex flex-col gap-2 ${msg.role === 'user' ? 'max-w-[85%]' : 'w-full'}`}>
-        <div className={`px-5 py-4 text-sm shadow-sm transition-all ${
+      <div className={`flex flex-col gap-2 min-w-0 ${msg.role === 'user' ? 'max-w-[85%]' : 'flex-1'}`}>
+        <div className={`px-5 py-4 text-sm shadow-sm transition-all overflow-hidden ${
           msg.role === 'user' 
             ? 'bg-primary text-primary-foreground rounded-2xl rounded-tr-none' 
-            : 'bg-white text-secondary-foreground rounded-2xl border border-zinc-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] w-full'
+            : 'bg-white text-secondary-foreground rounded-2xl border border-zinc-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)]'
         }`}>
           <MessageContent content={msg.content} role={msg.role} />
         </div>
@@ -57,9 +57,9 @@ export const ChatDisplay = ({ messages, isLoading, isHistoryLoading }: ChatDispl
     <div className="bg-white backdrop-blur-md rounded-3xl flex-1 border-2 border-primary shadow-xl shadow-blue-500/5 flex flex-col overflow-hidden relative">
       <div 
         ref={scrollRef}
-        className="flex-1 p-4 sm:p-8 overflow-y-auto custom-scrollbar scroll-smooth bg-zinc-50/50"
+        className="flex-1 p-4 sm:p-8 overflow-y-auto overflow-x-hidden custom-scrollbar scroll-smooth bg-zinc-50/50"
       >
-        <div className="max-w-3xl mx-auto flex flex-col gap-8">
+        <div className="max-w-3xl mx-auto flex flex-col gap-8 w-full">
           {isHistoryLoading ? (
             Array.from({ length: 3 }).map((_, i) => (
               <div key={i} className={`flex items-start gap-3 ${i % 2 === 0 ? '' : 'flex-row-reverse'}`}>
@@ -89,7 +89,7 @@ export const ChatDisplay = ({ messages, isLoading, isHistoryLoading }: ChatDispl
                 animate={{ opacity: 1, y: 0 }}
                 className="flex items-start gap-3"
               >
-                <Avatar className="w-8 h-8 mt-1 border animate-pulse">
+                <Avatar className="w-8 h-8 mt-1 border animate-pulse shrink-0">
                   <AvatarFallback><Bot className="w-4 h-4" /></AvatarFallback>
                 </Avatar>
                 <div className="bg-secondary text-secondary-foreground rounded-2xl rounded-tl-none px-4 py-2 text-sm shadow-sm flex items-center gap-2 italic opacity-70">
