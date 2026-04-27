@@ -82,8 +82,8 @@ const MarkdownRenderer = ({ content, isArabic }: { content: string, isArabic: bo
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
-        h1: ({ children }) => <h1 className="text-xl font-bold mt-6 mb-3 text-primary border-r-4 border-primary/20 pr-3">{children}</h1>,
-        h2: ({ children }) => <h2 className="text-lg font-bold mt-5 mb-2 text-primary border-r-4 border-primary/10 pr-3">{children}</h2>,
+        h1: ({ children }) => <h1 className="text-xl font-bold mt-6 mb-4 text-primary">{children}</h1>,
+        h2: ({ children }) => <h2 className="text-lg font-bold mt-5 mb-3 text-primary">{children}</h2>,
         h3: ({ children }) => <h3 className="text-base font-semibold mt-4 mb-2 text-primary">{children}</h3>,
         p: ({ children }) => <p className="text-zinc-700 leading-relaxed mb-4 whitespace-pre-wrap">{children}</p>,
         li: ({ children }) => <li className="mb-1">{children}</li>,
@@ -117,7 +117,8 @@ const MarkdownRenderer = ({ content, isArabic }: { content: string, isArabic: bo
               {children}
             </code>
           )
-        }
+        },
+        hr: () => null
       }}
     >
       {clean}
