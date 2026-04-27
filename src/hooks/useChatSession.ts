@@ -83,44 +83,42 @@ export function useChatSession(
   useEffect(() => {
     const sIdFromUrl = searchParams.get('session_id')
     
-    // 🔥 Check if the URL ID actually changed compared to what we last processed
+    // 1. If this URL update was already handled or matches current state, skip
     if (sIdFromUrl === lastUrlIdRef.current) return;
     
-    lastUrlIdRef.current = sIdFromUrl;
-
-    // 1. Session cleared (New Chat)
+    // 2. Clear state ONLY if the URL actually lost its session ID (and we weren't just starting)
     if (!sIdFromUrl) {
-      resetChat()
-      if (onReset) onReset()
+      if (sessionId && !lastUrlIdRef.current) {
+        resetChat()
+        if (onReset) onReset()
+      }
       return
     }
 
-    // 2. New session ID detected in URL
+    // 3. New session ID detected from outside (e.g. forward/back button)
     if (sIdFromUrl !== sessionId) {
-      // Clear current messages to show skeletons
-      if (messages.length > 0) setMessages([])
-      
+      lastUrlIdRef.current = sIdFromUrl;
       setSessionId(sIdFromUrl)
       fetchHistory(sIdFromUrl)
     }
-  }, [searchParams, sessionId, fetchHistory, messages.length, setSessionId, setMessages, resetChat, onReset])
+  }, [searchParams, sessionId, fetchHistory, setSessionId, resetChat, onReset])
 
   const syncSessionUrl = useCallback((sId: string) => {
     if (searchParams.get('session_id') === sId) return
-    const newParams = new URLSearchParams(searchParams.toString())
+    const newParams = new URLSearchParams(window.location.search)
     newParams.set('session_id', sId)
     newParams.delete('q') 
     
     lastUrlIdRef.current = sId // Mark as already handled to prevent re-fetch loop
-    router.replace(`${pathname}?${newParams.toString()}`, { scroll: false })
-  }, [searchParams, router, pathname])
+    window.history.replaceState(null, '', `${window.location.pathname}?${newParams.toString()}`)
+  }, [searchParams])
 
   const clearQueryParam = useCallback(() => {
-    if (!searchParams.get('q')) return
-    const newParams = new URLSearchParams(searchParams.toString())
+    if (!window.location.search.includes('q=')) return
+    const newParams = new URLSearchParams(window.location.search)
     newParams.delete('q')
-    router.replace(`${pathname}?${newParams.toString()}`, { scroll: false })
-  }, [searchParams, router, pathname])
+    window.history.replaceState(null, '', `${window.location.pathname}?${newParams.toString()}`)
+  }, [])
 
   return {
     messages,
