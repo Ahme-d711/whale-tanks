@@ -129,12 +129,13 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
         if (update.text) {
           fullContent += update.text;
           chat.setMessages(prev => {
-            const newMessages = [...prev];
-            const lastMessage = newMessages[newMessages.length - 1];
-            if (lastMessage && lastMessage.role === 'assistant') {
-              lastMessage.content = fullContent;
+            const lastIdx = prev.length - 1;
+            if (lastIdx >= 0 && prev[lastIdx].role === 'assistant') {
+              const newMessages = [...prev];
+              newMessages[lastIdx] = { ...newMessages[lastIdx], content: fullContent };
+              return newMessages;
             }
-            return newMessages;
+            return prev;
           });
         }
       });

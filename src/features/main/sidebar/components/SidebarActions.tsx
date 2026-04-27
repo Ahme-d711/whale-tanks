@@ -27,6 +27,7 @@ export default function SidebarActions({ isCollapsed }: SidebarActionsProps) {
       label: t('new_chat'), 
       id: 'new_chat', 
       onClick: () => {
+        analyzer.resetSession()
         router.push('/ai')
       } 
     },

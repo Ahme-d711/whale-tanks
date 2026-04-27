@@ -86,7 +86,7 @@ export function useChatSession(
     // 1. If this URL update was already handled or matches current state, skip
     if (sIdFromUrl === lastUrlIdRef.current) return;
     
-    // 2. Clear state ONLY if the URL actually lost its session ID (and we weren't just starting)
+    // 2. Clear state if the URL lost its session ID (User navigated away or clicked New Chat)
     if (!sIdFromUrl) {
       if (sessionId && !lastUrlIdRef.current) {
         resetChat()
