@@ -111,13 +111,43 @@ export const AnalyzerToolbar = ({
               <SelectTrigger className="h-9 md:h-10! px-2 md:px-6 bg-muted hover:bg-muted rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer  [&>svg:last-child]:hidden data-placeholder:**:data-[slot=select-value]:hidden">
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
-              <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[140px] p-1 shadow-lg [&_.mobile-text]:inline">
-                <SelectItem value="all" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">All</span></SelectItem>
-                <SelectItem value="financial" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Financial</span></SelectItem>
-                <SelectItem value="legal" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Legal</span></SelectItem>
-                <SelectItem value="marketing" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Marketing</span></SelectItem>
-                <SelectItem value="revenue" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Revenue</span></SelectItem>
-                <SelectItem value="technical" className="cursor-pointer rounded-xl"><span className="mobile-text hidden md:inline">Technical</span></SelectItem>
+              <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[140px] p-1 shadow-lg">
+                <SelectItem value="all" className="cursor-pointer rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Image src="/icons/crown.svg" alt="All" width={20} height={20} className="shrink-0" />
+                    <span className="mobile-text hidden md:inline">All</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="financial" className="cursor-pointer rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Image src="/icons/financial-icon.svg" alt="Financial" width={20} height={20} className="shrink-0" />
+                    <span className="mobile-text hidden md:inline">Financial</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="legal" className="cursor-pointer rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Image src="/icons/legal-icon.svg" alt="Legal" width={20} height={20} className="shrink-0" />
+                    <span className="mobile-text hidden md:inline">Legal</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="marketing" className="cursor-pointer rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Image src="/icons/marketing-icon.svg" alt="Marketing" width={20} height={20} className="shrink-0" />
+                    <span className="mobile-text hidden md:inline">Marketing</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="revenue" className="cursor-pointer rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Image src="/icons/financial-icon.svg" alt="Revenue" width={20} height={20} className="shrink-0" />
+                    <span className="mobile-text hidden md:inline">Revenue</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="technical" className="cursor-pointer rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <Image src="/icons/technical-icon.svg" alt="Technical" width={20} height={20} className="shrink-0" />
+                    <span className="mobile-text hidden md:inline">Technical</span>
+                  </div>
+                </SelectItem>
               </SelectContent>
             </Select>
           )}
