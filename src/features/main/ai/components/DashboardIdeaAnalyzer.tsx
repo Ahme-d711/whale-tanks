@@ -100,10 +100,10 @@ export default function DashboardIdeaAnalyzer({ analyzer }: DashboardIdeaAnalyze
                   <SelectValue placeholder="Type" />
                 </SelectTrigger>
                 <SelectContent position="popper" sideOffset={4} className="rounded-xl border-border bg-background min-w-[140px]">
+                  <SelectItem value="chat" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><MessageSquare className="w-3.5 h-3.5 text-purple-500" /> Chat</div></SelectItem>
                   <SelectItem value="report" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><FileText className="w-3.5 h-3.5 text-blue-500" /> Report</div></SelectItem>
                   <SelectItem value="analysis" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><BarChart3 className="w-3.5 h-3.5 text-orange-500" /> Analysis</div></SelectItem>
                   <SelectItem value="summary" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><ClipboardList className="w-3.5 h-3.5 text-green-500" /> Summary</div></SelectItem>
-                  <SelectItem value="chat" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><MessageSquare className="w-3.5 h-3.5 text-purple-500" /> Chat</div></SelectItem>
                   <SelectItem value="classification" className="cursor-pointer text-xs"><div className="flex items-center gap-2"><Scissors className="w-3.5 h-3.5 text-pink-500" /> Classification</div></SelectItem>
                 </SelectContent>
               </Select>
@@ -162,25 +162,25 @@ export default function DashboardIdeaAnalyzer({ analyzer }: DashboardIdeaAnalyze
               <Plus className="w-4! h-4! text-foreground bg-foreground/30 rounded-sm" />
             </Button>
           </div>
-        </div>
 
-        {/* Send Pill */}
-        <button 
-          onClick={() => handleSend()}
-          disabled={isLoading}
-          className="flex items-center gap-2 bg-border hover:bg-border/80 transition-colors rounded-full px-4 py-1.5 text-foreground font-medium text-sm disabled:opacity-50"
-        >
-          {isLoading ? (
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-          ) : (
-            <>
-              <span>{t('send')}</span>
-              <div className="w-5 h-5 flex items-center justify-center rounded-md text-foreground bg-foreground/30">
-                {locale === 'ar' ? <ArrowUpLeft className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
-              </div>
-            </>
-          )}
-        </button>
+          {/* Send Pill */}
+          <button 
+            onClick={() => handleSend()}
+            disabled={isLoading}
+            className="flex items-center gap-2 bg-border hover:bg-border/80 transition-colors rounded-full px-4 py-1.5 text-foreground font-medium text-sm disabled:opacity-50"
+          >
+            {isLoading ? (
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+            ) : (
+              <>
+                <span>{t('send')}</span>
+                <div className="w-5 h-5 flex items-center justify-center rounded-md text-foreground bg-foreground/30">
+                  {locale === 'ar' ? <ArrowUpLeft className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
+                </div>
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </motion.div>
   )
