@@ -114,7 +114,13 @@ export default function PreviewView({
       const usedComponents = [...new Set([...c.matchAll(/<([A-Z]\w+)/g)].map(m => m[1]))];
       let componentMocks = "";
       usedComponents.forEach(name => {
-        componentMocks += `if (typeof ${name} === 'undefined' && typeof window.${name} === 'undefined') window.${name} = (props) => React.createElement('div', { className: 'p-2 border border-dashed border-zinc-300 rounded text-[10px] text-zinc-400 font-mono' }, 'Missing: <' + name + ' />');\n`;
+        componentMocks += `if (typeof ${name} === 'undefined' && typeof window.${name} === 'undefined') {
+          if (window.Lucide && window.Lucide['${name}']) {
+            window.${name} = window.Lucide['${name}'];
+          } else {
+            window.${name} = (props) => React.createElement('div', { className: 'p-2 border border-dashed border-zinc-300 rounded text-[10px] text-zinc-400 font-mono' }, 'Missing: <' + name + ' />');
+          }
+        }\n`;
       });
 
       const fullBlock = `{
@@ -174,7 +180,7 @@ export default function PreviewView({
 <script src="https://cdn.jsdelivr.net/npm/zod@3.23.8/lib/index.umd.js" crossorigin></script>
 <script src="https://unpkg.com/react-hook-form@7.51.5/dist/index.umd.js" crossorigin></script>
 <script src="https://unpkg.com/@hookform/resolvers@3.3.4/dist/zod.umd.js" crossorigin></script>
-<script src="https://unpkg.com/lucide-react/dist/umd/lucide-react.js" crossorigin></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://unpkg.com/framer-motion@11.0.8/dist/framer-motion.js" crossorigin></script>
 
 <style>
@@ -199,6 +205,8 @@ export default function PreviewView({
 
   (function() {
     try {
+      window.React = React;
+      window.ReactDOM = ReactDOM;
       const { useState, useEffect, useMemo, useRef, useCallback } = React;
       const motion = window.Motion ? window.Motion.motion : (window.framerMotion ? window.framerMotion.motion : null);
       
@@ -222,25 +230,85 @@ export default function PreviewView({
         Checkbox: ({ className = "", ...p }) => React.createElement('input', { type: "checkbox", className: "h-4 w-4 rounded border-zinc-300 " + className, ...p }),
         Separator: ({ className = "" }) => React.createElement('div', { className: "shrink-0 bg-zinc-200 h-px w-full " + className }),
         Badge: ({ children, className = "" }) => React.createElement('div', { className: "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold " + className }, children),
+        Link: ({ children, href, className, ...p }) => React.createElement('a', { href, className, ...p }, children),
+        NavigationMenu: ({ children }) => React.createElement('div', { className: "relative z-10 flex flex-1 items-center justify-center" }, children),
+        NavigationMenuList: ({ children }) => React.createElement('ul', { className: "group flex flex-1 list-none items-center justify-center space-x-1" }, children),
+        NavigationMenuItem: ({ children }) => React.createElement('li', { className: "relative" }, children),
       };
 
       const toast = (props) => console.log("Toast:", props);
       const useToast = () => ({ toast, toasts: [], dismiss: () => {} });
 
-      Object.assign(window, UI, { toast, useToast });
+      // Zod Mock
+      const z = {
+        object: (schema) => ({ 
+          parse: (data) => data, 
+          safeParse: (data) => ({ success: true, data }),
+          shape: schema 
+        }),
+        string: () => ({ email: () => z.string(), min: () => z.string(), max: () => z.string() }),
+        boolean: () => ({ default: () => z.boolean() }),
+        infer: (schema) => ({}),
+      };
+      const zodResolver = (schema) => (values) => ({ values, errors: {} });
+      const useForm = (args) => ({
+        register: (name) => ({ name, onChange: () => {}, onBlur: () => {}, ref: () => {} }),
+        handleSubmit: (cb) => (e) => { e?.preventDefault?.(); cb(args?.defaultValues || {}); },
+        watch: (name) => args?.defaultValues?.[name],
+        setValue: (name, val) => {},
+        formState: { errors: {} },
+        reset: () => {},
+        control: {},
+      });
 
-      const LucideProxy = new Proxy({}, {
-        get: (_, name) => {
-          if (window.LucideReact && window.LucideReact[name]) return window.LucideReact[name];
-          const icons = { Eye: "👁️", EyeOff: "🙈", Loader2: "⏳", Mail: "✉️", Lock: "🔒", User: "👤", Search: "🔍", Bell: "🔔", Settings: "⚙️" };
-          return (props) => React.createElement('span', { className: "inline-flex items-center justify-center opacity-70 " + (props.className||""), ...props }, icons[name] || "🔹");
+      Object.assign(window, UI, { toast, useToast, z, zodResolver, useForm });
+
+      const LucideProxy = new Proxy({ $$isProxy: true }, {
+        get: (target, name) => {
+          if (name === '$$isProxy') return true;
+          if (name === 'icons') return target; 
+          
+          // Find REAL lucide data, avoiding this proxy
+          const lib = [window.lucide, window.Lucide, window.LucideReact].find(l => l && l !== LucideProxy && !l.$$isProxy);
+          const iconData = lib?.icons?.[name] || lib?.[name];
+          
+          const iconComponent = (p) => {
+            if (iconData && Array.isArray(iconData)) {
+              const render = (data, props) => {
+                const [tag, attrs, children] = data;
+                const mergedAttrs = { ...attrs, ...props };
+                if (attrs.class && props.className) mergedAttrs.className = attrs.class + " " + props.className;
+                return React.createElement(tag, { ...mergedAttrs, key: mergedAttrs.key }, (children || []).map((c, i) => render(c, { key: i })));
+              };
+              return render(iconData, { 
+                width: 24, height: 24, fill: "none", stroke: "currentColor", 
+                strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", ...p 
+              });
+            }
+            // Fallback circle
+            return React.createElement('svg', { 
+              width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', 
+              stroke: 'currentColor', strokeWidth: 2, className: "opacity-40 " + (p.className||""), ...p 
+            }, React.createElement('circle', { cx: 12, cy: 12, r: 10 }));
+          };
+
+          return iconComponent;
         }
       });
 
+      // Keep the real library hidden in a private-ish variable
+      window.__REAL_LUCIDE__ = window.lucide || window.Lucide || window.LucideReact;
+      window.Lucide = LucideProxy;
+      window.lucide = LucideProxy;
+      window.LucideReact = LucideProxy;
+
       const { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Input, Label, Button, Checkbox, Separator, Badge } = UI;
       const { Eye, EyeOff, Loader2, Mail, Lock, User, Search, Bell, Settings } = LucideProxy;
-      window.Lucide = LucideProxy;
-      window.LucideReact = window.LucideReact || LucideProxy;
+      
+      // Only assign proxy if the real library hasn't claimed these globals
+      window.Lucide = window.Lucide || window.lucide || LucideProxy;
+      window.LucideReact = window.LucideReact || window.lucideReact || LucideProxy;
+      window.lucide = window.lucide || window.Lucide;
 
       const blocks = ${blocksArrayString};
       blocks.forEach((block, idx) => {

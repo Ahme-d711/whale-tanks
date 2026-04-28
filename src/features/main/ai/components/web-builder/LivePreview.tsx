@@ -32,7 +32,15 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
       const usedComponents = [...new Set([...c.matchAll(/<([A-Z]\w+)/g)].map(m => m[1]))];
       let componentMocks = "";
       usedComponents.forEach(name => {
-        componentMocks += `if (typeof ${name} === 'undefined' && typeof window.${name} === 'undefined') window.${name} = (props) => React.createElement('div', { className: 'p-2 border border-dashed border-zinc-300 rounded text-[10px] text-zinc-400 font-mono' }, 'Missing: <' + name + ' />');\n`;
+        componentMocks += `if (typeof ${name} === 'undefined' && typeof window.${name} === 'undefined') {
+          if (window.Lucide && window.Lucide['${name}']) {
+            window.${name} = window.Lucide['${name}'];
+          } else if (window.lucide && window.lucide['${name}']) {
+            window.${name} = window.lucide['${name}'];
+          } else {
+            window.${name} = (props) => React.createElement('div', { className: 'p-2 border border-dashed border-zinc-300 rounded text-[10px] text-zinc-400 font-mono' }, 'Missing: <' + name + ' />');
+          }
+        }\n`;
       });
 
       const fullBlock = `{
@@ -53,30 +61,20 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
       return escapeForTemplate(fullBlock);
     }
 
-    let libraryStyles = "";
-    let historicalBlocks: string[] = [];
-    let activeBlockStr = "";
+    let cssLines = "";
+    let blocks: string[] = [];
     
     allBlocks.forEach((block, idx) => {
       const isCSS = block.includes("@tailwind") || block.includes("@import") || (block.trim().startsWith(".") || block.trim().startsWith("#") || block.trim().startsWith("body") || block.trim().startsWith(":root"));
       if (isCSS) {
         const cssClean = block.replace(/import[\s\S]*?from\s+['"].*?['"];?/g, "").replace(/@tailwind\s+.*?;/g, "");
-        libraryStyles += `\n/* Block ${idx} */\n${cssClean}\n`;
+        cssLines += `\n/* Block ${idx} */\n${cssClean}\n`;
         return;
       }
-      const isActive = idx === activeBlockIndex;
-      const prepared = prepareBlock(block, isActive);
-      if (isActive) {
-        activeBlockStr = `\`${prepared}\``;
-      } else {
-        historicalBlocks.push(`\`${prepared}\``);
-      }
+      blocks.push(`\`${prepareBlock(block, idx === activeBlockIndex)}\``);
     });
 
-    const escapedBlocks = [...historicalBlocks];
-    if (activeBlockStr) escapedBlocks.push(activeBlockStr);
-
-    const blocksArrayString = `[${escapedBlocks.join(",")}]`.replace(/<\/script>/gi, "<\\/script>");
+    const blocksArrayString = `[${blocks.join(",")}]`.replace(/<\/script>/gi, "<\\/script>");
 
     return `
 <!DOCTYPE html>
@@ -91,16 +89,14 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
 <script src="https://cdn.jsdelivr.net/npm/zod@3.23.8/lib/index.umd.js" crossorigin></script>
 <script src="https://unpkg.com/react-hook-form@7.51.5/dist/index.umd.js" crossorigin></script>
 <script src="https://unpkg.com/@hookform/resolvers@3.3.4/dist/zod.umd.js" crossorigin></script>
-<script src="https://unpkg.com/lucide-react/dist/umd/lucide-react.js" crossorigin></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://unpkg.com/framer-motion@11.0.8/dist/framer-motion.js" crossorigin></script>
 
 <style>
   html, body { margin:0; padding:0; height:100%; width:100%; font-family:system-ui; background:white; overflow-x: hidden; }
   #root { width:100%; min-height:100%; display: flex; flex-direction: column; }
   .error-box { padding:20px; background:#fff1f2; color:#b91c1c; font-family:monospace; border: 1px solid #fecaca; border-radius: 8px; margin: 20px; font-size: 13px; }
-  body { animation: fadeIn 0.3s ease-out; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  ${libraryStyles}
+  ${cssLines}
 </style>
 </head>
 
@@ -110,14 +106,17 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
 <script id="bootstrapper">
   window.onerror = function(msg, url, line, col, error) {
     console.error("Runtime Error:", msg, error);
-    document.getElementById("root").innerHTML = "<div class='error-box'><b>Runtime Error:</b><br/>" + msg + "</div>";
+    if (document.getElementById("root")) {
+      document.getElementById("root").innerHTML = "<div class='error-box'><b>Runtime Error:</b><br/>" + msg + "</div>";
+    }
     return false;
   };
 
   (function() {
     try {
+      window.React = React;
+      window.ReactDOM = ReactDOM;
       const { useState, useEffect, useMemo, useRef, useCallback } = React;
-      const motion = window.Motion ? window.Motion.motion : (window.framerMotion ? window.framerMotion.motion : null);
       
       const UI = {
         Card: ({ children, className = "", ...p }) => React.createElement('div', { className: "bg-white rounded-xl border border-zinc-200 shadow-sm overflow-hidden " + className, ...p }, children),
@@ -139,68 +138,88 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
         Checkbox: ({ className = "", ...p }) => React.createElement('input', { type: "checkbox", className: "h-4 w-4 rounded border-zinc-300 " + className, ...p }),
         Separator: ({ className = "" }) => React.createElement('div', { className: "shrink-0 bg-zinc-200 h-px w-full " + className }),
         Badge: ({ children, className = "" }) => React.createElement('div', { className: "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold " + className }, children),
+        Link: ({ children, href, className, ...p }) => React.createElement('a', { href, className, ...p }, children),
+        NavigationMenu: ({ children }) => React.createElement('div', { className: "relative z-10 flex flex-1 items-center justify-center" }, children),
+        NavigationMenuList: ({ children }) => React.createElement('ul', { className: "group flex flex-1 list-none items-center justify-center space-x-1" }, children),
+        NavigationMenuItem: ({ children }) => React.createElement('li', { className: "relative" }, children),
       };
 
       const toast = (props) => console.log("Toast:", props);
       const useToast = () => ({ toast, toasts: [], dismiss: () => {} });
 
-      Object.assign(window, UI, { toast, useToast });
+      const z = {
+        object: (schema) => ({ parse: (data) => data, safeParse: (data) => ({ success: true, data }), shape: schema }),
+        string: () => ({ email: () => z.string(), min: () => z.string(), max: () => z.string() }),
+        boolean: () => ({ default: () => z.boolean() }),
+        infer: (schema) => ({}),
+      };
+      const zodResolver = (schema) => (values) => ({ values, errors: {} });
+      const useForm = (args) => ({
+        register: (name) => ({ name, onChange: () => {}, onBlur: () => {}, ref: () => {} }),
+        handleSubmit: (cb) => (e) => { e?.preventDefault?.(); cb(args?.defaultValues || {}); },
+        watch: (name) => args?.defaultValues?.[name],
+        setValue: (name, val) => {},
+        formState: { errors: {} },
+        reset: () => {},
+        control: {},
+      });
 
-      const LucideProxy = new Proxy({}, {
-        get: (_, name) => {
-          if (window.LucideReact && window.LucideReact[name]) return window.LucideReact[name];
-          const icons = { Eye: "👁️", EyeOff: "🙈", Loader2: "⏳", Mail: "✉️", Lock: "🔒", User: "👤", Search: "🔍", Bell: "🔔", Settings: "⚙️" };
-          return (props) => React.createElement('span', { className: "inline-flex items-center justify-center opacity-70 " + (props.className||""), ...props }, icons[name] || "🔹");
+      Object.assign(window, UI, { toast, useToast, z, zodResolver, useForm });
+
+      const LucideProxy = new Proxy({ $$isProxy: true }, {
+        get: (target, name) => {
+          if (name === '$$isProxy') return true;
+          if (name === 'icons') return target; 
+          
+          const lib = [window.lucide, window.Lucide, window.LucideReact].find(l => l && l !== LucideProxy && !l.$$isProxy);
+          const iconData = lib?.icons?.[name] || lib?.[name];
+          
+          const iconComponent = (p) => {
+            if (iconData && Array.isArray(iconData)) {
+              const render = (data, props) => {
+                const [tag, attrs, children] = data;
+                const mergedAttrs = { ...attrs, ...props };
+                if (attrs.class && props.className) mergedAttrs.className = attrs.class + " " + props.className;
+                return React.createElement(tag, { ...mergedAttrs, key: mergedAttrs.key }, (children || []).map((c, i) => render(c, { key: i })));
+              };
+              return render(iconData, { 
+                width: 24, height: 24, fill: "none", stroke: "currentColor", 
+                strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", ...p 
+              });
+            }
+            return React.createElement('svg', { 
+              width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', 
+              stroke: 'currentColor', strokeWidth: 2, className: "opacity-40 " + (p.className||""), ...p 
+            }, React.createElement('circle', { cx: 12, cy: 12, r: 10 }));
+          };
+
+          return iconComponent;
         }
       });
 
-      const { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Input, Label, Button, Checkbox, Separator, Badge } = UI;
-      const { Eye, EyeOff, Loader2, Mail, Lock, User, Search, Bell, Settings } = LucideProxy;
+      window.__REAL_LUCIDE__ = window.lucide || window.Lucide || window.LucideReact;
       window.Lucide = LucideProxy;
-      window.LucideReact = window.LucideReact || LucideProxy;
+      window.lucide = LucideProxy;
+      window.LucideReact = LucideProxy;
 
       const blocks = ${blocksArrayString};
       blocks.forEach((block, idx) => {
         try {
-          const transformed = Babel.transform(block, {
+          const compiled = Babel.transform(block, {
             presets: ['react', 'typescript'],
             filename: 'block_' + idx + '.tsx'
           }).code;
-          eval(transformed);
+          eval(compiled);
         } catch (e) {
-          console.error("Failed to transform block " + idx + ":", e);
-          if (idx === blocks.length - 1) {
-            const msg = e.message || "";
-            const isPartial = msg.includes("Unterminated JSX") || 
-                            msg.includes("Unexpected token") || 
-                            msg.includes("Missing semicolon");
-            
-            if (isPartial) {
-              document.getElementById("root").innerHTML = ' \
-                <div class="flex flex-col items-center justify-center h-full p-20 text-zinc-400 gap-4"> \
-                  <div class="w-8 h-8 rounded-full border-2 border-zinc-200 border-t-zinc-400 animate-spin"></div> \
-                  <p class="text-sm font-medium animate-pulse italic">Refining UI and finishing up...</p> \
-                </div> \
-              ';
-              return;
-            }
-            throw e;
-          }
+          console.error("Error in block " + idx + ":", e);
         }
       });
       
-      function find() {
-        if (typeof window.__ActiveExport__ === "function") return window.__ActiveExport__;
-        if (typeof window.__DefaultExport__ === "function") return window.__DefaultExport__;
-        for (let k of Object.keys(window)) if (typeof window[k] === "function" && /^[A-Z]/.test(k) && !["React","ReactDOM"].includes(k)) return window[k];
-        return null;
-      }
-
-      const Root = find();
-      if (Root) {
-        ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(Root));
+      const App = window.__ActiveExport__ || window.__DefaultExport__;
+      if (App) {
+        ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
       } else {
-        document.getElementById("root").innerHTML = "<div class='p-10 text-center opacity-50'><p>Component ready but not found on top-level.</p></div>";
+        document.getElementById("root").innerHTML = "<div class='p-10 text-center opacity-50'><p>No component exported from code.</p></div>";
       }
     } catch (err) {
       console.error("Preview Error:", err);
@@ -208,6 +227,7 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
     }
   })();
 </script>
+
 </body>
 </html>
 `
@@ -216,7 +236,6 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
   return (
     <iframe
       srcDoc={iframeSrc}
-      title="Live Preview"
       className="w-full h-full border-0"
       sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
     />
