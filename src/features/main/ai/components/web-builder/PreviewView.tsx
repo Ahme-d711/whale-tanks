@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useEffect } from "react"
 import { toast } from "sonner"
 import { useLocale } from 'next-intl'
+import { detectContentType } from "../../utils/code-detection"
 import PreviewToolbar from "./PreviewToolbar"
 import BrowserShell from "./BrowserShell"
 import PreviewDisplay from "./PreviewDisplay"
@@ -295,6 +296,15 @@ export default function PreviewView({
 `
   }, [debouncedCode, allBlocks, activeBlockIndex, testMode, snapshot])
 
+  const renderableIndexes = useMemo(() => {
+    return allBlocks
+      .map((block, idx) => ({ block, idx }))
+      .filter(({ block }) => detectContentType(block).contentType !== 'none')
+      .map(({ idx }) => idx);
+  }, [allBlocks]);
+
+  const viewIndex = renderableIndexes.indexOf(activeBlockIndex);
+
   return (
     <div className="flex flex-col h-full bg-zinc-50/50 rounded-2xl border border-zinc-200 overflow-hidden shadow-2xl">
       <PreviewToolbar 
@@ -310,10 +320,10 @@ export default function PreviewView({
       />
       
       <BrowserShell 
-        path={activeBlockIndex > 0 ? `/page-${activeBlockIndex + 1}` : ""} 
+        path={viewIndex > 0 ? `/page-${viewIndex + 1}` : ""} 
         onIndexChange={onIndexChange}
         activeBlockIndex={activeBlockIndex}
-        totalBlocks={totalBlocks}
+        renderableIndexes={renderableIndexes}
       />
 
       <PreviewDisplay 

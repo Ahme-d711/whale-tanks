@@ -12,28 +12,29 @@ import {
 interface BrowserShellProps {
   path?: string
   activeBlockIndex?: number
-  totalBlocks?: number
+  renderableIndexes?: number[]
   onIndexChange?: (index: number) => void
 }
 
 export default function BrowserShell({ 
   path = "", 
   activeBlockIndex = 0, 
-  totalBlocks = 0, 
+  renderableIndexes = [], 
   onIndexChange 
 }: BrowserShellProps) {
-  const canGoBack = activeBlockIndex > 0;
-  const canGoForward = activeBlockIndex < totalBlocks - 1;
+  const currentIndexInRenderable = renderableIndexes.indexOf(activeBlockIndex);
+  const canGoBack = currentIndexInRenderable > 0;
+  const canGoForward = currentIndexInRenderable < renderableIndexes.length - 1;
 
   const handleBack = () => {
     if (canGoBack && onIndexChange) {
-      onIndexChange(activeBlockIndex - 1);
+      onIndexChange(renderableIndexes[currentIndexInRenderable - 1]);
     }
   };
 
   const handleForward = () => {
     if (canGoForward && onIndexChange) {
-      onIndexChange(activeBlockIndex + 1);
+      onIndexChange(renderableIndexes[currentIndexInRenderable + 1]);
     }
   };
 
@@ -74,9 +75,11 @@ export default function BrowserShell({
         </div>
         <div className="flex-1" />
         <div className="hidden md:flex items-center gap-2">
-          <span className="text-[10px] text-zinc-400 font-mono bg-zinc-100 px-1.5 py-0.5 rounded leading-none">
-            PAGE {activeBlockIndex + 1} / {totalBlocks}
-          </span>
+          {renderableIndexes.length > 0 && (
+            <span className="text-[10px] text-zinc-400 font-mono bg-zinc-100 px-1.5 py-0.5 rounded leading-none">
+              PAGE {currentIndexInRenderable + 1} / {renderableIndexes.length}
+            </span>
+          )}
           <Search className="w-3.5 h-3.5 text-zinc-300" />
         </div>
       </div>
