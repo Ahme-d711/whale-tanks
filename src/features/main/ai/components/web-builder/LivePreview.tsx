@@ -141,7 +141,10 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
         Badge: ({ children, className = "" }) => React.createElement('div', { className: "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold " + className }, children),
       };
 
-      Object.assign(window, UI);
+      const toast = (props) => console.log("Toast:", props);
+      const useToast = () => ({ toast, toasts: [], dismiss: () => {} });
+
+      Object.assign(window, UI, { toast, useToast });
 
       const LucideProxy = new Proxy({}, {
         get: (_, name) => {
