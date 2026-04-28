@@ -29,14 +29,10 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
   // Chat session needs to update builder state when history loads
   const chat = useChatSession(
     useCallback((ui, db) => {
-      if (ui.length > 0) {
-        builder.setWebBuilderBlocks(ui)
-        builder.setActiveBlockIndex(0)
-      }
-      if (db.length > 0) {
-        builder.setDbBlocks(db)
-        builder.setActiveDbBlockIndex(0)
-      }
+      builder.setWebBuilderBlocks(ui)
+      builder.setActiveBlockIndex(0)
+      builder.setDbBlocks(db)
+      builder.setActiveDbBlockIndex(0)
     }, [builder]),
     builder.reset
   )
@@ -67,9 +63,9 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
     const uniqueUi = Array.from(new Set(allUi));
     const uniqueDb = Array.from(new Set(allDb));
 
+    builder.setWebBuilderBlocks(uniqueUi);
+
     if (uniqueUi.length > 0) {
-      builder.setWebBuilderBlocks(uniqueUi);
-      
       // Auto-switch to Web Builder only if it's new large code and we aren't already there
       const lastUi = uniqueUi[uniqueUi.length - 1];
       if (lastUi && lastUi.length > 100 && isLoading) {
@@ -85,11 +81,13 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
         
         builder.setActiveBlockIndex(uniqueUi.length - 1);
       }
+    } else if (!isLoading) {
+      // If we finished loading and there's NO code, maybe switch back to consultation?
+      // But the user might want to stay in Web Builder.
+      // At least the blocks will be empty now.
     }
 
-    if (uniqueDb.length > 0) {
-      builder.setDbBlocks(uniqueDb);
-    }
+    builder.setDbBlocks(uniqueDb);
   }, [chat.messages, isLoading]); // Only update when messages change or loading finishes
 
   // 4. Core Logic (Sending)

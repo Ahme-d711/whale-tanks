@@ -66,12 +66,10 @@ export function useChatSession(
         }
       })
 
-      if (allUiBlocks.length > 0 || allDbBlocks.length > 0) {
-        onBlocksExtracted(
-          Array.from(new Set(allUiBlocks)), 
-          Array.from(new Set(allDbBlocks))
-        )
-      }
+      onBlocksExtracted(
+        Array.from(new Set(allUiBlocks)), 
+        Array.from(new Set(allDbBlocks))
+      )
     } catch (error) {
       console.error("Failed to fetch chat history:", error)
       toast.error("Failed to load chat history.")
