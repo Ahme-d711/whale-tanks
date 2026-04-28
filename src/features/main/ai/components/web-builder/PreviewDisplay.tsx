@@ -27,7 +27,10 @@ export default function PreviewDisplay({
   iframeKey
 }: PreviewDisplayProps) {
   return (
-    <div className="flex-1 overflow-auto bg-zinc-100 flex justify-center p-4 md:p-8 relative">
+    <div className={cn(
+      "flex-1 overflow-auto flex justify-center relative",
+      deviceMode === "desktop" ? "bg-white p-0" : "bg-zinc-100 p-4 md:p-8"
+    )}>
       <AnimatePresence mode="wait">
         {isReloading && (
           <motion.div
@@ -53,8 +56,8 @@ export default function PreviewDisplay({
         }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
         className={cn(
-          "bg-white shadow-2xl relative overflow-hidden transition-all duration-500",
-          deviceMode !== "desktop" && "rounded-[2rem] border-12px border-zinc-900 m-auto"
+          "bg-white relative overflow-hidden transition-all duration-500",
+          deviceMode !== "desktop" ? "shadow-2xl rounded-[2rem] border-12px border-zinc-900 m-auto" : "shadow-none"
         )}
       >
         {deviceMode !== "desktop" && (
