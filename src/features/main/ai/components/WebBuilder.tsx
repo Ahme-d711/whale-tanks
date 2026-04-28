@@ -1,6 +1,5 @@
 "use client"
 
-import React from 'react'
 import CodeView from './web-builder/CodeView'
 import PreviewView from './web-builder/PreviewView'
 import DatabaseView from './web-builder/DatabaseView'
@@ -13,6 +12,7 @@ interface WebBuilderProps {
   activeDbIndex: number
   onDbIndexChange: (index: number) => void
   activeSubAction: 'code' | 'view' | 'database'
+  sessionId?: string | null
 }
 
 export default function WebBuilder({ 
@@ -22,7 +22,8 @@ export default function WebBuilder({
   dbBlocks,
   activeDbIndex,
   onDbIndexChange,
-  activeSubAction 
+  activeSubAction,
+  sessionId
 }: WebBuilderProps) {
   const currentCode = blocks[activeIndex] || ""
   const currentDbCode = dbBlocks[activeDbIndex] || ""
@@ -40,6 +41,8 @@ export default function WebBuilder({
       {activeSubAction === 'view' && (
         <PreviewView 
           code={currentCode} 
+          allBlocks={blocks}
+          sessionId={sessionId}
         />
       )}
       {activeSubAction === 'database' && (

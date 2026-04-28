@@ -9,7 +9,10 @@ import SubscriptionUpsell from './SubscriptionUpsell'
 import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
 import { ChatDisplay } from './ChatDisplay'
 import WebBuilder from './WebBuilder'
+import PreviewView from './web-builder/PreviewView'
 import { Sparkles } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
 interface DashboardGridProps {
   activeTankId: string
@@ -61,6 +64,7 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
                 activeDbIndex={activeDbBlockIndex}
                 onDbIndexChange={setActiveDbBlockIndex}
                 activeSubAction={activeSubAction} 
+                sessionId={analyzer.sessionId}
               />
             ) : (
               <div className="p-5 h-full flex flex-col items-center justify-center text-center opacity-40">
@@ -97,4 +101,3 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
     </section>
   )
 }
-

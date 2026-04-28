@@ -1,0 +1,38 @@
+"use client"
+
+import React from 'react'
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  ShieldCheck, 
+  Search, 
+  Menu 
+} from "lucide-react"
+
+export default function BrowserShell() {
+  return (
+    <div className="flex items-center gap-3 px-4 py-2 bg-zinc-50 border-b border-zinc-200 shrink-0">
+      <div className="flex gap-1.5 shrink-0">
+        <div className="w-3 h-3 rounded-full bg-zinc-300" />
+        <div className="w-3 h-3 rounded-full bg-zinc-300" />
+        <div className="w-3 h-3 rounded-full bg-zinc-300" />
+      </div>
+      
+      <div className="flex items-center gap-2 px-1">
+        <ChevronLeft className="w-4 h-4 text-zinc-400" />
+        <ChevronRight className="w-4 h-4 text-zinc-400" />
+      </div>
+
+      {/* Fake URL Bar */}
+      <div className="flex-1 flex items-center gap-2 h-8 px-3 bg-white border border-zinc-200 rounded-lg shadow-sm">
+        <ShieldCheck className="w-3.5 h-3.5 text-green-500 shrink-0" />
+        <span className="text-[11px] text-zinc-400 font-medium select-none shrink-0 italic">https://</span>
+        <span className="text-xs text-zinc-600 font-medium truncate">preview.whale-tanks.dev</span>
+        <div className="flex-1" />
+        <Search className="w-3.5 h-3.5 text-zinc-300" />
+      </div>
+
+      <Menu className="w-4 h-4 text-zinc-400 shrink-0" />
+    </div>
+  )
+}

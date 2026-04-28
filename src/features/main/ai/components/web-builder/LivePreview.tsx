@@ -1,67 +1,15 @@
 "use client"
 
-import React, { useMemo, useState, useEffect } from "react"
-import { toast } from "sonner"
-import { useLocale } from 'next-intl'
-import PreviewToolbar from "./PreviewToolbar"
-import BrowserShell from "./BrowserShell"
-import PreviewDisplay from "./PreviewDisplay"
+import React, { useMemo } from "react"
 
-interface PreviewViewProps {
+interface LivePreviewProps {
   code: string
   allBlocks?: string[]
-  sessionId?: string | null
 }
 
-type DeviceMode = "desktop" | "tablet" | "mobile"
-
-export default function PreviewView({ code, allBlocks = [], sessionId }: PreviewViewProps) {
-  const locale = useLocale()
-  const [debouncedCode, setDebouncedCode] = useState(code)
-  const [deviceMode, setDeviceMode] = useState<DeviceMode>("desktop")
-  const [isReloading, setIsReloading] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [testMode, setTestMode] = useState(false)
-  const [key, setKey] = useState(0)
-  
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (code !== debouncedCode) {
-        setIsReloading(true)
-        setDebouncedCode(code)
-        setTimeout(() => setIsReloading(false), 600)
-      }
-    }, 500)
-    return () => clearTimeout(timer)
-  }, [code, debouncedCode])
-
-  const handleRefresh = () => {
-    setIsReloading(true)
-    setKey(prev => prev + 1)
-    setTimeout(() => setIsReloading(false), 800)
-  }
-
-  const handleCopyHTML = () => {
-    navigator.clipboard.writeText(code)
-    setCopied(true)
-    toast.success("Code copied to clipboard")
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  const handleOpenFullscreen = () => {
-    if (sessionId) {
-      window.open(`/${locale}/preview/${sessionId}`, "_blank")
-    } else {
-      const win = window.open("", "_blank")
-      if (win) {
-        win.document.write(iframeSrc)
-        win.document.close()
-      }
-    }
-  }
-
+export default function LivePreview({ code, allBlocks = [] }: LivePreviewProps) {
   const iframeSrc = useMemo(() => {
-    if (!debouncedCode) return ""
+    if (!code) return ""
 
     const escapeForTemplate = (str: string) => {
       return str
@@ -243,30 +191,14 @@ export default function PreviewView({ code, allBlocks = [], sessionId }: Preview
 </body>
 </html>
 `
-  }, [debouncedCode, allBlocks])
+  }, [code, allBlocks])
 
   return (
-    <div className="flex flex-col h-full bg-zinc-50/50 rounded-2xl border border-zinc-200 overflow-hidden shadow-2xl">
-      <PreviewToolbar 
-        deviceMode={deviceMode}
-        setDeviceMode={setDeviceMode}
-        testMode={testMode}
-        setTestMode={setTestMode}
-        copied={copied}
-        onCopy={handleCopyHTML}
-        onRefresh={handleRefresh}
-        onFullscreen={handleOpenFullscreen}
-        isReloading={isReloading}
-      />
-      
-      <BrowserShell />
-
-      <PreviewDisplay 
-        deviceMode={deviceMode}
-        iframeSrc={iframeSrc}
-        isReloading={isReloading}
-        iframeKey={key}
-      />
-    </div>
+    <iframe
+      srcDoc={iframeSrc}
+      title="Live Preview"
+      className="w-full h-full border-0"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
+    />
   )
 }

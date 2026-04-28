@@ -37,7 +37,7 @@ export function Providers({
   data: { token?: string | null; user: User | null };
 }) {
   const pathname = usePathname();
-  const isLoginPage = pathname.endsWith("/login") || pathname.endsWith("/signup") || pathname.endsWith("/ai");
+  const isLoginPage = pathname.endsWith("/login") || pathname.endsWith("/signup") || pathname.endsWith("/ai") || pathname.includes("/preview");
   const isDashboardPage = pathname.includes("/dashboard");
   
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
