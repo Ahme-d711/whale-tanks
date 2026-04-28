@@ -43,6 +43,8 @@ export default function WebBuilder({
           code={currentCode} 
           allBlocks={blocks}
           activeBlockIndex={activeIndex}
+          totalBlocks={blocks.length}
+          onIndexChange={onIndexChange}
           sessionId={sessionId}
         />
       )}

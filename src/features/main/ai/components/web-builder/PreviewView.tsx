@@ -11,6 +11,8 @@ interface PreviewViewProps {
   code: string
   allBlocks?: string[]
   activeBlockIndex?: number
+  totalBlocks?: number
+  onIndexChange?: (index: number) => void
   sessionId?: string | null
 }
 
@@ -20,6 +22,8 @@ export default function PreviewView({
   code, 
   allBlocks = [], 
   activeBlockIndex = 0,
+  totalBlocks = 0,
+  onIndexChange,
   sessionId 
 }: PreviewViewProps) {
   const locale = useLocale()
@@ -302,7 +306,12 @@ export default function PreviewView({
         isReloading={isReloading}
       />
       
-      <BrowserShell />
+      <BrowserShell 
+        path={activeBlockIndex > 0 ? `/page-${activeBlockIndex + 1}` : ""} 
+        onIndexChange={onIndexChange}
+        activeBlockIndex={activeBlockIndex}
+        totalBlocks={totalBlocks}
+      />
 
       <PreviewDisplay 
         deviceMode={deviceMode}

@@ -75,7 +75,7 @@ export default function FullscreenPreviewPage() {
   const activeCode = codeBlocks[activeIndex] || codeBlocks[codeBlocks.length - 1]
 
   return (
-    <div className="fixed inset-0 z-[60] bg-white flex flex-col">
+    <div className="fixed inset-0 z-60 bg-white flex flex-col">
       <div className="flex-1">
         <LivePreview 
           code={activeCode} 

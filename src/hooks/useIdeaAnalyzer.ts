@@ -72,10 +72,17 @@ export const useIdeaAnalyzer = (onSendCallback?: (data: any) => void) => {
       
       // Auto-switch to Web Builder only if it's new large code and we aren't already there
       const lastUi = uniqueUi[uniqueUi.length - 1];
-      if (lastUi && lastUi.length > 300 && builder.activeAction !== 'web_builder' && isLoading) {
-        builder.setActiveAction('web_builder');
-        const canView = detectContentType(lastUi).contentType !== 'none';
-        builder.setActiveSubAction(canView ? 'view' : 'code');
+      if (lastUi && lastUi.length > 100 && isLoading) {
+        if (builder.activeAction !== 'web_builder') {
+          builder.setActiveAction('web_builder');
+        }
+        
+        // During code generation/streaming, always switch to the 'code' tab
+        // to show the user the progress.
+        if (builder.activeSubAction !== 'code') {
+          builder.setActiveSubAction('code');
+        }
+        
         builder.setActiveBlockIndex(uniqueUi.length - 1);
       }
     }
