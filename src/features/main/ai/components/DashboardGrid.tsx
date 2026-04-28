@@ -55,7 +55,28 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
         />
         <div className="w-full flex-1 bg-white backdrop-blur-md rounded-3xl border border-primary shadow-xl shadow-blue-500/5 overflow-hidden flex flex-col min-h-0">
           <div className="flex-1 h-full border border-primary rounded-2xl bg-white overflow-hidden flex flex-col">
-            {activeAction === 'web_builder' ? (
+            {isHistoryLoading ? (
+              <div className="p-8 h-full flex flex-col gap-4 animate-pulse">
+                <div className="flex items-center justify-between">
+                  <div className="h-6 w-32 bg-zinc-100 rounded-lg" />
+                  <div className="h-6 w-24 bg-zinc-100 rounded-lg" />
+                </div>
+                <div className="flex-1 w-full bg-zinc-50 rounded-xl border border-zinc-100 p-4 space-y-3">
+                  <div className="h-3 w-[80%] bg-zinc-200/50 rounded" />
+                  <div className="h-3 w-[60%] bg-zinc-200/50 rounded" />
+                  <div className="h-3 w-[90%] bg-zinc-200/50 rounded" />
+                  <div className="h-3 w-[40%] bg-zinc-200/50 rounded" />
+                  <div className="space-y-2 pt-4">
+                    <div className="h-3 w-[70%] bg-zinc-200/30 rounded" />
+                    <div className="h-3 w-[50%] bg-zinc-200/30 rounded" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded-full bg-zinc-100" />
+                  <div className="h-4 w-24 bg-zinc-100 rounded" />
+                </div>
+              </div>
+            ) : activeAction === 'web_builder' ? (
               <WebBuilder 
                 blocks={webBuilderBlocks} 
                 activeIndex={activeBlockIndex}
