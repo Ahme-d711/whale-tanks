@@ -10,12 +10,18 @@ import PreviewDisplay from "./PreviewDisplay"
 interface PreviewViewProps {
   code: string
   allBlocks?: string[]
+  activeBlockIndex?: number
   sessionId?: string | null
 }
 
 type DeviceMode = "desktop" | "tablet" | "mobile"
 
-export default function PreviewView({ code, allBlocks = [], sessionId }: PreviewViewProps) {
+export default function PreviewView({ 
+  code, 
+  allBlocks = [], 
+  activeBlockIndex = 0,
+  sessionId 
+}: PreviewViewProps) {
   const locale = useLocale()
   const [debouncedCode, setDebouncedCode] = useState(code)
   const [deviceMode, setDeviceMode] = useState<DeviceMode>("desktop")
@@ -25,9 +31,7 @@ export default function PreviewView({ code, allBlocks = [], sessionId }: Preview
   const [key, setKey] = useState(0)
   
   useEffect(() => {
-    // If test mode is on, we "lock" the preview to allow safe interaction
     if (testMode) return;
-
     const timer = setTimeout(() => {
       if (code !== debouncedCode) {
         setIsReloading(true)
@@ -73,7 +77,7 @@ export default function PreviewView({ code, allBlocks = [], sessionId }: Preview
         .replace(/\${/g, "\\${")
     }
 
-    const prepareBlock = (c: string) => {
+    const prepareBlock = (c: string, isActive: boolean) => {
       let clean = c
         .replace(/import[\s\S]*?from\s+['"].*?['"];?/g, "")
         .replace(/export\s+default\s+/g, "const __DefaultExport__ = ")
@@ -95,7 +99,11 @@ export default function PreviewView({ code, allBlocks = [], sessionId }: Preview
         ${componentMocks}
         ${clean}
         ${exportsWrapper}
-        if (typeof __DefaultExport__ !== 'undefined') window.__DefaultExport__ = __DefaultExport__;
+        if (typeof __DefaultExport__ !== 'undefined') {
+          window.__DefaultExport__ = __DefaultExport__;
+          if (${isActive}) window.__ActiveExport__ = __DefaultExport__;
+        }
+        ${isActive ? names.map(n => `if (typeof ${n} !== 'undefined') window.__ActiveExport__ = ${n};`).join('\n') : ''}
       }`;
 
       return escapeForTemplate(fullBlock);
@@ -111,7 +119,7 @@ export default function PreviewView({ code, allBlocks = [], sessionId }: Preview
         libraryStyles += `\n/* Block ${idx} */\n${cssClean}\n`;
         return;
       }
-      const prepared = prepareBlock(block);
+      const prepared = prepareBlock(block, idx === activeBlockIndex);
       escapedBlocks.push(`\`${prepared}\``);
     });
 
@@ -226,6 +234,7 @@ export default function PreviewView({ code, allBlocks = [], sessionId }: Preview
       });
       
       function find() {
+        if (typeof window.__ActiveExport__ === "function") return window.__ActiveExport__;
         if (typeof window.__DefaultExport__ === "function") return window.__DefaultExport__;
         for (let k of Object.keys(window)) if (typeof window[k] === "function" && /^[A-Z]/.test(k) && !["React","ReactDOM"].includes(k)) return window[k];
         return null;
