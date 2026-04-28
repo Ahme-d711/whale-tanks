@@ -5,9 +5,10 @@ import React, { useMemo } from "react"
 interface LivePreviewProps {
   code: string
   allBlocks?: string[]
+  activeBlockIndex?: number
 }
 
-export default function LivePreview({ code, allBlocks = [] }: LivePreviewProps) {
+export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0 }: LivePreviewProps) {
   const iframeSrc = useMemo(() => {
     if (!code) return ""
 
@@ -18,7 +19,7 @@ export default function LivePreview({ code, allBlocks = [] }: LivePreviewProps) 
         .replace(/\${/g, "\\${")
     }
 
-    const prepareBlock = (c: string) => {
+    const prepareBlock = (c: string, isActive: boolean) => {
       let clean = c
         .replace(/import[\s\S]*?from\s+['"].*?['"];?/g, "")
         .replace(/export\s+default\s+/g, "const __DefaultExport__ = ")
@@ -40,14 +41,21 @@ export default function LivePreview({ code, allBlocks = [] }: LivePreviewProps) 
         ${componentMocks}
         ${clean}
         ${exportsWrapper}
-        if (typeof __DefaultExport__ !== 'undefined') window.__DefaultExport__ = __DefaultExport__;
+        if (${isActive}) {
+          if (typeof __DefaultExport__ !== 'undefined') {
+            window.__DefaultExport__ = __DefaultExport__;
+            window.__ActiveExport__ = __DefaultExport__;
+          }
+          ${names.map(n => `if (typeof ${n} !== 'undefined') window.__ActiveExport__ = ${n};`).join('\n          ')}
+        }
       }`;
 
       return escapeForTemplate(fullBlock);
     }
 
     let libraryStyles = "";
-    let escapedBlocks: string[] = [];
+    let historicalBlocks: string[] = [];
+    let activeBlockStr = "";
     
     allBlocks.forEach((block, idx) => {
       const isCSS = block.includes("@tailwind") || block.includes("@import") || (block.trim().startsWith(".") || block.trim().startsWith("#") || block.trim().startsWith("body") || block.trim().startsWith(":root"));
@@ -56,9 +64,17 @@ export default function LivePreview({ code, allBlocks = [] }: LivePreviewProps) 
         libraryStyles += `\n/* Block ${idx} */\n${cssClean}\n`;
         return;
       }
-      const prepared = prepareBlock(block);
-      escapedBlocks.push(`\`${prepared}\``);
+      const isActive = idx === activeBlockIndex;
+      const prepared = prepareBlock(block, isActive);
+      if (isActive) {
+        activeBlockStr = `\`${prepared}\``;
+      } else {
+        historicalBlocks.push(`\`${prepared}\``);
+      }
     });
+
+    const escapedBlocks = [...historicalBlocks];
+    if (activeBlockStr) escapedBlocks.push(activeBlockStr);
 
     const blocksArrayString = `[${escapedBlocks.join(",")}]`.replace(/<\/script>/gi, "<\\/script>");
 
@@ -171,6 +187,7 @@ export default function LivePreview({ code, allBlocks = [] }: LivePreviewProps) 
       });
       
       function find() {
+        if (typeof window.__ActiveExport__ === "function") return window.__ActiveExport__;
         if (typeof window.__DefaultExport__ === "function") return window.__DefaultExport__;
         for (let k of Object.keys(window)) if (typeof window[k] === "function" && /^[A-Z]/.test(k) && !["React","ReactDOM"].includes(k)) return window[k];
         return null;
@@ -191,7 +208,7 @@ export default function LivePreview({ code, allBlocks = [] }: LivePreviewProps) 
 </body>
 </html>
 `
-  }, [code, allBlocks])
+  }, [code, allBlocks, activeBlockIndex])
 
   return (
     <iframe

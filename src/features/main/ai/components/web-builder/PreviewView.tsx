@@ -30,6 +30,21 @@ export default function PreviewView({
   const [testMode, setTestMode] = useState(false)
   const [key, setKey] = useState(0)
   
+  const [snapshot, setSnapshot] = useState<{ code: string, blocks: string[], index: number } | null>(null)
+  
+  useEffect(() => {
+    if (testMode && !snapshot) {
+      setSnapshot({ code: debouncedCode, blocks: allBlocks, index: activeBlockIndex })
+    } else if (!testMode) {
+      setSnapshot(null)
+    }
+  }, [testMode, debouncedCode, allBlocks, activeBlockIndex])
+
+  useEffect(() => {
+    // When switching between pages (blocks), force a clean iframe reload
+    setKey(prev => prev + 1)
+  }, [activeBlockIndex])
+
   useEffect(() => {
     if (testMode) return;
     const timer = setTimeout(() => {
@@ -57,7 +72,7 @@ export default function PreviewView({
 
   const handleOpenFullscreen = () => {
     if (sessionId) {
-      window.open(`/${locale}/preview/${sessionId}`, "_blank")
+      window.open(`/${locale}/preview/${sessionId}?index=${activeBlockIndex}`, "_blank")
     } else {
       const win = window.open("", "_blank")
       if (win) {
@@ -68,7 +83,11 @@ export default function PreviewView({
   }
 
   const iframeSrc = useMemo(() => {
-    if (!debouncedCode) return ""
+    const effectiveCode = testMode && snapshot ? snapshot.code : debouncedCode
+    const effectiveBlocks = testMode && snapshot ? snapshot.blocks : allBlocks
+    const effectiveIndex = testMode && snapshot ? snapshot.index : activeBlockIndex
+
+    if (!effectiveCode) return ""
 
     const escapeForTemplate = (str: string) => {
       return str
@@ -99,29 +118,41 @@ export default function PreviewView({
         ${componentMocks}
         ${clean}
         ${exportsWrapper}
-        if (typeof __DefaultExport__ !== 'undefined') {
-          window.__DefaultExport__ = __DefaultExport__;
-          if (${isActive}) window.__ActiveExport__ = __DefaultExport__;
+        if (${isActive}) {
+          if (typeof __DefaultExport__ !== 'undefined') {
+            window.__DefaultExport__ = __DefaultExport__;
+            window.__ActiveExport__ = __DefaultExport__;
+          }
+          ${names.map(n => `if (typeof ${n} !== 'undefined') window.__ActiveExport__ = ${n};`).join('\n          ')}
         }
-        ${isActive ? names.map(n => `if (typeof ${n} !== 'undefined') window.__ActiveExport__ = ${n};`).join('\n') : ''}
       }`;
 
       return escapeForTemplate(fullBlock);
     }
 
     let libraryStyles = "";
-    let escapedBlocks: string[] = [];
+    let historicalBlocks: string[] = [];
+    let activeBlockStr = "";
     
-    allBlocks.forEach((block, idx) => {
+    effectiveBlocks.forEach((block, idx) => {
       const isCSS = block.includes("@tailwind") || block.includes("@import") || (block.trim().startsWith(".") || block.trim().startsWith("#") || block.trim().startsWith("body") || block.trim().startsWith(":root"));
       if (isCSS) {
         const cssClean = block.replace(/import[\s\S]*?from\s+['"].*?['"];?/g, "").replace(/@tailwind\s+.*?;/g, "");
         libraryStyles += `\n/* Block ${idx} */\n${cssClean}\n`;
         return;
       }
-      const prepared = prepareBlock(block, idx === activeBlockIndex);
-      escapedBlocks.push(`\`${prepared}\``);
+      const isActive = idx === effectiveIndex;
+      const prepared = prepareBlock(block, isActive);
+      if (isActive) {
+        activeBlockStr = `\`${prepared}\``;
+      } else {
+        historicalBlocks.push(`\`${prepared}\``);
+      }
     });
+
+    // Active block MUST be last to ensure its 'window' assignments win
+    const escapedBlocks = [...historicalBlocks];
+    if (activeBlockStr) escapedBlocks.push(activeBlockStr);
 
     const blocksArrayString = `[${escapedBlocks.join(",")}]`.replace(/<\/script>/gi, "<\\/script>");
 
@@ -255,7 +286,7 @@ export default function PreviewView({
 </body>
 </html>
 `
-  }, [debouncedCode, allBlocks])
+  }, [debouncedCode, allBlocks, activeBlockIndex, testMode, snapshot])
 
   return (
     <div className="flex flex-col h-full bg-zinc-50/50 rounded-2xl border border-zinc-200 overflow-hidden shadow-2xl">

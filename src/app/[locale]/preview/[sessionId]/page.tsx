@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
+import { useParams, useSearchParams } from "next/navigation"
 import { executionService } from "@/features/dashboard/executions/services/execution.service"
 import { extractCode } from "@/features/main/ai/utils/code-extraction"
 import LivePreview from "@/features/main/ai/components/web-builder/LivePreview"
@@ -9,6 +9,8 @@ import { Loader, AlertCircle } from "lucide-react"
 
 export default function FullscreenPreviewPage() {
   const { sessionId } = useParams() as { sessionId: string }
+  const searchParams = useSearchParams()
+  const activeIndex = parseInt(searchParams.get("index") || "0")
   const [codeBlocks, setCodeBlocks] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -70,12 +72,16 @@ export default function FullscreenPreviewPage() {
     )
   }
 
-  const latestCode = codeBlocks[codeBlocks.length - 1]
+  const activeCode = codeBlocks[activeIndex] || codeBlocks[codeBlocks.length - 1]
 
   return (
-    <div className="fixed inset-0 z-60 bg-white flex flex-col">
+    <div className="fixed inset-0 z-[60] bg-white flex flex-col">
       <div className="flex-1">
-        <LivePreview code={latestCode} allBlocks={codeBlocks} />
+        <LivePreview 
+          code={activeCode} 
+          allBlocks={codeBlocks} 
+          activeBlockIndex={activeIndex}
+        />
       </div>
     </div>
   )
