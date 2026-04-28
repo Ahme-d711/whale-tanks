@@ -1,11 +1,11 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import { executionService } from "@/features/dashboard/executions/services/execution.service"
 import { extractCode } from "@/features/main/ai/utils/code-extraction"
 import LivePreview from "@/features/main/ai/components/web-builder/LivePreview"
-import { Loader2, AlertCircle } from "lucide-react"
+import { Loader, AlertCircle } from "lucide-react"
 
 export default function FullscreenPreviewPage() {
   const { sessionId } = useParams() as { sessionId: string }
@@ -48,7 +48,7 @@ export default function FullscreenPreviewPage() {
   if (isLoading) {
     return (
       <div className="h-screen w-screen flex flex-col items-center justify-center bg-zinc-50">
-        <Loader2 className="w-10 h-10 text-primary animate-spin mb-4" />
+        <Loader className="w-10 h-10 text-primary animate-spin mb-4" />
         <p className="text-zinc-500 font-medium">Loading Live Preview...</p>
       </div>
     )
@@ -73,7 +73,7 @@ export default function FullscreenPreviewPage() {
   const latestCode = codeBlocks[codeBlocks.length - 1]
 
   return (
-    <div className="fixed inset-0 z-[60] bg-white flex flex-col">
+    <div className="fixed inset-0 z-60 bg-white flex flex-col">
       <div className="flex-1">
         <LivePreview code={latestCode} allBlocks={codeBlocks} />
       </div>

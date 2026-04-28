@@ -42,6 +42,7 @@ export default function WebBuilder({
         <PreviewView 
           code={currentCode} 
           allBlocks={blocks}
+          activeBlockIndex={activeIndex}
           sessionId={sessionId}
         />
       )}

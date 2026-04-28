@@ -25,6 +25,9 @@ export default function PreviewView({ code, allBlocks = [], sessionId }: Preview
   const [key, setKey] = useState(0)
   
   useEffect(() => {
+    // If test mode is on, we "lock" the preview to allow safe interaction
+    if (testMode) return;
+
     const timer = setTimeout(() => {
       if (code !== debouncedCode) {
         setIsReloading(true)
@@ -33,7 +36,7 @@ export default function PreviewView({ code, allBlocks = [], sessionId }: Preview
       }
     }, 500)
     return () => clearTimeout(timer)
-  }, [code, debouncedCode])
+  }, [code, debouncedCode, testMode])
 
   const handleRefresh = () => {
     setIsReloading(true)
