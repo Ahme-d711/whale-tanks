@@ -39,17 +39,16 @@ export function detectContentType(code: string): { contentType: ContentType; isF
     return { contentType: 'alpine', isFragment: false };
   }
 
-  // 5. Advanced React Detection
+  // 4. Advanced React Detection
   // Check for specialized React syntax and hooks
-  const hasJSX = /<[A-Z][A-Za-z0-9]*|<\/[A-Z][A-Za-z0-9]*>/.test(trimmed);
-  const hasHTMLTags = /<[a-z]+.*?>.*?<\/[a-z]+>/.test(trimmed);
+  const hasJSX = /<[A-Z][A-Za-z0-9]*/.test(trimmed);
+  const hasHTMLTags = /<[a-z]+[\s\S]*?>/.test(trimmed);
   const hasHooks = /use(State|Effect|Memo|Callback|Ref|Context|Reducer|LayoutEffect)/.test(trimmed);
   
-  // Requires at least a component-like structure (exporting a function/const with Caps)
-  const hasComponentBoilerplate = /export\s+(?:default\s+)?(?:function|const|class)\s+[A-Z]/.test(trimmed) || 
-                                  /^(?:function|const|class)\s+[A-Z]/.test(trimmed);
+  // Relax detection: can be export anywhere, or just a component declaration
+  const hasComponentBoilerplate = /(?:export\s+(?:default\s+)?)?(?:function|const|class)\s+[A-Z]/.test(trimmed);
   
-  const hasReturnJSX = /return\s+\(\s*<|return\s+<[A-Z]/.test(trimmed);
+  const hasReturnJSX = /return\s*\(?[\s\S]*?<[A-Z|a-z]/.test(trimmed);
 
   // Heuristic: If it has JSX, or it's a component with a return statement and hooks/react tags
   const isReactComponent = (hasJSX || isFragment) || (hasComponentBoilerplate && (hasReturnJSX || hasHooks || hasHTMLTags));
