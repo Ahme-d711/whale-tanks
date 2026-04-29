@@ -25,7 +25,7 @@ export default function AuthProvider({
     }
   }, [token, user, setUser, setToken]);
 
-  const { data: profile, isError } = useProfile(!!storeToken && !storeUser);
+  const { data: profile, error } = useProfile(!!storeToken && !storeUser);
 
   useEffect(() => {
     if (profile) {
@@ -34,10 +34,10 @@ export default function AuthProvider({
   }, [profile, setUser]);
 
   useEffect(() => {
-    if (isError) {
+    if (error) {
       clearAuth();
     }
-  }, [isError, clearAuth]);
+  }, [error, clearAuth]);
 
   return <>{children}</>;
 }

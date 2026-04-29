@@ -125,5 +125,10 @@
     "pricing": "Pakete und Preise",
     "login": "Anmelden",
     "open_menu": "Menü öffnen"
+  },
+  "NotFound": {
+    "title": "404 - Seite nicht gefunden",
+    "description": "Die von Ihnen gesuchte Seite existiert nicht oder wurde verschoben.",
+    "back_home": "Zurück zur Startseite"
   }
 }
