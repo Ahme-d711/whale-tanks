@@ -47,17 +47,11 @@ export default function TankSelector({ activeTankId, onTankChange }: TankSelecto
     : hardcodedTanks
 
   return (
-    <div className="flex items-center gap-1 bg-white backdrop-blur-sm p-1 w-fit rounded-[32px] border border-border shadow-sm">
+    <div className="flex items-center gap-1 p-1 w-fit">
       {tanks.map((tank) => (
-        <Button
+        <div
           key={tank.id}
-          variant="ghost"
-          onClick={() => onTankChange(tank.id)}
-          className={`h-auto px-4 py-1 gap-4 rounded-[24px] cursor-pointer transition-all duration-300 flex items-center hover:bg-transparent ${
-            activeTankId === tank.id
-              ? "bg-secondary shadow-sm"
-              : "hover:bg-border"
-          }`}
+          className="h-auto px-4 py-2 gap-4 rounded-[24px] transition-all duration-300 flex items-center bg-white/50 hover:bg-secondary/10 border border-transparent hover:border-secondary/30 shadow-sm cursor-pointer"
         >
           <div className="relative w-8 h-8 shrink-0">
             <Image 
@@ -75,7 +69,7 @@ export default function TankSelector({ activeTankId, onTankChange }: TankSelecto
               {tank.subtitle}
             </span>
           </div>
-        </Button>
+        </div>
       ))}
     </div>
   )
