@@ -114,8 +114,7 @@ export default function DashboardGrid({ activeTankId, onTankChange }: DashboardG
       {/* Right Column - Vertical AdvisorSelector & Projects */}
       <div className="w-64 shrink-0 flex flex-col justify-between gap-4 overflow-hidden">
         <div className="flex-1 overflow-hidden flex flex-col gap-4">
-          <AdvisorSelector activeTankId={activeTankId} />
-          <PreviousProjects />
+          <AdvisorSelector />
         </div>
         <SubscriptionUpsell />
       </div>
