@@ -76,7 +76,6 @@ export default function Navbar({ onSidebarToggle }: NavbarProps) {
   const navLinks = [
     { name: t("about"), href: "/about" },
     { name: t("pricing"), href: "/pricing" },
-    { name: t("projects"), href: "/projects" },
   ]
 
   return (
