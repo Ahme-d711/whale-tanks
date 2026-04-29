@@ -1,0 +1,371 @@
+{
+  "Common": {
+    "currency": "AED"
+  },
+  "Brand": {
+    "name": "Whale Tanks"
+  },
+  "HomePage": {
+    "Hero": {
+      "title": "모든 위대한 비즈니스의 핵심 두뇌",
+      "subtitle": "아이디어에서 실행까지"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "아이디어가 구체화되는 곳.",
+        "feature1": "AI 가상 고문들과 함께하는 모의 이사회.",
+        "feature2": "비전과 시장 포지셔닝의 명확성 확보."
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "아이디어가 실제 제품이 되는 곳.",
+        "feature1": "아이디어 초기화",
+        "feature2": "분석 및 검증",
+        "feature3": "UI / UX 디자인",
+        "feature4": "AI + No-Code 구축",
+        "feature5": "확장성 고려 설계",
+        "feature6": "제품 배포"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "아이디어가 투자자를 만나는 곳.",
+        "feature1": "현실적인 투자 환경에서의 프로젝트.",
+        "feature2": "이사회 피드백 수렴."
+      }
+    },
+    "Analyzer": {
+      "title": "아이디어를 입력하세요...",
+      "startup": "Startup Tank",
+      "tech": "Tech Tank",
+      "investor": "Investor Tank",
+      "send": "전송",
+      "info_tooltip": "분석할 탱크를 선택하세요.",
+      "recording_started": "녹음 시작...",
+      "recording_saved": "녹음 완료!",
+      "files_attached": "{count}개 파일 첨부됨",
+      "executions": {
+        "chat": "채팅",
+        "report": "보고서",
+        "analysis": "분석",
+        "summary": "요약",
+        "classification": "분류"
+      },
+      "categories": {
+        "all": "전체",
+        "financial": "재무",
+        "legal": "법률",
+        "marketing": "마케팅",
+        "revenue": "수익",
+        "technical": "기술"
+      },
+      "select_type": "유형",
+      "select_category": "카테고리",
+      "select_model": "모델"
+    },
+    "Advisors": {
+      "consultation": "{count}회 상담",
+      "legal": "법률 고문",
+      "psychological": "심리 고문",
+      "financial": "재무 고문",
+      "marketing": "마케팅 고문",
+      "technical": "기술 고문"
+    }
+  },
+  "Sidebar": {
+    "close": "사이드바 닫기",
+    "open": "사이드바 열기",
+    "new_chat": "새 채팅",
+    "search": "검색",
+    "last_chats": "최근 채팅",
+    "title": "Whale Tanks",
+    "overview": "개요",
+    "products": "제품",
+    "categories": "카테고리",
+    "subcategories": "하위 카테고리",
+    "brands": "브랜드",
+    "sections": "섹션",
+    "advertisements": "광고",
+    "orders": "주문",
+    "users": "사용자",
+    "subscriptions": "구독",
+    "packages": "패키지",
+    "models": "AI 모델",
+    "providers": "AI 공급자",
+    "executions": "AI 실행",
+    "settings": "설정",
+    "chat_deleted": "삭제됨",
+    "delete_failed": "삭제 실패",
+    "confirm_delete": "삭제하시겠습니까?",
+    "confirm_delete_title": "채팅 삭제",
+    "confirm_delete_desc": "복구 불가.",
+    "delete": "삭제"
+  },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "잔액 부족",
+      "description": "크레딧이 필요합니다.",
+      "warning": "잔액 부족.",
+      "upgrade_button": "업그레이드"
+    }
+  },
+  "Auth": {
+    "login": "로그인",
+    "register": "회원가입",
+    "email": "이메일",
+    "name": "이름",
+    "password": "비밀번호",
+    "welcome_back": "환영합니다",
+    "create_account": "계정 생성",
+    "sign_in_text": "로그인 정보 입력",
+    "sign_up_text": "가입 정보 입력",
+    "remember_me": "로그인 유지",
+    "dont_have_account": "계정이 없으신가요?",
+    "already_have_account": "이미 계정이 있으신가요?",
+    "sign_up": "회원가입",
+    "sign_in": "로그인",
+    "name_placeholder": "성명",
+    "email_placeholder": "이메일 주소",
+    "password_placeholder": "비밀번호",
+    "authenticating": "인증 중...",
+    "creating_account": "생성 중...",
+    "submit": "로그인",
+    "user_fallback": "사용자",
+    "profile": "프로필",
+    "edit_profile": "편집"
+  },
+  "Landing": {
+    "About": {
+      "title": "회사 소개",
+      "description": "디지털 경험을 구축합니다...",
+      "examples": "예시",
+      "projects": {
+        "restaurant": "레스토랑 프로젝트",
+        "clothes": "의류 프로젝트",
+        "restaurant_desc1": "레스토랑용 플랫폼...",
+        "restaurant_desc2": "직관적인 메뉴...",
+        "clothes_desc1": "패션 플랫폼...",
+        "clothes_desc2": "깔끔한 UI..."
+      }
+    },
+    "Pricing": {
+      "title": "패키지 및 가격",
+      "choose_plan": "구독 선택",
+      "subtitle": "적합한 플랜 선택",
+      "month": "월",
+      "select_plan": "선택",
+      "subscribe_confirm_title": "확인",
+      "subscribe_confirm_desc": "{planName} 플랜을 구독하시겠습니까?",
+      "plans": {
+        "basic": "기본",
+        "standard": "표준",
+        "premium": "프리미엄",
+        "save": "절약",
+        "months_1": "1개월",
+        "months_3": "3개월",
+        "months_6": "6개월",
+        "year_1": "1년",
+        "days": "일",
+        "feature_dummy": "Lorem ipsum dolor sit amet",
+        "cancel": "취소"
+      },
+      "empty": {
+        "title": "플랜 없음",
+        "description": "업데이트 중...",
+        "action": "홈으로"
+      }
+    }
+  },
+  "Projects": {
+    "title": "내 프로젝트",
+    "failed_load": "로드 실패.",
+    "empty": {
+      "title": "없음",
+      "description": "프로젝트가 없습니다.",
+      "action": "시작하기"
+    },
+    "untitled": "제목 없음",
+    "details": "상세 보기..."
+  },
+  "Navigation": {
+    "home": "홈",
+    "about": "소개",
+    "pricing": "가격",
+    "projects": "프로젝트",
+    "login": "로그인",
+    "open_menu": "메뉴",
+    "user_fallback": "사용자",
+    "admin_status": "관리자",
+    "logout_confirm_title": "로그아웃?",
+    "logout_confirm_desc": "로그아웃 하시겠습니까?",
+    "logout": "로그아웃"
+  },
+  "Dashboard": {
+    "Advisors": {
+      "title_council": "AI 평의회",
+      "title_investor": "투자자 위원회",
+      "description": "고문 선택"
+    },
+    "Projects": {
+      "title": "이전 프로젝트",
+      "no_projects": "프로젝트 없음",
+      "view_all": "전체 보기"
+    },
+    "Subscription": {
+      "title": "Pro 기능 잠금 해제",
+      "subtitle": "무제한 상담...",
+      "button": "업그레이드"
+    },
+    "title": "대시보드",
+    "subtitle": "환영합니다",
+    "statistics": "통계",
+    "total_users": "총 사용자",
+    "total_products": "총 제품",
+    "total_orders": "총 주문",
+    "total_revenue": "총 수익",
+    "new_users_trend": "신규: {count}",
+    "new_users_30d": "최근 30일",
+    "available": "판매 중",
+    "cumulative": "누적 주문",
+    "delivered": "배송 완료",
+    "orders": "주문 관리",
+    "pending": "대기 중",
+    "processing": "처리 중",
+    "cancelled": "취소됨",
+    "completed": "완료됨",
+    "awaiting": "픽업 대기",
+    "in_progress": "진행 중",
+    "failed": "배송 실패",
+    "order_statistics": "주문 통계",
+    "traffic_by_gov": "지역별 트래픽",
+    "no_data": "데이터 없음",
+    "export_report": "내보내기",
+    "users_management": "사용자 관리",
+    "add_user": "사용자 추가",
+    "packages_management": "패키지 관리",
+    "add_package": "패키지 추가",
+    "today": "오늘",
+    "yesterday": "어제",
+    "week": "이번 주",
+    "month": "이번 달",
+    "revenue_overview": "수익 개요",
+    "profits": "순이익",
+    "orders_label": "주문",
+    "cancel": "취소",
+    "delete": "삭제",
+    "all": "전체",
+    "inactive": "비활성"
+  },
+  "Users": {
+    "user": "사용자",
+    "edit_user": "편집",
+    "email": "이메일",
+    "role": "역할",
+    "status": "상태",
+    "joined": "가입일",
+    "actions": "작업",
+    "roles": {
+      "admin": "관리자",
+      "user": "사용자",
+      "editor": "편집자"
+    },
+    "statuses": {
+      "active": "활성",
+      "inactive": "비활성",
+      "suspended": "정지",
+      "all": "전체"
+    },
+    "delete_confirm": "삭제하시겠습니까?"
+  },
+  "Packages": {
+    "package": "패키지",
+    "add_package": "추가",
+    "edit_package": "편집",
+    "delete_package": "삭제",
+    "package_name": "이름",
+    "monthly_tokens": "월간 토큰",
+    "price": "가격",
+    "overage_cost": "추가 비용",
+    "duration": "기간",
+    "status": "상태",
+    "is_active": "활성",
+    "all": "전체",
+    "inactive": "비활성",
+    "days": "일",
+    "actions": "작업",
+    "delete_confirm": "삭제하시겠습니까?"
+  },
+  "AIModels": {
+    "title": "AI 모델",
+    "add_model": "추가",
+    "edit_model": "편집",
+    "delete_model": "삭제",
+    "model_name": "이름",
+    "provider_id": "공급자",
+    "input_cost": "입력 비용",
+    "output_cost": "출력 비용",
+    "max_tokens": "최대 토큰",
+    "status": "상태",
+    "is_active": "활성",
+    "all": "전체",
+    "inactive": "비활성",
+    "actions": "작업",
+    "delete_confirm": "삭제하시겠습니까?"
+  },
+  "AIProviders": {
+    "title": "AI 공급자",
+    "add_provider": "추가",
+    "edit_provider": "편집",
+    "delete_provider": "삭제",
+    "provider_name": "이름",
+    "status": "상태",
+    "active": "활성",
+    "inactive": "비활성",
+    "active_desc": "활성",
+    "inactive_desc": "비활성",
+    "all": "전체",
+    "actions": "작업",
+    "delete_confirm": "삭제하시겠습니까?"
+  },
+  "Subscriptions": {
+    "title": "구독 관리",
+    "add_subscription": "추가",
+    "edit_subscription": "편집",
+    "delete_subscription": "삭제",
+    "user": "사용자",
+    "package": "패키지",
+    "status": "상태",
+    "status_active": "활성",
+    "status_inactive": "비활성",
+    "status_expired": "만료됨",
+    "status_cancelled": "취소됨",
+    "tokens": "토큰",
+    "start_date": "시작일",
+    "end_date": "종료일",
+    "actions": "작업",
+    "delete_confirm": "삭제하시겠습니까?"
+  },
+  "Executions": {
+    "title": "AI 실행",
+    "execution_id": "실행 ID",
+    "user_id": "사용자",
+    "model_id": "모델",
+    "tokens": "토큰",
+    "tokens_short": "토큰",
+    "input_tokens": "입력",
+    "output_tokens": "출력",
+    "total_tokens": "전체",
+    "cost": "비용",
+    "type": "유형",
+    "executed_at": "일시",
+    "actions": "작업"
+  },
+  "NotFound": {
+    "title": "404 - 페이지를 찾을 수 없습니다",
+    "description": "찾으시는 페이지가 존재하지 않거나 이동되었습니다.",
+    "back_home": "홈으로 돌아가기"
+  }
+}

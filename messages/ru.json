@@ -1,0 +1,371 @@
+{
+  "Common": {
+    "currency": "AED"
+  },
+  "Brand": {
+    "name": "Whale Tanks"
+  },
+  "HomePage": {
+    "Hero": {
+      "title": "Мозг каждого великого бизнеса",
+      "subtitle": "От идеи до реализации"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "Где идеи обретают форму.",
+        "feature1": "Шагните в симулированный зал заседаний с ИИ-консультантами и испытайте глубокий мозговой штурм.",
+        "feature2": "Вы получите ясность относительно вашего видения, позиционирования и потенциала идеи."
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "Где идеи становятся реальными продуктами.",
+        "feature1": "Инициализация идеи",
+        "feature2": "Анализ и валидация",
+        "feature3": "Дизайн UI / UX",
+        "feature4": "Сборка с ИИ + No-Code",
+        "feature5": "Структурирование для масштабирования",
+        "feature6": "Развертывание продукта"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "Где идеи встречаются с инвесторами.",
+        "feature1": "Шагните в проект в реалистичной инвесторской среде.",
+        "feature2": "Получите обратную связь от совета директоров."
+      }
+    },
+    "Analyzer": {
+      "title": "Начните вводить вашу идею...",
+      "startup": "Startup Tank",
+      "tech": "Tech Tank",
+      "investor": "Investor Tank",
+      "send": "Отправить",
+      "info_tooltip": "Опишите вашу идею четко, затем выберите танк для анализа.",
+      "recording_started": "Запись началась...",
+      "recording_saved": "Запись сохранена!",
+      "files_attached": "Прикреплено файлов: {count}",
+      "executions": {
+        "chat": "Чат",
+        "report": "Отчет",
+        "analysis": "Анализ",
+        "summary": "Сводка",
+        "classification": "Классификация"
+      },
+      "categories": {
+        "all": "Все",
+        "financial": "Финансы",
+        "legal": "Юридические",
+        "marketing": "Маркетинг",
+        "revenue": "Доход",
+        "technical": "Технические"
+      },
+      "select_type": "Тип",
+      "select_category": "Категория",
+      "select_model": "Модель"
+    },
+    "Advisors": {
+      "consultation": "Консультаций: {count}",
+      "legal": "Юрист",
+      "psychological": "Психолог",
+      "financial": "Финансовый консультант",
+      "marketing": "Маркетолог",
+      "technical": "Технический консультант"
+    }
+  },
+  "Sidebar": {
+    "close": "Закрыть панель",
+    "open": "Открыть панель",
+    "new_chat": "Новый чат",
+    "search": "Поиск чатов",
+    "last_chats": "Последние чаты",
+    "title": "Whale Tanks",
+    "overview": "Обзор",
+    "products": "Продукты",
+    "categories": "Категории",
+    "subcategories": "Подкатегории",
+    "brands": "Бренды",
+    "sections": "Разделы",
+    "advertisements": "Реклама",
+    "orders": "Заказы",
+    "users": "Пользователи",
+    "subscriptions": "Подписки",
+    "packages": "Пакеты",
+    "models": "Модели ИИ",
+    "providers": "Провайдеры ИИ",
+    "executions": "Выполнения ИИ",
+    "settings": "Настройки",
+    "chat_deleted": "Чат успешно удален",
+    "delete_failed": "Не удалось удалить чат",
+    "confirm_delete": "Вы уверены, что хотите удалить этот чат?",
+    "confirm_delete_title": "Удалить чат?",
+    "confirm_delete_desc": "Это действие нельзя отменить.",
+    "delete": "Удалить"
+  },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "Недостаточно средств",
+      "description": "Вам нужно больше кредитов. Обновите тарифный план.",
+      "warning": "Недостаточно кредитов.",
+      "upgrade_button": "Обновить сейчас"
+    }
+  },
+  "Auth": {
+    "login": "Войти",
+    "register": "Регистрация",
+    "email": "Email",
+    "name": "Имя",
+    "password": "Пароль",
+    "welcome_back": "С возвращением",
+    "create_account": "Создать аккаунт",
+    "sign_in_text": "Введите email и пароль для входа",
+    "sign_up_text": "Введите данные для регистрации",
+    "remember_me": "Запомнить меня",
+    "dont_have_account": "Нет аккаунта?",
+    "already_have_account": "Уже есть аккаунт?",
+    "sign_up": "Зарегистрироваться",
+    "sign_in": "Войти",
+    "name_placeholder": "Ваше полное имя",
+    "email_placeholder": "Ваш email",
+    "password_placeholder": "Ваш пароль",
+    "authenticating": "Вход...",
+    "creating_account": "Создание аккаунта...",
+    "submit": "Войти",
+    "user_fallback": "Пользователь",
+    "profile": "Профиль",
+    "edit_profile": "Изменить профиль"
+  },
+  "Landing": {
+    "About": {
+      "title": "О нас",
+      "description": "Мы создаем цифровой опыт...",
+      "examples": "Примеры",
+      "projects": {
+        "restaurant": "Ресторан",
+        "clothes": "Магазин одежды",
+        "restaurant_desc1": "Современная платформа для ресторанов...",
+        "restaurant_desc2": "Фокус на презентации меню...",
+        "clothes_desc1": "Платформа для продажи одежды...",
+        "clothes_desc2": "Чистый интерфейс..."
+      }
+    },
+    "Pricing": {
+      "title": "Пакеты и цены",
+      "choose_plan": "Выберите подписку",
+      "subtitle": "Выберите подходящий план",
+      "month": "мес",
+      "select_plan": "Выбрать этот план",
+      "subscribe_confirm_title": "Подтвердить подписку",
+      "subscribe_confirm_desc": "Вы уверены, что хотите подписаться на {planName}?",
+      "plans": {
+        "basic": "Базовый",
+        "standard": "Стандартный",
+        "premium": "Премиум",
+        "save": "Экономия",
+        "months_1": "1 Месяц",
+        "months_3": "3 Месяца",
+        "months_6": "6 Месяцев",
+        "year_1": "1 Год",
+        "days": "Дней",
+        "feature_dummy": "Lorem ipsum dolor sit amet",
+        "cancel": "Отмена"
+      },
+      "empty": {
+        "title": "Нет доступных планов",
+        "description": "Мы обновляем тарифы...",
+        "action": "Вернуться на главную"
+      }
+    }
+  },
+  "Projects": {
+    "title": "Ваши проекты",
+    "failed_load": "Не удалось загрузить проекты.",
+    "empty": {
+      "title": "Проекты не найдены",
+      "description": "Похоже, вы еще не начали ни одного проекта.",
+      "action": "Начать анализ"
+    },
+    "untitled": "Проект без названия",
+    "details": "Просмотр отчетов..."
+  },
+  "Navigation": {
+    "home": "Главная",
+    "about": "О нас",
+    "pricing": "Цены",
+    "projects": "Наши проекты",
+    "login": "Войти",
+    "open_menu": "Открыть меню",
+    "user_fallback": "Пользователь",
+    "admin_status": "Администратор",
+    "logout_confirm_title": "Выйти?",
+    "logout_confirm_desc": "Вы уверены?",
+    "logout": "Выйти"
+  },
+  "Dashboard": {
+    "Advisors": {
+      "title_council": "Совет ИИ",
+      "title_investor": "Совет инвесторов",
+      "description": "Выберите консультанта"
+    },
+    "Projects": {
+      "title": "Предыдущие проекты",
+      "no_projects": "Проектов пока нет",
+      "view_all": "Посмотреть все"
+    },
+    "Subscription": {
+      "title": "Разблокировать Pro",
+      "subtitle": "Неограниченные консультации...",
+      "button": "Обновить сейчас"
+    },
+    "title": "Панель управления",
+    "subtitle": "Добро пожаловать",
+    "statistics": "Статистика",
+    "total_users": "Всего пользователей",
+    "total_products": "Всего продуктов",
+    "total_orders": "Всего заказов",
+    "total_revenue": "Общий доход",
+    "new_users_trend": "Новые пользователи: {count}",
+    "new_users_30d": "За последние 30 дней",
+    "available": "Доступно продуктов",
+    "cumulative": "Всего заказов",
+    "delivered": "Доставлено",
+    "orders": "Управление заказами",
+    "pending": "В ожидании",
+    "processing": "Обработка",
+    "cancelled": "Отменено",
+    "completed": "Завершено",
+    "awaiting": "Ожидает выдачи",
+    "in_progress": "В процессе",
+    "failed": "Ошибка доставки",
+    "order_statistics": "Статистика заказов",
+    "traffic_by_gov": "Трафик по регионам",
+    "no_data": "Нет данных",
+    "export_report": "Экспорт отчета",
+    "users_management": "Управление пользователями",
+    "add_user": "Добавить пользователя",
+    "packages_management": "Управление пакетами",
+    "add_package": "Добавить пакет",
+    "today": "Сегодня",
+    "yesterday": "Вчера",
+    "week": "Эта неделя",
+    "month": "Этот месяц",
+    "revenue_overview": "Обзор доходов",
+    "profits": "Прибыль",
+    "orders_label": "Заказы",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "all": "Все",
+    "inactive": "Неактивные"
+  },
+  "Users": {
+    "user": "Пользователь",
+    "edit_user": "Редактировать",
+    "email": "Email",
+    "role": "Роль",
+    "status": "Status",
+    "joined": "Дата регистрации",
+    "actions": "Действия",
+    "roles": {
+      "admin": "Админ",
+      "user": "Юзер",
+      "editor": "Редактор"
+    },
+    "statuses": {
+      "active": "Активен",
+      "inactive": "Неактивен",
+      "suspended": "Заблокирован",
+      "all": "Все статусы"
+    },
+    "delete_confirm": "Удалить пользователя?"
+  },
+  "Packages": {
+    "package": "Пакет",
+    "add_package": "Добавить пакет",
+    "edit_package": "Редактировать",
+    "delete_package": "Удалить",
+    "package_name": "Название",
+    "monthly_tokens": "Токены в месяц",
+    "price": "Цена",
+    "overage_cost": "Стоимость превышения",
+    "duration": "Длительность",
+    "status": "Статус",
+    "is_active": "Активен",
+    "all": "Все",
+    "inactive": "Неактивные",
+    "days": "Дней",
+    "actions": "Действия",
+    "delete_confirm": "Удалить пакет?"
+  },
+  "AIModels": {
+    "title": "Модели ИИ",
+    "add_model": "Добавить модель",
+    "edit_model": "Редактировать",
+    "delete_model": "Удалить",
+    "model_name": "Название",
+    "provider_id": "Провайдер",
+    "input_cost": "Цена входа",
+    "output_cost": "Цена выхода",
+    "max_tokens": "Макс. токенов",
+    "status": "Статус",
+    "is_active": "Активна",
+    "all": "Все",
+    "inactive": "Неактивные",
+    "actions": "Действия",
+    "delete_confirm": "Удалить модель?"
+  },
+  "AIProviders": {
+    "title": "Провайдеры ИИ",
+    "add_provider": "Добавить провайдера",
+    "edit_provider": "Редактировать",
+    "delete_provider": "Удалить",
+    "provider_name": "Название",
+    "status": "Статус",
+    "active": "Активен",
+    "inactive": "Неактивен",
+    "active_desc": "Работает",
+    "inactive_desc": "Отключен",
+    "all": "Все",
+    "actions": "Действия",
+    "delete_confirm": "Удалить провайдера?"
+  },
+  "Subscriptions": {
+    "title": "Подписки",
+    "add_subscription": "Добавить",
+    "edit_subscription": "Редактировать",
+    "delete_subscription": "Удалить",
+    "user": "Пользователь",
+    "package": "Пакет",
+    "status": "Статус",
+    "status_active": "Активна",
+    "status_inactive": "Неактивна",
+    "status_expired": "Истекла",
+    "status_cancelled": "Отменена",
+    "tokens": "Токены",
+    "start_date": "Дата начала",
+    "end_date": "Дата окончания",
+    "actions": "Действия",
+    "delete_confirm": "Удалить подписку?"
+  },
+  "Executions": {
+    "title": "Выполнения ИИ",
+    "execution_id": "ID выполнения",
+    "user_id": "Пользователь",
+    "model_id": "Модель",
+    "tokens": "Токены",
+    "tokens_short": "Токены",
+    "input_tokens": "Входные",
+    "output_tokens": "Выходные",
+    "total_tokens": "Всего",
+    "cost": "Стоимость",
+    "type": "Тип",
+    "executed_at": "Дата",
+    "actions": "Действия"
+  },
+  "NotFound": {
+    "title": "404 - Страница не найдена",
+    "description": "Страница, которую вы ищете, не существует или была перемещена.",
+    "back_home": "Вернуться на главную"
+  }
+}

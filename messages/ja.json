@@ -1,0 +1,371 @@
+{
+  "Common": {
+    "currency": "AED"
+  },
+  "Brand": {
+    "name": "Whale Tanks"
+  },
+  "HomePage": {
+    "Hero": {
+      "title": "偉大なビジネスの頭脳",
+      "subtitle": "アイデアから実行まで"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "アイデアが形になる場所。",
+        "feature1": "AIアドバイザーとの模擬取締役会。",
+        "feature2": "ビジョンと市場適合性を明確に。"
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "アイデアが現実の製品になる場所。",
+        "feature1": "アイデアの初期化",
+        "feature2": "分析と検証",
+        "feature3": "UI / UX 設計",
+        "feature4": "AI + No-Code で構築",
+        "feature5": "スケールのための構造化",
+        "feature6": "製品のデプロイ"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "アイデアが投資家と向き合う場所。",
+        "feature1": "現実的な投資環境でのプロジェクト。",
+        "feature2": "取締役会からのフィードバック。"
+      }
+    },
+    "Analyzer": {
+      "title": "アイデアを入力...",
+      "startup": "Startup Tank",
+      "tech": "Tech Tank",
+      "investor": "Investor Tank",
+      "send": "送信",
+      "info_tooltip": "明確に説明し、分析するタンクを選択。",
+      "recording_started": "録音開始...",
+      "recording_saved": "録音保存！",
+      "files_attached": "{count} ファイル添付",
+      "executions": {
+        "chat": "チャット",
+        "report": "レポート",
+        "analysis": "分析",
+        "summary": "要約",
+        "classification": "分類"
+      },
+      "categories": {
+        "all": "すべて",
+        "financial": "財務",
+        "legal": "法務",
+        "marketing": "マーケティング",
+        "revenue": "収益",
+        "technical": "技術"
+      },
+      "select_type": "タイプ",
+      "select_category": "カテゴリ",
+      "select_model": "モデル"
+    },
+    "Advisors": {
+      "consultation": "{count} 回の相談",
+      "legal": "法務アドバイザー",
+      "psychological": "心理アドバイザー",
+      "financial": "財務アドバイザー",
+      "marketing": "マーケティングアドバイザー",
+      "technical": "技術アドバイザー"
+    }
+  },
+  "Sidebar": {
+    "close": "閉じる",
+    "open": "開く",
+    "new_chat": "新規チャット",
+    "search": "チャット検索",
+    "last_chats": "履歴",
+    "title": "Whale Tanks",
+    "overview": "概要",
+    "products": "製品",
+    "categories": "カテゴリ",
+    "subcategories": "サブカテゴリ",
+    "brands": "ブランド",
+    "sections": "セクション",
+    "advertisements": "広告",
+    "orders": "注文",
+    "users": "ユーザー",
+    "subscriptions": "サブスク",
+    "packages": "パッケージ",
+    "models": "AIモデル",
+    "providers": "プロバイダー",
+    "executions": "実行履歴",
+    "settings": "設定",
+    "chat_deleted": "削除成功",
+    "delete_failed": "削除失敗",
+    "confirm_delete": "削除しますか？",
+    "confirm_delete_title": "チャット削除",
+    "confirm_delete_desc": "元に戻せません。",
+    "delete": "削除"
+  },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "残高不足",
+      "description": "クレジットが必要です。",
+      "warning": "残高が足りません。",
+      "upgrade_button": "アップグレード"
+    }
+  },
+  "Auth": {
+    "login": "ログイン",
+    "register": "登録",
+    "email": "メール",
+    "name": "名前",
+    "password": "パスワード",
+    "welcome_back": "おかえりなさい",
+    "create_account": "アカウント作成",
+    "sign_in_text": "ログイン情報を入力",
+    "sign_up_text": "新規登録情報を入力",
+    "remember_me": "ログイン維持",
+    "dont_have_account": "未登録？",
+    "already_have_account": "登録済み？",
+    "sign_up": "新規登録",
+    "sign_in": "ログイン",
+    "name_placeholder": "氏名",
+    "email_placeholder": "メールアドレス",
+    "password_placeholder": "パスワード",
+    "authenticating": "認証中...",
+    "creating_account": "作成中...",
+    "submit": "ログイン",
+    "user_fallback": "ユーザー",
+    "profile": "プロフィール",
+    "edit_profile": "編集"
+  },
+  "Landing": {
+    "About": {
+      "title": "会社概要",
+      "description": "デジタル体験を構築...",
+      "examples": "事例",
+      "projects": {
+        "restaurant": "飲食店",
+        "clothes": "アパレル",
+        "restaurant_desc1": "モダンな飲食店向け...",
+        "restaurant_desc2": "分かりやすいメニュー...",
+        "clothes_desc1": "ファッション向け...",
+        "clothes_desc2": "クリーンなUI..."
+      }
+    },
+    "Pricing": {
+      "title": "料金プラン",
+      "choose_plan": "プラン選択",
+      "subtitle": "最適なプラン",
+      "month": "月",
+      "select_plan": "このプランを選択",
+      "subscribe_confirm_title": "確認",
+      "subscribe_confirm_desc": "{planName} に登録しますか？",
+      "plans": {
+        "basic": "基本",
+        "standard": "標準",
+        "premium": "プレミアム",
+        "save": "お得",
+        "months_1": "1ヶ月",
+        "months_3": "3ヶ月",
+        "months_6": "6ヶ月",
+        "year_1": "1年",
+        "days": "日",
+        "feature_dummy": "Lorem ipsum dolor sit amet",
+        "cancel": "キャンセル"
+      },
+      "empty": {
+        "title": "プランなし",
+        "description": "更新中...",
+        "action": "ホームへ"
+      }
+    }
+  },
+  "Projects": {
+    "title": "プロジェクト",
+    "failed_load": "読み込み失敗。",
+    "empty": {
+      "title": "なし",
+      "description": "まだありません。",
+      "action": "開始"
+    },
+    "untitled": "無題",
+    "details": "詳細..."
+  },
+  "Navigation": {
+    "home": "ホーム",
+    "about": "概要",
+    "pricing": "料金",
+    "projects": "実績",
+    "login": "ログイン",
+    "open_menu": "メニュー",
+    "user_fallback": "ユーザー",
+    "admin_status": "管理者",
+    "logout_confirm_title": "ログアウト？",
+    "logout_confirm_desc": "よろしいですか？",
+    "logout": "ログアウト"
+  },
+  "Dashboard": {
+    "Advisors": {
+      "title_council": "AI評議会",
+      "title_investor": "投資家委員会",
+      "description": "アドバイザーを選択"
+    },
+    "Projects": {
+      "title": "履歴",
+      "no_projects": "履歴なし",
+      "view_all": "すべて見る"
+    },
+    "Subscription": {
+      "title": "Proを解放",
+      "subtitle": "無制限相談...",
+      "button": "アップグレード"
+    },
+    "title": "ダッシュボード",
+    "subtitle": "ようこそ",
+    "statistics": "統計",
+    "total_users": "ユーザー数",
+    "total_products": "製品数",
+    "total_orders": "注文数",
+    "total_revenue": "総収益",
+    "new_users_trend": "新規: {count}",
+    "new_users_30d": "過去30日",
+    "available": "利用可能",
+    "cumulative": "累計",
+    "delivered": "配送済み",
+    "orders": "管理",
+    "pending": "保留中",
+    "processing": "処理中",
+    "cancelled": "キャンセル",
+    "completed": "完了",
+    "awaiting": "引き渡し待ち",
+    "in_progress": "進行中",
+    "failed": "失敗",
+    "order_statistics": "注文統計",
+    "traffic_by_gov": "地域別",
+    "no_data": "データなし",
+    "export_report": "エクスポート",
+    "users_management": "ユーザー管理",
+    "add_user": "新規追加",
+    "packages_management": "パッケージ管理",
+    "add_package": "新規追加",
+    "today": "今日",
+    "yesterday": "昨日",
+    "week": "今週",
+    "month": "今月",
+    "revenue_overview": "収益概要",
+    "profits": "利益",
+    "orders_label": "注文",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "all": "すべて",
+    "inactive": "非活性"
+  },
+  "Users": {
+    "user": "ユーザー",
+    "edit_user": "編集",
+    "email": "メール",
+    "role": "役割",
+    "status": "状態",
+    "joined": "登録日",
+    "actions": "操作",
+    "roles": {
+      "admin": "管理者",
+      "user": "一般",
+      "editor": "編集者"
+    },
+    "statuses": {
+      "active": "有効",
+      "inactive": "無効",
+      "suspended": "停止",
+      "all": "すべて"
+    },
+    "delete_confirm": "削除しますか？"
+  },
+  "Packages": {
+    "package": "パッケージ",
+    "add_package": "追加",
+    "edit_package": "編集",
+    "delete_package": "削除",
+    "package_name": "名称",
+    "monthly_tokens": "月間トークン",
+    "price": "価格",
+    "overage_cost": "超過料金",
+    "duration": "期間",
+    "status": "状態",
+    "is_active": "有効",
+    "all": "すべて",
+    "inactive": "無効",
+    "days": "日",
+    "actions": "操作",
+    "delete_confirm": "削除しますか？"
+  },
+  "AIModels": {
+    "title": "AIモデル",
+    "add_model": "追加",
+    "edit_model": "編集",
+    "delete_model": "削除",
+    "model_name": "名称",
+    "provider_id": "提供者",
+    "input_cost": "入力コスト",
+    "output_cost": "出力コスト",
+    "max_tokens": "上限",
+    "status": "状態",
+    "is_active": "有効",
+    "all": "すべて",
+    "inactive": "無効",
+    "actions": "操作",
+    "delete_confirm": "削除しますか？"
+  },
+  "AIProviders": {
+    "title": "AIプロバイダー",
+    "add_provider": "追加",
+    "edit_provider": "編集",
+    "delete_provider": "削除",
+    "provider_name": "名称",
+    "status": "状態",
+    "active": "有効",
+    "inactive": "無効",
+    "active_desc": "有効",
+    "inactive_desc": "無効",
+    "all": "すべて",
+    "actions": "操作",
+    "delete_confirm": "削除しますか？"
+  },
+  "Subscriptions": {
+    "title": "サブスク管理",
+    "add_subscription": "追加",
+    "edit_subscription": "編集",
+    "delete_subscription": "削除",
+    "user": "ユーザー",
+    "package": "パッケージ",
+    "status": "状態",
+    "status_active": "有効",
+    "status_inactive": "無効",
+    "status_expired": "期限切れ",
+    "status_cancelled": "解約済み",
+    "tokens": "トークン",
+    "start_date": "開始日",
+    "end_date": "終了日",
+    "actions": "操作",
+    "delete_confirm": "削除しますか？"
+  },
+  "Executions": {
+    "title": "実行履歴",
+    "execution_id": "実行ID",
+    "user_id": "ユーザー",
+    "model_id": "モデル",
+    "tokens": "トークン",
+    "tokens_short": "トークン",
+    "input_tokens": "入力",
+    "output_tokens": "出力",
+    "total_tokens": "合計",
+    "cost": "コスト",
+    "type": "種類",
+    "executed_at": "日時",
+    "actions": "操作"
+  },
+  "NotFound": {
+    "title": "404 - ページが見つかりません",
+    "description": "お探しのページは存在しないか、移動しました。",
+    "back_home": "ホームに戻る"
+  }
+}

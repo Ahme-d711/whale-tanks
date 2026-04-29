@@ -17,6 +17,13 @@ const languages = [
   { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
   { code: 'it', name: 'Italiano', flag: '🇮🇹' },
   { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  { code: 'pt', name: 'Português', flag: '🇵🇹' },
+  { code: 'ko', name: '한국어', flag: '🇰🇷' },
+  { code: 'hi', name: 'हिन्दी', flag: '🇮🇳' },
 ]
 
 export default function LanguageSelector() {
@@ -38,7 +45,7 @@ export default function LanguageSelector() {
           <Globe className=" w-6 h-6 md:w-7 md:h-7a " />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className="w-48 max-h-80 overflow-y-auto thin-scrollbar">
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}

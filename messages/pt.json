@@ -1,0 +1,371 @@
+{
+  "Common": {
+    "currency": "AED"
+  },
+  "Brand": {
+    "name": "Whale Tanks"
+  },
+  "HomePage": {
+    "Hero": {
+      "title": "O Cérebro por Trás de Cada Grande Negócio",
+      "subtitle": "Da Ideia à Execução"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "Onde as ideias ganham forma.",
+        "feature1": "Entre em uma sala de reuniões simulada com conselheiros virtuais de IA.",
+        "feature2": "Ganhe clareza sobre sua visão e posicionamento no mercado."
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "Onde as ideias se tornam produtos reais.",
+        "feature1": "Inicializar Ideia",
+        "feature2": "Analisar e Validar",
+        "feature3": "Design UI / UX",
+        "feature4": "Construir com IA + No-Code",
+        "feature5": "Estruturar para Escalar",
+        "feature6": "Implantar Produto"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "Onde as ideias enfrentam investidores.",
+        "feature1": "Entre em um projeto em um ambiente de investidores realista.",
+        "feature2": "Receba feedback do conselho."
+      }
+    },
+    "Analyzer": {
+      "title": "Comece a digitar sua ideia...",
+      "startup": "Startup Tank",
+      "tech": "Tech Tank",
+      "investor": "Investor Tank",
+      "send": "Enviar",
+      "info_tooltip": "Descreva sua ideia claramente e escolha um tanque para analisá-la.",
+      "recording_started": "Gravação iniciada...",
+      "recording_saved": "Gravação salva!",
+      "files_attached": "{count} arquivo(s) anexado(s)",
+      "executions": {
+        "chat": "Chat",
+        "report": "Relatório",
+        "analysis": "Análise",
+        "summary": "Resumo",
+        "classification": "Classificação"
+      },
+      "categories": {
+        "all": "Todos",
+        "financial": "Financeiro",
+        "legal": "Jurídico",
+        "marketing": "Marketing",
+        "revenue": "Receita",
+        "technical": "Técnico"
+      },
+      "select_type": "Tipo",
+      "select_category": "Categoria",
+      "select_model": "Modelo"
+    },
+    "Advisors": {
+      "consultation": "{count} consulta(s)",
+      "legal": "Assessor Jurídico",
+      "psychological": "Assessor Psicológico",
+      "financial": "Assessor Financeiro",
+      "marketing": "Assessor de Marketing",
+      "technical": "Assessor Técnico"
+    }
+  },
+  "Sidebar": {
+    "close": "Fechar barra lateral",
+    "open": "Abrir barra lateral",
+    "new_chat": "Novo Chat",
+    "search": "Pesquisar chats",
+    "last_chats": "Últimos Chats",
+    "title": "Whale Tanks",
+    "overview": "Visão Geral",
+    "products": "Produtos",
+    "categories": "Categorias",
+    "subcategories": "Subcategorias",
+    "brands": "Marcas",
+    "sections": "Seções",
+    "advertisements": "Anúncios",
+    "orders": "Pedidos",
+    "users": "Usuários",
+    "subscriptions": "Assinaturas",
+    "packages": "Pacotes",
+    "models": "Modelos de IA",
+    "providers": "Provedores de IA",
+    "executions": "Execuções de IA",
+    "settings": "Configurações",
+    "chat_deleted": "Chat excluído com sucesso",
+    "delete_failed": "Falha ao excluir chat",
+    "confirm_delete": "Tem certeza de que deseja excluir este chat?",
+    "confirm_delete_title": "Excluir Chat?",
+    "confirm_delete_desc": "Esta ação não pode ser desfeita.",
+    "delete": "Excluir"
+  },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "Saldo insuficiente",
+      "description": "Você precisa de mais créditos. Atualize seu plano.",
+      "warning": "Créditos insuficientes.",
+      "upgrade_button": "Atualizar Agora"
+    }
+  },
+  "Auth": {
+    "login": "Entrar",
+    "register": "Cadastrar",
+    "email": "E-mail",
+    "name": "Nome",
+    "password": "Senha",
+    "welcome_back": "Bem-vindo de volta",
+    "create_account": "Criar Conta",
+    "sign_in_text": "Insira seu e-mail e senha para entrar",
+    "sign_up_text": "Insira seus dados para criar uma conta",
+    "remember_me": "Lembrar-me",
+    "dont_have_account": "Não tem uma conta?",
+    "already_have_account": "Já tem uma conta?",
+    "sign_up": "Cadastrar",
+    "sign_in": "Entrar",
+    "name_placeholder": "Seu nome completo",
+    "email_placeholder": "Seu endereço de e-mail",
+    "password_placeholder": "Sua senha",
+    "authenticating": "Autenticando...",
+    "creating_account": "Criando Conta...",
+    "submit": "Entrar",
+    "user_fallback": "Usuário",
+    "profile": "Perfil",
+    "edit_profile": "Editar Perfil"
+  },
+  "Landing": {
+    "About": {
+      "title": "Sobre Nós",
+      "description": "Construímos experiências digitais...",
+      "examples": "Exemplos",
+      "projects": {
+        "restaurant": "Projeto de Restaurante",
+        "clothes": "Projeto de Roupas",
+        "restaurant_desc1": "Plataforma digital moderna...",
+        "restaurant_desc2": "Apresentação clara do menu...",
+        "clothes_desc1": "Plataforma de moda...",
+        "clothes_desc2": "Interface limpa..."
+      }
+    },
+    "Pricing": {
+      "title": "Pacotes e preços",
+      "choose_plan": "Escolha uma Assinatura",
+      "subtitle": "Escolha o plano ideal",
+      "month": "m",
+      "select_plan": "Selecionar este plano",
+      "subscribe_confirm_title": "Confirmar Assinatura",
+      "subscribe_confirm_desc": "Tem certeza de que deseja assinar o plano {planName}?",
+      "plans": {
+        "basic": "Básico",
+        "standard": "Padrão",
+        "premium": "Plano Premium",
+        "save": "ECONOMIZE",
+        "months_1": "1 Mês",
+        "months_3": "3 Meses",
+        "months_6": "6 Meses",
+        "year_1": "1 Ano",
+        "days": "Dias",
+        "feature_dummy": "Lorem ipsum dolor sit amet",
+        "cancel": "Cancelar"
+      },
+      "empty": {
+        "title": "Nenhum Plano Disponível",
+        "description": "Estamos atualizando...",
+        "action": "Voltar ao Início"
+      }
+    }
+  },
+  "Projects": {
+    "title": "Seus Projetos",
+    "failed_load": "Falha ao carregar projetos.",
+    "empty": {
+      "title": "Nenhum Projeto Encontrado",
+      "description": "Você ainda não iniciou projetos.",
+      "action": "Iniciar Análise"
+    },
+    "untitled": "Projeto Sem Título",
+    "details": "Ver análise detalhada..."
+  },
+  "Navigation": {
+    "home": "Início",
+    "about": "Sobre Nós",
+    "pricing": "Preços",
+    "projects": "Projetos",
+    "login": "Entrar",
+    "open_menu": "Abrir Menu",
+    "user_fallback": "Usuário",
+    "admin_status": "Administrador",
+    "logout_confirm_title": "Sair?",
+    "logout_confirm_desc": "Tem certeza?",
+    "logout": "Sair"
+  },
+  "Dashboard": {
+    "Advisors": {
+      "title_council": "Conselho de IA",
+      "title_investor": "Conselho de Investidores",
+      "description": "Selecione seu consultor"
+    },
+    "Projects": {
+      "title": "Projetos Anteriores",
+      "no_projects": "Nenhum projeto ainda",
+      "view_all": "Ver Todos"
+    },
+    "Subscription": {
+      "title": "Desbloquear Recursos Pro",
+      "subtitle": "Consultas ilimitadas...",
+      "button": "Atualizar Agora"
+    },
+    "title": "Painel Principal",
+    "subtitle": "Bem-vindo ao painel",
+    "statistics": "Estatísticas",
+    "total_users": "Total de Usuários",
+    "total_products": "Total de Produtos",
+    "total_orders": "Total de Pedidos",
+    "total_revenue": "Receita Total",
+    "new_users_trend": "Novos Usuários: {count}",
+    "new_users_30d": "Últimos 30 Dias",
+    "available": "Produtos Disponíveis",
+    "cumulative": "Pedidos Acumulados",
+    "delivered": "Entregues",
+    "orders": "Gerenciamento de Pedidos",
+    "pending": "Pendentes",
+    "processing": "Processando",
+    "cancelled": "Cancelados",
+    "completed": "Concluídos",
+    "awaiting": "Aguardando Retirada",
+    "in_progress": "Em Andamento",
+    "failed": "Falha na Entrega",
+    "order_statistics": "Estatísticas de Pedidos",
+    "traffic_by_gov": "Tráfego por Região",
+    "no_data": "Nenhum dado disponível",
+    "export_report": "Exportar Relatório",
+    "users_management": "Gerenciamento de Usuários",
+    "add_user": "Adicionar Usuário",
+    "packages_management": "Gerenciamento de Pacotes",
+    "add_package": "Adicionar Pacote",
+    "today": "Hoje",
+    "yesterday": "Ontem",
+    "week": "Esta Semana",
+    "month": "Este Mês",
+    "revenue_overview": "Visão Geral da Receita",
+    "profits": "Lucros",
+    "orders_label": "Pedidos",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "all": "Todos",
+    "inactive": "Inativos"
+  },
+  "Users": {
+    "user": "Usuário",
+    "edit_user": "Editar",
+    "email": "E-mail",
+    "role": "Função",
+    "status": "Status",
+    "joined": "Data de Adesão",
+    "actions": "Ações",
+    "roles": {
+      "admin": "Admin",
+      "user": "Usuário",
+      "editor": "Editor"
+    },
+    "statuses": {
+      "active": "Ativo",
+      "inactive": "Inativo",
+      "suspended": "Suspenso",
+      "all": "Todos"
+    },
+    "delete_confirm": "Excluir usuário?"
+  },
+  "Packages": {
+    "package": "Pacote",
+    "add_package": "Adicionar Pacote",
+    "edit_package": "Editar",
+    "delete_package": "Excluir",
+    "package_name": "Nome",
+    "monthly_tokens": "Tokens Mensais",
+    "price": "Preço",
+    "overage_cost": "Custo Adicional",
+    "duration": "Duração",
+    "status": "Status",
+    "is_active": "Ativo",
+    "all": "Todos",
+    "inactive": "Inativos",
+    "days": "Dias",
+    "actions": "Ações",
+    "delete_confirm": "Excluir pacote?"
+  },
+  "AIModels": {
+    "title": "Modelos de IA",
+    "add_model": "Adicionar",
+    "edit_model": "Editar",
+    "delete_model": "Excluir",
+    "model_name": "Nome",
+    "provider_id": "Provedor",
+    "input_cost": "Custo de Entrada",
+    "output_cost": "Custo de Saída",
+    "max_tokens": "Tokens Máximos",
+    "status": "Status",
+    "is_active": "Ativo",
+    "all": "Todos",
+    "inactive": "Inativos",
+    "actions": "Ações",
+    "delete_confirm": "Excluir modelo?"
+  },
+  "AIProviders": {
+    "title": "Provedores de IA",
+    "add_provider": "Adicionar",
+    "edit_provider": "Editar",
+    "delete_provider": "Excluir",
+    "provider_name": "Nome",
+    "status": "Status",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "active_desc": "Ativo",
+    "inactive_desc": "Inativo",
+    "all": "Todos",
+    "actions": "Ações",
+    "delete_confirm": "Excluir provedor?"
+  },
+  "Subscriptions": {
+    "title": "Assinaturas",
+    "add_subscription": "Adicionar",
+    "edit_subscription": "Editar",
+    "delete_subscription": "Excluir",
+    "user": "Usuário",
+    "package": "Pacote",
+    "status": "Status",
+    "status_active": "Ativa",
+    "status_inactive": "Inativa",
+    "status_expired": "Expirada",
+    "status_cancelled": "Cancelada",
+    "tokens": "Tokens",
+    "start_date": "Data de Início",
+    "end_date": "Data de Término",
+    "actions": "Ações",
+    "delete_confirm": "Excluir assinatura?"
+  },
+  "Executions": {
+    "title": "Execuções",
+    "execution_id": "ID",
+    "user_id": "Usuário",
+    "model_id": "Modelo",
+    "tokens": "Tokens",
+    "tokens_short": "Tokens",
+    "input_tokens": "Entrada",
+    "output_tokens": "Saída",
+    "total_tokens": "Total",
+    "cost": "Custo",
+    "type": "Tipo",
+    "executed_at": "Data",
+    "actions": "Ações"
+  },
+  "NotFound": {
+    "title": "404 - Página Não Encontrada",
+    "description": "A página que procura não existe ou foi movida.",
+    "back_home": "Voltar ao Início"
+  }
+}

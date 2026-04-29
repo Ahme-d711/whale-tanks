@@ -1,0 +1,371 @@
+{
+  "Common": {
+    "currency": "AED"
+  },
+  "Brand": {
+    "name": "Whale Tanks"
+  },
+  "HomePage": {
+    "Hero": {
+      "title": "Her Büyük İşletmenin Arkasındaki Beyin",
+      "subtitle": "Fikirden Uygulamaya"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "Fikirlerin şekil aldığı yer.",
+        "feature1": "Yapay zeka destekli sanal danışmanlarla simüle edilmiş bir yönetim kuruluna adım atın.",
+        "feature2": "Vizyonunuz, pazar konumlandırmanız hakkında netlik kazanın."
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "Fikirlerin gerçek ürünlere dönüştüğü yer.",
+        "feature1": "Fikri Başlat",
+        "feature2": "Analiz Et ve Doğrula",
+        "feature3": "UI / UX Tasarla",
+        "feature4": "AI + No-Code ile İnşa Et",
+        "feature5": "Ölçekleme için Yapılandır",
+        "feature6": "Ürünü Dağıt"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "Fikirlerin yatırımcılarla buluştuğu yer.",
+        "feature1": "Gerçekçi bir yatırımcı ortamında projeye adım atın.",
+        "feature2": "Yönetim kurulundan geri bildirim alın."
+      }
+    },
+    "Analyzer": {
+      "title": "Fikrinizi yazmaya başlayın...",
+      "startup": "Startup Tank",
+      "tech": "Tech Tank",
+      "investor": "Investor Tank",
+      "send": "Gönder",
+      "info_tooltip": "Fikrinizi net bir şekilde açıklayın, ardından analiz etmek için bir tank seçin.",
+      "recording_started": "Kayıt başladı...",
+      "recording_saved": "Kayıt kaydedildi!",
+      "files_attached": "{count} dosya eklendi",
+      "executions": {
+        "chat": "Sohbet",
+        "report": "Rapor",
+        "analysis": "Analiz",
+        "summary": "Özet",
+        "classification": "Sınıфlandırma"
+      },
+      "categories": {
+        "all": "Tümü",
+        "financial": "Finansal",
+        "legal": "Hukuki",
+        "marketing": "Pazarlama",
+        "revenue": "Gelir",
+        "technical": "Teknik"
+      },
+      "select_type": "Tür",
+      "select_category": "Kategori",
+      "select_model": "Model"
+    },
+    "Advisors": {
+      "consultation": "{count} danışmanlık",
+      "legal": "Hukuk Danışmanı",
+      "psychological": "Psikolojik Danışman",
+      "financial": "Finans Danışmanı",
+      "marketing": "Pazarlama Danışmanı",
+      "technical": "Teknik Danışman"
+    }
+  },
+  "Sidebar": {
+    "close": "Kenar çubuğunu kapat",
+    "open": "Kenar çubuğunu aç",
+    "new_chat": "Yeni Sohbet",
+    "search": "Sohbetlerde ara",
+    "last_chats": "Son Sohbetler",
+    "title": "Whale Tanks",
+    "overview": "Genel Bakış",
+    "products": "Ürünler",
+    "categories": "Kategoriler",
+    "subcategories": "Alt Kategoriler",
+    "brands": "Markalar",
+    "sections": "Bölümler",
+    "advertisements": "Reklamlar",
+    "orders": "Siparişler",
+    "users": "Kullanıcılar",
+    "subscriptions": "Abonelikler",
+    "packages": "Paketler",
+    "models": "AI Modelleri",
+    "providers": "AI Sağlayıcıları",
+    "executions": "AI Çalıştırmaları",
+    "settings": "Ayarlar",
+    "chat_deleted": "Sohbet başarıyla silindi",
+    "delete_failed": "Sohbet silinemedi",
+    "confirm_delete": "Bu sohbeti silmek istediğinizden emin misiniz?",
+    "confirm_delete_title": "Sohbeti Sil?",
+    "confirm_delete_desc": "Bu işlem geri alınamaz.",
+    "delete": "Sil"
+  },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "Yetersiz bakiye",
+      "description": "Devam etmek için daha fazla krediye ihtiyacınız var.",
+      "warning": "Yeterli kredi yok.",
+      "upgrade_button": "Şimdi Yükselt"
+    }
+  },
+  "Auth": {
+    "login": "Giriş Yap",
+    "register": "Kaydol",
+    "email": "E-posta",
+    "name": "İsim",
+    "password": "Şifre",
+    "welcome_back": "Tekrar Hoş Geldiniz",
+    "create_account": "Hesap Oluştur",
+    "sign_in_text": "Giriş yapmak için e-posta ve şifrenizi girin",
+    "sign_up_text": "Yeni hesap oluşturmak için bilgilerinizi girin",
+    "remember_me": "Beni hatırla",
+    "dont_have_account": "Hesabınız yok mu?",
+    "already_have_account": "Zaten hesabınız var mı?",
+    "sign_up": "Kaydol",
+    "sign_in": "Giriş yap",
+    "name_placeholder": "Tam adınız",
+    "email_placeholder": "E-posta adresiniz",
+    "password_placeholder": "Şifreniz",
+    "authenticating": "Kimlik doğrulanıyor...",
+    "creating_account": "Hesap oluşturuluyor...",
+    "submit": "Giriş Yap",
+    "user_fallback": "Kullanıcı",
+    "profile": "Profil",
+    "edit_profile": "Profili Düzenle"
+  },
+  "Landing": {
+    "About": {
+      "title": "Hakkımızda",
+      "description": "Dijital deneyimler inşa ediyoruz...",
+      "examples": "Örnekler",
+      "projects": {
+        "restaurant": "Restoran Projesi",
+        "clothes": "Giyim Projesi",
+        "restaurant_desc1": "Modern dijital platform...",
+        "restaurant_desc2": "Menü sunumu...",
+        "clothes_desc1": "Moda odaklı platform...",
+        "clothes_desc2": "Temiz arayüz..."
+      }
+    },
+    "Pricing": {
+      "title": "Paketler ve fiyatlar",
+      "choose_plan": "Bir Abonelik Seçin",
+      "subtitle": "Size uygun planı seçin",
+      "month": "ay",
+      "select_plan": "Bu planı seç",
+      "subscribe_confirm_title": "Aboneliği Onayla",
+      "subscribe_confirm_desc": "{planName} planına abone olmak istediğinizden emin misiniz?",
+      "plans": {
+        "basic": "Temel",
+        "standard": "Standart",
+        "premium": "Premium Plan",
+        "save": "TASARRUF",
+        "months_1": "1 Ay",
+        "months_3": "3 Ay",
+        "months_6": "6 Ay",
+        "year_1": "1 Yıl",
+        "days": "Gün",
+        "feature_dummy": "Lorem ipsum dolor sit amet",
+        "cancel": "İptal"
+      },
+      "empty": {
+        "title": "Kullanılabilir Plan Yok",
+        "description": "Planlarımızı güncelliyoruz...",
+        "action": "Ana Sayfaya Dön"
+      }
+    }
+  },
+  "Projects": {
+    "title": "Projeleriniz",
+    "failed_load": "Projeler yüklenemedi.",
+    "empty": {
+      "title": "Proje Bulunamadı",
+      "description": "Henüz bir projeniz yok gibi görünüyor.",
+      "action": "Analize Başla"
+    },
+    "untitled": "Adsız Proje",
+    "details": "Detaylı analiz..."
+  },
+  "Navigation": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımızda",
+    "pricing": "Paketler",
+    "projects": "Projelerimiz",
+    "login": "Giriş",
+    "open_menu": "Menüyü Aç",
+    "user_fallback": "Kullanıcı",
+    "admin_status": "Yönetici",
+    "logout_confirm_title": "Çıkış Yap?",
+    "logout_confirm_desc": "Emin misiniz?",
+    "logout": "Çıkış Yap"
+  },
+  "Dashboard": {
+    "Advisors": {
+      "title_council": "AI Konseyi",
+      "title_investor": "Yatırımcı Kurulu",
+      "description": "Sanal danışmanınızı seçin"
+    },
+    "Projects": {
+      "title": "Önceki Projeler",
+      "no_projects": "Henüz proje yok",
+      "view_all": "Tümünü Görüntüle"
+    },
+    "Subscription": {
+      "title": "Pro Özellikleri Aç",
+      "subtitle": "Sınırsız danışmanlık...",
+      "button": "Şimdi Yükselt"
+    },
+    "title": "Ana Panel",
+    "subtitle": "Hoş geldiniz",
+    "statistics": "İstatistikler",
+    "total_users": "Toplam Kullanıcı",
+    "total_products": "Toplam Ürün",
+    "total_orders": "Toplam Sipariş",
+    "total_revenue": "Toplam Gelir",
+    "new_users_trend": "Yeni Kullanıcılar: {count}",
+    "new_users_30d": "Son 30 Gün",
+    "available": "Mevcut Ürünler",
+    "cumulative": "Kümülatif Siparişler",
+    "delivered": "Teslim Edilenler",
+    "orders": "Sipariş Yönetimi",
+    "pending": "Beklemede",
+    "processing": "İşleniyor",
+    "cancelled": "İptal Edildi",
+    "completed": "Tamamlandı",
+    "awaiting": "Teslimat Bekliyor",
+    "in_progress": "Devam Ediyor",
+    "failed": "Teslimat Başarısız",
+    "order_statistics": "Sipariş İstatistikleri",
+    "traffic_by_gov": "Bölgelere Göre Trafik",
+    "no_data": "Veri yok",
+    "export_report": "Raporu Dışa Aktar",
+    "users_management": "Kullanıcı Yönetimi",
+    "add_user": "Yeni Kullanıcı Ekle",
+    "packages_management": "Paket Yönetimi",
+    "add_package": "Yeni Paket Ekle",
+    "today": "Bugün",
+    "yesterday": "Dün",
+    "week": "Bu Hafta",
+    "month": "Bu Ay",
+    "revenue_overview": "Gelir Genel Bakış",
+    "profits": "Karlılık",
+    "orders_label": "Siparişler",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "all": "Tümü",
+    "inactive": "Pasif"
+  },
+  "Users": {
+    "user": "Kullanıcı",
+    "edit_user": "Düzenle",
+    "email": "E-posta",
+    "role": "Rol",
+    "status": "Durum",
+    "joined": "Katılım Tarihi",
+    "actions": "Eylemler",
+    "roles": {
+      "admin": "Yönetici",
+      "user": "Kullanıcı",
+      "editor": "Editör"
+    },
+    "statuses": {
+      "active": "Aktif",
+      "inactive": "Pasif",
+      "suspended": "Askıya Alındı",
+      "all": "Tüm Durumlar"
+    },
+    "delete_confirm": "Kullanıcıyı silmek istediğinizden emin misiniz?"
+  },
+  "Packages": {
+    "package": "Paket",
+    "add_package": "Paket Ekle",
+    "edit_package": "Düzenle",
+    "delete_package": "Sil",
+    "package_name": "Paket Adı",
+    "monthly_tokens": "Aylık Token",
+    "price": "Fiyat",
+    "overage_cost": "Aşım Maliyeti",
+    "duration": "Süre",
+    "status": "Durum",
+    "is_active": "Aktif",
+    "all": "Tümü",
+    "inactive": "Pasif",
+    "days": "Gün",
+    "actions": "Eylemler",
+    "delete_confirm": "Paketi silmek istediğinizden emin misiniz?"
+  },
+  "AIModels": {
+    "title": "AI Modelleri",
+    "add_model": "Model Ekle",
+    "edit_model": "Düzenle",
+    "delete_model": "Sil",
+    "model_name": "Model Adı",
+    "provider_id": "Sağlayıcı",
+    "input_cost": "Giriş Maliyeti",
+    "output_cost": "Çıkış Maliyeti",
+    "max_tokens": "Maks Token",
+    "status": "Durum",
+    "is_active": "Aktif",
+    "all": "Tümü",
+    "inactive": "Pasif",
+    "actions": "Eylemler",
+    "delete_confirm": "Modeli silmek istediğinizden emin misiniz?"
+  },
+  "AIProviders": {
+    "title": "AI Sağlayıcıları",
+    "add_provider": "Sağlayıcı Ekle",
+    "edit_provider": "Düzenle",
+    "delete_provider": "Sil",
+    "provider_name": "Sağlayıcı Adı",
+    "status": "Durum",
+    "active": "Aktif",
+    "inactive": "Pasif",
+    "active_desc": "Aktif",
+    "inactive_desc": "Pasif",
+    "all": "Tümü",
+    "actions": "Eylemler",
+    "delete_confirm": "Sağlayıcıyı silmek istediğinizden emin misiniz?"
+  },
+  "Subscriptions": {
+    "title": "Abonelikler",
+    "add_subscription": "Abonelik Ekle",
+    "edit_subscription": "Düzenle",
+    "delete_subscription": "Sil",
+    "user": "Kullanıcı",
+    "package": "Paket",
+    "status": "Durum",
+    "status_active": "Aktif",
+    "status_inactive": "Pasif",
+    "status_expired": "Süresi Doldu",
+    "status_cancelled": "İptal Edildi",
+    "tokens": "Tokenlar",
+    "start_date": "Başlangıç Tarihi",
+    "end_date": "Bitiş Tarihi",
+    "actions": "Eylemler",
+    "delete_confirm": "Aboneliği silmek istediğinizden emin misiniz?"
+  },
+  "Executions": {
+    "title": "AI Çalıştırmaları",
+    "execution_id": "Çalıştırma ID",
+    "user_id": "Kullanıcı",
+    "model_id": "Model",
+    "tokens": "Tokenlar",
+    "tokens_short": "Token",
+    "input_tokens": "Giriş",
+    "output_tokens": "Çıkış",
+    "total_tokens": "Toplam",
+    "cost": "Maliyet",
+    "type": "Tür",
+    "executed_at": "Tarih",
+    "actions": "Eylemler"
+  },
+  "NotFound": {
+    "title": "404 - Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa mevcut değil veya taşınmış.",
+    "back_home": "Ana Sayfaya Dön"
+  }
+}

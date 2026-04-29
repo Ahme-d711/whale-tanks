@@ -1,0 +1,371 @@
+{
+  "Common": {
+    "currency": "AED"
+  },
+  "Brand": {
+    "name": "Whale Tanks"
+  },
+  "HomePage": {
+    "Hero": {
+      "title": "हर महान व्यवसाय के पीछे का दिमाग",
+      "subtitle": "विचार से निष्पादन तक"
+    },
+    "Services": {
+      "startup": {
+        "title": "Startup Tank",
+        "subtitle": "White Whale",
+        "description": "जहाँ विचारों को आकार मिलता है।",
+        "feature1": "AI-संचालित आभासी सलाहकारों के साथ एक सिम्युलेटेड बोर्डरूम में कदम रखें।",
+        "feature2": "अपने दृष्टिकोण और बाजार स्थिति पर स्पष्टता प्राप्त करें।"
+      },
+      "tech": {
+        "title": "Tech Tank",
+        "subtitle": "Black Whale",
+        "description": "जहाँ विचार वास्तविक उत्पाद बनते हैं।",
+        "feature1": "विचार प्रारंभ करें",
+        "feature2": "विश्लेषण और सत्यापन",
+        "feature3": "UI / UX डिज़ाइन",
+        "feature4": "AI + No-Code के साथ निर्माण",
+        "feature5": "स्केल के लिए संरचना",
+        "feature6": "उत्पाद तैनात करें"
+      },
+      "investor": {
+        "title": "Investor Tank",
+        "subtitle": "Blue Whale",
+        "description": "जहाँ विचार निवेशकों से मिलते हैं।",
+        "feature1": "एक यथार्थवादी निवेशक वातावरण में कदम रखें।",
+        "feature2": "बोर्ड से प्रतिक्रिया प्राप्त करें।"
+      }
+    },
+    "Analyzer": {
+      "title": "अपना विचार लिखना शुरू करें...",
+      "startup": "Startup Tank",
+      "tech": "Tech Tank",
+      "investor": "Investor Tank",
+      "send": "भेजें",
+      "info_tooltip": "अपने विचार का वर्णन करें और विश्लेषण के लिए एक टैंक चुनें।",
+      "recording_started": "रिकॉर्डिंग शुरू...",
+      "recording_saved": "रिकॉर्डिंग सहेजी गई!",
+      "files_attached": "{count} फाइलें संलग्न",
+      "executions": {
+        "chat": "चैट",
+        "report": "रिपोर्ट",
+        "analysis": "विश्लेषण",
+        "summary": "सारांश",
+        "classification": "वर्गीकरण"
+      },
+      "categories": {
+        "all": "सभी",
+        "financial": "वित्तीय",
+        "legal": "कानूनी",
+        "marketing": "मार्केटिंग",
+        "revenue": "राजस्व",
+        "technical": "तकनीकी"
+      },
+      "select_type": "प्रकार",
+      "select_category": "श्रेणी",
+      "select_model": "मॉडल"
+    },
+    "Advisors": {
+      "consultation": "{count} परामर्श",
+      "legal": "कानूनी सलाहकार",
+      "psychological": "मनोवैज्ञानिक सलाहकार",
+      "financial": "वित्तीय सलाहकार",
+      "marketing": "मार्केटिंग सलाहकार",
+      "technical": "तकनीकी सलाहकार"
+    }
+  },
+  "Sidebar": {
+    "close": "साइडबार बंद करें",
+    "open": "साइडबार खोलें",
+    "new_chat": "नई चैट",
+    "search": "चैट खोजें",
+    "last_chats": "हाल की चैट",
+    "title": "Whale Tanks",
+    "overview": "अवलोकन",
+    "products": "उत्पाद",
+    "categories": "श्रेणियाँ",
+    "subcategories": "उपश्रेणियाँ",
+    "brands": "ब्रांड",
+    "sections": "अनुभाग",
+    "advertisements": "विज्ञापन",
+    "orders": "आदेश",
+    "users": "उपयोगकर्ता",
+    "subscriptions": "सदस्यता",
+    "packages": "पैकेज",
+    "models": "AI मॉडल",
+    "providers": "AI प्रदाता",
+    "executions": "AI निष्पादन",
+    "settings": "सेटिंग्स",
+    "chat_deleted": "चैट सफलतापूर्वक हटा दी गई",
+    "delete_failed": "चैट हटाने में विफल",
+    "confirm_delete": "क्या आप वाकई इस चैट को हटाना चाहते हैं?",
+    "confirm_delete_title": "चैट हटाएं?",
+    "confirm_delete_desc": "यह क्रिया पूर्ववत नहीं की जा सकती।",
+    "delete": "हटाएं"
+  },
+  "Billing": {
+    "insufficient_credits": {
+      "title": "अपर्याप्त क्रेडिट",
+      "description": "जारी रखने के लिए आपको अधिक क्रेडिट की आवश्यकता है।",
+      "warning": "अपर्याप्त क्रेडिट।",
+      "upgrade_button": "अभी अपग्रेड करें"
+    }
+  },
+  "Auth": {
+    "login": "लॉग इन",
+    "register": "रजिस्टर",
+    "email": "ईमेल",
+    "name": "नाम",
+    "password": "पासवर्ड",
+    "welcome_back": "वापसी पर स्वागत है",
+    "create_account": "खाता बनाएं",
+    "sign_in_text": "लॉग इन करने के लिए विवरण दर्ज करें",
+    "sign_up_text": "नया खाता बनाने के लिए विवरण दर्ज करें",
+    "remember_me": "मुझे याद रखें",
+    "dont_have_account": "खाता नहीं है?",
+    "already_have_account": "पहले से खाता है?",
+    "sign_up": "साइन अप",
+    "sign_in": "साइन इन",
+    "name_placeholder": "आपका पूरा नाम",
+    "email_placeholder": "आपका ईमेल पता",
+    "password_placeholder": "आपका पासवर्ड",
+    "authenticating": "प्रमाणित कर रहा है...",
+    "creating_account": "खाता बना रहा है...",
+    "submit": "लॉग इन",
+    "user_fallback": "उपयोगकर्ता",
+    "profile": "प्रोफ़ाइल",
+    "edit_profile": "प्रोफ़ाइल संपादित करें"
+  },
+  "Landing": {
+    "About": {
+      "title": "हमारे बारे में",
+      "description": "हम डिजिटल अनुभव बनाते हैं...",
+      "examples": "उदाहरण",
+      "projects": {
+        "restaurant": "रेस्टोरेंट",
+        "clothes": "कपड़े",
+        "restaurant_desc1": "आधुनिक रेस्टोरेंट प्लेटफॉर्म...",
+        "restaurant_desc2": "स्पष्ट मेनू प्रस्तुति...",
+        "clothes_desc1": "फैशन प्लेटफॉर्म...",
+        "clothes_desc2": "स्वच्छ इंटरफ़ेस..."
+      }
+    },
+    "Pricing": {
+      "title": "पैकेज और कीमतें",
+      "choose_plan": "सदस्यता चुनें",
+      "subtitle": "सही योजना चुनें",
+      "month": "माह",
+      "select_plan": "यह योजना चुनें",
+      "subscribe_confirm_title": "सदस्यता की पुष्टि करें",
+      "subscribe_confirm_desc": "क्या आप वाकई {planName} की सदस्यता लेना चाहते हैं?",
+      "plans": {
+        "basic": "मूल",
+        "standard": "मानक",
+        "premium": "प्रीमियम",
+        "save": "बचत",
+        "months_1": "1 महीना",
+        "months_3": "3 महीने",
+        "months_6": "6 महीने",
+        "year_1": "1 वर्ष",
+        "days": "दिन",
+        "feature_dummy": "Lorem ipsum dolor sit amet",
+        "cancel": "रद्द करें"
+      },
+      "empty": {
+        "title": "कोई योजना उपलब्ध नहीं",
+        "description": "अपडेट कर रहे हैं...",
+        "action": "होम पर जाएं"
+      }
+    }
+  },
+  "Projects": {
+    "title": "आपके प्रोजेक्ट",
+    "failed_load": "लोड करने में विफल।",
+    "empty": {
+      "title": "कोई प्रोजेक्ट नहीं मिला",
+      "description": "ऐसा लगता है कि आपने अभी तक कोई प्रोजेक्ट शुरू नहीं किया है।",
+      "action": "विश्लेषण शुरू करें"
+    },
+    "untitled": "बिना शीर्षक का प्रोजेक्ट",
+    "details": "विस्तृत विश्लेषण देखें..."
+  },
+  "Navigation": {
+    "home": "होम",
+    "about": "परिचय",
+    "pricing": "कीमतें",
+    "projects": "प्रोजेक्ट",
+    "login": "लॉग इन",
+    "open_menu": "मेनू खोलें",
+    "user_fallback": "उपयोगकर्ता",
+    "admin_status": "व्यवस्थापक",
+    "logout_confirm_title": "लॉग आउट?",
+    "logout_confirm_desc": "क्या आप वाकई?",
+    "logout": "लॉग आउट"
+  },
+  "Dashboard": {
+    "Advisors": {
+      "title_council": "AI परिषद",
+      "title_investor": "निवेशक बोर्ड",
+      "description": "सलाहकार चुनें"
+    },
+    "Projects": {
+      "title": "पिछले प्रोजेक्ट",
+      "no_projects": "अभी तक कोई प्रोजेक्ट नहीं",
+      "view_all": "सभी देखें"
+    },
+    "Subscription": {
+      "title": "Pro अनलॉक करें",
+      "subtitle": "असीमित परामर्श...",
+      "button": "अभी अपग्रेड करें"
+    },
+    "title": "डैशबोर्ड",
+    "subtitle": "स्वागत है",
+    "statistics": "आंकड़े",
+    "total_users": "कुल उपयोगकर्ता",
+    "total_products": "कुल उत्पाद",
+    "total_orders": "कुल आदेश",
+    "total_revenue": "कुल राजस्व",
+    "new_users_trend": "नए: {count}",
+    "new_users_30d": "पिछले 30 दिन",
+    "available": "उपलब्ध",
+    "cumulative": "संचयी",
+    "delivered": "वितरित",
+    "orders": "प्रबंधन",
+    "pending": "लंबित",
+    "processing": "प्रसंस्करण",
+    "cancelled": "रद्द",
+    "completed": "पूरा हुआ",
+    "awaiting": "प्रतीक्षा में",
+    "in_progress": "प्रगति पर",
+    "failed": "विफल",
+    "order_statistics": "आंकड़े",
+    "traffic_by_gov": "क्षेत्रवार",
+    "no_data": "कोई डेटा नहीं",
+    "export_report": "निर्यात करें",
+    "users_management": "उपयोगकर्ता प्रबंधन",
+    "add_user": "जोड़ें",
+    "packages_management": "पैकेज प्रबंधन",
+    "add_package": "जोड़ें",
+    "today": "आज",
+    "yesterday": "कल",
+    "week": "इस सप्ताह",
+    "month": "इस महीने",
+    "revenue_overview": "राजस्व",
+    "profits": "लाभ",
+    "orders_label": "आदेश",
+    "cancel": "रद्द करें",
+    "delete": "हटाएं",
+    "all": "सभी",
+    "inactive": "निष्क्रिय"
+  },
+  "Users": {
+    "user": "उपयोगकर्ता",
+    "edit_user": "संपादित करें",
+    "email": "ईमेल",
+    "role": "भूमिका",
+    "status": "स्थिति",
+    "joined": "शामिल होने की तिथि",
+    "actions": "कार्रवाई",
+    "roles": {
+      "admin": "व्यवस्थापक",
+      "user": "उपयोगकर्ता",
+      "editor": "संपादक"
+    },
+    "statuses": {
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय",
+      "suspended": "निलंबित",
+      "all": "सभी"
+    },
+    "delete_confirm": "क्या आप हटाना चाहते हैं?"
+  },
+  "Packages": {
+    "package": "पैकेज",
+    "add_package": "जोड़ें",
+    "edit_package": "संपादित करें",
+    "delete_package": "हटाएं",
+    "package_name": "नाम",
+    "monthly_tokens": "मासिक टोकन",
+    "price": "कीमत",
+    "overage_cost": "अतिरिक्त लागत",
+    "duration": "अवधि",
+    "status": "स्थिति",
+    "is_active": "सक्रिय",
+    "all": "सभी",
+    "inactive": "निष्क्रिय",
+    "days": "दिन",
+    "actions": "कार्रवाई",
+    "delete_confirm": "क्या आप हटाना चाहते हैं?"
+  },
+  "AIModels": {
+    "title": "AI मॉडल",
+    "add_model": "जोड़ें",
+    "edit_model": "संपादित करें",
+    "delete_model": "हटाएं",
+    "model_name": "नाम",
+    "provider_id": "प्रदाता",
+    "input_cost": "इनपुट लागत",
+    "output_cost": "आउटपुट लागत",
+    "max_tokens": "अधिकतम टोकन",
+    "status": "स्थिति",
+    "is_active": "सक्रिय",
+    "all": "सभी",
+    "inactive": "निष्क्रिय",
+    "actions": "कार्रवाई",
+    "delete_confirm": "क्या आप हटाना चाहते हैं?"
+  },
+  "AIProviders": {
+    "title": "AI प्रदाता",
+    "add_provider": "जोड़ें",
+    "edit_provider": "संपादित करें",
+    "delete_provider": "हटाएं",
+    "provider_name": "नाम",
+    "status": "स्थिति",
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "active_desc": "सक्रिय",
+    "inactive_desc": "निष्क्रिय",
+    "all": "सभी",
+    "actions": "कार्रवाई",
+    "delete_confirm": "क्या आप हटाना चाहते हैं?"
+  },
+  "Subscriptions": {
+    "title": "सदस्यता",
+    "add_subscription": "जोड़ें",
+    "edit_subscription": "संपादित करें",
+    "delete_subscription": "हटाएं",
+    "user": "उपयोगकर्ता",
+    "package": "पैकेज",
+    "status": "स्थिति",
+    "status_active": "सक्रिय",
+    "status_inactive": "निष्क्रिय",
+    "status_expired": "समय सीमा समाप्त",
+    "status_cancelled": "रद्द",
+    "tokens": "टोकन",
+    "start_date": "प्रारंभ तिथि",
+    "end_date": "अंतिम तिथि",
+    "actions": "कार्रवाई",
+    "delete_confirm": "क्या आप हटाना चाहते हैं?"
+  },
+  "Executions": {
+    "title": "AI निष्पादन",
+    "execution_id": "आईडी",
+    "user_id": "उपयोगकर्ता",
+    "model_id": "मॉडल",
+    "tokens": "टोकन",
+    "tokens_short": "टोकन",
+    "input_tokens": "इनपुट",
+    "output_tokens": "आउटपुट",
+    "total_tokens": "कुल",
+    "cost": "लागत",
+    "type": "प्रकार",
+    "executed_at": "तिथि",
+    "actions": "कार्रवाई"
+  },
+  "NotFound": {
+    "title": "404 - पृष्ठ नहीं मिला",
+    "description": "आप जो पृष्ठ खोज रहे हैं वह मौजूद नहीं है या उसे हटा दिया गया है।",
+    "back_home": "होम पर वापस जाएं"
+  }
+}
