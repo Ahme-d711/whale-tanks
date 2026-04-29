@@ -29,10 +29,16 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
       let exportsWrapper = "";
       names.forEach(n => { exportsWrapper += `\n  window.${n} = ${n};`; });
 
+      const defaultExportMatch = c.match(/export\s+default\s+(?:function|class)?\s*(\w+)/);
+      if (defaultExportMatch && defaultExportMatch[1]) {
+        const defName = defaultExportMatch[1];
+        exportsWrapper += `\n  if (typeof __DefaultExport__ !== 'undefined') window.${defName} = __DefaultExport__;`;
+      }
+
       const usedComponents = [...new Set([...c.matchAll(/<([A-Z]\w+)/g)].map(m => m[1]))];
       let componentMocks = "";
       usedComponents.forEach(name => {
-        componentMocks += `if (typeof ${name} === 'undefined' && typeof window.${name} === 'undefined') {
+        componentMocks += `if (typeof window.${name} === 'undefined' || window.${name} === window.Image || window.${name} === window.Audio || window.${name} === window.Option) {
           if (window.Lucide && window.Lucide['${name}']) {
             window.${name} = window.Lucide['${name}'];
           } else if (window.lucide && window.lucide['${name}']) {
@@ -164,7 +170,18 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
         control: {},
       });
 
-      Object.assign(window, UI, { toast, useToast, z, zodResolver, useForm });
+      const UIProxy = new Proxy(UI, {
+        get: (target, name) => {
+          if (name === '$$isProxy') return true;
+          if (name in target) return target[name];
+          if (typeof name === 'string' && /^[A-Z]/.test(name)) {
+            return (props) => React.createElement('div', { className: 'p-2 border border-dashed border-red-300 bg-red-50 text-[10px] text-red-500 font-mono rounded' }, 'Undefined Component: <' + name + ' />');
+          }
+          return target[name];
+        }
+      });
+
+      Object.assign(window, UIProxy, { toast, useToast, z, zodResolver, useForm });
 
       const LucideProxy = new Proxy({ $$isProxy: true }, {
         get: (target, name) => {
@@ -172,7 +189,13 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
           if (name === 'icons') return target; 
           
           const lib = [window.lucide, window.Lucide, window.LucideReact].find(l => l && l !== LucideProxy && !l.$$isProxy);
-          const iconData = lib?.icons?.[name] || lib?.[name];
+          const camelName = name.charAt(0).toLowerCase() + name.slice(1);
+          const kebabName = name.replace(/([a-z0-9]|(?=[A-Z]))([A-Z0-9])/g, '$1-$2').toLowerCase().replace(/^-/, '');
+          const iconData = lib?.icons?.[name] || lib?.[name] || 
+                           lib?.icons?.[camelName] || lib?.[camelName] || 
+                           lib?.icons?.[kebabName] || lib?.[kebabName];
+          
+          if (!iconData) return undefined;
           
           const iconComponent = (p) => {
             if (iconData && Array.isArray(iconData)) {
@@ -202,6 +225,9 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
       window.lucide = LucideProxy;
       window.LucideReact = LucideProxy;
 
+      const { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Input, Label, Button, Checkbox, Separator, Badge } = UI;
+      const { Eye, EyeOff, Loader2, Mail, Lock, User, Search, Bell, Settings } = LucideProxy;
+
       const blocks = ${blocksArrayString};
       blocks.forEach((block, idx) => {
         try {
@@ -215,7 +241,14 @@ export default function LivePreview({ code, allBlocks = [], activeBlockIndex = 0
         }
       });
       
-      const App = window.__ActiveExport__ || window.__DefaultExport__;
+      function find() {
+        if (typeof window.__ActiveExport__ === "function") return window.__ActiveExport__;
+        if (typeof window.__DefaultExport__ === "function") return window.__DefaultExport__;
+        for (let k of Object.keys(window)) if (typeof window[k] === "function" && /^[A-Z]/.test(k) && !["React","ReactDOM"].includes(k)) return window[k];
+        return null;
+      }
+
+      const App = find();
       if (App) {
         ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
       } else {

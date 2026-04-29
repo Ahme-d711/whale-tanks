@@ -261,7 +261,18 @@ export default function PreviewView({
         control: {},
       });
 
-      Object.assign(window, UI, { toast, useToast, z, zodResolver, useForm });
+      const UIProxy = new Proxy(UI, {
+        get: (target, name) => {
+          if (name === '$$isProxy') return true;
+          if (name in target) return target[name];
+          if (typeof name === 'string' && /^[A-Z]/.test(name)) {
+            return (props) => React.createElement('div', { className: 'p-2 border border-dashed border-red-300 bg-red-50 text-[10px] text-red-500 font-mono rounded' }, 'Undefined Component: <' + name + ' />');
+          }
+          return target[name];
+        }
+      });
+
+      Object.assign(window, UIProxy, { toast, useToast, z, zodResolver, useForm });
 
       const LucideProxy = new Proxy({ $$isProxy: true }, {
         get: (target, name) => {
@@ -270,7 +281,11 @@ export default function PreviewView({
           
           // Find REAL lucide data, avoiding this proxy
           const lib = [window.lucide, window.Lucide, window.LucideReact].find(l => l && l !== LucideProxy && !l.$$isProxy);
-          const iconData = lib?.icons?.[name] || lib?.[name];
+          const camelName = name.charAt(0).toLowerCase() + name.slice(1);
+          const kebabName = name.replace(/([a-z0-9]|(?=[A-Z]))([A-Z0-9])/g, '$1-$2').toLowerCase().replace(/^-/, '');
+          const iconData = lib?.icons?.[name] || lib?.[name] || 
+                           lib?.icons?.[camelName] || lib?.[camelName] || 
+                           lib?.icons?.[kebabName] || lib?.[kebabName];
           
           const iconComponent = (p) => {
             if (iconData && Array.isArray(iconData)) {
