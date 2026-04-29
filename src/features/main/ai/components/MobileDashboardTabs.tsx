@@ -1,13 +1,10 @@
 "use client"
 
-import React, { useState } from 'react'
-import { MessageSquare, Layout, Users } from 'lucide-react'
+import { useState } from 'react'
 import { ChatDisplay } from './ChatDisplay'
 import DashboardIdeaAnalyzer from './DashboardIdeaAnalyzer'
 import ActionSelector from './ActionSelector'
 import DynamicDisplayArea from './DynamicDisplayArea'
-import AdvisorSelector from './AdvisorSelector'
-import SubscriptionUpsell from './SubscriptionUpsell'
 import TankSelector from './TankSelector'
 
 export default function MobileDashboardTabs({ 
@@ -33,28 +30,10 @@ export default function MobileDashboardTabs({
     canView
   } = analyzer
 
-  const showBuilderTab = activeAction === 'web_builder'
 
   return (
-    <div className="w-full flex flex-col gap-4 lg:hidden h-[calc(100vh-120px)] overflow-hidden">
+    <div className="w-full flex flex-col gap-4 lg:hidden h-screen overflow-hidden">
       <div className="flex-1 overflow-y-auto px-2 pt-2 flex flex-col gap-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-28">
-        <div className="px-1 flex justify-center mb-2">
-          <div className="flex p-1 bg-zinc-100/80 backdrop-blur rounded-xl gap-1 w-full max-w-[320px] border border-zinc-200/50 shadow-sm">
-            <button 
-              onClick={() => setActiveTab('chat')}
-              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all duration-200 ${activeTab === 'chat' ? 'bg-white text-primary shadow-sm' : 'text-zinc-500 hover:text-zinc-700'}`}
-            >
-              المحادثة
-            </button>
-            <button 
-              onClick={() => setActiveTab('builder')}
-              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all duration-200 ${activeTab === 'builder' ? 'bg-white text-primary shadow-sm' : 'text-zinc-500 hover:text-zinc-700'}`}
-            >
-              Web Builder
-            </button>
-          </div>
-        </div>
-
         <div className="px-1">
           <TankSelector activeTankId={activeTankId} onTankChange={onTankChange} />
         </div>
@@ -70,15 +49,19 @@ export default function MobileDashboardTabs({
         )}
 
         {activeTab === 'builder' && (
-          <div className="flex flex-col gap-4">
-            <ActionSelector 
-              activeAction={activeAction}
-              setActiveAction={setActiveAction}
-              activeSubAction={activeSubAction}
-              setActiveSubAction={setActiveSubAction}
-              canView={canView}
-            />
-            <DynamicDisplayArea analyzer={analyzer} />
+          <div className="flex flex-col gap-0 -mx-2 -mb-28 min-h-[calc(100vh-200px)]">
+            <div className="px-2 pb-2">
+              <ActionSelector 
+                activeAction={activeAction}
+                setActiveAction={setActiveAction}
+                activeSubAction={activeSubAction}
+                setActiveSubAction={setActiveSubAction}
+                canView={canView}
+              />
+            </div>
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <DynamicDisplayArea analyzer={analyzer} />
+            </div>
           </div>
         )}
       </div>

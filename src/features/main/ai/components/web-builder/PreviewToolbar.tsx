@@ -47,7 +47,7 @@ export default function PreviewToolbar({
 }: PreviewToolbarProps) {
   return (
     <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-zinc-200 shrink-0">
-      <div className="flex items-center gap-1.5">
+      <div className="hidden md:flex items-center gap-1.5">
         {Object.entries(deviceConfigs).map(([mode, config]) => {
           const Icon = config.icon
           const isActive = deviceMode === mode
@@ -70,7 +70,7 @@ export default function PreviewToolbar({
         })}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center w-full md:w-auto  justify-between gap-2">
         <Button
           variant="ghost"
           size="sm"
@@ -82,7 +82,7 @@ export default function PreviewToolbar({
         >
           <FlaskConical className={cn("w-3.5 h-3.5", testMode && "animate-pulse")} />
           <span className="text-xs">Test Mode</span>
-        </Button>
+        </Button> 
 
         <div className="w-px h-4 bg-zinc-200 mx-1" />
 
