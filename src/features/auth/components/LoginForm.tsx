@@ -104,7 +104,7 @@ export default function LoginForm() {
           <ShinyButton 
             type="submit" 
             isLoading={isPending}
-            loadingText={t('authenticating')}
+            loadingText={t('submit')}
             className="w-full font-medium!"
           >
             {t('submit')}

@@ -38,8 +38,8 @@ export default function ShinyButton({
       <span className="relative z-10 flex items-center justify-center gap-2">
         {isLoading ? (
           <>
-            <Loader className="w-5 h-5 animate-spin" />
             {loadingText}
+            <Loader className="w-5 h-5 animate-spin" />
           </>
         ) : (
           children

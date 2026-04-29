@@ -1,36 +1,59 @@
 "use client"
 
 import React from 'react'
-import { Menu } from 'lucide-react'
-import { Button } from "@/components/ui/button"
 import SidebarMenu from '@/components/SidebarMenu'
+import { ConfirmDialog } from '@/components/shared/ConfirmDialog'
 import DashboardGrid from '../components/DashboardGrid'
+import MobileNavbar from '../components/MobileNavbar'
+
+import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
 
 export default function DashboardTemplate() {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
   const [activeTankId, setActiveTankId] = React.useState('startup')
+  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
   
+  const analyzer = useIdeaAnalyzer((data) => {
+    console.log("Chat Response Received:", data)
+  })
+
   return (
     <div className="flex h-screen w-full overflow-hidden font-sans">
       {/* Sidebar Component */}
-      <SidebarMenu 
-        isOpen={isSidebarOpen} 
-        onOpenChange={setIsSidebarOpen} 
+      <SidebarMenu
+        isOpen={isSidebarOpen}
+        onOpenChange={setIsSidebarOpen}
         isPersistent={true}
-        trigger={
-          <div className="fixed top-4 left-4 z-50 md:hidden">
-            <Button variant="outline" size="icon" className="bg-white border-primary/20 shadow-lg rounded-2xl hover:bg-white active:scale-95 transition-all">
-              <Menu className="w-6 h-6 text-primary cursor-pointer" />
-            </Button>
-          </div>
-        }
+        trigger={<></>}
+      />
+
+      {/* Mobile Navbar */}
+      <MobileNavbar 
+        onOpenSidebar={() => setIsSidebarOpen(true)} 
+        onNewChat={() => analyzer.resetSession()} 
+        onDeleteChat={() => setShowDeleteDialog(true)} 
+      />
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        title="حذف المحادثة"
+        description="هل أنت متأكد أنك تريد حذف سجل المحادثة الحالي؟ لا يمكن التراجع عن هذا الإجراء."
+        onConfirm={() => {
+          analyzer.resetSession();
+          setShowDeleteDialog(false);
+        }}
+        confirmLabel="تأكيد الحذف"
+        cancelLabel="إلغاء"
+        variant="destructive"
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-hidden flex flex-col relative px-4">
+      <main className="flex-1 overflow-hidden flex flex-col relative px-1 mt-14 md:mt-0 md:px-4">
         
         {/* Workspace Grid */}
-        <DashboardGrid activeTankId={activeTankId} onTankChange={setActiveTankId} />
+        <DashboardGrid activeTankId={activeTankId} onTankChange={setActiveTankId} analyzer={analyzer} />
       </main>
     </div>
   )
