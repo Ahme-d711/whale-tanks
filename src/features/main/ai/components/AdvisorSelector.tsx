@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { MessageSquare, FileText, BarChart2, ClipboardList, FileSpreadsheet } from 'lucide-react'
 
+import { useTranslations } from 'next-intl'
+
 const advisors = [
   { id: 'all', icon: '/icons/crown.svg', label: 'All', desc: 'Comprehensive overview of all areas' },
   { id: 'financial', icon: '/icons/financial-icon.svg', label: 'Financial', desc: 'Deep dive into financial metrics' },
@@ -53,14 +55,16 @@ interface AdvisorSelectorProps {
 }
 
 export default function AdvisorSelector() {
+  const t = useTranslations('Dashboard.Advisors')
+
   return (
-    <div className="flex flex-col gap-2 bg-white/80 w-64 backdrop-blur-sm p-4 rounded-[32px] border border-border shadow-sm overflow-y-auto overflow-x-hidden thin-scrollbar h-fit max-h-[calc(100vh-200px)]">
+    <div className="flex flex-col gap-[13.8px] bg-white/80 w-64 backdrop-blur-sm p-4 rounded-[32px] border border-border shadow-sm overflow-y-auto overflow-x-hidden thin-scrollbar h-fit max-h-[calc(100vh-200px)]">
       <div className="px-2 pb-2 mb-2 border-b border-border/50">
         <h3 className="text-sm font-bold text-primary uppercase tracking-wider">
-          AI Consultation
+          {t('title_council')}
         </h3>
         <p className="text-[10px] text-muted-foreground font-medium">
-          Select an analysis lens
+          {t('description')}
         </p>
       </div>
 
