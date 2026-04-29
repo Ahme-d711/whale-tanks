@@ -15,9 +15,17 @@ interface DashboardGridProps {
   activeTankId: string
   onTankChange: (id: string) => void
   analyzer?: any
+  activeTab?: 'chat' | 'builder'
+  onTabChange?: (tab: 'chat' | 'builder') => void
 }
 
-export default function DashboardGrid({ activeTankId, onTankChange, analyzer: passedAnalyzer }: DashboardGridProps) {
+export default function DashboardGrid({ 
+  activeTankId, 
+  onTankChange, 
+  analyzer: passedAnalyzer,
+  activeTab,
+  onTabChange
+}: DashboardGridProps) {
   const localAnalyzer = useIdeaAnalyzer((data) => {
     console.log("Chat Response Received:", data)
   })
@@ -42,6 +50,8 @@ export default function DashboardGrid({ activeTankId, onTankChange, analyzer: pa
         analyzer={analyzer} 
         activeTankId={activeTankId} 
         onTankChange={onTankChange} 
+        activeTab={activeTab}
+        onTabChange={onTabChange}
       />
 
       {/* Left Column - Tall Container (Web Builder / Action Selector) */}

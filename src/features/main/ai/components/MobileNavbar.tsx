@@ -1,15 +1,23 @@
 "use client"
 
 import React from 'react'
-import { SquarePen, Trash2 } from 'lucide-react'
+import { SquarePen, Trash2, LayoutGrid, MessageSquare } from 'lucide-react'
 
 interface MobileNavbarProps {
   onOpenSidebar: () => void
   onNewChat: () => void
   onDeleteChat: () => void
+  currentView: 'chat' | 'builder'
+  onToggleView: () => void
 }
 
-export default function MobileNavbar({ onOpenSidebar, onNewChat, onDeleteChat }: MobileNavbarProps) {
+export default function MobileNavbar({ 
+  onOpenSidebar, 
+  onNewChat, 
+  onDeleteChat,
+  currentView,
+  onToggleView
+}: MobileNavbarProps) {
   return (
     <div className="flex md:hidden items-center justify-between px-4 py-3 w-full h-14 z-40 fixed top-0 left-0 right-0 shadow-sm bg-background/80 backdrop-blur-md border-b border-zinc-100">
       <div className="flex items-center gap-3">
@@ -26,6 +34,17 @@ export default function MobileNavbar({ onOpenSidebar, onNewChat, onDeleteChat }:
       </div>
 
       <div className="flex items-center gap-2">
+        <button 
+          onClick={onToggleView}
+          className="p-2 text-primary hover:text-primary/80 focus:outline-none transition-colors"
+          title={currentView === 'chat' ? 'Consultation & Builder' : 'Chat'}
+        >
+          {currentView === 'chat' ? (
+            <LayoutGrid className="w-5 h-5 animate-in zoom-in-50 duration-200" />
+          ) : (
+            <MessageSquare className="w-5 h-5 animate-in zoom-in-50 duration-200" />
+          )}
+        </button>
         <button 
           onClick={onNewChat}
           className="p-2 text-primary hover:text-primary/80 focus:outline-none transition-colors"
