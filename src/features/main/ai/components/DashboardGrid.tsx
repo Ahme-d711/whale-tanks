@@ -4,15 +4,11 @@ import ActionSelector from './ActionSelector'
 import DashboardIdeaAnalyzer from './DashboardIdeaAnalyzer'
 import AdvisorSelector from './AdvisorSelector'
 import TankSelector from './TankSelector'
-import PreviousProjects from './PreviousProjects'
 import SubscriptionUpsell from './SubscriptionUpsell'
 import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
 import { ChatDisplay } from './ChatDisplay'
 import WebBuilder from './WebBuilder'
-import PreviewView from './web-builder/PreviewView'
 import { Sparkles } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/lib/utils'
 
 interface DashboardGridProps {
   activeTankId: string
