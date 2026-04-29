@@ -51,9 +51,9 @@ export default function TankSelector({ activeTankId, onTankChange }: TankSelecto
       {tanks.map((tank) => (
         <div
           key={tank.id}
-          className="h-auto px-4 py-2 gap-4 rounded-[24px] transition-all duration-300 flex items-center bg-white/50 hover:bg-secondary/10 border border-transparent hover:border-secondary/30 shadow-sm cursor-pointer"
+          className="h-auto px-2 py-1 md:px-4 md:py-2 gap-2 md:gap-4 rounded-[16px] md:rounded-[24px] transition-all duration-300 flex items-center bg-white/50 hover:bg-secondary/10 border border-transparent hover:border-secondary/30 shadow-sm cursor-pointer"
         >
-          <div className="relative w-8 h-8 shrink-0">
+          <div className="relative w-6 h-6 md:w-8 md:h-8 shrink-0">
             <Image 
               src={tank.icon} 
               alt={tank.name} 
@@ -61,11 +61,11 @@ export default function TankSelector({ activeTankId, onTankChange }: TankSelecto
               className="object-contain"
             />
           </div>
-          <div className="flex flex-col items-start">
-            <span className="text-base font-bold tracking-tight text-foreground">
+          <div className="flex flex-col items-start min-w-0">
+            <span className="text-xs md:text-base font-bold tracking-tight text-foreground truncate w-full">
               {tank.name}
             </span>
-            <span className="text-[10px] text-muted-foreground">
+            <span className="text-[8px] md:text-[10px] text-muted-foreground truncate w-full">
               {tank.subtitle}
             </span>
           </div>

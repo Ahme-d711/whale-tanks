@@ -8,16 +8,25 @@ import AnimatedBorder from "@/components/shared/AnimatedBorder"
 import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
 import { useRouter } from '@/i18n/routing'
 
+export interface IdeaAnalyzerProps {
+  variant?: 'home' | 'dashboard'
+  analyzer?: ReturnType<typeof useIdeaAnalyzer>
+}
 
-export const IdeaAnalyzer = () => {
+export const IdeaAnalyzer = ({ variant = 'home', analyzer }: IdeaAnalyzerProps) => {
   const router = useRouter()
+  const localAnalyzer = useIdeaAnalyzer((data) => {
+    console.log("Sending Idea Data:", data)
+  })
+
+  const currentAnalyzer = analyzer || localAnalyzer
+
   const {
     ideaText,
     setIdeaText,
     attachments,
     isRecording,
     handleToggleRecording,
-    handleFilesSelected,
     handleFilesSelectedDirect,
     handleRemoveAttachment,
     handleSend,
@@ -31,13 +40,15 @@ export const IdeaAnalyzer = () => {
     models,
     selectedModelId,
     setSelectedModelId
-  } = useIdeaAnalyzer((data) => {
-    console.log("Sending Idea Data:", data)
-  })
+  } = currentAnalyzer
 
   const onActionSend = () => {
-    if (!ideaText.trim()) return
-    router.push(`/ai?q=${encodeURIComponent(ideaText.trim())}`)
+    if (variant === 'dashboard') {
+      handleSend()
+    } else {
+      if (!ideaText.trim()) return
+      router.push(`/ai?q=${encodeURIComponent(ideaText.trim())}`)
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -45,6 +56,41 @@ export const IdeaAnalyzer = () => {
       e.preventDefault()
       onActionSend()
     }
+  }
+
+  if (variant === 'dashboard') {
+    return (
+      <div className="bg-white rounded-3xl p-5 border-2 border-primary flex flex-col shadow-sm w-full">
+        <div className="flex-1 flex w-full">
+          <AnalyzerInput 
+            value={ideaText} 
+            onChange={setIdeaText} 
+            attachments={attachments}
+            onRemoveAttachment={handleRemoveAttachment}
+            compact={false}
+            onKeyDown={handleKeyDown}
+          />
+        </div>
+        
+        <AnalyzerToolbar 
+          isRecording={isRecording}
+          onToggleRecording={handleToggleRecording}
+          triggerFileInput={triggerFileInput}
+          onSend={onActionSend}
+          fileInputRef={fileInputRef}
+          onFilesSelectedDirect={handleFilesSelectedDirect}
+          isLoading={isLoading}
+          executionType={executionType}
+          setExecutionType={setExecutionType}
+          analysisType={analysisType}
+          setAnalysisType={setAnalysisType}
+          models={models}
+          selectedModelId={selectedModelId}
+          setSelectedModelId={setSelectedModelId}
+          className="w-full mt-4"
+        />
+      </div>
+    )
   }
 
   return (
@@ -92,7 +138,6 @@ export const IdeaAnalyzer = () => {
               className="w-full"
             />
           </AnimatedBorder>
-
         </div>
       </motion.div>
     </section>

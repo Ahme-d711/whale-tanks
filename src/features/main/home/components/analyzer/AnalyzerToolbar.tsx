@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { Mic, ArrowUpRight, ArrowUpLeft, Plus } from 'lucide-react'
+import { Mic, Plus, SendHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTranslations, useLocale } from 'next-intl'
 import { toast } from 'sonner'
@@ -172,7 +172,7 @@ export const AnalyzerToolbar = ({
 
       {(onlyActions || (!onlyActions && !onlySelects)) && (
         <div className={cn("flex items-center gap-3", onlyActions && "ml-auto")}>
-          <div className="flex h-9 md:h-10! items-center gap-1 md:gap-2 bg-muted text-foreground rounded-xl md:rounded-2xl p-1 md:p-1.5 shadow-sm">
+          <div className="flex h-9 md:h-10! items-center gap-1 md:gap-2 bg-muted text-foreground rounded-xl md:rounded-2xl p-1 md:p-1.5 border">
             <Button
               variant="ghost"
               size="icon"
@@ -195,11 +195,11 @@ export const AnalyzerToolbar = ({
             variant="ghost"
             onClick={onSend}
             isLoading={isLoading}
-            className="h-9 md:h-10! px-2 md:px-3 rounded-xl md:rounded-2xl text-foreground gap-2 cursor-pointer bg-muted hover:bg-muted font-semibold shadow-sm transition-all active:scale-95"
+            className="h-9 md:h-10! px-2 md:px-3 rounded-xl md:rounded-2xl text-foreground gap-0 cursor-pointer bg-muted hover:bg-muted font-semibold border transition-all active:scale-95"
           >
             <span className="hidden md:inline text-sm md:text-base">{t('send')}</span>
-            <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-md text-foreground bg-foreground/10">
-              {locale === 'ar' ? <ArrowUpLeft className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
+            <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-md text-foreground">
+              <SendHorizontal className={`w-4 h-4 md:w-5! md:h-5! ${locale === 'ar' ? '-scale-x-100' : ''}`} />
             </div>
           </Button>
         </div>
