@@ -4,13 +4,17 @@ import React from 'react'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 
+import { usePackages } from "@/features/dashboard/packages/hooks/usePackages"
+
 interface TankSelectorProps {
   activeTankId: string
   onTankChange: (id: string) => void
 }
 
 export default function TankSelector({ activeTankId, onTankChange }: TankSelectorProps) {
-  const tanks = [
+  const { packages } = usePackages({ active_only: true })
+
+  const hardcodedTanks = [
     { 
       id: 'startup', 
       name: 'Startup Tank', 
@@ -30,6 +34,18 @@ export default function TankSelector({ activeTankId, onTankChange }: TankSelecto
       icon: '/logo.svg' 
     },
   ]
+
+  const tanks = packages.length > 0
+    ? packages.map((pkg: any) => {
+        const matched = hardcodedTanks.find(t => t.subtitle === pkg.name)
+        return matched || {
+          id: pkg.package_id,
+          name: pkg.name,
+          subtitle: pkg.name,
+          icon: '/logo.svg'
+        }
+      })
+    : hardcodedTanks
 
   return (
     <div className="flex items-center gap-1 bg-white backdrop-blur-sm p-1 w-fit rounded-[32px] border border-border shadow-sm">
