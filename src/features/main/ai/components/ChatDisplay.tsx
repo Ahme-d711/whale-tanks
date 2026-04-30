@@ -59,7 +59,7 @@ export const ChatDisplay = ({ messages, isLoading, isHistoryLoading }: ChatDispl
         ref={scrollRef}
         className="flex-1 p-0 sm:p-8 overflow-y-auto overflow-x-hidden custom-scrollbar scroll-smooth bg-transparent lg:bg-zinc-50/50"
       >
-        <div className="max-w-3xl mx-auto flex flex-col gap-8 w-full pb-60! lg:pb-8">
+        <div className="max-w-3xl mx-auto flex flex-col gap-8 w-full pb-50! lg:pb-8">
           {isHistoryLoading ? (
             Array.from({ length: 3 }).map((_, i) => (
               <div key={i} className={`flex items-start gap-3 ${i % 2 === 0 ? '' : 'flex-row-reverse'}`}>
