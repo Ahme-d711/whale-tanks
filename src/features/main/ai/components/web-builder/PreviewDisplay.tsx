@@ -4,6 +4,7 @@ import React from 'react'
 import { motion, AnimatePresence } from "framer-motion"
 import { Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useTranslations } from 'next-intl'
 
 type DeviceMode = "desktop" | "tablet" | "mobile"
 
@@ -26,9 +27,10 @@ export default function PreviewDisplay({
   isReloading,
   iframeKey
 }: PreviewDisplayProps) {
+  const t = useTranslations('WebBuilder')
   return (
     <div className={cn(
-      "flex-1 overflow-auto flex justify-center relative",
+      "flex-1 overflow-auto flex justify-center relative transition-colors duration-700",
       deviceMode === "desktop" ? "bg-white p-0" : "bg-zinc-100 p-4 md:p-8"
     )}>
       <AnimatePresence mode="wait">
@@ -39,9 +41,12 @@ export default function PreviewDisplay({
             exit={{ opacity: 0 }}
             className="absolute inset-0 z-50 bg-white/60 backdrop-blur-[2px] flex items-center justify-center pointer-events-none"
           >
-            <div className="flex flex-col items-center gap-3">
-              <Loader2 className="w-8 h-8 text-primary animate-spin" />
-              <span className="text-sm font-semibold text-zinc-600 animate-pulse">Hot Reloading...</span>
+            <div className="flex flex-col items-center gap-4">
+              <div className="relative">
+                <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                <div className="absolute inset-0 blur-xl bg-primary/20 animate-pulse" />
+              </div>
+              <span className="text-sm font-bold tracking-tight text-slate-600 uppercase">{t('updating_preview')}</span>
             </div>
           </motion.div>
         )}

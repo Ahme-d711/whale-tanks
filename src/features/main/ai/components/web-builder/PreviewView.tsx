@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState, useEffect } from "react"
 import { toast } from "sonner"
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { detectContentType } from "../../utils/code-detection"
 import PreviewToolbar from "./PreviewToolbar"
 import BrowserShell from "./BrowserShell"
@@ -28,6 +28,7 @@ export default function PreviewView({
   sessionId 
 }: PreviewViewProps) {
   const locale = useLocale()
+  const t = useTranslations('WebBuilder')
   const [debouncedCode, setDebouncedCode] = useState(code)
   const [deviceMode, setDeviceMode] = useState<DeviceMode>("desktop")
   const [isReloading, setIsReloading] = useState(false)
@@ -371,7 +372,7 @@ export default function PreviewView({
               document.getElementById("root").innerHTML = \`
                 <div class="loading-container">
                   <div class="loader-ring"></div>
-                  <div class="loading-text">Finalizing your UI...</div>
+                  <div class="loading-text">${t('finalizing_ui')}</div>
                 </div>
               \`;
               return;
@@ -392,18 +393,18 @@ export default function PreviewView({
       if (Root) {
         ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(Root));
       } else {
-        document.getElementById("root").innerHTML = "<div class='p-10 text-center opacity-50'><p>Component ready but not found on top-level.</p></div>";
+        document.getElementById("root").innerHTML = \`<div class='p-10 text-center opacity-50'><p>\${t('component_ready_not_found') || 'Component ready but not found on top-level.'}</p></div>\`;
       }
     } catch (err) {
       console.error("Preview Error:", err);
-      document.getElementById("root").innerHTML = "<div class='error-box'><b>Preview Error:</b><br/>" + err.message + "</div>";
+      document.getElementById("root").innerHTML = \`<div class='error-box'><b>\${t('preview_error') || 'Preview Error'}:</b><br/>\` + err.message + \`</div>\`;
     }
   })();
 </script>
 </body>
 </html>
 `
-  }, [debouncedCode, allBlocks, activeBlockIndex, testMode, snapshot])
+  }, [debouncedCode, allBlocks, activeBlockIndex, testMode, snapshot, t])
 
   const renderableIndexes = useMemo(() => {
     return allBlocks

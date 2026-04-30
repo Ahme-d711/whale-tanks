@@ -4,6 +4,7 @@ import React from 'react'
 import { Code2, Copy, Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 interface CodeViewProps {
   code: string
@@ -18,12 +19,13 @@ export default function CodeView({
   activeIndex, 
   onIndexChange 
 }: CodeViewProps) {
+  const t = useTranslations('WebBuilder')
   const [copied, setCopied] = React.useState(false)
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code)
     setCopied(true)
-    toast.success(`Version ${activeIndex + 1} copied to clipboard`)
+    toast.success(t('version_copied', { index: activeIndex + 1 }))
     setTimeout(() => setCopied(false), 2000)
   }
 
@@ -35,7 +37,7 @@ export default function CodeView({
             <Code2 className="w-3.5 h-3.5 text-primary" />
           </div>
           <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">
-            Source Code
+            {t('source_code')}
           </span>
         </div>
 
@@ -46,7 +48,7 @@ export default function CodeView({
                 onClick={() => onIndexChange(Math.max(0, activeIndex - 1))}
                 disabled={activeIndex === 0}
                 className="p-1 text-zinc-400 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
-                title="Previous Version"
+                title={t('previous_version')}
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -57,7 +59,7 @@ export default function CodeView({
                 onClick={() => onIndexChange(Math.min(blocksCount - 1, activeIndex + 1))}
                 disabled={activeIndex === blocksCount - 1}
                 className="p-1 text-zinc-400 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
-                title="Next Version"
+                title={t('next_version')}
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -71,13 +73,13 @@ export default function CodeView({
             className="h-7 gap-1.5 text-xs text-zinc-400 hover:text-white hover:bg-white/10"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
-            {copied ? 'Copied' : 'Copy'}
+            {copied ? t('copied') : t('copy')}
           </Button>
         </div>
       </div>
       <div className="flex-1 overflow-auto p-5 custom-scrollbar">
         <pre className="text-sm font-mono text-zinc-300 whitespace-pre leading-relaxed">
-          <code>{code || "// No code generated yet..."}</code>
+          <code>{code || `// ${t('no_code')}`}</code>
         </pre>
       </div>
     </div>

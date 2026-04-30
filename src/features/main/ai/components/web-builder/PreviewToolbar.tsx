@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useTranslations } from 'next-intl'
 
 type DeviceMode = "desktop" | "tablet" | "mobile"
 
@@ -45,6 +46,14 @@ export default function PreviewToolbar({
   onFullscreen,
   isReloading
 }: PreviewToolbarProps) {
+  const t = useTranslations('WebBuilder')
+
+  const deviceConfigs = {
+    desktop: { label: t('desktop'), icon: Monitor },
+    tablet: { label: t('tablet'), icon: Tablet },
+    mobile: { label: t('mobile'), icon: Smartphone },
+  }
+
   return (
     <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-zinc-200 shrink-0">
       <div className="hidden md:flex items-center gap-1.5">
@@ -81,7 +90,7 @@ export default function PreviewToolbar({
           )}
         >
           <FlaskConical className={cn("w-3.5 h-3.5", testMode && "animate-pulse")} />
-          <span className="text-xs">Test Mode</span>
+          <span className="text-xs">{t('sandbox')}</span>
         </Button> 
 
         <div className="w-px h-4 bg-zinc-200 mx-1" />
@@ -97,7 +106,7 @@ export default function PreviewToolbar({
           ) : (
             <Copy className="w-3.5 h-3.5" />
           )}
-          <span className="text-xs">Copy Code</span>
+          <span className="text-xs">{copied ? t('copied') : t('copy')}</span>
         </Button>
 
         <Button

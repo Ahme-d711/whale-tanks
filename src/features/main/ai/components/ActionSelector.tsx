@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Sparkles, Layout } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Button } from "@/components/ui/button"
 
 export type SubActionId = 'code' | 'view' | 'database';
@@ -21,24 +22,26 @@ export default function ActionSelector({
   setActiveSubAction,
   canView = true
 }: ActionSelectorProps) {
+  const t = useTranslations('WebBuilder')
+
   const mainActions = [
     { 
       id: 'consultation', 
-      label: 'Consultation', 
+      label: t('consultation'), 
       icon: Sparkles 
     },
     { 
       id: 'web_builder', 
-      label: 'Web Builder', 
+      label: t('web_builder'), 
       icon: Layout 
     }
   ] as const;
 
   // Build sub-actions array based on renderability
   const subActions: { id: SubActionId, label: string }[] = [
-    { id: 'code', label: 'Code' },
-    ...(canView ? [{ id: 'view' as SubActionId, label: 'View' }] : []),
-    { id: 'database', label: 'Database' }
+    { id: 'code', label: t('code') },
+    ...(canView ? [{ id: 'view' as SubActionId, label: t('view') }] : []),
+    { id: 'database', label: t('database') }
   ];
 
   return (
