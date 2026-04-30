@@ -389,7 +389,7 @@ export default function PreviewView({
   const viewIndex = renderableIndexes.indexOf(activeBlockIndex);
 
   return (
-    <div className="flex flex-col h-full bg-zinc-50/50 rounded-2xl border border-zinc-200 overflow-hidden shadow-2xl">
+    <div className="flex-1 flex flex-col min-h-0 bg-zinc-50/50 overflow-hidden">
       <PreviewToolbar 
         deviceMode={deviceMode}
         setDeviceMode={setDeviceMode}
