@@ -1,7 +1,7 @@
 "use client"
 
 import { useTranslations } from 'next-intl'
-import { SquarePen, Search } from "lucide-react"
+import { SquarePen } from "lucide-react"
 import { useRouter } from '@/i18n/routing'
 import {
   Tooltip,
@@ -31,7 +31,6 @@ export default function SidebarActions({ isCollapsed }: SidebarActionsProps) {
         router.push('/ai')
       } 
     },
-    { icon: Search, label: t('search'), id: 'search' },
   ]
 
   return (

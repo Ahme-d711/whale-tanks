@@ -4,7 +4,8 @@ import { useTranslations, useLocale } from 'next-intl'
 import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
 import { useQuery } from '@tanstack/react-query'
 import { executionService } from '@/features/dashboard/executions/services/execution.service'
-import { MessageSquare, Clock, MessageCircle, Trash2 } from 'lucide-react'
+import { MessageSquare, Clock, MessageCircle, Trash2, Search } from 'lucide-react'
+import React from 'react'
 import { cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useRouter } from '@/i18n/routing'
@@ -21,6 +22,7 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
   const locale = useLocale()
   const router = useRouter()
   const confirm = useConfirm()
+  const [searchQuery, setSearchQuery] = React.useState('')
 
   const queryClient = useQueryClient()
 
@@ -29,6 +31,14 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
     queryFn: () => executionService.getSessions(),
     refetchInterval: 30000, 
   })
+
+  const filteredSessions = React.useMemo(() => {
+    if (!sessions) return []
+    if (!searchQuery.trim()) return sessions
+    return sessions.filter(session => 
+      (session.title || '').toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  }, [sessions, searchQuery])
 
   const analyzer = useIdeaAnalyzer() // We need this for resetting
   const { mutate: deleteMutation } = useMutation({
@@ -67,6 +77,17 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
 
   return (
     <div className="space-y-4 pt-4 px-4">
+      <div className="relative px-1">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-primary opacity-50" />
+        <input 
+          type="text"
+          placeholder={t('search') || "Search about Chats"}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full bg-primary/10 border-none rounded-2xl py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-primary/40"
+        />
+      </div>
+
       <h3 className="text-xs px-3 md:text-sm text-secondary-foreground font-medium">{t('last_chats')}</h3>
       
       <div className="space-y-2">
@@ -79,10 +100,12 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
           ))
         ) : isError ? (
           <p className="text-sm text-destructive px-2 italic opacity-70">Failed to load chats</p>
-        ) : sessions?.length === 0 ? (
-          <p className="text-sm text-muted-foreground px-2 italic opacity-70">No recent chats</p>
+        ) : filteredSessions.length === 0 ? (
+          <p className="text-sm text-muted-foreground px-2 italic opacity-70">
+            {searchQuery ? t('no_search_results') || "No matches found" : (t('no_chats') || "No recent chats")}
+          </p>
         ) : (
-          sessions?.map((session) => (
+          filteredSessions.map((session) => (
             <div
               key={session.session_id}
               onClick={() => router.push(`/ai?session_id=${session.session_id}`)}
