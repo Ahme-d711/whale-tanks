@@ -58,6 +58,13 @@ export const AnalyzerToolbar = ({
 }: AnalyzerToolbarProps) => {
   const t = useTranslations('HomePage.Analyzer')
   const locale = useLocale()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0 && onFilesSelectedDirect) {

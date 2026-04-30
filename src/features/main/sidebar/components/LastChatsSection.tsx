@@ -106,7 +106,7 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
                 </div>
                 <button
                   onClick={(e) => handleDelete(e, session.session_id)}
-                  className="opacity-0 group-hover:opacity-40 hover:!opacity-100 p-1 rounded-md hover:bg-destructive/10 text-destructive transition-all"
+                  className="opacity-0 group-hover:opacity-40 hover:opacity-100! p-1 rounded-md hover:bg-destructive/10 text-destructive transition-all"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>

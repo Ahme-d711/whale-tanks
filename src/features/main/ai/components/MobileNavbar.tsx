@@ -21,7 +21,7 @@ export default function MobileNavbar({
 }: MobileNavbarProps) {
   return (
     <div className="flex md:hidden items-center justify-between px-4 py-3 w-full h-14 z-40 fixed top-0 left-0 right-0 shadow-sm bg-background/80 backdrop-blur-md border-b border-zinc-100">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1">
         <button 
           onClick={onOpenSidebar}
           className="p-2 focus:outline-none"

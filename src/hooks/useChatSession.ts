@@ -86,7 +86,8 @@ export function useChatSession(
     
     // 2. Clear state if the URL lost its session ID (User navigated away or clicked New Chat)
     if (!sIdFromUrl) {
-      if (sessionId && !lastUrlIdRef.current) {
+      lastUrlIdRef.current = null; // Sync ref with cleared state
+      if (sessionId) {
         resetChat()
         if (onReset) onReset()
       }
@@ -131,8 +132,12 @@ export function useChatSession(
     clearQueryParam,
     syncSessionUrl,
     resetSession: () => {
+      // Prevent the next effect run from re-fetching this session ID
+      lastUrlIdRef.current = searchParams.get('session_id')
+      
       resetChat()
       if (onReset) onReset()
+      router.replace(pathname)
     }
   }
 }

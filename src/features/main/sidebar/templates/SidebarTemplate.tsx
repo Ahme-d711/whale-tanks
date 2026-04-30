@@ -126,11 +126,11 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => onOpenChange(false)}
-            className={`fixed inset-0 z-[100] bg-black/20 backdrop-blur-sm ${isPersistent ? 'md:hidden' : ''}`}
+            className={`fixed inset-0 z-100 bg-black/20 backdrop-blur-sm ${isPersistent ? 'md:hidden' : ''}`}
           />
           
           {/* Sidebar Drawer */}
-          <div className={`fixed inset-0 z-[101] pointer-events-none ${isPersistent ? 'md:hidden' : ''}`}>
+          <div className={`fixed inset-0 z-100 pointer-events-none ${isPersistent ? 'md:hidden' : ''}`}>
             <motion.div
               initial="closed"
               animate="open"
