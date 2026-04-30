@@ -10,6 +10,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Control } from "react-hook-form"
 import { Eye, EyeOff } from "lucide-react"
+import { useLocale } from 'next-intl'
+import { cn } from '@/lib/utils'
 
 interface AuthInputProps {
   control: Control<any>
@@ -29,12 +31,14 @@ export const AuthInput = ({
   delay = 0,
 }: AuthInputProps) => {
   const [showPassword, setShowPassword] = useState(false)
+  const locale = useLocale()
+  const isRtl = locale === 'ar'
   const isPassword = type === "password"
   const currentType = isPassword ? (showPassword ? "text" : "password") : type
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
+      initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay }}
     >
@@ -42,21 +46,27 @@ export const AuthInput = ({
         control={control}
         name={name}
         render={({ field }) => (
-          <FormItem>
-            <FormLabel className="text-xs md:text-sm text-foreground font-normal!">{label}</FormLabel>
+          <FormItem className={cn("w-full", isRtl ? "text-right" : "text-left")}>
+            <FormLabel className="text-xs md:text-sm text-foreground font-normal! w-full block">{label}</FormLabel>
             <FormControl>
               <div className="relative">
                 <Input
                   type={currentType}
                   placeholder={placeholder}
                   {...field}
-                  className="rounded-xl md:rounded-2xl h-10 md:h-12 border-border focus:border-none transition-all shadow-none placeholder:text-secondary-foreground pr-12 text-sm md:text-base"
+                  className={cn(
+                    "rounded-xl md:rounded-2xl h-10 md:h-12 border-border focus:border-none transition-all shadow-none placeholder:text-secondary-foreground text-sm md:text-base w-full",
+                    isRtl ? "pl-12 pr-4 text-right" : "pr-12 pl-4 text-left"
+                  )}
                 />
                 {isPassword && (
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary-foreground hover:text-primary transition-colors cursor-pointer"
+                    className={cn(
+                      "absolute top-1/2 -translate-y-1/2 text-secondary-foreground hover:text-primary transition-colors cursor-pointer",
+                      isRtl ? "left-4" : "right-4"
+                    )}
                   >
                     {showPassword ? (
                       <EyeOff className="h-5 w-5" />

@@ -135,7 +135,9 @@
     "submit": "Sign In",
     "user_fallback": "User",
     "profile": "Profile",
-    "edit_profile": "Edit Profile"
+    "edit_profile": "Edit Profile",
+    "login_with_google": "Log in with Google",
+    "register_with_google": "Sign up with Google"
   },
   "Landing": {
     "About": {

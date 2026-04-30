@@ -135,7 +135,9 @@
     "submit": "دخول",
     "user_fallback": "مستخدم",
     "profile": "الملف الشخصي",
-    "edit_profile": "تعديل الملف الشخصي"
+    "edit_profile": "تعديل الملف الشخصي",
+    "login_with_google": "سجل الدخول باستخدام جوجل",
+    "register_with_google": "سجل الاشتراك باستخدام جوجل"
   },
   "Landing": {
     "About": {
