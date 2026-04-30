@@ -207,7 +207,33 @@
     "Advisors": {
       "title_council": "AI Council",
       "title_investor": "Investor Board",
-      "description": "Select your virtual advisor"
+      "description": "Select your virtual advisor",
+      "chat_title": "Chat",
+      "chat_desc": "Interact in real-time with our AI advisors to brainstorm concepts.",
+      "report_title": "Report",
+      "report_desc": "Generate detailed business blueprints and architectural drafts.",
+      "analysis_title": "Analysis",
+      "analysis_desc": "Deep dive into feasibility metrics and resource scaling forecasts.",
+      "summary_title": "Summary",
+      "summary_desc": "High-level executive breakdown of project objectives.",
+      "classification_title": "Classification",
+      "classification_desc": "Categorize sector alignment and industry standards.",
+      "advisor_all_label": "All",
+      "advisor_all_desc": "Comprehensive overview of all areas",
+      "advisor_financial_label": "Financial",
+      "advisor_financial_desc": "Deep dive into financial metrics",
+      "advisor_legal_label": "Legal",
+      "advisor_legal_desc": "Audit regulatory requirements",
+      "advisor_marketing_label": "Marketing",
+      "advisor_marketing_desc": "Review customer acquisition",
+      "advisor_revenue_label": "Revenue",
+      "advisor_revenue_desc": "Break down monetization pathways",
+      "advisor_technical_label": "Technical",
+      "advisor_technical_desc": "Examine stack and architectures"
+    },
+    "Chat": {
+      "start_conversation": "Start a conversation to analyze your idea!",
+      "thinking": "Thinking..."
     },
     "Projects": {
       "title": "Previous Projects",
@@ -365,6 +391,8 @@
   },
   "WebBuilder": {
     "consultation": "Consultation",
+    "consultation_mode": "Consultation Mode",
+    "consultation_desc": "Ask questions, brainstorm ideas, and refine your business strategy with AI advisors.",
     "web_builder": "Web Builder",
     "code": "Code",
     "view": "View",

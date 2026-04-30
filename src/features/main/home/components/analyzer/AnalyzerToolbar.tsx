@@ -102,57 +102,57 @@ export const AnalyzerToolbar = ({
         <div className={cn("flex items-center gap-2 flex-wrap", !onlySelects && "")}>
           <Select value={executionType} onValueChange={setExecutionType}>
             <SelectTrigger className="h-9 md:h-10! px-2 md:px-6 bg-muted/60 hover:bg-muted rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer  [&>svg:last-child]:hidden data-placeholder:**:data-[slot=select-value]:hidden">
-              <SelectValue placeholder="Type" />
+              <SelectValue placeholder={t('select_type')} />
             </SelectTrigger>
             <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[160px] p-1 shadow-lg [&_.mobile-text]:inline">
-              <SelectItem value="chat" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-500" /> <span className="mobile-text hidden md:inline">Chat</span></div></SelectItem>
-              <SelectItem value="report" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><FileText className="w-4 h-4 text-blue-500" /> <span className="mobile-text hidden md:inline">Report</span></div></SelectItem>
-              <SelectItem value="analysis" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-orange-500" /> <span className="mobile-text hidden md:inline">Analysis</span></div></SelectItem>
-              <SelectItem value="summary" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><ClipboardList className="w-4 h-4 text-green-500" /> <span className="mobile-text hidden md:inline">Summary</span></div></SelectItem>
-              <SelectItem value="classification" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><Scissors className="w-4 h-4 text-pink-500" /> <span className="mobile-text hidden md:inline">Classification</span></div></SelectItem>
+              <SelectItem value="chat" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><MessageSquare className="w-4 h-4 text-purple-500" /> <span className="mobile-text hidden md:inline">{t('executions.chat')}</span></div></SelectItem>
+              <SelectItem value="report" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><FileText className="w-4 h-4 text-blue-500" /> <span className="mobile-text hidden md:inline">{t('executions.report')}</span></div></SelectItem>
+              <SelectItem value="analysis" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-orange-500" /> <span className="mobile-text hidden md:inline">{t('executions.analysis')}</span></div></SelectItem>
+              <SelectItem value="summary" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><ClipboardList className="w-4 h-4 text-green-500" /> <span className="mobile-text hidden md:inline">{t('executions.summary')}</span></div></SelectItem>
+              <SelectItem value="classification" className="cursor-pointer rounded-xl"><div className="flex items-center gap-2"><Scissors className="w-4 h-4 text-pink-500" /> <span className="mobile-text hidden md:inline">{t('executions.classification')}</span></div></SelectItem>
             </SelectContent>
           </Select>
 
           {executionType === "report" && (
             <Select value={analysisType} onValueChange={setAnalysisType}>
               <SelectTrigger className="h-9 md:h-10! px-2 md:px-6 bg-muted hover:bg-muted rounded-2xl text-foreground font-medium w-fit gap-0 md:gap-3 transition-all text-xs md:text-base cursor-pointer  [&>svg:last-child]:hidden data-placeholder:**:data-[slot=select-value]:hidden">
-                <SelectValue placeholder="Category" />
+                <SelectValue placeholder={t('select_category')} />
               </SelectTrigger>
               <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[140px] p-1 shadow-lg [&_.mobile-text]:inline">
                 <SelectItem value="all" className="cursor-pointer rounded-xl">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-green-500" />
-                    <span className="mobile-text hidden md:inline">All</span>
+                    <span className="mobile-text hidden md:inline">{t('categories.all')}</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="financial" className="cursor-pointer rounded-xl">
                   <div className="flex items-center gap-2">
                     <Image src="/icons/financial-icon.svg" alt="Financial" width={16} height={16} className="w-4 h-4" />
-                    <span className="mobile-text hidden md:inline">Financial</span>
+                    <span className="mobile-text hidden md:inline">{t('categories.financial')}</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="legal" className="cursor-pointer rounded-xl">
                   <div className="flex items-center gap-2">
                     <Image src="/icons/legal-icon.svg" alt="Legal" width={16} height={16} className="w-4 h-4" />
-                    <span className="mobile-text hidden md:inline">Legal</span>
+                    <span className="mobile-text hidden md:inline">{t('categories.legal')}</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="marketing" className="cursor-pointer rounded-xl">
                   <div className="flex items-center gap-2">
                     <Image src="/icons/marketing-icon.svg" alt="Marketing" width={16} height={16} className="w-4 h-4" />
-                    <span className="mobile-text hidden md:inline">Marketing</span>
+                    <span className="mobile-text hidden md:inline">{t('categories.marketing')}</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="revenue" className="cursor-pointer rounded-xl">
                   <div className="flex items-center gap-2">
                     <Image src="/icons/financial-icon.svg" alt="Revenue" width={16} height={16} className="w-4 h-4" />
-                    <span className="mobile-text hidden md:inline">Revenue</span>
+                    <span className="mobile-text hidden md:inline">{t('categories.revenue')}</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="technical" className="cursor-pointer rounded-xl">
                   <div className="flex items-center gap-2">
                     <Image src="/icons/technical-icon.svg" alt="Technical" width={16} height={16} className="w-4 h-4" />
-                    <span className="mobile-text hidden md:inline">Technical</span>
+                    <span className="mobile-text hidden md:inline">{t('categories.technical')}</span>
                   </div>
                 </SelectItem>
               </SelectContent>

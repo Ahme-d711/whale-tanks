@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Sparkles } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import WebBuilder from './WebBuilder'
 
 interface DynamicDisplayAreaProps {
@@ -9,6 +10,7 @@ interface DynamicDisplayAreaProps {
 }
 
 export default function DynamicDisplayArea({ analyzer }: DynamicDisplayAreaProps) {
+  const t = useTranslations('WebBuilder')
   const { 
     isHistoryLoading,
     webBuilderBlocks,
@@ -61,8 +63,8 @@ export default function DynamicDisplayArea({ analyzer }: DynamicDisplayAreaProps
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <Sparkles className="w-8 h-8 text-primary" />
             </div>
-            <h4 className="text-lg font-bold">Consultation Mode</h4>
-            <p className="max-w-[280px] text-sm text-muted-foreground">Ask questions, brainstorm ideas, and refine your business strategy with AI advisors.</p>
+            <h4 className="text-lg font-bold">{t('consultation_mode')}</h4>
+            <p className="max-w-[280px] text-sm text-muted-foreground">{t('consultation_desc')}</p>
           </div>
         )}
       </div>

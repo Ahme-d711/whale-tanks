@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { User, Bot } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Message } from '@/hooks/useIdeaAnalyzer'
+import { useTranslations } from 'next-intl'
 import { MessageContent } from './chat/MessageContent'
 
 interface ChatDisplayProps {
@@ -41,6 +42,7 @@ const MessageItem = React.memo(({ msg, idx }: { msg: Message, idx: number }) => 
 MessageItem.displayName = 'MessageItem'
 
 export const ChatDisplay = ({ messages, isLoading, isHistoryLoading }: ChatDisplayProps) => {
+  const t = useTranslations('Dashboard.Chat')
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -72,7 +74,7 @@ export const ChatDisplay = ({ messages, isLoading, isHistoryLoading }: ChatDispl
               {messages.length === 0 && !isLoading && (
                 <div className="flex flex-col items-center justify-center text-center p-10 opacity-50 w-full py-40 z-0">
                   <Bot className="w-16 h-16 mb-4 text-primary/60" />
-                  <p className="text-xl font-bold text-foreground/70 max-w-xs">Start a conversation to analyze your idea!</p>
+                  <p className="text-xl font-bold text-foreground/70 max-w-xs">{t('start_conversation')}</p>
                 </div>
               )}
             </>
@@ -93,7 +95,7 @@ export const ChatDisplay = ({ messages, isLoading, isHistoryLoading }: ChatDispl
                   <AvatarFallback><Bot className="w-4 h-4" /></AvatarFallback>
                 </Avatar>
                 <div className="bg-secondary text-secondary-foreground rounded-2xl rounded-tl-none px-4 py-2 text-sm shadow-sm flex items-center gap-2 italic opacity-70">
-                  <span>Thinking...</span>
+                  <span>{t('thinking')}</span>
                   <div className="flex gap-1">
                     <div className="w-1 h-1 bg-current rounded-full animate-bounce" />
                     <div className="w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:0.2s]" />

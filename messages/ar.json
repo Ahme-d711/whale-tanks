@@ -207,7 +207,33 @@
     "Advisors": {
       "title_council": "مجلس الذكاء الاصطناعي",
       "title_investor": "مجلس المستثمرين",
-      "description": "اختر مستشارك الافتراضي"
+      "description": "اختر مستشارك الافتراضي",
+      "chat_title": "محادثة",
+      "chat_desc": "تفاعل في الوقت الفعلي مع مستشارينا الأذكياء لتبادل الأفكار.",
+      "report_title": "تقرير",
+      "report_desc": "إنشاء مخططات عمل مفصلة ومسودات معمارية.",
+      "analysis_title": "تحليل",
+      "analysis_desc": "تعمق في مقاييس الجدوى وتوقعات توسيع الموارد.",
+      "summary_title": "ملخص",
+      "summary_desc": "ملخص تنفيذي رفيع المستوى لأهداف المشروع.",
+      "classification_title": "تصنيف",
+      "classification_desc": "تصنيف مواءمة القطاع ومعايير الصناعة.",
+      "advisor_all_label": "الكل",
+      "advisor_all_desc": "نظرة عامة شاملة على جميع المجالات",
+      "advisor_financial_label": "مالي",
+      "advisor_financial_desc": "تعمق في المقاييس المالية",
+      "advisor_legal_label": "قانوني",
+      "advisor_legal_desc": "تدقيق المتطلبات التنظيمية",
+      "advisor_marketing_label": "تسويق",
+      "advisor_marketing_desc": "مراجعة اكتساب العملاء",
+      "advisor_revenue_label": "إيرادات",
+      "advisor_revenue_desc": "تفكيك مسارات تحقيق الدخل",
+      "advisor_technical_label": "تقني",
+      "advisor_technical_desc": "فحص البنية التقنية والمعماريات"
+    },
+    "Chat": {
+      "start_conversation": "ابدأ محادثة لتحليل فكرتك!",
+      "thinking": "جاري التفكير..."
     },
     "Projects": {
       "title": "المشاريع السابقة",
@@ -365,6 +391,8 @@
   },
   "WebBuilder": {
     "consultation": "استشارة",
+    "consultation_mode": "وضع الاستشارة",
+    "consultation_desc": "اطرح الأسئلة، وتبادل الأفكار، وقم بتحسين استراتيجية عملك مع مستشاري الذكاء الاصطناعي.",
     "web_builder": "باني المواقع",
     "code": "الكود",
     "view": "العرض",
