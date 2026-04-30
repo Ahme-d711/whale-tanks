@@ -34,7 +34,7 @@ export default function MobileDashboardTabs({
   return (
     <div className="w-full flex flex-col gap-4 lg:hidden h-[calc(100vh-56px)] overflow-hidden">
       <div className="flex-1 overflow-y-auto px-2 pt-2 flex flex-col gap-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-        <div className="px-1">
+        <div className="">
           <TankSelector activeTankId={activeTankId} onTankChange={onTankChange} />
         </div>
         {activeTab === 'chat' && (

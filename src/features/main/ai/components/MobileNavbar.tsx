@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { SquarePen, Trash2, LayoutGrid, MessageSquare } from 'lucide-react'
+import Link from 'next/link'
 
 interface MobileNavbarProps {
   onOpenSidebar: () => void
@@ -30,7 +31,9 @@ export default function MobileNavbar({
             <line x1="4" y1="16" x2="14" y2="16" />
           </svg>
         </button>
-        <span className="font-bold text-lg tracking-tight text-primary">Whale Tanks</span>
+        <Link href="/">
+          <span className="font-bold text-lg tracking-tight text-primary">Whale Tanks</span>
+        </Link>
       </div>
 
       <div className="flex items-center gap-2">
