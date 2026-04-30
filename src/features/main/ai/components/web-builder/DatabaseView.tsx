@@ -50,12 +50,14 @@ export default function DatabaseView({
       const img = new Image();
       
       img.onload = () => {
-        canvas.width = vw * scale;
-        canvas.height = vh * scale;
+        const padding = 60; // Extra space around diagram
+        canvas.width = (vw + padding * 2) * scale;
+        canvas.height = (vh + padding * 2) * scale;
         if (ctx) {
           ctx.fillStyle = 'white';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.setTransform(scale, 0, 0, scale, -vx * scale, -vy * scale);
+          // Scale and translate: move by -vx (to 0,0) then add padding
+          ctx.setTransform(scale, 0, 0, scale, (-vx + padding) * scale, (-vy + padding) * scale);
           ctx.drawImage(img, 0, 0);
           
           try {
@@ -97,24 +99,25 @@ export default function DatabaseView({
       const img = new Image();
       
       img.onload = () => {
+        const padding = 60; // Extra space around diagram
         const scale = 2;
-        canvas.width = vw * scale;
-        canvas.height = vh * scale;
+        canvas.width = (vw + padding * 2) * scale;
+        canvas.height = (vh + padding * 2) * scale;
         
         if (ctx) {
           ctx.fillStyle = 'white';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.setTransform(scale, 0, 0, scale, -vx * scale, -vy * scale);
+          ctx.setTransform(scale, 0, 0, scale, (-vx + padding) * scale, (-vy + padding) * scale);
           ctx.drawImage(img, 0, 0);
           
           const imgData = canvas.toDataURL('image/png');
           const pdf = new jsPDF({
             orientation: vw > vh ? 'landscape' : 'portrait',
             unit: 'px',
-            format: [vw, vh]
+            format: [vw + padding * 2, vh + padding * 2]
           });
           
-          pdf.addImage(imgData, 'PNG', 0, 0, vw, vh);
+          pdf.addImage(imgData, 'PNG', 0, 0, vw + padding * 2, vh + padding * 2);
           pdf.save(`database-schema-${activeIndex + 1}.pdf`);
         }
       };
