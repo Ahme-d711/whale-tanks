@@ -185,10 +185,24 @@ export default function PreviewView({
 
 <style>
   html, body { margin:0; padding:0; height:100%; width:100%; font-family:system-ui; background:white; overflow-x: hidden; }
-  #root { width:100%; min-height:100%; display: flex; flex-direction: column; }
-  .error-box { padding:20px; background:#fff1f2; color:#b91c1c; font-family:monospace; border: 1px solid #fecaca; border-radius: 8px; margin: 20px; font-size: 13px; }
-  body { animation: fadeIn 0.3s ease-out; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  #root { width:100%; min-height:100%; display: flex; flex-direction: column; background: #fafafa; }
+  .error-box { 
+    margin: 20px; padding: 24px; background: #fff; border-left: 4px solid #ef4444; 
+    border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); font-family: 'JetBrains Mono', monospace;
+  }
+  .error-title { color: #ef4444; font-weight: 700; font-size: 16px; margin-bottom: 8px; display: flex; items-center gap: 2; }
+  .error-msg { color: #4b5563; font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
+  
+  .loading-container {
+    display: flex; flex-direction: column; items-center; justify-content: center; height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); gap: 24px;
+  }
+  .loader-ring {
+    width: 48px; height: 48px; border: 3px solid #e2e8f0; border-top-color: #3b82f6;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  .loading-text { font-family: system-ui; font-weight: 600; color: #64748b; font-size: 14px; letter-spacing: -0.01em; }
+  @keyframes spin { to { transform: rotate(360deg); } }
   ${libraryStyles}
 </style>
 </head>
@@ -199,7 +213,15 @@ export default function PreviewView({
 <script id="bootstrapper">
   window.onerror = function(msg, url, line, col, error) {
     console.error("Runtime Error:", msg, error);
-    document.getElementById("root").innerHTML = "<div class='error-box'><b>Runtime Error:</b><br/>" + msg + "</div>";
+    document.getElementById("root").innerHTML = \`
+      <div class="error-box">
+        <div class="error-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Runtime Error
+        </div>
+        <div class="error-msg">\${msg}</div>
+      </div>
+    \`;
     return false;
   };
 
@@ -211,29 +233,32 @@ export default function PreviewView({
       const motion = window.Motion ? window.Motion.motion : (window.framerMotion ? window.framerMotion.motion : null);
       
       const UI = {
-        Card: ({ children, className = "", ...p }) => React.createElement('div', { className: "bg-white rounded-xl border border-zinc-200 shadow-sm overflow-hidden " + className, ...p }, children),
+        Card: ({ children, className = "", ...p }) => React.createElement('div', { className: "bg-white rounded-2xl border border-zinc-200/60 shadow-sm overflow-hidden " + className, ...p }, children),
         CardHeader: ({ children, className = "" }) => React.createElement('div', { className: "p-6 flex flex-col space-y-1.5 " + className }, children),
-        CardTitle: ({ children, className = "" }) => React.createElement('div', { className: "text-2xl font-bold leading-none tracking-tight " + className }, children),
+        CardTitle: ({ children, className = "" }) => React.createElement('div', { className: "text-2xl font-bold leading-none tracking-tight text-zinc-900 " + className }, children),
         CardDescription: ({ children, className = "" }) => React.createElement('div', { className: "text-sm text-zinc-500 " + className }, children),
         CardContent: ({ children, className = "" }) => React.createElement('div', { className: "p-6 pt-0 " + className }, children),
         CardFooter: ({ children, className = "" }) => React.createElement('div', { className: "p-6 pt-0 flex items-center " + className }, children),
-        Label: ({ children, className = "", ...p }) => React.createElement('label', { className: "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 " + className, ...p }, children),
-        Input: ({ className = "", ...p }) => React.createElement('input', { className: "flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 " + className, ...p }),
+        Label: ({ children, className = "", ...p }) => React.createElement('label', { className: "text-sm font-semibold leading-none text-zinc-700 " + className, ...p }, children),
+        Input: ({ className = "", ...p }) => React.createElement('input', { className: "flex h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all " + className, ...p }),
         Button: ({ children, variant = "default", className = "", ...p }) => {
           const v = {
-            default: "bg-zinc-900 text-zinc-50 hover:bg-zinc-900/90",
-            outline: "border border-zinc-200 bg-white hover:bg-zinc-100",
-            ghost: "hover:bg-zinc-100",
+            default: "bg-zinc-900 text-zinc-50 hover:bg-zinc-800 shadow-sm",
+            outline: "border border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-900 shadow-sm",
+            ghost: "hover:bg-zinc-100 text-zinc-600",
+            secondary: "bg-zinc-100 text-zinc-900 hover:bg-zinc-200",
           };
-          return React.createElement('button', { className: "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-10 px-4 py-2 " + (v[variant] || v.default) + " " + className, ...p }, children);
+          return React.createElement('button', { className: "inline-flex items-center justify-center rounded-xl text-sm font-semibold transition-all h-11 px-6 active:scale-95 disabled:opacity-50 disabled:pointer-events-none " + (v[variant] || v.default) + " " + className, ...p }, children);
         },
-        Checkbox: ({ className = "", ...p }) => React.createElement('input', { type: "checkbox", className: "h-4 w-4 rounded border-zinc-300 " + className, ...p }),
-        Separator: ({ className = "" }) => React.createElement('div', { className: "shrink-0 bg-zinc-200 h-px w-full " + className }),
-        Badge: ({ children, className = "" }) => React.createElement('div', { className: "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold " + className }, children),
-        Link: ({ children, href, className, ...p }) => React.createElement('a', { href, className, ...p }, children),
-        NavigationMenu: ({ children }) => React.createElement('div', { className: "relative z-10 flex flex-1 items-center justify-center" }, children),
-        NavigationMenuList: ({ children }) => React.createElement('ul', { className: "group flex flex-1 list-none items-center justify-center space-x-1" }, children),
-        NavigationMenuItem: ({ children }) => React.createElement('li', { className: "relative" }, children),
+        Checkbox: ({ className = "", ...p }) => React.createElement('input', { type: "checkbox", className: "h-4 w-4 rounded-md border-zinc-300 text-zinc-900 focus:ring-zinc-900 " + className, ...p }),
+        Separator: ({ className = "" }) => React.createElement('div', { className: "shrink-0 bg-zinc-100 h-px w-full " + className }),
+        Badge: ({ children, className = "" }) => React.createElement('div', { className: "inline-flex items-center rounded-full border border-zinc-200 px-2.5 py-0.5 text-xs font-semibold bg-zinc-50 text-zinc-900 " + className }, children),
+        Avatar: ({ className = "", ...p }) => React.createElement('div', { className: "h-10 w-10 rounded-full bg-zinc-100 flex items-center justify-center overflow-hidden border border-zinc-200 " + className, ...p }, React.createElement('span', { className: "text-zinc-500 text-sm font-medium" }, "U")),
+        Skeleton: ({ className = "", ...p }) => React.createElement('div', { className: "animate-pulse rounded-md bg-zinc-100 " + className, ...p }),
+        Tabs: ({ children, className = "" }) => React.createElement('div', { className: "w-full " + className }, children),
+        TabsList: ({ children, className = "" }) => React.createElement('div', { className: "inline-flex h-11 items-center justify-center rounded-xl bg-zinc-100 p-1 text-zinc-500 " + className }, children),
+        TabsTrigger: ({ children, className = "" }) => React.createElement('div', { className: "inline-flex items-center justify-center whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-white data-[state=active]:text-zinc-950 data-[state=active]:shadow-sm " + className }, children),
+        Link: ({ children, href, className, ...p }) => React.createElement('a', { href, className: "text-blue-600 hover:underline " + className, ...p }, children),
       };
 
       const toast = (props) => console.log("Toast:", props);
@@ -246,8 +271,9 @@ export default function PreviewView({
           safeParse: (data) => ({ success: true, data }),
           shape: schema 
         }),
-        string: () => ({ email: () => z.string(), min: () => z.string(), max: () => z.string() }),
+        string: () => ({ email: () => z.string(), min: () => z.string(), max: () => z.string(), optional: () => z.string() }),
         boolean: () => ({ default: () => z.boolean() }),
+        number: () => ({ min: () => z.number(), max: () => z.number() }),
         infer: (schema) => ({}),
       };
       const zodResolver = (schema) => (values) => ({ values, errors: {} });
@@ -266,7 +292,7 @@ export default function PreviewView({
           if (name === '$$isProxy') return true;
           if (name in target) return target[name];
           if (typeof name === 'string' && /^[A-Z]/.test(name)) {
-            return (props) => React.createElement('div', { className: 'p-2 border border-dashed border-red-300 bg-red-50 text-[10px] text-red-500 font-mono rounded' }, 'Undefined Component: <' + name + ' />');
+            return (props) => React.createElement('div', { className: 'p-3 border border-dashed border-zinc-200 bg-zinc-50/50 text-[10px] text-zinc-400 font-mono rounded-lg flex items-center justify-center italic' }, '<' + name + ' />');
           }
           return target[name];
         }
@@ -303,7 +329,7 @@ export default function PreviewView({
             // Fallback circle
             return React.createElement('svg', { 
               width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', 
-              stroke: 'currentColor', strokeWidth: 2, className: "opacity-40 " + (p.className||""), ...p 
+              stroke: 'currentColor', strokeWidth: 1.5, className: "opacity-30 " + (p.className||""), ...p 
             }, React.createElement('circle', { cx: 12, cy: 12, r: 10 }));
           };
 
@@ -317,7 +343,7 @@ export default function PreviewView({
       window.lucide = LucideProxy;
       window.LucideReact = LucideProxy;
 
-      const { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Input, Label, Button, Checkbox, Separator, Badge } = UI;
+      const { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, Input, Label, Button, Checkbox, Separator, Badge, Avatar, Skeleton, Tabs, TabsList, TabsTrigger } = UI;
       const { Eye, EyeOff, Loader2, Mail, Lock, User, Search, Bell, Settings } = LucideProxy;
       
       // Only assign proxy if the real library hasn't claimed these globals
@@ -342,12 +368,12 @@ export default function PreviewView({
                             msg.includes("Missing semicolon");
             
             if (isPartial) {
-              document.getElementById("root").innerHTML = ' \
-                <div class="flex flex-col items-center justify-center h-full p-20 text-zinc-400 gap-4"> \
-                  <div class="w-8 h-8 rounded-full border-2 border-zinc-200 border-t-zinc-400 animate-spin"></div> \
-                  <p class="text-sm font-medium animate-pulse italic">Refining UI and finishing up...</p> \
-                </div> \
-              ';
+              document.getElementById("root").innerHTML = \`
+                <div class="loading-container">
+                  <div class="loader-ring"></div>
+                  <div class="loading-text">Finalizing your UI...</div>
+                </div>
+              \`;
               return;
             }
             throw e;
