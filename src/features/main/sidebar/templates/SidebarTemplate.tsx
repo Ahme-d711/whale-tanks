@@ -4,11 +4,10 @@ import React, { useEffect, useState } from 'react'
 import { useLocale } from 'next-intl'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence, Variants } from 'motion/react'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { useAuthStore } from "@/features/auth/stores/authStore"
 import SidebarHeader from "../components/SidebarHeader"
 import SidebarActions from "../components/SidebarActions"
 import LastChatsSection from "../components/LastChatsSection"
+import SidebarFooter from "../components/SidebarFooter"
 
 interface SidebarTemplateProps {
   isOpen: boolean
@@ -18,7 +17,6 @@ interface SidebarTemplateProps {
 }
 
 export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersistent = false }: SidebarTemplateProps) {
-  const { user } = useAuthStore()
   const [mounted, setMounted] = useState(false)
   const locale = useLocale()
   const isRtl = locale === 'ar'
@@ -90,23 +88,7 @@ export default function SidebarTemplate({ isOpen, onOpenChange, trigger, isPersi
         <LastChatsSection isCollapsed={isCollapsed} />
       </motion.div>
 
-      {/* User Footer Section */}
-      <motion.div 
-        variants={itemVariants} 
-        className={`p-3 border-t border-primary/20 bg-primary/5 mt-auto flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'}`}
-      >
-        <Avatar className="w-9 h-9 border-2 border-primary/20 shrink-0">
-          <AvatarFallback className="bg-primary text-primary-foreground font-bold text-sm">
-            {user?.name?.charAt(0).toUpperCase() || 'U'}
-          </AvatarFallback>
-        </Avatar>
-        {!isCollapsed && (
-          <div className="flex flex-col overflow-hidden">
-            <span className="font-bold text-xs text-foreground truncate">{user?.name || 'User'}</span>
-            <span className="text-[10px] text-muted-foreground truncate leading-tight">{user?.email || ''}</span>
-          </div>
-        )}
-      </motion.div>
+      <SidebarFooter isCollapsed={isCollapsed} variants={itemVariants} />
     </div>
   )
 
