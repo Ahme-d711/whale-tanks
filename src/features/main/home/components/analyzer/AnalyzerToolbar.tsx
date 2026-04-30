@@ -121,7 +121,7 @@ export const AnalyzerToolbar = ({
               <SelectContent position="popper" sideOffset={8} className="rounded-2xl border-border bg-background min-w-[140px] p-1 shadow-lg [&_.mobile-text]:inline">
                 <SelectItem value="all" className="cursor-pointer rounded-xl">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-500" />
+                    <Image src="/icons/crown.svg" alt="All" width={16} height={16} className="w-4 h-4" />
                     <span className="mobile-text hidden md:inline">{t('categories.all')}</span>
                   </div>
                 </SelectItem>
