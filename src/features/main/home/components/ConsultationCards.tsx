@@ -18,7 +18,7 @@ export const ConsultationCards = () => {
 
     return (
         <section className="relative z-10 w-full overflow-hidden py-4">
-            <div className="flex gap-2 md:gap-3 px-4 lg:px-0 overflow-x-auto overflow-y-hidden no-scrollbar pb-4 md:justify-center">
+            <div className="flex gap-2 md:gap-3 px-4 lg:px-0 overflow-x-auto overflow-y-hidden no-scrollbar pb-4 md:justify-between max-w-5xl mx-auto">
                 {advisors.map((advisor, index) => (
                     <motion.div
                         key={advisor.key}
@@ -26,7 +26,7 @@ export const ConsultationCards = () => {
                         whileInView={{ opacity: 1, scale: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: index * 0.1, duration: 0.5 }}
-                        className="flex items-center gap-1.5 md:gap-2 bg-white backdrop-blur-md border hover:bg-[#FAFBFF] hover:border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-[16px] md:rounded-[20px] px-2 py-3 md:py-4 w-fit min-w-[140px] md:max-w-[195px] shrink-0"
+                        className="flex items-center w-full gap-1.5 md:gap-2 bg-white backdrop-blur-md border hover:bg-[#FAFBFF] hover:border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-[16px] md:rounded-[20px] px-2 py-3 md:py-4 w-fit min-w-[140px] md:max-w-[195px] shrink-0"
                     >
                         <div className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center shrink-0">
                             <Image 
