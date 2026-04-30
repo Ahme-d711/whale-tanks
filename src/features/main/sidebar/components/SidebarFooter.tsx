@@ -25,10 +25,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useLogout } from "@/features/auth/hooks/useLogout"
 import { usePathname, useRouter } from "@/i18n/routing"
-import { EditUserDialog } from "@/features/dashboard/users/components/EditUserDialog"
-import { UserDashboard } from "@/features/dashboard/users/types/user.types"
+import EditProfileDialog from "@/features/auth/components/EditProfileDialog"
 import { ConfirmationDialog } from "@/components/shared/ConfirmationDialog"
-
 import { languages } from "@/components/shared/LanguageSelector"
 
 interface SidebarFooterProps {
@@ -118,8 +116,7 @@ export default function SidebarFooter({ isCollapsed, variants }: SidebarFooterPr
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <EditUserDialog
-        user={user as unknown as UserDashboard}
+      <EditProfileDialog
         open={isEditDialogOpen}
         onOpenChange={setIsEditDialogOpen}
       />

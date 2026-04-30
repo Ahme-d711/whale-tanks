@@ -11,8 +11,7 @@ import { useLogout } from "@/features/auth/hooks/useLogout";
 import { ConfirmationDialog } from "./shared/ConfirmationDialog";
 import { useTranslations } from "next-intl";
 import { getImageUrl } from "@/utils/images";
-import { EditUserDialog } from "@/features/dashboard/users/components/EditUserDialog";
-import { UserDashboard } from "@/features/dashboard/users/types/user.types";
+import EditProfileDialog from "@/features/auth/components/EditProfileDialog";
 
 export function UserMenu() {
   const { user } = useAuthStore();
@@ -112,8 +111,7 @@ export function UserMenu() {
         isLoading={isLoggingOut}
       />
 
-      <EditUserDialog
-        user={user as unknown as UserDashboard}
+      <EditProfileDialog
         open={isEditDialogOpen}
         onOpenChange={setIsEditDialogOpen}
       />
