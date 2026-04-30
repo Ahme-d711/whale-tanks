@@ -28,11 +28,6 @@ export const navItems: NavItem[] = [
     icon: Users,
   },
   {
-    titleKey: "executions",
-    href: "/dashboard/executions",
-    icon: Activity,
-  },
-  {
     titleKey: "subscriptions",
     href: "/dashboard/subscriptions",
     icon: CreditCard,
