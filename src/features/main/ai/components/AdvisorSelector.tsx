@@ -58,7 +58,7 @@ export default function AdvisorSelector() {
   ]
 
   return (
-    <div className="flex flex-col gap-[13.8px] bg-white/80 w-64 backdrop-blur-sm p-4 rounded-[32px] border border-border shadow-sm overflow-y-auto overflow-x-hidden thin-scrollbar h-fit max-h-[calc(100vh-200px)]">
+    <div className="flex flex-col h-full gap-[13.8px] bg-white/80 w-64 backdrop-blur-sm p-4 rounded-[32px] border border-border shadow-sm overflow-y-auto overflow-x-hidden thin-scrollbar max-h-[calc(100vh-200px)]">
       <div className="px-2 pb-2 mb-2 border-b border-border/50">
         <h3 className="text-sm font-bold text-primary uppercase tracking-wider">
           {t('title_council')}
@@ -87,7 +87,7 @@ export default function AdvisorSelector() {
             </Button>
 
             {item.id === 'report' && item.subItems && (
-              <div className="pl-4 flex flex-col gap-1 py-1 border-l border-dashed border-zinc-200/80 ml-5 mt-0.5">
+              <div className={`${isRtl ? 'pr-4 border-r' : 'pl-4 border-l'} flex flex-col gap-1 py-1 border-dashed border-zinc-200/80 ml-5 mt-0.5`}>
                 {item.subItems.map((sub) => {
                   return (
                     <div

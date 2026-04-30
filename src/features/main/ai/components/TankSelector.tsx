@@ -47,7 +47,7 @@ export default function TankSelector({ activeTankId, onTankChange }: TankSelecto
     : hardcodedTanks
 
   return (
-    <div className="flex items-center justify-between gap-1 p-1 md:w-fit w-full">
+    <div className="flex items-center justify-between gap-3 p-1 md:w-fit w-full">
       {tanks.map((tank) => (
         <div
           key={tank.id}

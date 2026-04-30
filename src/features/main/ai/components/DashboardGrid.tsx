@@ -79,7 +79,7 @@ export default function DashboardGrid({
       </div>
 
       {/* Right Column - Vertical AdvisorSelector & Projects */}
-      <div className="w-64 shrink-0 hidden 2xl:flex flex-col justify-between gap-4 overflow-hidden">
+      <div className="w-64 shrink-0 hidden 2xl:flex flex-col justify-between gap-7 overflow-hidden">
         <div className="flex-1 overflow-hidden flex flex-col gap-4">
           <AdvisorSelector />
         </div>

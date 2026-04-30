@@ -16,7 +16,7 @@ export default function SubscriptionUpsell() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="relative overflow-hidden bg-linear-to-br from-primary/90 to-blue-300 w-64 p-5 rounded-[32px] shadow-lg shadow-blue-500/20 group"
+      className="relative overflow-hidden bg-linear-to-br from-primary/90 to-blue-300 w-64 h-[200px] px-5 items-center justify-center flex rounded-[32px] shadow-lg shadow-blue-500/20 group"
     >
 
       <div className="relative z-10 flex flex-col items-center text-center gap-3">
