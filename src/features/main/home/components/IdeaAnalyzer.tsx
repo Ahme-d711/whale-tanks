@@ -60,7 +60,7 @@ export const IdeaAnalyzer = ({ variant = 'home', analyzer }: IdeaAnalyzerProps) 
 
   if (variant === 'dashboard') {
     return (
-      <div className="bg-white rounded-3xl p-5 border-2 border-primary flex flex-col shadow-sm w-full">
+      <div className="bg-white rounded-3xl p-5 border-2 border-primary flex flex-col shadow-sm w-full min-h-[160px] md:min-h-[200px]">
         <div className="flex-1 flex w-full">
           <AnalyzerInput 
             value={ideaText} 

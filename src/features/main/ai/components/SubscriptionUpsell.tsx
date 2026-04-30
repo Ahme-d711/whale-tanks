@@ -41,7 +41,7 @@ export default function SubscriptionUpsell() {
           </p>
         </div>
 
-        <Link href="/dashboard/pricing" className="w-full mt-1">
+        <Link href="/pricing" className="w-full mt-1">
           <Button 
             className="w-full bg-white text-primary hover:bg-blue-50 font-bold text-[11px] uppercase tracking-widest rounded-2xl h-10 shadow-md group-hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
