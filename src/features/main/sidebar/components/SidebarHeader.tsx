@@ -25,7 +25,7 @@ export default function SidebarHeader({ isCollapsed, onToggle, onClose }: Sideba
     <div className={`flex p-5 items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
       {!isCollapsed && (
         <LogoComponent 
-          textClassName="text-[24px] font-bold! leading-[1.1] font-sans cursor-pointer" 
+          textClassName="text-xl text-primary lg:text-2xl font-bold! leading-[1.1] font-sans cursor-pointer" 
           imageClassName="w-6! h-6! cursor-pointer"
         />
       )}

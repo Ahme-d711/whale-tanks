@@ -9,7 +9,7 @@ import MobileNavbar from '../components/MobileNavbar'
 import { useIdeaAnalyzer } from '@/hooks/useIdeaAnalyzer'
 
 export default function DashboardTemplate() {
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false)
   const [activeTankId, setActiveTankId] = React.useState('startup')
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
   const [activeTab, setActiveTab] = React.useState<'chat' | 'builder'>('chat')

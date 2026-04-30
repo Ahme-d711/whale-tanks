@@ -66,8 +66,8 @@ export default function LastChatsSection({ isCollapsed }: LastChatsSectionProps)
   if (isCollapsed) return null
 
   return (
-    <div className="space-y-6 pt-4 px-5">
-      <h3 className="text-xl text-secondary-foreground font-medium">{t('last_chats')}</h3>
+    <div className="space-y-4 pt-4 px-4">
+      <h3 className="text-xs px-3 md:text-sm text-secondary-foreground font-medium">{t('last_chats')}</h3>
       
       <div className="space-y-2">
         {isLoading ? (
