@@ -44,7 +44,7 @@ export default function DashboardGrid({
   } = analyzer
 
   return (
-    <section className="relative z-10 flex-1 md:px-4 pb-4 flex gap-4 overflow-hidden py-4 max-w-full">
+    <section className="relative z-10 flex-1 md:px-4 pb-0 md:pb-4 flex gap-4 overflow-hidden md:py-4 max-w-full">
       {/* Mobile Tabs (visible on responsive screens) */}
       <MobileDashboardTabs 
         analyzer={analyzer} 

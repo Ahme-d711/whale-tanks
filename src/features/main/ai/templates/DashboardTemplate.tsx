@@ -53,7 +53,7 @@ export default function DashboardTemplate() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-hidden flex flex-col relative px-0 mt-14 md:mt-0 md:px-4">
+      <main className="flex-1 overflow-hidden flex flex-col relative px-0 pt-14 md:pt-0 md:px-4">
         
         {/* Workspace Grid */}
         <DashboardGrid 

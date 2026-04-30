@@ -32,13 +32,13 @@ export default function MobileDashboardTabs({
 
 
   return (
-    <div className="w-full flex flex-col gap-4 lg:hidden h-[calc(100vh-56px)] overflow-hidden">
+    <div className="w-full flex flex-col gap-4 lg:hidden h-full overflow-hidden">
       <div className="flex-1 overflow-y-auto px-2 pt-2 flex flex-col gap-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         <div className="">
           <TankSelector activeTankId={activeTankId} onTankChange={onTankChange} />
         </div>
         {activeTab === 'chat' && (
-          <div className="flex-1 min-h-[300px] pb-28">
+          <div className="flex-1 min-h-[300px] pb-36">
             <ChatDisplay 
               messages={messages} 
               isLoading={isLoading} 
@@ -67,7 +67,7 @@ export default function MobileDashboardTabs({
       </div>
 
       {activeTab === 'chat' && (
-        <div className="absolute bottom-0 left-0 right-0 px-2 pb-4 bg-transparent pt-6 z-20">
+        <div className="absolute bottom-0 left-0 right-0 px-2 pb-2 bg-transparent pt-6 z-20">
           <DashboardIdeaAnalyzer analyzer={analyzer} />
         </div>
       )}
